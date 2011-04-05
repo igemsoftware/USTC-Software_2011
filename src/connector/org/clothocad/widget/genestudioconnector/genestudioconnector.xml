@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <type>ClothoWidget</type>
+    <version>1.0</version>
+    <classname>org-clothocad-widget-genestudioconnector-connect</classname>
+    <description>launch GeneStudio</description>
+    <displayname>GeneStudioConnector</displayname>
+    <uuid>org.clothocad.widget.genestudioconnector</uuid>
+    <author>USTC_Software</author>
+    <screenshotpath>org/clothocad/widget/genestudioconnector/screen.png</screenshotpath>
+    <iconpath>org/clothocad/widget/genestudioconnector/logo.png</iconpath>
+    <!--<dependency>none</dependency>-->
+    <!--<dependency>none2</dependency>-->
+    <!-- <help>
+        <helpurl>http://wiki.bu.edu/ece-clotho/index.php/Error_Reporter</helpurl>
+        <helpdescription>For more information please see the help url</helpdescription>
+        
+    </help>-->
+</plugin>
