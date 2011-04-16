@@ -1,0 +1,4 @@
+cd doc
+doxygen
+cd ..
+

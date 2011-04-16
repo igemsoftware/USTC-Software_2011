@@ -1,2 +1,7 @@
 /bin/*
+/doc/codedoc/*
 *.swp
+/prep/external/*
+/experimental/*
+*.h~
+*.cpp~
