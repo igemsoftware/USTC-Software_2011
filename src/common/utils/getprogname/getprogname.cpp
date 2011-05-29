@@ -1,0 +1,1 @@
+namespace lachesis{namespace common{namespace utils{const char *getprogname(){	static char progname[] = "lachesis";	return progname;}}}}
