@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <DesignerViewItf.h>
 
-#include <DesignerNetworkView_SBMLHighlighter.h>
+class NetworkView_SBMLHighlighter;
 
 namespace Ui {
     class NetworkView;

@@ -1,0 +1,16 @@
+INPUT(
+./release/DesignerMainWnd.o
+./release/Designer.o
+./release/DesignerWelcomeDialog.o
+./release/DesignerViewItf.o
+./release/DesignerDocItf.o
+./release/DesignerDoc_Network.o
+./release/DesignerAssemblyView.o
+./release/DesignerNetworkView.o
+./release/DesignerNetworkView_SBMLHighlighter.o
+./release/DesignerBehaviorView.o
+./release/moc_DesignerMainWnd.o
+./release/moc_DesignerWelcomeDialog.o
+./release/moc_DesignerViewItf.o
+./release/moc_DesignerDocItf.o
+);

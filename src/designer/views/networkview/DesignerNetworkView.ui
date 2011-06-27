@@ -31,13 +31,21 @@
      <property name="tabsClosable">
       <bool>false</bool>
      </property>
-     <widget class="QWidget" name="tabSBMLView">
+     <widget class="QWidget" name="tabNetworkView">
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <attribute name="title">
-       <string>SBML View</string>
+       <string>Network View</string>
       </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QGraphicsView" name="graphicsView"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabSBMLEditor">
       <property name="styleSheet">

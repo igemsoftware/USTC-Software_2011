@@ -1,6 +1,9 @@
 #include "DesignerNetworkView.h"
 #include "ui_DesignerNetworkView.h"
 
+#include "DesignerNetworkView_SBMLHighlighter.h"
+
+
 NetworkView::NetworkView(QWidget *parent) :
     DesignerViewItf(parent),
     ui(new Ui::NetworkView)
