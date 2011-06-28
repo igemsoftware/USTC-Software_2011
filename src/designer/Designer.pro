@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui declarative
+QT       += core gui script
 
 TARGET = Designer
 TEMPLATE = app
@@ -20,7 +20,9 @@ SOURCES +=\
     views/assemblyview/AssemblyItemPlasmid.cpp \
     views/assemblyview/AssemblyItemCompartment.cpp \
     views/assemblyview/AssemblyItemBrick.cpp \
-    views/assemblyview/AssemblyScene.cpp
+    views/assemblyview/AssemblyScene.cpp \
+    DesignerModelItf.cpp \
+    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModel.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -30,7 +32,11 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemCompartment.h \
     views/assemblyview/AssemblyItemBrick.h \
     views/assemblyview/AssemblyScene.h \
-    views/assemblyview/AssemblyLib.h
+    views/assemblyview/AssemblyLib.h \
+    DesignerModelItf.h \
+    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModel.h \
+    models/common/ModelSymbol.h \
+    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModelDataTypes.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui
@@ -40,34 +46,34 @@ FORMS    += DesignerMainWnd.ui \
 ## assembly view
 
 SOURCES += \
-    views\\assemblyview\\DesignerAssemblyView.cpp
+    views/assemblyview/DesignerAssemblyView.cpp
 
 HEADERS  += \
-    views\\assemblyview\\DesignerAssemblyView.h
+    views/assemblyview/DesignerAssemblyView.h
 
 FORMS    += \
-    views\\assemblyview\\DesignerAssemblyView.ui
+    views/assemblyview/DesignerAssemblyView.ui
 
 ## network view
 
 SOURCES += \
-    views\\networkview\\DesignerNetworkView.cpp \
-    views\\networkview\\DesignerNetworkView_SBMLHighlighter.cpp
+    views/networkview/DesignerNetworkView.cpp \
+    views/networkview/DesignerNetworkView_SBMLHighlighter.cpp
 
 HEADERS  += \
-    views\\networkview\\DesignerNetworkView_SBMLHighlighter.h \
-    views\\networkview\\DesignerNetworkView.h
+    views/networkview/DesignerNetworkView_SBMLHighlighter.h \
+    views/networkview/DesignerNetworkView.h
 
 FORMS    += \
-    views\\networkview\\DesignerNetworkView.ui
+    views/networkview/DesignerNetworkView.ui
 
 ## behavior view
 
 SOURCES += \
-    views\\behaviorview\\DesignerBehaviorView.cpp
+    views/behaviorview/DesignerBehaviorView.cpp
 
 HEADERS  += \
-    views\\behaviorview\\DesignerBehaviorView.h
+    views/behaviorview/DesignerBehaviorView.h
 
 FORMS    += \
-    views\\behaviorview\\DesignerBehaviorView.ui
+    views/behaviorview/DesignerBehaviorView.ui
