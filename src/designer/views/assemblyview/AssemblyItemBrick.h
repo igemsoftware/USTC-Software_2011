@@ -10,13 +10,11 @@ class AssemblyItemBrick : public QGraphicsPixmapItem
 {
 public:
     explicit AssemblyItemBrick( QString & setName , QGraphicsItem *parent = 0 );
+    QString name;
 
-signals:
-
-public slots:
+    static const char * MimeFormat;
 
 private:
-    QString name;
 };
 
 #endif // ASSEMBLYITEMBRICK_H

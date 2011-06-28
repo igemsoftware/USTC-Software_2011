@@ -5,11 +5,8 @@
 #include <QMessageBox>
 
 #include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
 
-#define ASSEMBLY_ITEM_BRICK_MIME "lachesis/AssemblyItemBrick"
-#define ASSEMBLY_ITEM_COMPARTMENT_MIME  "lachesis/AssemblyItemCompartment"
-#define ASSEMBLY_ITEM_PLASMID_MIME  "lachesis/AssemblyItemPlasmid"
-
-
+#include <views/assemblyview/AssemblyCreateAndDrag.h>
 
 #endif // ASSEMBLYLIB_H

@@ -11,20 +11,20 @@ class AssemblyItemCompartment : public QGraphicsEllipseItem
 {
 public:
     explicit AssemblyItemCompartment( QString  setName , QGraphicsItem *parent = 0 );
+    QString name;
 
-signals:
+    enum{
+        DefaultHeight = 200 ,
+        DefaultWeight = 400
+    };
 
-public slots:
+    static const char * MimeFormat;
 
 protected:
-    //void mousePressEvent( QGraphicsSceneMouseEvent *event);
-    //void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    //void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QString name;
-    //bool pressed;
-    //QPoint hotPoint;
+
 };
+
 
 #endif // ASSEMBLYITEMCOMPARTMENT_H

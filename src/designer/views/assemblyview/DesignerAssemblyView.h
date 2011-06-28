@@ -6,6 +6,8 @@
 #include <QTabWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QToolBar>
+#include <QToolButton>
 #include <DesignerViewItf.h>
 #include <views/assemblyview/AssemblyItemBrick.h>
 #include <views/assemblyview/AssemblyItemCompartment.h>
@@ -27,6 +29,7 @@ public:
 private:
     Ui::AssemblyView *ui;
 
+    QToolBar * recentModule;
     QTabWidget * toolBox;
     QGraphicsView * mainView;
     AssemblyScene * mainScene;

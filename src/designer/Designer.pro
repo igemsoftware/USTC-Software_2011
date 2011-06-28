@@ -20,7 +20,8 @@ SOURCES +=\
     views/assemblyview/AssemblyItemPlasmid.cpp \
     views/assemblyview/AssemblyItemCompartment.cpp \
     views/assemblyview/AssemblyItemBrick.cpp \
-    views/assemblyview/AssemblyScene.cpp
+    views/assemblyview/AssemblyScene.cpp \
+    views/assemblyview/AssemblyCreateAndDrag.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -30,7 +31,8 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemCompartment.h \
     views/assemblyview/AssemblyItemBrick.h \
     views/assemblyview/AssemblyScene.h \
-    views/assemblyview/AssemblyLib.h
+    views/assemblyview/AssemblyLib.h \
+    views/assemblyview/AssemblyCreateAndDrag.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui

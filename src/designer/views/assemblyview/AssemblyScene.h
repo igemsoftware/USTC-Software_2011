@@ -4,6 +4,9 @@
 #include <QGraphicsScene>
 
 #include <views/assemblyview/AssemblyLib.h>
+#include <views/assemblyview/AssemblyItemBrick.h>
+#include <views/assemblyview/AssemblyItemCompartment.h>
+#include <views/assemblyview/AssemblyItemPlasmid.h>
 
 class AssemblyScene : public QGraphicsScene
 {
@@ -12,10 +15,10 @@ public:
     explicit AssemblyScene(QObject *parent = 0);
 
 protected:
-    //void dropEvent(QGraphicsSceneDragDropEvent *event);
-    //void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    //void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    //void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
+
 signals:
 
 public slots:

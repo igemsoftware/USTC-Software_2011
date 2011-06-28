@@ -1,5 +1,8 @@
 #include "AssemblyItemCompartment.h"
 
+const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompartment";
+
+
 AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsItem *parent ) :
     QGraphicsEllipseItem(parent)
 {
@@ -7,8 +10,37 @@ AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsIt
     setFlag( QGraphicsItem::ItemIsMovable );
     setFlag( QGraphicsItem::ItemIsFocusable );
     setFlag( QGraphicsItem::ItemIsSelectable );
-    //pressed = false;
+
+    setRect( 0 , 0 , DefaultWeight , DefaultHeight );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 void AssemblyItemCompartment::mousePressEvent( QGraphicsSceneMouseEvent * event )

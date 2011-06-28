@@ -12,14 +12,13 @@ class AssemblyItemPlasmid : public QGraphicsLineItem
 {
 public:
     explicit AssemblyItemPlasmid( QString & setName , QGraphicsItem *parent = 0 );
+    QString name;
 
-signals:
-
-public slots:
+    static const char * MimeFormat;
 
 private:
     QList<AssemblyItemBrick*> bricks;
-    QString name;
+
 };
 
 #endif // ASSEMBLYITEMPLASMID_H
