@@ -2,7 +2,15 @@
 #define DESIGNERASSEMBLYVIEW_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QTabWidget>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 #include <DesignerViewItf.h>
+#include <views/assemblyview/AssemblyItemBrick.h>
+#include <views/assemblyview/AssemblyItemCompartment.h>
+#include <views/assemblyview/AssemblyItemPlasmid.h>
+#include <views/assemblyview/AssemblyScene.h>
 
 namespace Ui {
     class AssemblyView;
@@ -18,6 +26,10 @@ public:
 
 private:
     Ui::AssemblyView *ui;
+
+    QTabWidget * toolBox;
+    QGraphicsView * mainView;
+    AssemblyScene * mainScene;
 };
 
 #endif // DESIGNERASSEMBLYVIEW_H

@@ -1,8 +1,8 @@
 #include "DesignerViewItf.h"
 
-#include "DesignerAssemblyView.h"
-#include "DesignerNetworkView.h"
-#include "DesignerBehaviorView.h"
+#include "views/assemblyview/DesignerAssemblyView.h"
+#include "views/networkview/DesignerNetworkView.h"
+#include "views/behaviorview/DesignerBehaviorView.h"
 
 static QMetaObject metaObjectsOfViews[] = {
     AssemblyView::staticMetaObject,

@@ -17,11 +17,20 @@ SOURCES +=\
     DesignerWelcomeDialog.cpp \
     DesignerViewItf.cpp \
     DesignerDocItf.cpp \
+    views/assemblyview/AssemblyItemPlasmid.cpp \
+    views/assemblyview/AssemblyItemCompartment.cpp \
+    views/assemblyview/AssemblyItemBrick.cpp \
+    views/assemblyview/AssemblyScene.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
     DesignerViewItf.h \
     DesignerDocItf.h \
+    views/assemblyview/AssemblyItemPlasmid.h \
+    views/assemblyview/AssemblyItemCompartment.h \
+    views/assemblyview/AssemblyItemBrick.h \
+    views/assemblyview/AssemblyScene.h \
+    views/assemblyview/AssemblyLib.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui

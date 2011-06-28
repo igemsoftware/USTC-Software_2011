@@ -45,13 +45,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QDeclarativeView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtDeclarative/QDeclarativeView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
