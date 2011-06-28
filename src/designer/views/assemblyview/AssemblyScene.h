@@ -23,6 +23,9 @@ signals:
 
 public slots:
 
+private:
+    QMap<QString,AssemblyItemCompartment*> compartmentMap;
+    QMap<QString,AssemblyItemPlasmid*> plasmidMap;
 };
 
 #endif // ASSEMBLYSCENE_H
