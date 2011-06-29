@@ -8,3 +8,4 @@
 *.cpp~
 *.pro
 *.pro.user
+*.pro.user.*
