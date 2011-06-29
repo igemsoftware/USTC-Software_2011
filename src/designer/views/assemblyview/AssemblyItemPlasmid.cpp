@@ -77,6 +77,7 @@ AssemblyItemPlasmid::~AssemblyItemPlasmid()
 
 void AssemblyItemPlasmid::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    QGraphicsRectItem::mouseReleaseEvent(event);
     if( !collidesWithItem( parentItem() ) )
     {
         AssemblyItemCompartment * newparent = 0;
@@ -102,5 +103,4 @@ void AssemblyItemPlasmid::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             oldparent->scene()->clearFocus();
         }
     }
-    QGraphicsRectItem::mouseReleaseEvent(event);
 }

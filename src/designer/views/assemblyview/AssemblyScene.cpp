@@ -46,7 +46,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     if( event->mimeData()->hasFormat( AssemblyItemCompartment::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemCompartment::MimeFormat );
-        QString itemName = QString::fromLocal8Bit( itemData.data() );
+        QString itemName = QString::fromUtf8( itemData.data() );
         QString stri;
         for( int i = 1 ; ; i++ )
         {
@@ -77,7 +77,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         if( compartment )
         {
             QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
-            QString itemName = QString::fromLocal8Bit( itemData.data() );
+            QString itemName = QString::fromUtf8( itemData.data() );
             QString stri;
             for( int i = 1 ; ; i++ )
             {
@@ -108,7 +108,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         if( plasmid )
         {
             QByteArray itemData = event->mimeData()->data( AssemblyItemBrick::MimeFormat );
-            QString itemName = QString::fromLocal8Bit( itemData.data() );
+            QString itemName = QString::fromUtf8( itemData.data() );
 
             AssemblyItemBrick * item = new AssemblyItemBrick( itemName );
             plasmid->addBrick( event->scenePos() , item );

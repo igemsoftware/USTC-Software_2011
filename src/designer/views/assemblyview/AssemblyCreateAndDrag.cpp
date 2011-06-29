@@ -12,7 +12,7 @@ AssemblyCreateAndDrag::AssemblyCreateAndDrag( QString setType , QString setName 
 
 void AssemblyCreateAndDrag::createAndDrag()
 {
-    QByteArray itemData = name.toLocal8Bit();
+    QByteArray itemData = name.toUtf8();
     QMimeData * mimeData = new QMimeData;
     mimeData->setData( type , itemData );
 
