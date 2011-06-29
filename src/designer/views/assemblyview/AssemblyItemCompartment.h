@@ -7,10 +7,13 @@
 #include <views/assemblyview/AssemblyLib.h>
 #include <views/assemblyview/AssemblyItemPlasmid.h>
 
+
 class AssemblyItemCompartment : public QGraphicsEllipseItem
 {
 public:
     explicit AssemblyItemCompartment( QString  setName , QGraphicsItem *parent = 0 );
+    void addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid );
+
     QString name;
 
     enum{
@@ -23,7 +26,7 @@ public:
 protected:
 
 private:
-
+    QMap<QString,AssemblyItemPlasmid*> plasmidMap;
 };
 
 

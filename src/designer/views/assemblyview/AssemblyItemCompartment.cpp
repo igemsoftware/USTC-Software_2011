@@ -1,4 +1,5 @@
 #include "AssemblyItemCompartment.h"
+#include "AssemblyScene.h"
 
 const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompartment";
 
@@ -10,58 +11,39 @@ AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsIt
     setFlag( QGraphicsItem::ItemIsMovable );
     setFlag( QGraphicsItem::ItemIsFocusable );
     setFlag( QGraphicsItem::ItemIsSelectable );
-
     setRect( 0 , 0 , DefaultWeight , DefaultHeight );
+
+    QGraphicsTextItem * tempText = new QGraphicsTextItem( name , this , scene() );
+    tempText->adjustSize();
+    qreal rwidth = rect().width();
+    qreal rheight = rect().height();
+    qreal rtextwidth = tempText->textWidth();
+    tempText->setPos( ( rwidth - rtextwidth )/2 , rheight );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void AssemblyItemCompartment::mousePressEvent( QGraphicsSceneMouseEvent * event )
+void AssemblyItemCompartment::addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid )
 {
-    event->accept();
-    QGraphicsEllipseItem::mousePressEvent(event);
-    pressed = true;
-    //hotPoint = event->pos() - this->pos();
+    plasmid->setParentItem(this);
+    plasmid->setPos( mapFromScene(pos) );
+    plasmidMap.insert( plasmid->name , plasmid );
 }
 
-void AssemblyItemCompartment::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsEllipseItem::mouseReleaseEvent(event);
-    //pressed = false;
-}
 
-void AssemblyItemCompartment::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    event->accept();
-    QGraphicsEllipseItem::mouseMoveEvent(event);
-    //if( !pressed)
-    //setPos( event->pos() - hotPoint );
-}
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

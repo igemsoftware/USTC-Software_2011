@@ -6,7 +6,13 @@
 
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
+#include <QMap>
+#include <QList>
+#include <QGraphicsScene>
 
 #include <views/assemblyview/AssemblyCreateAndDrag.h>
+
+#define ASSEMBLY_ITEM_BRICK_HEIGHT 40
+#define ASSEMBLY_ITEM_BRICK_WIDTH 40
 
 #endif // ASSEMBLYLIB_H

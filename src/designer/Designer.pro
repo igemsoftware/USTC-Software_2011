@@ -91,3 +91,6 @@ HEADERS  += \
 
 FORMS    += \
     views/behaviorview/DesignerBehaviorView.ui
+
+RESOURCES += \
+    resources/DesignerResources.qrc

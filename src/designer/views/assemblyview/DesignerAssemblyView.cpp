@@ -16,19 +16,15 @@ AssemblyView::AssemblyView(QWidget *parent) :
 
     QToolBar * standard = new QToolBar;
     toolBox->addTab( standard , tr("Standard Modules"));
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , tr("compartment") ) );
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , tr("Compartment") ) );
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , tr("Plasmid") ) );
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemBrick::MimeFormat , tr("Brick") ) );
 
     recentModule = new QToolBar;
     toolBox->addTab( recentModule , tr("Recent Modules") );
 
     vLayout->addWidget( mainView = new QGraphicsView( mainScene = new AssemblyScene ) );
     ui->tabAssemblyView->setLayout( vLayout );
-
-    AssemblyItemCompartment * flask1 = new AssemblyItemCompartment( tr("flask1") );
-    flask1->setPos( 100 , 200 );
-
-    mainScene->addItem( flask1 );
-    mainScene->addRect( 0 , 0 , 50 , 50 );
 
     //QApplication::sendEvent( mainScene , new QMouseEvent( QEvent::MouseButtonPress , QPoint( 300 , 300 ) , Qt::LeftButton , 0 , 0 ));
 
