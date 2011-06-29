@@ -12,8 +12,11 @@ class AssemblyItemPlasmid : public QGraphicsRectItem
 {
 public:
     explicit AssemblyItemPlasmid( QString & setName , QGraphicsItem *parent = 0 );
-    void addBrick( QPointF eventPos , AssemblyItemBrick * brick  );
+    virtual ~AssemblyItemPlasmid();
 
+    void addBrick( QPointF eventPos , AssemblyItemBrick * brick  );
+    void removeBrick( AssemblyItemBrick * brick );
+    void arrangeBricks();
 
     QString name;
 
@@ -24,9 +27,12 @@ public:
 
     static const char * MimeFormat;
 
+protected:
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     QList<AssemblyItemBrick*> bricks;
-
+    QGraphicsTextItem * displayName;
 };
 
 #endif // ASSEMBLYITEMPLASMID_H

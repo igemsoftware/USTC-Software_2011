@@ -13,12 +13,12 @@ AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsIt
     setFlag( QGraphicsItem::ItemIsSelectable );
     setRect( 0 , 0 , DefaultWeight , DefaultHeight );
 
-    QGraphicsTextItem * tempText = new QGraphicsTextItem( name , this , scene() );
-    tempText->adjustSize();
+    displayName = new QGraphicsTextItem( name , this , scene() );
+    displayName->adjustSize();
     qreal rwidth = rect().width();
     qreal rheight = rect().height();
-    qreal rtextwidth = tempText->textWidth();
-    tempText->setPos( ( rwidth - rtextwidth )/2 , rheight );
+    qreal rtextwidth = displayName->textWidth();
+    displayName->setPos( ( rwidth - rtextwidth )/2 , rheight );
 }
 
 void AssemblyItemCompartment::addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid )
@@ -29,7 +29,33 @@ void AssemblyItemCompartment::addPlasmid( QPointF pos , AssemblyItemPlasmid * pl
 }
 
 
+AssemblyItemCompartment::~AssemblyItemCompartment()
+{
+    try
+    {
+        foreach( AssemblyItemPlasmid * plasmid , plasmidMap.values() )
+        {
+            delete plasmid;
+        }
+        dynamic_cast<AssemblyScene*>(scene())->removeItem(this);
+        delete displayName;
+    }catch(...)
+    {
+    }
+}
 
+void AssemblyItemCompartment::removePlasmid( AssemblyItemPlasmid * plasmid )
+{
+    foreach( QString key , plasmidMap.keys() )
+    {
+        if( plasmidMap[key] == plasmid )
+        {
+            plasmidMap.remove(key);
+            break;
+        }
+    }
+    dynamic_cast<AssemblyScene*>(scene())->removeItem(plasmid);
+}
 
 
 

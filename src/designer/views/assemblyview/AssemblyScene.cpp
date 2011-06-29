@@ -1,5 +1,6 @@
 #include "AssemblyScene.h"
 #include <QGraphicsView>
+#include <QKeyEvent>
 
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -30,7 +31,7 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
         event->acceptProposedAction();
     }else
     {
-        QGraphicsScene::dragEnterEvent(event);
+        QGraphicsScene::dragMoveEvent(event);
     }
 }
 
@@ -113,8 +114,6 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     QGraphicsScene::dropEvent(event);
 }
 
-
-
 void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     if( event->modifiers() == Qt::ControlModifier )
@@ -138,9 +137,27 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
     QGraphicsScene::wheelEvent(event);
 }
 
+void AssemblyScene::keyPressEvent(QKeyEvent *event)
+{
+    if( event->key() == Qt::Key_Delete )
+    {
+        QList<QGraphicsItem*> items = selectedItems();
+        foreach( QGraphicsItem * item , items ) delete item;
+    }
+}
 
-
-
+void AssemblyScene::removeItem(QGraphicsItem *item)
+{
+    if( dynamic_cast<AssemblyItemPlasmid*>(item) != 0 )
+    {
+        plasmidMap.remove( dynamic_cast<AssemblyItemPlasmid*>(item)->name );
+    }
+    if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
+    {
+        compartmentMap.remove( dynamic_cast<AssemblyItemCompartment*>(item)->name );
+    }
+    QGraphicsScene::removeItem(item);
+}
 
 
 
