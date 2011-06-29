@@ -28,7 +28,6 @@ protected:
 signals:
 
 public slots:
-    void selectionMessage();
 
 private:
     QMap<QString,AssemblyItemCompartment*> compartmentMap;

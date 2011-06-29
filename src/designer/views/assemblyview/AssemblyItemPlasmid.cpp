@@ -15,8 +15,6 @@ AssemblyItemPlasmid::AssemblyItemPlasmid( QString & setName , QGraphicsItem *par
 
     displayName = new QGraphicsTextItem( name , this , scene() );
     displayName->adjustSize();
-    qreal rwidth = rect().width();
-    qreal rheight = ( rect().height() + ASSEMBLY_ITEM_BRICK_HEIGHT )/2;
     qreal rtextwidth = displayName->textWidth();
     displayName->setPos( -rtextwidth , -rect().height() );
 }

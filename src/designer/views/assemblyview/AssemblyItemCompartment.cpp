@@ -20,7 +20,6 @@ AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsIt
     qreal rtextwidth = displayName->textWidth();
     displayName->setPos( ( rwidth - rtextwidth )/2 , rheight );
 
-    sizer = new AssemblyItemSizer( DefaultWidth , DefaultHeight ,  this );
 }
 
 void AssemblyItemCompartment::addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid )
@@ -59,21 +58,22 @@ void AssemblyItemCompartment::removePlasmid( AssemblyItemPlasmid * plasmid )
     dynamic_cast<AssemblyScene*>(scene())->removeItem(plasmid);
 }
 
-void AssemblyItemCompartment::loseSelection()
-{
-    if( ! scene()->selectedItems().contains(sizer) ) sizer->hide();
-}
 
-void AssemblyItemCompartment::getSelection()
+void AssemblyItemCompartment::resize( bool magnify )
 {
-    sizer->show();
-}
-
-void AssemblyItemCompartment::resize(qreal newWidth, qreal newHeight)
-{
-    if( newWidth < 10 || newHeight < 10 )
+    qreal newHeight = rect().height();
+    qreal newWidth = rect().width();
+    if( magnify )
     {
-        sizer->setPos( 0 , 0 );
+        newHeight += DefaultHeight/2;
+        newWidth  += DefaultWidth/2;
+    }else
+    {
+        newHeight -= DefaultHeight/2;
+        newWidth  -= DefaultWidth/2;
+    }
+    if( newHeight < DefaultHeight/2 )
+    {
         return;
     }
     foreach( AssemblyItemPlasmid * plasmid , plasmidMap.values() )

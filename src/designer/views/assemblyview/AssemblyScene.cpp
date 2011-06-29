@@ -5,7 +5,6 @@
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
 {
-    connect( this , SIGNAL(selectionChanged()) , this , SLOT(selectionMessage()) );
 }
 
 void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -146,14 +145,34 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 
 void AssemblyScene::keyPressEvent(QKeyEvent *event)
 {
-    if( event->key() == Qt::Key_Delete )
+    switch(event->key() )
     {
+    case Qt::Key_Delete:
         foreach( QGraphicsItem * item , selectedItems() )
         {
             if( dynamic_cast<AssemblyItemBrick*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) || dynamic_cast<AssemblyItemCompartment*>(item) )
                 delete item;
         }
+        break;
+    case Qt::Key_Up:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemCompartment*>(item) )
+                dynamic_cast<AssemblyItemCompartment*>(item)->resize(true);
+        }
+        break;
+    case Qt::Key_Down:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemCompartment*>(item) )
+                dynamic_cast<AssemblyItemCompartment*>(item)->resize(false);
+        }
+        break;
+    default:
+        QGraphicsScene::keyPressEvent(event);
+        return;
     }
+    event->accept();
 }
 
 void AssemblyScene::removeItem(QGraphicsItem *item)
@@ -167,25 +186,6 @@ void AssemblyScene::removeItem(QGraphicsItem *item)
         compartmentMap.remove( dynamic_cast<AssemblyItemCompartment*>(item)->name );
     }
     QGraphicsScene::removeItem(item);
-}
-
-void AssemblyScene::selectionMessage()
-{
-    foreach( QGraphicsItem * item , previousSelection )
-    {
-        if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
-        {
-            dynamic_cast<AssemblyItemCompartment*>(item)->loseSelection();
-        }
-    }
-    previousSelection = selectedItems();
-    foreach( QGraphicsItem * item , previousSelection )
-    {
-        if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
-        {
-            dynamic_cast<AssemblyItemCompartment*>(item)->getSelection();
-        }
-    }
 }
 
 
