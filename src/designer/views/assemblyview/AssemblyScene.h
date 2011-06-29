@@ -14,12 +14,16 @@ class AssemblyScene : public QGraphicsScene
 public:
     explicit AssemblyScene(QObject *parent = 0);
 
+    void removeItem(QGraphicsItem *item);
+
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
     void wheelEvent(QGraphicsSceneWheelEvent *event);
+
+    void keyPressEvent(QKeyEvent *event);
 
 signals:
 
@@ -28,6 +32,7 @@ public slots:
 private:
     QMap<QString,AssemblyItemCompartment*> compartmentMap;
     QMap<QString,AssemblyItemPlasmid*> plasmidMap;
+    QList<QGraphicsItem*> previousSelection;
 };
 
 #endif // ASSEMBLYSCENE_H

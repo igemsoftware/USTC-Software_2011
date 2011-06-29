@@ -1,5 +1,6 @@
 #include "AssemblyScene.h"
 #include <QGraphicsView>
+#include <QKeyEvent>
 
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -12,6 +13,9 @@ void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     {
         event->acceptProposedAction();
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
+    {
+        event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
     {
         event->acceptProposedAction();
     }else
@@ -28,9 +32,12 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
+    {
+        event->acceptProposedAction();
     }else
     {
-        QGraphicsScene::dragEnterEvent(event);
+        QGraphicsScene::dragMoveEvent(event);
     }
 }
 
@@ -39,7 +46,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     if( event->mimeData()->hasFormat( AssemblyItemCompartment::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemCompartment::MimeFormat );
-        QString itemName = QString::fromLocal8Bit( itemData.data() );
+        QString itemName = QString::fromUtf8( itemData.data() );
         QString stri;
         for( int i = 1 ; ; i++ )
         {
@@ -70,7 +77,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         if( compartment )
         {
             QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
-            QString itemName = QString::fromLocal8Bit( itemData.data() );
+            QString itemName = QString::fromUtf8( itemData.data() );
             QString stri;
             for( int i = 1 ; ; i++ )
             {
@@ -101,7 +108,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         if( plasmid )
         {
             QByteArray itemData = event->mimeData()->data( AssemblyItemBrick::MimeFormat );
-            QString itemName = QString::fromLocal8Bit( itemData.data() );
+            QString itemName = QString::fromUtf8( itemData.data() );
 
             AssemblyItemBrick * item = new AssemblyItemBrick( itemName );
             plasmid->addBrick( event->scenePos() , item );
@@ -112,8 +119,6 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
     QGraphicsScene::dropEvent(event);
 }
-
-
 
 void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
@@ -138,47 +143,68 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
     QGraphicsScene::wheelEvent(event);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void AssemblyScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void AssemblyScene::keyPressEvent(QKeyEvent *event)
 {
-    QGraphicsScene::mousePressEvent(event);
+    switch(event->key() )
+    {
+    case Qt::Key_Delete:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemBrick*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) || dynamic_cast<AssemblyItemCompartment*>(item) )
+                delete item;
+        }
+        break;
+    case Qt::Key_Up:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemCompartment*>(item) )
+                dynamic_cast<AssemblyItemCompartment*>(item)->resize(true);
+        }
+        break;
+    case Qt::Key_Down:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemCompartment*>(item) )
+                dynamic_cast<AssemblyItemCompartment*>(item)->resize(false);
+        }
+        break;
+    default:
+        QGraphicsScene::keyPressEvent(event);
+        return;
+    }
+    event->accept();
 }
 
-void AssemblyScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void AssemblyScene::removeItem(QGraphicsItem *item)
 {
-    QGraphicsScene::mouseMoveEvent(event);
+    if( dynamic_cast<AssemblyItemPlasmid*>(item) != 0 )
+    {
+        plasmidMap.remove( dynamic_cast<AssemblyItemPlasmid*>(item)->name );
+    }
+    if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
+    {
+        compartmentMap.remove( dynamic_cast<AssemblyItemCompartment*>(item)->name );
+    }
+    QGraphicsScene::removeItem(item);
 }
 
-void AssemblyScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsScene::mouseReleaseEvent(event);
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
