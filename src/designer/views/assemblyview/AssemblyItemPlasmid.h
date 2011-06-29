@@ -22,7 +22,7 @@ public:
 
     enum{
         DefaultHeight = 5 ,
-        DefaultWeight = ASSEMBLY_ITEM_BRICK_WIDTH
+        DefaultWidth = ASSEMBLY_ITEM_BRICK_WIDTH
     };
 
     static const char * MimeFormat;

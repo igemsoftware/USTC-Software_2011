@@ -11,7 +11,7 @@ AssemblyItemPlasmid::AssemblyItemPlasmid( QString & setName , QGraphicsItem *par
     setFlag( QGraphicsItem::ItemIsMovable );
     setFlag( QGraphicsItem::ItemIsFocusable );
     setFlag( QGraphicsItem::ItemIsSelectable );
-    setRect( 0 , 0 , DefaultWeight , DefaultHeight );
+    setRect( 0 , 0 , DefaultWidth , DefaultHeight );
 
     displayName = new QGraphicsTextItem( name , this , scene() );
     displayName->adjustSize();

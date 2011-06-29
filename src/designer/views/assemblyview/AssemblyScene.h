@@ -28,10 +28,12 @@ protected:
 signals:
 
 public slots:
+    void selectionMessage();
 
 private:
     QMap<QString,AssemblyItemCompartment*> compartmentMap;
     QMap<QString,AssemblyItemPlasmid*> plasmidMap;
+    QList<QGraphicsItem*> previousSelection;
 };
 
 #endif // ASSEMBLYSCENE_H

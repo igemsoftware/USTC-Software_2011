@@ -6,7 +6,7 @@
 
 #include <views/assemblyview/AssemblyLib.h>
 #include <views/assemblyview/AssemblyItemPlasmid.h>
-
+#include "AssemblyItemSizer.h"
 
 class AssemblyItemCompartment : public QGraphicsEllipseItem
 {
@@ -15,12 +15,14 @@ public:
     virtual ~AssemblyItemCompartment();
     void addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid );
     void removePlasmid( AssemblyItemPlasmid * plasmid );
-
+    void loseSelection();
+    void getSelection();
+    void resize( qreal newWidth , qreal newHeight );
     QString name;
 
     enum{
         DefaultHeight = 200 ,
-        DefaultWeight = 400
+        DefaultWidth = 400
     };
 
     static const char * MimeFormat;
@@ -30,6 +32,7 @@ protected:
 private:
     QMap<QString,AssemblyItemPlasmid*> plasmidMap;
     QGraphicsTextItem * displayName;
+    AssemblyItemSizer * sizer;
 };
 
 

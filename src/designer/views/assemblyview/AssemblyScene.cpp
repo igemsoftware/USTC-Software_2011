@@ -5,6 +5,7 @@
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
 {
+    connect( this , SIGNAL(selectionChanged()) , this , SLOT(selectionMessage()) );
 }
 
 void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -147,8 +148,11 @@ void AssemblyScene::keyPressEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_Delete )
     {
-        QList<QGraphicsItem*> items = selectedItems();
-        foreach( QGraphicsItem * item , items ) delete item;
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if( dynamic_cast<AssemblyItemBrick*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) || dynamic_cast<AssemblyItemCompartment*>(item) )
+                delete item;
+        }
     }
 }
 
@@ -165,43 +169,42 @@ void AssemblyScene::removeItem(QGraphicsItem *item)
     QGraphicsScene::removeItem(item);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void AssemblyScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void AssemblyScene::selectionMessage()
 {
-    QGraphicsScene::mousePressEvent(event);
+    foreach( QGraphicsItem * item , previousSelection )
+    {
+        if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
+        {
+            dynamic_cast<AssemblyItemCompartment*>(item)->loseSelection();
+        }
+    }
+    previousSelection = selectedItems();
+    foreach( QGraphicsItem * item , previousSelection )
+    {
+        if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
+        {
+            dynamic_cast<AssemblyItemCompartment*>(item)->getSelection();
+        }
+    }
 }
 
-void AssemblyScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsScene::mouseMoveEvent(event);
-}
 
-void AssemblyScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsScene::mouseReleaseEvent(event);
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
