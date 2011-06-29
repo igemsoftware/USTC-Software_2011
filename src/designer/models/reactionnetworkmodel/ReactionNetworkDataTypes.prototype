@@ -1,0 +1,47 @@
+[DESCRIPTION]
+
+Reaction:
+   bool       reversible;
+   symbollist reactants;
+   symbollist modifiers;
+   symbollist products;
+   mathexpr   kineticLaw;
+end
+
+Compartment:
+   precisevalue size     instance;
+   valuelist    contains instance;
+end
+
+Species:
+   symbol       compartment   instance;
+   precisevalue initialamount instance;
+   valuelist    structure     instance;
+end
+
+Chain:
+   symbol       type          instance;
+   valuelist    structure     instance;
+end
+
+Part:
+   symbol       type;
+   valuelist    structure;
+#  ???          ctg;
+end
+
+Parameter:
+   symbol       id;
+   symbol       unit;
+   mathsegexpr  rule;
+end
+
+Unit:
+   symbol       name;
+   valuelist    ratio;
+end
+
+
+
+
+

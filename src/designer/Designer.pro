@@ -23,7 +23,7 @@ SOURCES +=\
     views/assemblyview/AssemblyScene.cpp \
     views/assemblyview/AssemblyCreateAndDrag.cpp \
     DesignerModelItf.cpp \
-    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModel.cpp \
+    models/reactionnetworkmodel/ReactionNetwork.cpp \
     views/networkview/NetworkViewGraphicsScene.cpp \
     views/networkview/NetworkViewGraphicsSceneEdge.cpp \
     views/networkview/NetworkViewGraphicsSceneNode.cpp \
@@ -42,15 +42,15 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyLib.h \
     views/assemblyview/AssemblyCreateAndDrag.h \
     DesignerModelItf.h \
-    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModel.h \
     models/common/ModelSymbol.h \
-    models/proteininteractionnetworkmodel/ProteinInteractionNetworkModelDataTypes.h \
     views/networkview/NetworkViewGraphicsScene.h \
     views/networkview/NetworkViewGraphicsSceneEdge.h \
     views/networkview/NetworkViewGraphicsSceneNode.h \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.h \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.h \
-    views/networkview/NetworkViewGraphicsSceneLabel.h
+    views/networkview/NetworkViewGraphicsSceneLabel.h \
+    models/reactionnetworkmodel/ReactionNetworkDataTypes.h \
+    models/reactionnetworkmodel/ReactionNetwork.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui
