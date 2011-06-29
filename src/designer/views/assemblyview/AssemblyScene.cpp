@@ -15,6 +15,9 @@ void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
+    {
+        event->acceptProposedAction();
     }else
     {
         QGraphicsScene::dragEnterEvent(event);
@@ -27,6 +30,9 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     {
         event->acceptProposedAction();
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
+    {
+        event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
     {
         event->acceptProposedAction();
     }else
