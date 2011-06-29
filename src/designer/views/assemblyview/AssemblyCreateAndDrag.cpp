@@ -18,7 +18,7 @@ void AssemblyCreateAndDrag::createAndDrag()
 
     QDrag * drag = new QDrag(this);
     drag->setMimeData( mimeData );
-    drag->setPixmap( *(new QPixmap( tr("D://iGame//GIT//lachesis//textpointer.png") ) ));
+    drag->setPixmap( *(new QPixmap( tr("://designer//assemblyview//temp.png") ) ));
 
     drag->exec();
 }

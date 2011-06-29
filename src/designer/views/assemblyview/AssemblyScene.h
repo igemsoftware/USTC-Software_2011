@@ -19,6 +19,8 @@ protected:
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
+
 signals:
 
 public slots:

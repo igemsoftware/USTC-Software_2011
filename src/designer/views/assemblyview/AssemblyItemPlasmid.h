@@ -12,10 +12,13 @@ class AssemblyItemPlasmid : public QGraphicsRectItem
 {
 public:
     explicit AssemblyItemPlasmid( QString & setName , QGraphicsItem *parent = 0 );
+    void addBrick( QPointF eventPos , AssemblyItemBrick * brick  );
+
+
     QString name;
 
     enum{
-        DefaultHeight = ASSEMBLY_ITEM_BRICK_HEIGHT ,
+        DefaultHeight = 5 ,
         DefaultWeight = ASSEMBLY_ITEM_BRICK_WIDTH
     };
 

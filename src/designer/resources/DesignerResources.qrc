@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/designer">
+        <file>assemblyview/temp.png</file>
+    </qresource>
+</RCC>

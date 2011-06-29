@@ -1,4 +1,5 @@
 #include "AssemblyScene.h"
+#include <QGraphicsView>
 
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -85,12 +86,57 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         }
     }
 
+    if( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
+    {
+        AssemblyItemPlasmid * plasmid = 0;
+        QList<QGraphicsItem*> itemList = items( event->scenePos() , Qt::IntersectsItemShape , Qt::DescendingOrder );
+        for( QList<QGraphicsItem*>::iterator iter = itemList.begin() ; iter != itemList.end() ; iter++ )
+        {
+            if( dynamic_cast<AssemblyItemPlasmid*>(*iter) != 0 )
+            {
+                plasmid = dynamic_cast<AssemblyItemPlasmid*>(*iter);
+                break;
+            }
+        }
+        if( plasmid )
+        {
+            QByteArray itemData = event->mimeData()->data( AssemblyItemBrick::MimeFormat );
+            QString itemName = QString::fromLocal8Bit( itemData.data() );
+
+            AssemblyItemBrick * item = new AssemblyItemBrick( itemName );
+            plasmid->addBrick( event->scenePos() , item );
+
+            return;
+        }
+    }
+
     QGraphicsScene::dropEvent(event);
 }
 
 
 
-
+void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
+{
+    if( event->modifiers() == Qt::ControlModifier )
+    {
+        if( event->delta() > 0 )
+        {
+            foreach( QGraphicsView * view , views() )
+            {
+                view->scale( 1.2 , 1.2 );
+            }
+            return;
+        }else
+        {
+            foreach( QGraphicsView * view , views() )
+            {
+                view->scale( 1/1.2 , 1/1.2 );
+            }
+            return;
+        }
+    }
+    QGraphicsScene::wheelEvent(event);
+}
 
 
 

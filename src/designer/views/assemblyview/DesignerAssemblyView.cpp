@@ -18,6 +18,7 @@ AssemblyView::AssemblyView(QWidget *parent) :
     toolBox->addTab( standard , tr("Standard Modules"));
     standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , tr("Compartment") ) );
     standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , tr("Plasmid") ) );
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemBrick::MimeFormat , tr("Brick") ) );
 
     recentModule = new QToolBar;
     toolBox->addTab( recentModule , tr("Recent Modules") );
