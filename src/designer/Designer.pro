@@ -29,7 +29,8 @@ SOURCES +=\
     views/networkview/NetworkViewGraphicsSceneNode.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.cpp \
-    views/networkview/NetworkViewGraphicsSceneLabel.cpp
+    views/networkview/NetworkViewGraphicsSceneLabel.cpp \
+    views/assemblyview/AssemblyItemBase.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -50,7 +51,8 @@ HEADERS  += DesignerMainWnd.h \
     views/networkview/NetworkViewGraphicsSceneNode.h \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.h \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.h \
-    views/networkview/NetworkViewGraphicsSceneLabel.h
+    views/networkview/NetworkViewGraphicsSceneLabel.h \
+    views/assemblyview/AssemblyItemBase.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui
