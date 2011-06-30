@@ -12,7 +12,7 @@ namespace lachesis
     typedef QScriptValueList valuelist_t;
 
     typedef QScriptValueList mathexpr_t;
-    typedef QScriptValueList mathexpr_segbytime_t;  // [ [expr, start1, end1], event, [expr2, start2, end2], event, ... [expr-n, start-n, +inf]]
+    typedef QScriptValueList mathsegexpr_t;  // [ [expr, start1, end1], event, [expr2, start2, end2], event, ... [expr-n, start-n, +inf]]
 
     typedef double precisevalue_t;
 
