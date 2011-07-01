@@ -5,34 +5,29 @@
 #include <QString>
 #include <QList>
 
-#include <views/assemblyview/AssemblyLib.h>
-#include <views/assemblyview/AssemblyItemBrick.h>
+#include "AssemblyItemBase.h"
+#include "AssemblyLib.h"
+#include "AssemblyItemPart.h"
 
-class AssemblyItemPlasmid : public QGraphicsRectItem
+class AssemblyItemPlasmid : public AssemblyItemBase
 {
 public:
-    explicit AssemblyItemPlasmid( QString & setName , QGraphicsItem *parent = 0 );
-    virtual ~AssemblyItemPlasmid();
-
-    void addBrick( QPointF eventPos , AssemblyItemBrick * brick  );
-    void removeBrick( AssemblyItemBrick * brick );
-    void arrangeBricks();
-
-    QString name;
-
-    enum{
-        DefaultHeight = 5 ,
-        DefaultWidth = ASSEMBLY_ITEM_BRICK_WIDTH
-    };
-
     static const char * MimeFormat;
 
+
+    explicit AssemblyItemPlasmid( QString newName , QGraphicsItem *parent = 0 );
+    virtual ~AssemblyItemPlasmid();
+
+    virtual QList<AssemblyItemBase*> getChildren();
+    virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
+    virtual void removeChild( AssemblyItemBase * child );
+
+    void arrangeChild();
+
 protected:
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QList<AssemblyItemBrick*> bricks;
-    QGraphicsTextItem * displayName;
+    QList<AssemblyItemBase*> childrenList;
 };
 
 #endif // ASSEMBLYITEMPLASMID_H

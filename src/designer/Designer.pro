@@ -19,7 +19,6 @@ SOURCES +=\
     DesignerDocItf.cpp \
     views/assemblyview/AssemblyItemPlasmid.cpp \
     views/assemblyview/AssemblyItemCompartment.cpp \
-    views/assemblyview/AssemblyItemBrick.cpp \
     views/assemblyview/AssemblyScene.cpp \
     views/assemblyview/AssemblyCreateAndDrag.cpp \
     DesignerModelItf.cpp \
@@ -30,7 +29,8 @@ SOURCES +=\
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.cpp \
     views/networkview/NetworkViewGraphicsSceneLabel.cpp \
-    views/assemblyview/AssemblyItemBase.cpp
+    views/assemblyview/AssemblyItemBase.cpp \
+    views/assemblyview/AssemblyItemPart.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -38,7 +38,6 @@ HEADERS  += DesignerMainWnd.h \
     DesignerDocItf.h \
     views/assemblyview/AssemblyItemPlasmid.h \
     views/assemblyview/AssemblyItemCompartment.h \
-    views/assemblyview/AssemblyItemBrick.h \
     views/assemblyview/AssemblyScene.h \
     views/assemblyview/AssemblyLib.h \
     views/assemblyview/AssemblyCreateAndDrag.h \
@@ -52,7 +51,8 @@ HEADERS  += DesignerMainWnd.h \
     views/networkview/NetworkViewGraphicsSceneLabel.h \
     views/assemblyview/AssemblyItemBase.h\
     models/reactionnetworkmodel/ReactionNetworkDataTypes.h \
-    models/reactionnetworkmodel/ReactionNetwork.h
+    models/reactionnetworkmodel/ReactionNetwork.h \
+    views/assemblyview/AssemblyItemPart.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui

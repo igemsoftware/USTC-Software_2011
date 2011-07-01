@@ -4,101 +4,59 @@
 
 const char * AssemblyItemPlasmid::MimeFormat = "lachesis/AssemblyItemPlasmid";
 
-AssemblyItemPlasmid::AssemblyItemPlasmid( QString & setName , QGraphicsItem *parent ) :
-    QGraphicsRectItem(parent)
+AssemblyItemPlasmid::AssemblyItemPlasmid( QString newName , QGraphicsItem *parent ) :
+    AssemblyItemBase( newName , QObject::tr(":/designer/assemblyview/plasmid_normal.png") , QObject::tr(":/designer/assemblyview/plasmid_selected.png") , parent )
 {
-    name = setName;
-    setFlag( QGraphicsItem::ItemIsMovable );
-    setFlag( QGraphicsItem::ItemIsFocusable );
-    setFlag( QGraphicsItem::ItemIsSelectable );
-    setRect( 0 , 0 , DefaultWidth , DefaultHeight );
-
-    displayName = new QGraphicsTextItem( name , this , scene() );
-    displayName->adjustSize();
-    qreal rtextwidth = displayName->textWidth();
-    displayName->setPos( -rtextwidth , -rect().height() );
-}
-
-
-void AssemblyItemPlasmid::addBrick( QPointF eventPos , AssemblyItemBrick * brick )
-{
-    eventPos = mapFromScene(eventPos);
-    qreal len = eventPos.x();
-    int index = len/ASSEMBLY_ITEM_BRICK_WIDTH;
-    bricks.insert( index , brick );
-    brick->setParentItem(this);
-
-    arrangeBricks();
-}
-
-void AssemblyItemPlasmid::removeBrick( AssemblyItemBrick *brick )
-{
-    try
-    {
-        bricks.removeAll(brick);
-        dynamic_cast<AssemblyScene*>(scene())->removeItem(brick);
-        arrangeBricks();
-    }catch(...)
-    {
-    }
-}
-
-void AssemblyItemPlasmid::arrangeBricks()
-{
-    setRect( rect().x() , rect().y() , (bricks.count()+1)*ASSEMBLY_ITEM_BRICK_WIDTH , DefaultHeight );
-    qreal newx = ASSEMBLY_ITEM_BRICK_WIDTH;
-    qreal deltax = newx;
-    newx /= 2;
-    qreal newy = ( DefaultHeight - ASSEMBLY_ITEM_BRICK_HEIGHT );
-    newy /=2 ;
-    for( int i = 0 ; i < bricks.count() ; i++ )
-    {
-        bricks[i]->setPos( newx , newy );
-        newx += deltax;
-    }
 }
 
 AssemblyItemPlasmid::~AssemblyItemPlasmid()
 {
-    try
-    {
-        foreach( AssemblyItemBrick * brick , bricks )
-        {
-            delete brick;
-        }
-        dynamic_cast<AssemblyItemCompartment*>( parentItem() )->removePlasmid(this);
-        delete displayName;
-    }catch(...)
-    {
-    }
+    foreach( AssemblyItemBase * item , getChildren() )
+        delete item;
 }
 
-void AssemblyItemPlasmid::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+QList<AssemblyItemBase*> AssemblyItemPlasmid::getChildren()
 {
-    QGraphicsRectItem::mouseReleaseEvent(event);
-    if( !collidesWithItem( parentItem() ) )
-    {
-        AssemblyItemCompartment * newparent = 0;
-        QList<QGraphicsItem*> items = collidingItems();
-        foreach( QGraphicsItem * item , items )
-        {
-            if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
-            {
-                if( !newparent ) newparent = dynamic_cast<AssemblyItemCompartment*>(item);
-                if( newparent->parentItem() == 0 && dynamic_cast<AssemblyItemCompartment*>(item)->parentItem() != 0 ) newparent = dynamic_cast<AssemblyItemCompartment*>(item);
-            }
-        }
-        QPointF tempPos = scenePos();
-        AssemblyItemCompartment * oldparent = dynamic_cast<AssemblyItemCompartment*>(parentItem());
-        oldparent->removePlasmid(this);
+    return childrenList;
+}
 
-        if( newparent )
-        {
-            dynamic_cast<AssemblyItemCompartment*>(newparent)->addPlasmid(tempPos,this);
-        }else
-        {
-            oldparent->scene()->clearSelection();
-            oldparent->scene()->clearFocus();
-        }
+
+bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child )
+{
+    if( ! dynamic_cast<AssemblyItemPart*>(child) ) return false;
+
+    scenePos = mapFromScene(scenePos);
+    qreal len = scenePos.x() + ASSEMBLY_ITEM_BRICK_WIDTH/2;
+    int index = len/ASSEMBLY_ITEM_BRICK_WIDTH;
+    if( index < 0 ) len = 0;
+    if( index > childrenList.count() ) len = childrenList.count();
+    childrenList.insert( index , child );
+    AssemblyItemBase::addChild( scenePos , child );
+
+    arrangeChild();
+    return true;
+}
+
+void AssemblyItemPlasmid::removeChild( AssemblyItemBase * child )
+{
+    childrenList.removeAll(child);
+    AssemblyItemBase::removeChild(child);
+    arrangeChild();
+}
+
+void AssemblyItemPlasmid::arrangeChild()
+{
+    resize( (childrenList.count()+1)*ASSEMBLY_ITEM_BRICK_WIDTH , pixmap().height() );
+    qreal newx = ASSEMBLY_ITEM_BRICK_WIDTH;
+    qreal deltax = newx;
+    newx /= 2;
+    qreal newy = ( pixmap().height() - ASSEMBLY_ITEM_BRICK_HEIGHT );
+    newy /=2 ;
+    for( int i = 0 ; i < childrenList.count() ; i++ )
+    {
+        childrenList[i]->setPos( newx , newy );
+        newx += deltax;
     }
 }
+
+

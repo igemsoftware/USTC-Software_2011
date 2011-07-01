@@ -9,10 +9,10 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <DesignerViewItf.h>
-#include <views/assemblyview/AssemblyItemBrick.h>
-#include <views/assemblyview/AssemblyItemCompartment.h>
-#include <views/assemblyview/AssemblyItemPlasmid.h>
-#include <views/assemblyview/AssemblyScene.h>
+#include "AssemblyItemPart.h"
+#include "AssemblyItemCompartment.h"
+#include "AssemblyItemPlasmid.h"
+#include "AssemblyScene.h"
 
 namespace Ui {
     class AssemblyView;

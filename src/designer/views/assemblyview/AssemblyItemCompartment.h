@@ -1,33 +1,28 @@
 #ifndef ASSEMBLYITEMCOMPARTMENT_H
 #define ASSEMBLYITEMCOMPARTMENT_H
 
-#include <QString>
-#include <QGraphicsEllipseItem>
+#include "AssemblyItemBase.h"
+#include "AssemblyLib.h"
+#include "AssemblyItemPlasmid.h"
 
-#include <views/assemblyview/AssemblyLib.h>
-#include <views/assemblyview/AssemblyItemPlasmid.h>
-class AssemblyItemCompartment : public QGraphicsEllipseItem
+class AssemblyItemCompartment : public AssemblyItemBase
 {
 public:
-    explicit AssemblyItemCompartment( QString  setName , QGraphicsItem *parent = 0 );
-    virtual ~AssemblyItemCompartment();
-    void addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid );
-    void removePlasmid( AssemblyItemPlasmid * plasmid );
-    void resize( bool magnify );
-    QString name;
-
-    enum{
-        DefaultHeight = 200 ,
-        DefaultWidth = 400
-    };
-
     static const char * MimeFormat;
+
+
+    explicit AssemblyItemCompartment( QString newName , QGraphicsItem *parent = 0 );
+    virtual ~AssemblyItemCompartment();
+
+    virtual QList<AssemblyItemBase*> getChildren();
+    virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
+    virtual void removeChild( AssemblyItemBase * child );
+
 
 protected:
 
 private:
-    QMap<QString,AssemblyItemPlasmid*> plasmidMap;
-    QGraphicsTextItem * displayName;
+    QMap<QString,AssemblyItemBase*> childrenMap;
 };
 
 

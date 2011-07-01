@@ -18,7 +18,7 @@ void AssemblyCreateAndDrag::createAndDrag()
 
     QDrag * drag = new QDrag(this);
     drag->setMimeData( mimeData );
-    drag->setPixmap( *(new QPixmap( tr("://designer//assemblyview//temp.png") ) ));
-
+    drag->setPixmap( QPixmap( tr(":/designer/oops.png") ) );
+    drag->setHotSpot( QPoint( drag->pixmap().width()/2 , drag->pixmap().height()/2 ) );
     drag->exec();
 }

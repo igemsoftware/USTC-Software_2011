@@ -4,92 +4,49 @@
 const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompartment";
 
 
-AssemblyItemCompartment::AssemblyItemCompartment( QString  setName , QGraphicsItem *parent ) :
-    QGraphicsEllipseItem(parent)
+AssemblyItemCompartment::AssemblyItemCompartment( QString  newName , QGraphicsItem *parent ) :
+    AssemblyItemBase( newName , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
-    name = setName;
-    setFlag( QGraphicsItem::ItemIsMovable );
-    setFlag( QGraphicsItem::ItemIsFocusable );
-    setFlag( QGraphicsItem::ItemIsSelectable );
-    setRect( 0 , 0 , DefaultWidth , DefaultHeight );
-
-    displayName = new QGraphicsTextItem( name , this , scene() );
-    displayName->adjustSize();
-    qreal rwidth = rect().width();
-    qreal rheight = rect().height();
-    qreal rtextwidth = displayName->textWidth();
-    displayName->setPos( ( rwidth - rtextwidth )/2 , rheight );
-
+    setResizable(true);
 }
-
-void AssemblyItemCompartment::addPlasmid( QPointF pos , AssemblyItemPlasmid * plasmid )
-{
-    plasmid->setParentItem(this);
-    plasmid->setPos( mapFromScene(pos) );
-    plasmidMap.insert( plasmid->name , plasmid );
-}
-
 
 AssemblyItemCompartment::~AssemblyItemCompartment()
 {
-    try
-    {
-        foreach( AssemblyItemPlasmid * plasmid , plasmidMap.values() )
-        {
-            delete plasmid;
-        }
-        dynamic_cast<AssemblyScene*>(scene())->removeItem(this);
-        delete displayName;
-    }catch(...)
-    {
-    }
+    foreach( AssemblyItemBase * item , getChildren() )
+        delete item;
 }
 
-void AssemblyItemCompartment::removePlasmid( AssemblyItemPlasmid * plasmid )
+
+bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    foreach( QString key , plasmidMap.keys() )
+    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 ) ) && !childrenMap.contains( child->getName() ) )
     {
-        if( plasmidMap[key] == plasmid )
+        childrenMap.insert( child->getName() , child );
+        AssemblyItemBase::addChild( scenePos , child );
+        return true;
+    }
+    return false;
+}
+
+
+
+void AssemblyItemCompartment::removeChild( AssemblyItemBase * child )
+{
+    foreach( QString key , childrenMap.keys() )
+    {
+        if( childrenMap[key] == child )
         {
-            plasmidMap.remove(key);
+            childrenMap.remove(key);
             break;
         }
     }
-    dynamic_cast<AssemblyScene*>(scene())->removeItem(plasmid);
+    AssemblyItemBase::removeChild( child );
 }
 
-
-void AssemblyItemCompartment::resize( bool magnify )
+QList<AssemblyItemBase*> AssemblyItemCompartment::getChildren()
 {
-    qreal newHeight = rect().height();
-    qreal newWidth = rect().width();
-    if( magnify )
-    {
-        newHeight += DefaultHeight/2;
-        newWidth  += DefaultWidth/2;
-    }else
-    {
-        newHeight -= DefaultHeight/2;
-        newWidth  -= DefaultWidth/2;
-    }
-    if( newHeight < DefaultHeight/2 )
-    {
-        return;
-    }
-    foreach( AssemblyItemPlasmid * plasmid , plasmidMap.values() )
-    {
-        plasmid->setPos( plasmid->pos().x()*(plasmid->pos().x()>0?newWidth/rect().width():1) , plasmid->pos().y()*(plasmid->pos().y()>0?newHeight/rect().height():1) );
-    }
-    qreal rwidth = newWidth;
-    qreal rheight = newHeight;
-    qreal rtextwidth = displayName->textWidth();
-    displayName->setPos( ( rwidth - rtextwidth )/2 , rheight );
-
-    setRect( rect().x() , rect().y() , newWidth , newHeight );
+    return childrenMap.values();
 }
-
-
-
 
 
 

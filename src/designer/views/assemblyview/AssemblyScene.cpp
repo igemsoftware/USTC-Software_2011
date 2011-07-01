@@ -5,6 +5,7 @@
 AssemblyScene::AssemblyScene(QObject *parent) :
     QGraphicsScene(parent)
 {
+    connect( this , SIGNAL(selectionChanged()) , this , SLOT(propagateSelectionChange()) );
 }
 
 void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -15,7 +16,7 @@ void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         event->acceptProposedAction();
-    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
+    }else if ( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         event->acceptProposedAction();
     }else
@@ -32,7 +33,7 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         event->acceptProposedAction();
-    }else if ( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
+    }else if ( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         event->acceptProposedAction();
     }else
@@ -43,6 +44,7 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 
 void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    AssemblyItemBase * item = 0;
     if( event->mimeData()->hasFormat( AssemblyItemCompartment::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemCompartment::MimeFormat );
@@ -51,73 +53,40 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! compartmentMap.contains(itemName+stri) ) break;
+            if( ! childrenMap.contains(itemName+stri) ) break;
         }
         itemName += stri;
-        AssemblyItemCompartment * item = new AssemblyItemCompartment( itemName );
-        compartmentMap.insert( itemName , item );
-        item->setPos( event->scenePos().x() - item->rect().width()/2 , event->scenePos().y() - item->rect().height()/2 );
-        addItem(item);
-
+        item = new AssemblyItemCompartment( itemName );
+    }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
+    {
+        QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
+        QString itemName = QString::fromUtf8( itemData.data() );
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! childrenMap.contains(itemName+stri) ) break;
+        }
+        itemName += stri;
+        item = new AssemblyItemPlasmid( itemName );
+    }else if( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
+    {
+        QByteArray itemData = event->mimeData()->data( AssemblyItemPart::MimeFormat );
+        QString itemName = QString::fromUtf8( itemData.data() );
+        item = new AssemblyItemPart( itemName );
+    }else{
+        QGraphicsScene::dropEvent(event);
         return;
     }
+    item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
 
-    if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
+    if( addItem( item ) )
     {
-        AssemblyItemCompartment * compartment = 0;
-        QList<QGraphicsItem*> itemList = items( event->scenePos() , Qt::IntersectsItemShape , Qt::DescendingOrder );
-        for( QList<QGraphicsItem*>::iterator iter = itemList.begin() ; iter != itemList.end() ; iter++ )
-        {
-            if( dynamic_cast<AssemblyItemCompartment*>(*iter) != 0 )
-            {
-                compartment = dynamic_cast<AssemblyItemCompartment*>(*iter);
-                break;
-            }
-        }
-        if( compartment )
-        {
-            QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
-            QString itemName = QString::fromUtf8( itemData.data() );
-            QString stri;
-            for( int i = 1 ; ; i++ )
-            {
-                stri.setNum(i);
-                if( ! plasmidMap.contains(itemName+stri) ) break;
-            }
-            itemName += stri;
-            AssemblyItemPlasmid * item = new AssemblyItemPlasmid( itemName );
-            plasmidMap.insert( itemName , item );
-            compartment->addPlasmid( event->scenePos() , item );
-
-            return;
-        }
+        event->accept();
+    }else{
+        QGraphicsScene::dropEvent(event);
     }
-
-    if( event->mimeData()->hasFormat( AssemblyItemBrick::MimeFormat ) )
-    {
-        AssemblyItemPlasmid * plasmid = 0;
-        QList<QGraphicsItem*> itemList = items( event->scenePos() , Qt::IntersectsItemShape , Qt::DescendingOrder );
-        for( QList<QGraphicsItem*>::iterator iter = itemList.begin() ; iter != itemList.end() ; iter++ )
-        {
-            if( dynamic_cast<AssemblyItemPlasmid*>(*iter) != 0 )
-            {
-                plasmid = dynamic_cast<AssemblyItemPlasmid*>(*iter);
-                break;
-            }
-        }
-        if( plasmid )
-        {
-            QByteArray itemData = event->mimeData()->data( AssemblyItemBrick::MimeFormat );
-            QString itemName = QString::fromUtf8( itemData.data() );
-
-            AssemblyItemBrick * item = new AssemblyItemBrick( itemName );
-            plasmid->addBrick( event->scenePos() , item );
-
-            return;
-        }
-    }
-
-    QGraphicsScene::dropEvent(event);
+    return;
 }
 
 void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
@@ -128,14 +97,14 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
         {
             foreach( QGraphicsView * view , views() )
             {
-                view->scale( 1.2 , 1.2 );
+                view->scale( 1.1 , 1.1 );
             }
             return;
         }else
         {
             foreach( QGraphicsView * view , views() )
             {
-                view->scale( 1/1.2 , 1/1.2 );
+                view->scale( 1/1.1 , 1/1.1 );
             }
             return;
         }
@@ -150,22 +119,8 @@ void AssemblyScene::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Delete:
         foreach( QGraphicsItem * item , selectedItems() )
         {
-            if( dynamic_cast<AssemblyItemBrick*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) || dynamic_cast<AssemblyItemCompartment*>(item) )
+            if( dynamic_cast<AssemblyItemBase*>(item) )
                 delete item;
-        }
-        break;
-    case Qt::Key_Up:
-        foreach( QGraphicsItem * item , selectedItems() )
-        {
-            if( dynamic_cast<AssemblyItemCompartment*>(item) )
-                dynamic_cast<AssemblyItemCompartment*>(item)->resize(true);
-        }
-        break;
-    case Qt::Key_Down:
-        foreach( QGraphicsItem * item , selectedItems() )
-        {
-            if( dynamic_cast<AssemblyItemCompartment*>(item) )
-                dynamic_cast<AssemblyItemCompartment*>(item)->resize(false);
         }
         break;
     default:
@@ -175,23 +130,48 @@ void AssemblyScene::keyPressEvent(QKeyEvent *event)
     event->accept();
 }
 
-void AssemblyScene::removeItem(QGraphicsItem *item)
+void AssemblyScene::removeItem( AssemblyItemBase * item )
 {
-    if( dynamic_cast<AssemblyItemPlasmid*>(item) != 0 )
-    {
-        plasmidMap.remove( dynamic_cast<AssemblyItemPlasmid*>(item)->name );
-    }
-    if( dynamic_cast<AssemblyItemCompartment*>(item) != 0 )
-    {
-        compartmentMap.remove( dynamic_cast<AssemblyItemCompartment*>(item)->name );
-    }
+    childrenMap.remove( item->getName() );
+    foreach( AssemblyItemBase * child , item->getChildren() ) removeItem(child);
     QGraphicsScene::removeItem(item);
 }
 
 
+bool AssemblyScene::addItem(AssemblyItemBase *item)
+{
+    QGraphicsScene::addItem(item);
+    QList<QGraphicsItem*> candidates = collidingItems( item );
+    foreach( QGraphicsItem * candidate , candidates )
+    {
+        if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( item->scenePos() , item ) )
+        {
+            if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
+            return true;
+        }
+    }
+    if( dynamic_cast<AssemblyItemCompartment*>(item) )
+    {
+        QGraphicsScene::addItem(item);
+        if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
+        return true;
+    }
+    delete item;
+    return false;
+}
 
-
-
+void AssemblyScene::propagateSelectionChange()
+{
+    QList<QGraphicsItem*> newSelection = selectedItems();
+    foreach( QGraphicsItem* item , items() )
+    {
+        if( dynamic_cast<AssemblyItemBase*>(item) ) dynamic_cast<AssemblyItemBase*>(item)->loseSelection(newSelection);
+    }
+    foreach( QGraphicsItem* item , newSelection )
+    {
+        if( dynamic_cast<AssemblyItemBase*>(item) ) dynamic_cast<AssemblyItemBase*>(item)->getSelection();
+    }
+}
 
 
 

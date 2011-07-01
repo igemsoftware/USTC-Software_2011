@@ -3,10 +3,12 @@
 
 #include <QGraphicsScene>
 
-#include <views/assemblyview/AssemblyLib.h>
-#include <views/assemblyview/AssemblyItemBrick.h>
-#include <views/assemblyview/AssemblyItemCompartment.h>
-#include <views/assemblyview/AssemblyItemPlasmid.h>
+#include "AssemblyLib.h"
+#include "AssemblyItemBase.h"
+#include "AssemblyItemPart.h"
+#include "AssemblyItemCompartment.h"
+#include "AssemblyItemPlasmid.h"
+
 
 class AssemblyScene : public QGraphicsScene
 {
@@ -14,7 +16,8 @@ class AssemblyScene : public QGraphicsScene
 public:
     explicit AssemblyScene(QObject *parent = 0);
 
-    void removeItem(QGraphicsItem *item);
+    void removeItem( AssemblyItemBase *item);
+    bool addItem( AssemblyItemBase * item );
 
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -28,11 +31,9 @@ protected:
 signals:
 
 public slots:
-
+    void propagateSelectionChange();
 private:
-    QMap<QString,AssemblyItemCompartment*> compartmentMap;
-    QMap<QString,AssemblyItemPlasmid*> plasmidMap;
-    QList<QGraphicsItem*> previousSelection;
+    QMap<QString,AssemblyItemBase*> childrenMap;
 };
 
 #endif // ASSEMBLYSCENE_H

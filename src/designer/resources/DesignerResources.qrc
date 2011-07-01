@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/designer">
-        <file>assemblyview/temp.png</file>
+        <file>oops.png</file>
+        <file>assemblyview/sizer_normal.png</file>
+        <file>assemblyview/sizer_selected.png</file>
+        <file>assemblyview/compartment_normal.png</file>
+        <file>assemblyview/compartment_selected.png</file>
+        <file>assemblyview/plasmid_normal.png</file>
+        <file>assemblyview/plasmid_selected.png</file>
     </qresource>
 </RCC>
