@@ -18,6 +18,10 @@ public:
 
 private:
     Ui::BehaviorView *ui;
+
+private slots:
+    void on_pushButton_2_clicked();
+    void on_pushButton_clicked();
 };
 
 #endif // DESIGNERBEHAVIORVIEW_H
