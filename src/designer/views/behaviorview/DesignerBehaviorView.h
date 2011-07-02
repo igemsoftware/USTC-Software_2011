@@ -18,8 +18,14 @@ public:
 
 private:
     Ui::BehaviorView *ui;
+    bool defined;
 
-private slots:
+private slots:    
+    void on_pushButton_ViewValue_clicked();
+    void on_comboBox_currentIndexChanged();
+    void on_pushButton_Clear_clicked();
+    void on_pushButton_Draw_clicked();
+    void on_pushButton_ViewGraphic_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_clicked();
 };
