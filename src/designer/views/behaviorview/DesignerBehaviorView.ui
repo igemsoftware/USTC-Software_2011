@@ -68,9 +68,6 @@
            <string>Max num of nodes</string>
           </property>
          </widget>
-         <zorder>pushButton</zorder>
-         <zorder>label_3</zorder>
-         <zorder>label</zorder>
         </widget>
        </item>
        <item row="0" column="1">
@@ -171,9 +168,6 @@
            <string>1</string>
           </property>
          </widget>
-         <zorder>lineEdit_timeDuration</zorder>
-         <zorder>lineEdit_maxConcentration</zorder>
-         <zorder>pushButton</zorder>
         </widget>
        </item>
        <item row="1" column="4">
@@ -207,7 +201,7 @@
        <string>ideal behavior</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
+       <item row="0" column="1">
         <widget class="QTabWidget" name="tabWidget_2">
          <property name="font">
           <font>
@@ -225,8 +219,8 @@
            <item row="0" column="0">
             <widget class="QTableWidget" name="tableWidget_behavior"/>
            </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pushButton_3">
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_ViewGraphic">
              <property name="text">
               <string>view graphic</string>
              </property>
@@ -239,11 +233,38 @@
            <string>coarse graphic</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0">
-            <widget class="QGraphicsView" name="graphicsView"/>
+           <item row="0" column="0" colspan="5">
+            <widget class="BehaviorViewPlotWidget" name="PlotWidget" native="true"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_Draw">
+             <property name="text">
+              <string>draw by hand</string>
+             </property>
+            </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="pushButton_Clear">
+             <property name="text">
+              <string>clear</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_5">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>set filter:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QComboBox" name="comboBox"/>
+           </item>
+           <item row="1" column="4">
+            <widget class="QPushButton" name="pushButton_ViewValue">
              <property name="text">
               <string>view value</string>
              </property>
@@ -259,6 +280,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BehaviorViewPlotWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">BehaviorViewPlotWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
