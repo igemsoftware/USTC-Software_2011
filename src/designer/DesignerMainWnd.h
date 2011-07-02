@@ -2,7 +2,8 @@
 #define DESIGNERMAINWND_H
 
 #include <QMainWindow>
-#include <DesignerViewItf.h>
+#include "DesignerDocItf.h"
+#include "DesignerViewItf.h"
 
 namespace Ui {
     class DesignerMainWnd;
@@ -17,6 +18,9 @@ public:
     ~DesignerMainWnd();
 
     void createView(QString viewName);
+    void openFileDialog(void);
+
+    void openFile(QString& fileName);
 
 protected:
     virtual void resizeEvent ( QResizeEvent * event );
@@ -25,16 +29,17 @@ protected:
 private:
     QWidget* welcomeDialog;
     DesignerViewItf* currentView;
+    DesignerDocItf* currentDoc;
 
 private:
     Ui::DesignerMainWnd *ui;
 
 private slots:
     void on_action_New_File_activated(int );
-
+    void on_action_Open_File_triggered();
 
 public:
-    static void globalCreateNewMainWnd();
+    static DesignerMainWnd* globalCreateNewMainWnd();
     static void globalUnregisterMainWnd(DesignerMainWnd*);
     static QList<DesignerMainWnd*> mainWnd_list;
 };

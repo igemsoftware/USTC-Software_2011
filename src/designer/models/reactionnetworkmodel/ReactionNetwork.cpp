@@ -1,7 +1,8 @@
 #include "ReactionNetwork.h"
 //#include "ReactionNetworkDataTypes.h"
 
-ProteinInteractionNetworkModel::ProteinInteractionNetworkModel(QObject *parent) :
+ReactionNetworkModel::ReactionNetworkModel(QObject *parent) :
     DesignerModelItf(parent)
 {
+
 }

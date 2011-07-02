@@ -16,11 +16,17 @@ public:
     enum extentValue
     {
         NOTACCEPTABLE = 0,
-        EXACTLY = 1,
-        PARTIALLY = 2,
-        INSUFFICIENTLY = 3,
-
+        INSUFFICIENTLY = 1,
+        EXCESSIVELY = 2,
+        EXACTLY = 3
     };
+    static bool fitIsBetterThan(extentValue a, extentValue b)
+    {
+        if(a!=NOTACCEPTABLE && b==NOTACCEPTABLE) return TRUE;
+        if(a==EXACTLY && b!=NOTACCEPTABLE) return TRUE;
+        if(a==EXCESSIVELY && b==INSUFFICIENTLY) return TRUE;
+        return FALSE;
+    }
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
     virtual bool loadFromFile(QFile& file) = 0;
@@ -29,6 +35,9 @@ public:
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
 
 
+public:
+
+    static QMetaObject* getFileFitsDocumentTypesStatus(QString pathName);
 
 
 signals:

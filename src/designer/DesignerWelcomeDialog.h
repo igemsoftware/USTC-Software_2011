@@ -26,6 +26,7 @@ private slots:
     void on_buttonCreateNetworkFile_clicked();
     void on_buttonCreateAssemblyFile_clicked();
     void on_buttonQuit_clicked();
+    void on_buttonOpenFile_clicked();
 };
 
 #endif // DESIGNERWELCOMEDIALOG_H

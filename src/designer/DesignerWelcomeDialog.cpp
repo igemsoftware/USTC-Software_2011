@@ -42,3 +42,11 @@ void WelcomeDialog::on_buttonCreateBehaviorFile_clicked()
         mainWnd->createView("BehaviorView");
     }
 }
+
+void WelcomeDialog::on_buttonOpenFile_clicked()
+{
+    if(mainWnd)
+    {
+        mainWnd->openFileDialog();
+    }
+}

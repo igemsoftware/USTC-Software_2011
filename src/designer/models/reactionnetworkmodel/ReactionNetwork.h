@@ -1,15 +1,15 @@
-#ifndef PROTEININTERACTIONNETWORKMODEL_H
-#define PROTEININTERACTIONNETWORKMODEL_H
+#ifndef REACTIONNETWORK_H
+#define REACTIONNETWORK_H
 
 #include <QObject>
 #include <QScriptEngine>
 #include "DesignerModelItf.h"
 
-class ProteinInteractionNetworkModel : public DesignerModelItf
+class ReactionNetworkModel : public DesignerModelItf
 {
     Q_OBJECT
 public:
-    explicit ProteinInteractionNetworkModel(QObject *parent = 0);
+    explicit ReactionNetworkModel(QObject *parent = 0);
 
 private:
     QScriptEngine modelEngine;
@@ -20,4 +20,4 @@ public slots:
 
 };
 
-#endif // PROTEININTERACTIONNETWORKMODEL_H
+#endif // REACTIONNETWORK_H

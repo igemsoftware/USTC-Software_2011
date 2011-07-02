@@ -1,7 +1,12 @@
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include "DesignerMainWnd.h"
 #include "ui_DesignerMainWnd.h"
 
 #include "DesignerWelcomeDialog.h"
+#include "DesignerDocItf.h"
+
 
 DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     QMainWindow(parent),
@@ -66,14 +71,49 @@ void DesignerMainWnd::createView(QString viewName)
     }
 }
 
+void DesignerMainWnd::openFileDialog()
+{
+    QFileDialog dlg(this, tr("Open File"));
+    if(dlg.exec())
+    {
+        openFile(dlg.selectedFiles().first());
+    }
+}
+
+void DesignerMainWnd::openFile(QString& fileName)
+{
+    QMetaObject* metaObject =
+            DesignerDocItf::getFileFitsDocumentTypesStatus(fileName);
+    if(!metaObject)
+    {
+        QMessageBox msgBox(QMessageBox::Critical,
+                           tr("Lachesis Designer"),
+                           tr("Cannot recognize the file yet."),
+                           QMessageBox::Ok,
+                           this);
+        msgBox.exec();
+        return;
+    }
+
+    DesignerMainWnd* pFrame = (currentDoc ? this : globalCreateNewMainWnd());
+    DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance(
+                Q_ARG(DesignerMainWnd*, pFrame));
+    if(pDoc)
+    {
+        QFile file(fileName);
+        pDoc->loadFromFile(file);
+    }
+}
+
 //Top level main window list.
 QList<DesignerMainWnd*> DesignerMainWnd::mainWnd_list;
 
-void DesignerMainWnd::globalCreateNewMainWnd()
+DesignerMainWnd* DesignerMainWnd::globalCreateNewMainWnd()
 {
     DesignerMainWnd* pFrame = new DesignerMainWnd();
     pFrame->show();
     mainWnd_list.append(pFrame);
+    return pFrame;
 }
 
 void DesignerMainWnd::globalUnregisterMainWnd(DesignerMainWnd* pFrame)
@@ -82,4 +122,9 @@ void DesignerMainWnd::globalUnregisterMainWnd(DesignerMainWnd* pFrame)
     {
         mainWnd_list.removeAll(pFrame);
     }
+}
+
+void DesignerMainWnd::on_action_Open_File_triggered()
+{
+    openFileDialog();
 }

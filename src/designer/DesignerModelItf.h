@@ -9,6 +9,8 @@ class DesignerModelItf : public QObject
 public:
     explicit DesignerModelItf(QObject *parent = 0);
 
+    static DesignerModelItf* createModel(QString& modelName);
+
 signals:
 
 public slots:

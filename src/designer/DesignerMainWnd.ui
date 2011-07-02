@@ -14,9 +14,13 @@
    <string>DesignerMainWnd</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(32, 65, 98);</string>
+   <string notr="true"/>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(32, 65, 98);</string>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -34,6 +38,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="action_New_File"/>
+    <addaction name="action_Open_File"/>
     <addaction name="separator"/>
     <addaction name="action_Save"/>
     <addaction name="actionSave_as"/>
@@ -156,6 +161,11 @@
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About Qt...</string>
+   </property>
+  </action>
+  <action name="action_Open_File">
+   <property name="text">
+    <string>&amp;Open File...</string>
    </property>
   </action>
  </widget>
