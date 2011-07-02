@@ -11,7 +11,7 @@ static QMetaObject metaObjectsOfViews[] = {
 };
 
 DesignerViewItf* DesignerViewItf::createView
-        (QString& viewName, QWidget* centralWidget)
+        (QString viewName, QWidget* centralWidget)
 {
     for(size_t i = 0 ; i < (sizeof(metaObjectsOfViews)/sizeof(metaObjectsOfViews[0])); i++ )
     {

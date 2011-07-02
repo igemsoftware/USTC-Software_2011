@@ -16,7 +16,7 @@ protected:
 
 
 public:
-    static DesignerViewItf* createView(QString&, QWidget*);
+    static DesignerViewItf* createView(QString, QWidget*);
 };
 
 #endif // DESIGNERVIEWITF_H

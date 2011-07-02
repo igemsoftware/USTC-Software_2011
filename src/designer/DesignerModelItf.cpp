@@ -13,7 +13,7 @@ DesignerModelItf::DesignerModelItf(QObject *parent) :
 }
 
 DesignerModelItf* DesignerModelItf::createModel
-        (QString& modelName)
+        (QString modelName)
 {
     for(size_t i = 0 ; i < (sizeof(metaObjectsOfModels)/sizeof(metaObjectsOfModels[0])); i++ )
     {
