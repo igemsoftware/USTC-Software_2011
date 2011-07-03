@@ -102,3 +102,5 @@ FORMS    += \
 
 RESOURCES += \
     resources/DesignerResources.qrc
+
+INCLUDEPATH += views/behaviorview
