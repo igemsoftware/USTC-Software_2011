@@ -19,11 +19,13 @@ AssemblyItemCompartment::~AssemblyItemCompartment()
 
 bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 ) ) && !childrenMap.contains( child->getName() ) )
+    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 && child->boundingRect().width()*child->boundingRect().height() < 0.5*boundingRect().width()*boundingRect().height()  ) ) && !childrenMap.contains( child->getName() ) )
     {
-        childrenMap.insert( child->getName() , child );
-        AssemblyItemBase::addChild( scenePos , child );
-        return true;
+        if( AssemblyItemBase::addChild( scenePos , child ) )
+        {
+            childrenMap.insert( child->getName() , child );
+            return true;
+        }
     }
     return false;
 }

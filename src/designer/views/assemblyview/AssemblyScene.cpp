@@ -140,7 +140,7 @@ void AssemblyScene::removeItem( AssemblyItemBase * item )
 
 bool AssemblyScene::addItem(AssemblyItemBase *item)
 {
-    QGraphicsScene::addItem(item);
+    if( item->scene() != this ) QGraphicsScene::addItem(item);
     QList<QGraphicsItem*> candidates = collidingItems( item );
     foreach( QGraphicsItem * candidate , candidates )
     {
@@ -152,7 +152,6 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
     }
     if( dynamic_cast<AssemblyItemCompartment*>(item) )
     {
-        QGraphicsScene::addItem(item);
         if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
         return true;
     }

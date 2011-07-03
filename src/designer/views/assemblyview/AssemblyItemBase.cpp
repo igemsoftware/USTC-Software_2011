@@ -40,6 +40,7 @@ QList<AssemblyItemBase*> AssemblyItemBase::getChildren(){ QList<AssemblyItemBase
 
 bool AssemblyItemBase::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
+    if( child->isAncestorOf(this) ) return false;
     child->setParentItem(this);
     child->setPos( mapFromScene(scenePos) );
     return true;
@@ -66,17 +67,18 @@ void AssemblyItemBase::loseSelection( QList<QGraphicsItem*> newSelectedItems )
 
 void AssemblyItemBase::resize( qreal newWidth , qreal newHeight )
 {
+    if( newWidth < originalNormalImage.width()*0.1 || newHeight < originalNormalImage.width()*0.1 )
+    {
+        if( scene() ) scene()->clearSelection();
+        if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
+        return;
+    }
     normalImage = originalNormalImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
     selectedImage = originalSelectedImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
     if( selected )
         setPixmap(selectedImage);
     else
         setPixmap(normalImage);
-
-    /*qreal sx = newWidth/boundingRect().width();
-    qreal sy = newHeight/boundingRect().height();
-    scale(1,1);
-    scale( sx , sy );*/
     if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
     QRectF bound = mapRectToScene(boundingRect());
     foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->boundingRect());

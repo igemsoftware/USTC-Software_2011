@@ -31,6 +31,7 @@ SOURCES +=\
     views/networkview/NetworkViewGraphicsSceneLabel.cpp \
     views/assemblyview/AssemblyItemBase.cpp \
     views/assemblyview/AssemblyItemPart.cpp \
+    views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
     documents/SBML/SBMLDocXmlHandler.cpp
 
@@ -55,6 +56,7 @@ HEADERS  += DesignerMainWnd.h \
     models/reactionnetworkmodel/ReactionNetworkDataTypes.h \
     models/reactionnetworkmodel/ReactionNetwork.h \
     views/assemblyview/AssemblyItemPart.h \
+    views/behaviorview/BehaviorViewPlotWidget.h \
     documents/SBML/SBMLDoc.h \
     documents/SBML/SBMLDocXmlHandler.h
 

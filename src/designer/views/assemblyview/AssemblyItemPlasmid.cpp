@@ -23,7 +23,7 @@ QList<AssemblyItemBase*> AssemblyItemPlasmid::getChildren()
 
 bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    if( ! dynamic_cast<AssemblyItemPart*>(child) ) return false;
+    if( ! dynamic_cast<AssemblyItemPart*>(child) || ! AssemblyItemBase::addChild( scenePos , child ) ) return false;
 
     scenePos = mapFromScene(scenePos);
     qreal len = scenePos.x() + ASSEMBLY_ITEM_BRICK_WIDTH/2;
@@ -31,7 +31,7 @@ bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child 
     if( index < 0 ) len = 0;
     if( index > childrenList.count() ) len = childrenList.count();
     childrenList.insert( index , child );
-    AssemblyItemBase::addChild( scenePos , child );
+
 
     arrangeChild();
     return true;
