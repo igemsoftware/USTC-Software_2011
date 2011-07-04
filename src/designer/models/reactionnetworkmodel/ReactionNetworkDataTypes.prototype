@@ -1,6 +1,7 @@
 [DESCRIPTION]
 
 Reaction:
+   symbol     name;
    bool       reversible;
    symbollist reactants;
    symbollist modifiers;
@@ -9,22 +10,26 @@ Reaction:
 end
 
 Compartment:
+   symbol       name     instance;
    precisevalue size     instance;
    valuelist    contains instance;
 end
 
 Species:
+   symbol       name          instacne;
    symbol       compartment   instance;
    precisevalue initialamount instance;
    valuelist    structure     instance;
 end
 
 Chain:
+   symbol       name          instance;
    symbol       type          instance;
    valuelist    structure     instance;
 end
 
 Part:
+   symbol       name;
    symbol       type;
    valuelist    structure;
 #  ???          ctg;
