@@ -40,8 +40,8 @@ QMetaObject* DesignerDocItf::getFileFitsDocumentTypesStatus(QString pathName)
 }
 
 
-DesignerDocItf::DesignerDocItf(QObject *parent) :
-    QObject(parent)
+DesignerDocItf::DesignerDocItf(DesignerMainWnd *parent) :
+    QObject((QObject*)parent)
 {
 
 }

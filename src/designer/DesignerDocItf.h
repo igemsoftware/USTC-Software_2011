@@ -6,11 +6,13 @@
 #include <QObject>
 #include <QFile>
 
+class DesignerMainWnd;
+
 class DesignerDocItf : public QObject
 {
     Q_OBJECT
 public:
-    explicit DesignerDocItf(QObject *parent = 0);
+    explicit DesignerDocItf(DesignerMainWnd *parent = 0);
 
 public:
     enum extentValue

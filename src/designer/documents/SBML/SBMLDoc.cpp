@@ -1,12 +1,14 @@
 #include <QtXml>
 #include <QtScript>
 
-#include "SBMLDoc.h"
-#include "SBMLDocXmlHandler.h"
-
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
+#include "models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h"
 
-SBMLDoc::SBMLDoc(QObject *parent) :
+#include "SBMLDoc.h"
+#include "SBMLDocParser.h"
+
+
+SBMLDoc::SBMLDoc(DesignerMainWnd *parent) :
     DesignerDocItf(parent),
     currentModel(NULL)
 {
@@ -55,15 +57,20 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetwork"));
-
-
-
-
+    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"));
+    if(!currentModel)
+        return false;
 
     QDomElement domDocElem = domdoc.documentElement();
-    if(domDocElem.nodeName()==tr("sbml"))
-        ;
+    if(domDocElem.nodeName()!="sbml")
+    {
+        currentModel->deleteLater();
+        currentModel=NULL;
+        return false;
+    }
+
+    SBMLDocParser parser;
+    parser.parse(*currentModel, domDocElem);
 
 
     //qScriptValueFromSequence
