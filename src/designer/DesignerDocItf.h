@@ -31,8 +31,11 @@ public:
     }
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
+
     virtual bool loadFromFile(QFile& file) = 0;
     virtual bool saveToFile(QFile& file) = 0;
+
+    virtual QList<QString> getSupportedViewList() const = 0;
 
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
 

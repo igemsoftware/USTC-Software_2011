@@ -70,27 +70,23 @@ bool SBMLDoc::loadFromFile(QFile& file)
     }
 
     SBMLDocParser parser;
-    parser.parse(*currentModel, domDocElem);
 
 
-    //qScriptValueFromSequence
-/*
-    QXmlInputSource inputSource(&file);
-
-    QXmlSimpleReader reader;
-
-    SBMLDocXmlHandler handler;
-    reader.setContentHandler(&handler);
-
-    reader.parse(&inputSource);
-*/
-
-    return false;
+    return parser.parse(*currentModel, domDocElem);
 }
 
 bool SBMLDoc::saveToFile(QFile& file)
 {
     return false;
+}
+
+QList<QString> SBMLDoc::getSupportedViewList() const
+{
+    QList<QString> supportedViewList;
+    supportedViewList.append("AssemblyView");
+    supportedViewList.append("NetworkView");
+    supportedViewList.append("BehaviorView");
+    return supportedViewList;
 }
 
 SBMLDoc::extentValue SBMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)

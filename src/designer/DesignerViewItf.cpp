@@ -10,6 +10,12 @@ static QMetaObject metaObjectsOfViews[] = {
     BehaviorView::staticMetaObject,
 };
 
+static QString     titlesOfViews[] = {
+    QObject::tr("Assembly View"),
+    QObject::tr("Network View"),
+    QObject::tr("Behavior View"),
+};
+
 DesignerViewItf* DesignerViewItf::createView
         (QString viewName, QWidget* centralWidget)
 {
@@ -21,4 +27,23 @@ DesignerViewItf* DesignerViewItf::createView
         }
     }
     return NULL;
+}
+
+QString DesignerViewItf::getViewTitleByName(QString name)
+{
+    for(size_t i = 0 ; i < (sizeof(metaObjectsOfViews)/sizeof(metaObjectsOfViews[0])); i++ )
+    {
+        if(name==metaObjectsOfViews[i].className())
+        {
+            return titlesOfViews[i];
+        }
+    }
+    return name;
+}
+
+QString DesignerViewItf::getViewTitleByIndex(int index)
+{
+    if(index>=0 && index < (int)(sizeof(metaObjectsOfViews)/sizeof(metaObjectsOfViews[0])))
+        return titlesOfViews[index];
+    return "";
 }

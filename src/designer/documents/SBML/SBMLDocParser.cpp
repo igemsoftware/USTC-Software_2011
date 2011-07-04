@@ -26,5 +26,5 @@ bool SBMLDocParser::parse(DesignerModelItf& modelItf, QDomElement& docElem)
         DesignerModelItf::modelObjectIndex index = importProxy->createModelObject(0, &SBMLModelElem);
 
     }
-    return false;
+    return true;
 }

@@ -5,6 +5,7 @@
 #include "ui_DesignerMainWnd.h"
 
 #include "DesignerWelcomeDialog.h"
+#include "DesignerChooseViewDialog.h"
 #include "DesignerDocItf.h"
 
 
@@ -16,6 +17,7 @@ DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     if((welcomeDialog = new WelcomeDialog(centralWidget(), this)))
         welcomeDialog->show();
     currentView = NULL;
+    currentDoc = NULL;
 }
 
 DesignerMainWnd::~DesignerMainWnd()
@@ -95,14 +97,62 @@ void DesignerMainWnd::openFile(QString& fileName)
         return;
     }
 
-    DesignerMainWnd* pFrame = (currentDoc ? this : globalCreateNewMainWnd());
+    DesignerMainWnd* pFrame = (currentDoc ? globalCreateNewMainWnd() : this);
     DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance(
                 Q_ARG(DesignerMainWnd*, pFrame));
-    if(pDoc)
+    if(!pDoc)
     {
-        QFile file(fileName);
-        pDoc->loadFromFile(file);
+        QMessageBox msgBox(QMessageBox::Critical,
+                           tr("Lachesis Designer"),
+                           tr("We encountered an error."),
+                           QMessageBox::Ok,
+                           pFrame);
+        pFrame->deleteLater();
+        pDoc->deleteLater();
+        return;
     }
+
+    QFile file(fileName);
+    if(!pDoc->loadFromFile(file))
+    {
+        file.close();
+        QMessageBox msgBox(QMessageBox::Critical,
+                           tr("Lachesis Designer"),
+                           tr("We encountered an error."),
+                           QMessageBox::Ok,
+                           pFrame);
+        pFrame->deleteLater();
+        return;
+    }
+    file.close();
+
+    QList<QString> viewList = pDoc->getSupportedViewList();
+    QString viewName;
+    if(viewList.count()==0)
+    {
+        QMessageBox msgBox(QMessageBox::Critical,
+                           tr("Lachesis Designer"),
+                           tr("This file format seems supported, while there's no way to display it. "),
+                           QMessageBox::Ok,
+                           pFrame);
+        msgBox.exec();
+        return;
+    }
+    else if(viewList.count()==1)
+    {
+        viewName = viewList[0];
+    }
+    else
+    {
+        ChooseViewDialog chooseViewdlg(pFrame, viewList);
+        if(chooseViewdlg.exec()==QDialog::Accepted)
+        {
+            viewName=viewList[chooseViewdlg.getChoosenViewIndex()];
+        }
+    }
+
+    pFrame->currentDoc = pDoc;
+    pFrame->createView(viewName);
 }
 
 //Top level main window list.

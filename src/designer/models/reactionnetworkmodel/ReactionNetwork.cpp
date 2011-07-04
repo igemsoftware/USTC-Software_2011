@@ -14,7 +14,7 @@ DesignerModelFormatProxyItf* ReactionNetworkModel::createImportProxy(QString pro
         if(proxyFormat==metaObjectsOfImporters[i].className())
         {
             return dynamic_cast<DesignerModelFormatProxyItf*>
-                    (metaObjectsOfImporters[i].newInstance(Q_ARG(DesignerModelItf*, this)));
+                    (metaObjectsOfImporters[i].newInstance(Q_ARG(ReactionNetworkModel*, this)));
         }
     }
 

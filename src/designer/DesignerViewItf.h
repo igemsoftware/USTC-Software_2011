@@ -17,6 +17,10 @@ protected:
 
 public:
     static DesignerViewItf* createView(QString, QWidget*);
+
+    static QString getViewTitleByName(QString name);
+    static QString getViewTitleByIndex(int index);
+
 };
 
 #endif // DESIGNERVIEWITF_H
