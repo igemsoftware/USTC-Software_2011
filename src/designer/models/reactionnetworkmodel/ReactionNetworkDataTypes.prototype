@@ -1,12 +1,13 @@
 [DESCRIPTION]
 
 %Types%
-    symbol
-    symbollist
-    valuelist
-    mathexpr
-    mathsegexpr
-    predicate
+    symbol;
+    symbollist;
+    valuelist;
+    mathexpr;
+    mathsegexpr;
+    predicate;
+    precisevalue;
 end
 
 Reaction:

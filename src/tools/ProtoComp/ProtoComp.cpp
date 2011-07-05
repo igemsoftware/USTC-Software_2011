@@ -82,6 +82,7 @@ string result_type_name_to_cpp(string model_type)
 }
 
 string namespaceName;
+vector<string> typeList;
 vector<string> classList;
 
 
@@ -113,7 +114,18 @@ void parse_definitions(istream& _input, ostream& _output)
     string typeName,typeDest,typeEdit;
     while((_input>>typeName)&&(typeName!="end"))
     {
-      _output<<"\tusing lachesis::" <<typeName<<"_t;"<<endl;
+        if(endWith(typeName,";"))
+        {
+            typeName = typeName.substr(0, typeName.length()-1);
+            _input.putback(';');
+        }
+        typeList.push_back(typeName);
+        _output<<"\tusing lachesis::" <<typeName<<"_t;"<<endl;
+
+      while((_input>>typeName)&&(typeName!=";"))
+      {
+          throw(6);
+      }
     }
     getline(_input, typeName);
     return;
@@ -221,26 +233,26 @@ void parse_definitions(istream& _input, ostream& _output)
       }  
       _output<<"\t\t}"<<endl;
 
-      _output<<"\t\t/*"<<endl;
+//      _output<<"\t\t/*"<<endl;
 
       _output<<"\t\tinline static const QList<PropertyDescriptor> listProperty()"<<endl;
       _output<<"\t\t{"<<endl;
       _output<<"\t\t\tQList<PropertyDescriptor> propertyList;"<<endl;
+
       for( int i = 0 ; i < curindex ; i++ )
 	  {
-		_output<<"\t\t\tpropertyList.push_back( PropertyDescriptor( \""<<fields[i][1]<<"\" , QVariant::"<<((fields[i][0]=="bool")?"Bool":fields[i][0])<<" ) );"<<endl;
+        _output<<"\t\t\tpropertyList.push_back( PropertyDescriptor( \""<<fields[i][1]<<"\" , "<<
+                 "(QVariant::Type)type"<<fields[i][0]<<"ID ) );"<<endl;
 	  }
       _output<<"\t\t\treturn propertyList;"<<endl;
       _output<<"\t\t}"<<endl;
 
-      _output<<"\t\t*/"<<endl;
+//      _output<<"\t\t*/"<<endl;
 
       _output<<"\t};"<<endl;
       
 	  
-	  
-//      _output<<"\tQ_DECLARE_METATYPE("<<classname<<");"<<endl;
-      
+
     }
     else
     {
@@ -302,6 +314,7 @@ int parse(const char* _inputfile, const char* _outputfile)
   }
   
 
+  ostringstream declarationsstream;
   while(!fin.eof())
   {
     ostringstream oss;
@@ -310,20 +323,48 @@ int parse(const char* _inputfile, const char* _outputfile)
     {
       parse_definitions(fin,oss);
 
-      fout<<oss.str()<<endl;
+
+
+
+      declarationsstream<<oss.str()<<endl;
       
     }
     catch(...)
     {
-      fout<<endl;      
-      fout<<"// **************************************************"<<endl;
-      fout<<"//   There was an error in the prototype file."<<endl;
-      fout<<"//   So we lost the lines here."<<endl;
-      fout<<"// **************************************************"<<endl;
-      fout<<endl;
+      declarationsstream<<endl;
+      declarationsstream<<"// **************************************************"<<endl;
+      declarationsstream<<"//   There was an error in the prototype file."<<endl;
+      declarationsstream<<"//   So we lost the lines here."<<endl;
+      declarationsstream<<"// **************************************************"<<endl;
+      declarationsstream<<endl;
     }
   }  
   
+  //generate type-ids
+  fout<<"// Now generate IDs for types. "<<endl
+      <<"// Note this ID is unique in model-wide. Do not use it globally."<<endl;
+
+  if(typeList.size()||classList.size())
+  {
+      fout<<"\t"<<"enum typeIDs"<<endl<<"\t"<<"{"<<endl;
+
+      for(size_t i = 0; i< typeList.size();i++)
+      {
+          fout<<"\t\t"<<"type"<<typeList[i]<<"ID = "<<"QVariant::UserType"<<"+" <<(i)<<","<<endl;
+      }
+
+      for(size_t i = 0; i< classList.size();i++)
+      {
+          fout<<"\t\t"<<"class"<<classList[i]<<"ID = "<<"QVariant::UserType"<<"+" <<(typeList.size()+i)<<","<<endl;
+      }
+      fout<<"\t\tclassUnknownID"<<endl;
+      fout<<"\t"<<"};"<<endl;
+  }
+
+
+
+  fout<<declarationsstream.str()<<endl;
+
   //namespace end
   {
     fout<<"}"<<endl;
@@ -332,7 +373,7 @@ int parse(const char* _inputfile, const char* _outputfile)
   //declare METATYPES;
 
   for(size_t i = 0; i< classList.size();i++)
-    fout<<"\tQ_DECLARE_METATYPE("<<namespaceName<<"::"<<classList[i]<<");"<<endl;
+    fout<<"Q_DECLARE_METATYPE("<<namespaceName<<"::"<<classList[i]<<")"<<endl;
 
   //footer
   {

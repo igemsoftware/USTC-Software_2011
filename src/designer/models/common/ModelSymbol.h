@@ -32,11 +32,10 @@ QScriptValue convertModelTypeToScriptValue(QScriptEngine* engine, QList<R>& valu
     return qScriptValueFromSequence(engine, value);
 }
 
-
-
 struct PropertyDescriptor
 {
-        PropertyDescriptor( QString newProperty , QVariant::Type newType ) : property(newProperty) , type(newType) {}
+        PropertyDescriptor( QString newProperty , QVariant::Type newType )
+            : property(newProperty) , type(newType) {}
         QString property;
         QVariant::Type type;
 };
