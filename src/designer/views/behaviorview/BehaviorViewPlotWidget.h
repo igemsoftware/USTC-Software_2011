@@ -2,6 +2,7 @@
 #define BEHAVIORVIEWPLOTWIDGET_H
 
 #include <QtGui>
+#include <QVector>
 
 class BehaviorViewPlotWidget : public QWidget
 {
@@ -9,12 +10,20 @@ class BehaviorViewPlotWidget : public QWidget
 public:
     explicit BehaviorViewPlotWidget(QWidget *parent = 0);
     bool drawable;
-    double x;
+    int node;
+    double x;    
     double deltax;
     double maxy;
+    double maxx;
+    QVector<QPoint> *vc;
     QColor myPenColor;
+    QTableWidget *tab_1,*tab_2;
+    QComboBox *cb;
+
     void setPenColor(const QColor &newColor);
     void setPenWidth(int newWidth);
+    void PlotFromValue();
+    void ValueFromPlot();
 public slots:
     void clearImage();
 
