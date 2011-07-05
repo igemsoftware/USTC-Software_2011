@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::BehaviorView *ui;
-    bool defined;
+    bool defined,initiated;
 
 private slots:    
     void on_pushButton_ViewValue_clicked();

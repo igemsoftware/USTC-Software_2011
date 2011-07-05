@@ -8,6 +8,7 @@ BehaviorView::BehaviorView(QWidget *parent) :
 {
     ui->setupUi(this);
     this->defined=false;
+    this->initiated=false;
 }
 
 BehaviorView::~BehaviorView()
@@ -43,6 +44,7 @@ void BehaviorView::on_pushButton_clicked()
         ui->tableWidget_define->setCurrentCell(0, 0);
         ui->tableWidget_define->setSelectionMode(QTableView::ContiguousSelection);
         ui->comboBox->clear();
+        this->initiated=true;
         }
     catch(...){
       QMessageBox mb;
@@ -55,7 +57,7 @@ void BehaviorView::on_pushButton_2_clicked()
 {
 
   //initiate tabwidget
-  if(!this->defined)
+  if(!this->defined&&this->initiated)
   try
   {
       double timeDuration=ui->lineEdit_timeDuration->text().toDouble();
@@ -107,23 +109,26 @@ void BehaviorView::on_pushButton_ViewGraphic_clicked()
 }
 void BehaviorView::on_pushButton_Draw_clicked()
 {
-    if(!ui->PlotWidget->drawable)
-    {        
-        if(ui->comboBox->itemText(ui->comboBox->count()-1)=="all")
-        {
-            ui->comboBox->removeItem(ui->comboBox->count()-1);
-        }
-        ui->comboBox->setCurrentIndex(0);
-        ui->pushButton_Draw->setDown(true);
-    }
-    if(ui->PlotWidget->drawable)
+    if(this->defined)
     {
-        ui->comboBox->addItem("all");
-        ui->comboBox->setCurrentIndex(0);
-        ui->pushButton_Draw->setDown(false);
+        if(!ui->PlotWidget->drawable)
+        {
+            if(ui->comboBox->itemText(ui->comboBox->count()-1)=="all")
+            {
+                ui->comboBox->removeItem(ui->comboBox->count()-1);
+            }
+            ui->comboBox->setCurrentIndex(0);
+            ui->pushButton_Draw->setDown(true);
+        }
+        if(ui->PlotWidget->drawable)
+        {
+            ui->comboBox->addItem("all");
+            ui->comboBox->setCurrentIndex(0);
+            ui->pushButton_Draw->setDown(false);
+        }
+        ui->PlotWidget->drawable=!ui->PlotWidget->drawable;
+        ui->PlotWidget->clearImage();
     }
-    ui->PlotWidget->drawable=!ui->PlotWidget->drawable;
-    ui->PlotWidget->clearImage();
 }
 
 void BehaviorView::on_pushButton_Clear_clicked()
