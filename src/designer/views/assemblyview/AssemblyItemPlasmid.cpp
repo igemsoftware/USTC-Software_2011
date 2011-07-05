@@ -4,8 +4,8 @@
 
 const char * AssemblyItemPlasmid::MimeFormat = "lachesis/AssemblyItemPlasmid";
 
-AssemblyItemPlasmid::AssemblyItemPlasmid( QString newName , QGraphicsItem *parent ) :
-    AssemblyItemBase( newName , QObject::tr(":/designer/assemblyview/plasmid_normal.png") , QObject::tr(":/designer/assemblyview/plasmid_selected.png") , parent )
+AssemblyItemPlasmid::AssemblyItemPlasmid( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
+    AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/plasmid_normal.png") , QObject::tr(":/designer/assemblyview/plasmid_selected.png") , parent )
 {
 }
 
@@ -42,6 +42,16 @@ void AssemblyItemPlasmid::removeChild( AssemblyItemBase * child )
     childrenList.removeAll(child);
     AssemblyItemBase::removeChild(child);
     arrangeChild();
+}
+
+void AssemblyItemPlasmid::refreshScriptValue()
+{
+    QScriptValueList list;
+    foreach( AssemblyItemBase * item , getChildren() )
+    {
+        list.push_back(item->getScriptValue());
+    }
+    //scriptValue.setProperty( "contains" , list );
 }
 
 void AssemblyItemPlasmid::arrangeChild()

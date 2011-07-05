@@ -9,6 +9,14 @@
 #include <QMap>
 #include <QList>
 #include <QGraphicsScene>
+#include <QScriptEngine>
+#include <QScriptValue>
+
+namespace AssemblyViewNameSpace
+{
+    extern QScriptEngine * engine;
+}
+using namespace AssemblyViewNameSpace;
 
 #include <views/assemblyview/AssemblyCreateAndDrag.h>
 

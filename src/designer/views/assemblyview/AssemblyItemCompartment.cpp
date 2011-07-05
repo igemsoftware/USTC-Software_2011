@@ -4,8 +4,8 @@
 const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompartment";
 
 
-AssemblyItemCompartment::AssemblyItemCompartment( QString  newName , QGraphicsItem *parent ) :
-    AssemblyItemBase( newName , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
+AssemblyItemCompartment::AssemblyItemCompartment( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
+    AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
     setResizable(true);
 }
@@ -43,6 +43,16 @@ void AssemblyItemCompartment::removeChild( AssemblyItemBase * child )
         }
     }
     AssemblyItemBase::removeChild( child );
+}
+
+void AssemblyItemCompartment::refreshScriptValue()
+{
+    QScriptValueList list;
+    foreach( AssemblyItemBase * item , getChildren() )
+    {
+        list.push_back(item->getScriptValue());
+    }
+    //scriptValue.setProperty( "contains" , list );
 }
 
 QList<AssemblyItemBase*> AssemblyItemCompartment::getChildren()

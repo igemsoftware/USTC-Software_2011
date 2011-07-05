@@ -11,13 +11,13 @@ public:
     static const char * MimeFormat;
 
 
-    explicit AssemblyItemCompartment( QString newName , QGraphicsItem *parent = 0 );
+    explicit AssemblyItemCompartment( QScriptValue & newScriptValue , QGraphicsItem *parent = 0 );
     virtual ~AssemblyItemCompartment();
 
     virtual QList<AssemblyItemBase*> getChildren();
     virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
     virtual void removeChild( AssemblyItemBase * child );
-
+    virtual void refreshScriptValue();
 
 protected:
 

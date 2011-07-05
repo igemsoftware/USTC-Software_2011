@@ -2,13 +2,13 @@
 #include "AssemblyScene.h"
 #include <QGraphicsSceneMouseEvent>
 
-AssemblyItemBase::AssemblyItemBase( QString newName , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
+AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
     QGraphicsPixmapItem( parent )
 {
     resizable = false;
     moving = false;
     sizer = 0;
-    name = newName;
+    scriptValue = newScriptValue;
     normalImage.load( normalImagePath );
     originalNormalImage.load(normalImagePath);
     selectedImage.load( selectedImagePath );
@@ -18,7 +18,7 @@ AssemblyItemBase::AssemblyItemBase( QString newName , QString normalImagePath , 
     setFlag( QGraphicsItem::ItemIsSelectable );
     setFlag( QGraphicsItem::ItemIsMovable );
 
-    displayName = new QGraphicsTextItem( name , this );
+    displayName = new QGraphicsTextItem( getName() , this );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
     foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->boundingRect());
@@ -33,8 +33,11 @@ AssemblyItemBase::~AssemblyItemBase()
     if( scene() ) dynamic_cast<AssemblyScene*>(scene())->removeItem(this);
 }
 
-QString AssemblyItemBase::getName(){ return name; }
-void AssemblyItemBase::setName(QString newName){ name = newName; }
+QString AssemblyItemBase::getName(){ return scriptValue.property("name").toString(); }
+void AssemblyItemBase::setName(QString newName){ scriptValue.setProperty("name",QScriptValue(newName) ); }
+QScriptValue AssemblyItemBase::getScriptValue(){ return scriptValue; }
+void AssemblyItemBase::setScriptValue( QScriptValue & newScriptValue ){ scriptValue = newScriptValue; }
+
 
 QList<AssemblyItemBase*> AssemblyItemBase::getChildren(){ QList<AssemblyItemBase*> nothing; return nothing; }
 
@@ -43,12 +46,18 @@ bool AssemblyItemBase::addChild( QPointF scenePos , AssemblyItemBase * child )
     if( child->isAncestorOf(this) ) return false;
     child->setParentItem(this);
     child->setPos( mapFromScene(scenePos) );
+    refreshScriptValue();
     return true;
 }
 
 void AssemblyItemBase::removeChild( AssemblyItemBase *child )
 {
     child->setParentItem(0);
+    refreshScriptValue();
+}
+
+void AssemblyItemBase::refreshScriptValue()
+{
 }
 
 void AssemblyItemBase::getSelection()
@@ -131,7 +140,7 @@ void AssemblyItemBase::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 
 AssemblyItemSizer::AssemblyItemSizer(QGraphicsItem *parent) :
-    AssemblyItemBase( QObject::tr("") , QObject::tr(":/designer/assemblyview/sizer_normal.png") , QObject::tr(":/designer/assemblyview/sizer_selected.png") , parent )
+    AssemblyItemBase( scriptValue , QObject::tr(":/designer/assemblyview/sizer_normal.png") , QObject::tr(":/designer/assemblyview/sizer_selected.png") , parent )
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
     hide();

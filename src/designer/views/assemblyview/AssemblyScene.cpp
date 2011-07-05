@@ -48,7 +48,9 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     if( event->mimeData()->hasFormat( AssemblyItemCompartment::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemCompartment::MimeFormat );
-        QString itemName = QString::fromUtf8( itemData.data() );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+        QString itemName = scriptValue->property("name").toString();
         QString stri;
         for( int i = 1 ; ; i++ )
         {
@@ -56,11 +58,14 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
             if( ! childrenMap.contains(itemName+stri) ) break;
         }
         itemName += stri;
-        item = new AssemblyItemCompartment( itemName );
+        scriptValue->setProperty("name", QScriptValue(itemName) );
+        item = new AssemblyItemCompartment( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
-        QString itemName = QString::fromUtf8( itemData.data() );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+        QString itemName = scriptValue->property("name").toString();
         QString stri;
         for( int i = 1 ; ; i++ )
         {
@@ -68,12 +73,14 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
             if( ! childrenMap.contains(itemName+stri) ) break;
         }
         itemName += stri;
-        item = new AssemblyItemPlasmid( itemName );
+        scriptValue->setProperty("name", QScriptValue(itemName) );
+        item = new AssemblyItemPlasmid( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemPart::MimeFormat );
-        QString itemName = QString::fromUtf8( itemData.data() );
-        item = new AssemblyItemPart( itemName );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+        item = new AssemblyItemPart( *scriptValue );
     }else{
         QGraphicsScene::dropEvent(event);
         return;
