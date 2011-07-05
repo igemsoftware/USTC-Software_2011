@@ -11,7 +11,7 @@ public:
     static const char * MimeFormat;
 
 
-    explicit AssemblyItemPart( QString setName , QGraphicsItem *parent = 0 );
+    explicit AssemblyItemPart( QScriptValue & newScriptValue , QGraphicsItem *parent = 0 );
     virtual ~AssemblyItemPart();
 
     virtual bool addChild(QPointF scenePos, AssemblyItemBase *child);

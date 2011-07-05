@@ -13,6 +13,9 @@
 #include "AssemblyItemCompartment.h"
 #include "AssemblyItemPlasmid.h"
 #include "AssemblyScene.h"
+#include "AssemblyLib.h"
+#include "AssemblyPropertyWidget.h"
+#include "AssemblySearchWidget.h"
 
 namespace Ui {
     class AssemblyView;
@@ -33,6 +36,8 @@ private:
     QTabWidget * toolBox;
     QGraphicsView * mainView;
     AssemblyScene * mainScene;
+    AssemblyPropertyWidget * propertyWidget;
+    AssemblySearchWidget * searchWidget;
 };
 
 #endif // DESIGNERASSEMBLYVIEW_H

@@ -15,12 +15,13 @@ public:
     static const char * MimeFormat;
 
 
-    explicit AssemblyItemPlasmid( QString newName , QGraphicsItem *parent = 0 );
+    explicit AssemblyItemPlasmid( QScriptValue & newScriptValue , QGraphicsItem *parent = 0 );
     virtual ~AssemblyItemPlasmid();
 
     virtual QList<AssemblyItemBase*> getChildren();
     virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
     virtual void removeChild( AssemblyItemBase * child );
+    virtual void refreshScriptValue();
 
     void arrangeChild();
 

@@ -1,12 +1,13 @@
 #include "BehaviorViewPlotWidget.h"
-#include <QtGui>
 
 BehaviorViewPlotWidget::BehaviorViewPlotWidget(QWidget *parent) :
     QWidget(parent)
 {
     this->drawable=false;
+    this->maxy=0;
     this->myPenWidth=1;
     this->myPenColor=Qt::red;
+    this->vc=new QVector<QPoint>();
 }
 void BehaviorViewPlotWidget::setPenColor(const QColor &newColor)
 {
@@ -27,7 +28,7 @@ void BehaviorViewPlotWidget::clearImage()
 
 void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && this->drawable && event->x()>20 && event->y()<(this->size().height()-10)) {
+    if (event->button() == Qt::LeftButton && this->drawable && event->x()>30 && event->y()<(this->size().height()-10)) {
         lastPoint = event->pos();
         scribbling = true;
     }
@@ -35,13 +36,17 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>20 && event->y()<(this->size().height()-10))
+    if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
+    if (this->drawable && (event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxx)==0)
+    {
+        vc->append(event->pos());
+    }
 }
 
 void BehaviorViewPlotWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && scribbling && this->drawable && event->x()>20 && event->y()<(this->size().height()-10)) {
+    if (event->button() == Qt::LeftButton && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10)) {
         drawLineTo(event->pos());
         scribbling = false;
     }
@@ -56,14 +61,14 @@ void BehaviorViewPlotWidget::paintEvent(QPaintEvent *event)
         int width=this->size().width();
         int height=this->size().height();
         painter.drawImage(dirtyRect, image, dirtyRect);
-        painter.drawLine(20,10,20,height-10);
-        painter.drawLine(20,height-10,width-10,height-10);
-        painter.drawText(30,15,tr("c(mol/L)"));
+        painter.drawLine(30,10,30,height-10);
+        painter.drawLine(30,height-10,width-10,height-10);
+        painter.drawText(50,10,tr("c(mol/L)"));
         painter.drawText(width-40,height-15,tr("Time(s)"));
         //draw marks
         for(int i=0;i<10;i++)
         {
-            painter.drawText(i*(width-30)/10+5,height,QString::number(this->deltax*i*(this->x-1)/10));
+            painter.drawText(i*(width-40)/10+25,height,QString::number(this->deltax*i*(this->x-1)/10));
         }
         for(int i=0;i<10;i++)
         {
@@ -87,7 +92,7 @@ void BehaviorViewPlotWidget::drawLineTo(const QPoint &endPoint)
 {
     QPainter painter(&image);
     painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap,
-                        Qt::RoundJoin));
+                        Qt::RoundJoin));    
     painter.drawLine(lastPoint, endPoint);
     modified = true;
 
@@ -109,4 +114,33 @@ void BehaviorViewPlotWidget::resizeImage(QImage *image, const QSize &newSize)
     *image = newImage;
 }
 
+void BehaviorViewPlotWidget::PlotFromValue()
+{
+    this->clearImage();
+    for(int i=0;i<this->node;i++)
+    {
+
+        if(this->cb->currentIndex()==i||this->cb->currentIndex()==(this->cb->count()-1))
+        {
+            QComboBox *comboBox=(QComboBox *)this->tab_1->cellWidget(i,1);
+            this->myPenColor=comboBox->itemData(comboBox->currentIndex(), Qt::UserRole).value<QColor>();
+            for(int j=0;j<this->x;j++)
+            {
+                    int height=this->size().height()-20;
+                    int width=this->size().width()-40;
+                    double value;
+                    if(this->tab_2->item(j,i+1)!=NULL)
+                    {
+                        value=this->tab_2->item(j,i+1)->text().toDouble();
+                        QPoint *pt=new QPoint(int(30+this->tab_2->item(j,0)->text().toDouble()*width/this->maxx),int(10+(this->maxy-value)*height/this->maxy));
+                        if(j==0)
+                        {
+                            this->lastPoint=*pt;
+                        }
+                        this->drawLineTo(*pt);
+                    }
+            }
+        }
+    }
+}
 

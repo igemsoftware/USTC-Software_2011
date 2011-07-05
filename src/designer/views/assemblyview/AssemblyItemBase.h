@@ -5,21 +5,25 @@
 #include <QGraphicsTextItem>
 #include <QPixmap>
 #include <QGraphicsScene>
+#include "AssemblyLib.h"
 
 class AssemblyItemSizer;
 
 class AssemblyItemBase : public QGraphicsPixmapItem
 {
 public:
-    explicit AssemblyItemBase( QString newName , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent = 0 );
+    explicit AssemblyItemBase( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent = 0 );
     virtual ~AssemblyItemBase();
 
     QString getName();
     void setName( QString newName );
+    QScriptValue getScriptValue();
+    void setScriptValue( QScriptValue & newScriptValue );
 
     virtual QList<AssemblyItemBase*> getChildren();
     virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
     virtual void removeChild( AssemblyItemBase * child );
+    virtual void refreshScriptValue();
 
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
@@ -27,7 +31,7 @@ public:
 
 
 protected:
-    QString name;
+    QScriptValue scriptValue;
     bool resizable;
     QGraphicsTextItem * displayName;
 
