@@ -4,7 +4,11 @@
 namespace AssemblyViewNameSpace
 {
     QScriptEngine * engine = 0;
+    QList<QString> partTypes;
+
 }
+using namespace AssemblyViewNameSpace;
+
 
 AssemblyView::AssemblyView(QWidget *parent) :
     DesignerViewItf(parent),
@@ -12,7 +16,16 @@ AssemblyView::AssemblyView(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    if( !engine ) engine = new QScriptEngine;
+    if( !engine )
+    {
+        engine = new QScriptEngine;
+        partTypes.clear();
+        partTypes.push_back("prom");
+        partTypes.push_back("rbs");
+        partTypes.push_back("pcs");
+        partTypes.push_back("term");
+        partTypes.push_back("NULL");
+    }
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     QVBoxLayout * vLayout = new QVBoxLayout;
@@ -36,9 +49,11 @@ AssemblyView::AssemblyView(QWidget *parent) :
 
     rvLayout->addWidget( searchWidget = new AssemblySearchWidget );
     rvLayout->addWidget( propertyWidget = new AssemblyPropertyWidget );
-
+    searchWidget->setFixedWidth(200);
+    propertyWidget->setFixedWidth(200);
     hLayout->addLayout(vLayout);
     hLayout->addLayout(rvLayout);
+
 
 
     ui->tabAssemblyView->setLayout( hLayout );

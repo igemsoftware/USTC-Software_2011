@@ -1,7 +1,9 @@
-#ifndef ASSEMBLYPROPERTYWIDGIT_H
-#define ASSEMBLYPROPERTYWIDGIT_H
+#ifndef ASSEMBLYPROPERTYWIDGET_H
+#define ASSEMBLYPROPERTYWIDGET_H
 
 #include <QWidget>
+#include <QTreeWidget>
+#include <QLayout>
 
 class AssemblyPropertyWidget : public QWidget
 {
@@ -13,6 +15,8 @@ signals:
 
 public slots:
 
+private:
+    QTreeWidget * treeView;
 };
 
-#endif // ASSEMBLYPROPERTYWIDGIT_H
+#endif // ASSEMBLYPROPERTYWIDGET_H

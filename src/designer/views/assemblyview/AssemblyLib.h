@@ -15,8 +15,8 @@
 namespace AssemblyViewNameSpace
 {
     extern QScriptEngine * engine;
+    extern QList<QString> partTypes;
 }
-using namespace AssemblyViewNameSpace;
 
 #include <views/assemblyview/AssemblyCreateAndDrag.h>
 
