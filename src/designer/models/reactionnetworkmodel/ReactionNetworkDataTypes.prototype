@@ -1,8 +1,17 @@
 [DESCRIPTION]
 
+%Types%
+    symbol
+    symbollist
+    valuelist
+    mathexpr
+    mathsegexpr
+    predicate
+end
+
 Reaction:
    symbol     name;
-   bool       reversible;
+   predicate  reversible;
    symbollist reactants;
    symbollist modifiers;
    symbollist products;

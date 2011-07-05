@@ -115,3 +115,6 @@ RESOURCES += \
     resources/DesignerResources.qrc
 
 INCLUDEPATH += views/behaviorview
+
+OTHER_FILES += \
+    models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype

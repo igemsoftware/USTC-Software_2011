@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <string>
 #include <cstdlib>
 #include <cstring>
@@ -12,11 +13,6 @@ void showlogo()
   cerr<<"Biology data structure description compiler v1"<<endl;
   cerr<<"by CrLF0710"<<endl;
   cerr<<"----------------------------------"<<endl;
-}
-
-void pause()
-{
-  system("pause");
 }
 
 void usage (char* cmdName)
@@ -75,6 +71,20 @@ string result_current_time()
   return ctime( &curtime );
 }
 
+string result_type_name_to_cpp(string model_type)
+{
+    if(model_type=="symbol"||model_type=="predicate"||
+       model_type=="mathexpr"||model_type=="mathsegexpr"||
+       model_type=="symbollist"||model_type=="valuelist"||
+       model_type=="precisevalue")
+        return model_type+"_t";
+    return model_type;
+}
+
+string namespaceName;
+vector<string> classList;
+
+
 void parse_definitions(istream& _input, ostream& _output)
 {
   string line;
@@ -98,6 +108,16 @@ void parse_definitions(istream& _input, ostream& _output)
     _output<<"\t// "<<*(pchar+1)<<endl;
     return;
   }
+  else if(*pchar=='%') //type
+  {
+    string typeName,typeDest,typeEdit;
+    while((_input>>typeName)&&(typeName!="end"))
+    {
+      _output<<"\tusing lachesis::" <<typeName<<"_t;"<<endl;
+    }
+    getline(_input, typeName);
+    return;
+  }
   else  //class
   {
     char* colonpos = strchr(pchar, ':');
@@ -107,6 +127,7 @@ void parse_definitions(istream& _input, ostream& _output)
       *colonpos='\0';
       _output<<"\tstruct "<<pchar<<endl;
       classname=pchar;
+      classList.push_back(classname);
       
       _output<<"\t{"<<endl;
       pchar = colonpos+1;
@@ -114,7 +135,6 @@ void parse_definitions(istream& _input, ostream& _output)
       string fields[16][5];
       int curindex = 0;
       int curfield = 0;
-      
       
       while((_input>>fields[curindex][0])&&(fields[curindex][0]!="end"))
       {
@@ -142,27 +162,18 @@ void parse_definitions(istream& _input, ostream& _output)
         
         curindex++;        
       }
-
+	
+	
       for(int i=0;i<curindex;i++)
       {
-        _output<<"\t\t\t";
+        _output<<"\t\t";
         
         if(fields[i][2]=="instance")
         {
           _output<<"// ";
         }
         
-        if(fields[i][0]=="symbol"||
-           fields[i][0]=="mathexpr"||fields[i][0]=="mathsegexpr"||
-           fields[i][0]=="symbollist"||fields[i][0]=="valuelist"||
-           fields[i][0]=="precisevalue")
-        {
-          _output<<fields[i][0]<<"_t ";
-        }
-        else
-        {
-          _output<<fields[i][0]<<" ";
-        }
+        _output<<result_type_name_to_cpp(fields[i][0])<<" ";
         _output<<fields[i][1]<<";";
         
         if(fields[i][2]=="instance")
@@ -184,8 +195,8 @@ void parse_definitions(istream& _input, ostream& _output)
         if(fields[i][2]!="instance")
         {
           _output<<"\t\t\tobj.setProperty(\""<<fields[i][1]<<"\", ";
-          _output<<"s."<<fields[i][1];
-          _output<<");"<<endl;
+          _output<<"convertModelTypeToScriptValue(engine, s."<<fields[i][1]<<"))";
+          _output<<";"<<endl;
         }
       }      
       
@@ -202,17 +213,33 @@ void parse_definitions(istream& _input, ostream& _output)
       {
         if(fields[i][2]!="instance")
         {
-          _output<<"\t\ts."<<fields[i][1]<<" = ";
-          _output<<"qscriptvalue_cast<"<<fields[i][1]<<">(";
+          _output<<"\t\t\ts."<<fields[i][1]<<" = ";
+          _output<<"qscriptvalue_cast<"<<result_type_name_to_cpp(fields[i][0])<<">(";
           _output<<"obj.property(\""<<fields[i][1]<<"\")";
           _output<<");"<<endl;
         }
       }  
-
       _output<<"\t\t}"<<endl;
+
+      _output<<"\t\t/*"<<endl;
+
+      _output<<"\t\tinline static const QList<PropertyDescriptor> listProperty()"<<endl;
+      _output<<"\t\t{"<<endl;
+      _output<<"\t\t\tQList<PropertyDescriptor> propertyList;"<<endl;
+      for( int i = 0 ; i < curindex ; i++ )
+	  {
+		_output<<"\t\t\tpropertyList.push_back( PropertyDescriptor( \""<<fields[i][1]<<"\" , QVariant::"<<((fields[i][0]=="bool")?"Bool":fields[i][0])<<" ) );"<<endl;
+	  }
+      _output<<"\t\t\treturn propertyList;"<<endl;
+      _output<<"\t\t}"<<endl;
+
+      _output<<"\t\t*/"<<endl;
+
       _output<<"\t};"<<endl;
       
-      _output<<"\tQ_DECLARE_METATYPE("<<classname<<");"<<endl;
+	  
+	  
+//      _output<<"\tQ_DECLARE_METATYPE("<<classname<<");"<<endl;
       
     }
     else
@@ -259,17 +286,21 @@ int parse(const char* _inputfile, const char* _outputfile)
     fout<<endl;
     fout<<"#include <QMetaType>"<<endl;
     fout<<"#include <QScriptValue>"<<endl;
+    fout<<"#include <QVariant>"<<endl;
     fout<<endl;
     fout<<"#include \"models/common/ModelSymbol.h\""<<endl;
     fout<<endl;
     fout<<"";
   }
 
+  namespaceName = result_split_path(inputfile, 2);
+
   //namespace start
   {
-    fout<<"namespace "<<result_split_path(inputfile, 2)<<endl;
+    fout<<"namespace "<<namespaceName<<endl;
     fout<<"{"<<endl;
   }
+  
 
   while(!fin.eof())
   {
@@ -285,10 +316,10 @@ int parse(const char* _inputfile, const char* _outputfile)
     catch(...)
     {
       fout<<endl;      
-      fout<<"**************************************************"<<endl;
-      fout<<"// There was an error in the prototype file."<<endl;
-      fout<<"// So we lost the lines here."<<endl;
-      fout<<"**************************************************"<<endl;
+      fout<<"// **************************************************"<<endl;
+      fout<<"//   There was an error in the prototype file."<<endl;
+      fout<<"//   So we lost the lines here."<<endl;
+      fout<<"// **************************************************"<<endl;
       fout<<endl;
     }
   }  
@@ -298,12 +329,18 @@ int parse(const char* _inputfile, const char* _outputfile)
     fout<<"}"<<endl;
   }
 
+  //declare METATYPES;
+
+  for(size_t i = 0; i< classList.size();i++)
+    fout<<"\tQ_DECLARE_METATYPE("<<namespaceName<<"::"<<classList[i]<<");"<<endl;
+
   //footer
   {
     fout<<endl;
     fout<<"#endif // "<<result_include_once_macro_name(outputfile)<<endl;
   }
-  
+  cerr<<"Done."<<endl;
+  return 0;
 }
 
 
@@ -333,7 +370,6 @@ int main(int argc, char* argv[])
 
 
   usage(argv[0]);
-  pause();
   return 1;
 }
 

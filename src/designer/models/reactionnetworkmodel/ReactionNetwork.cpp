@@ -1,5 +1,5 @@
 #include "ReactionNetwork.h"
-//#include "ReactionNetworkDataTypes.h"
+#include "ReactionNetworkDataTypes.h"
 #include "ReactionNetworkSBMLImportProxy.h"
 
 static QMetaObject metaObjectsOfImporters[] = {
