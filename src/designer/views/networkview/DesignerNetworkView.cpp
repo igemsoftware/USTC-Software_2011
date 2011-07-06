@@ -5,8 +5,8 @@
 #include "NetworkViewGraphicsScene.h"
 
 
-NetworkView::NetworkView(QWidget *parent) :
-    DesignerViewItf(parent),
+NetworkView::NetworkView(QWidget *parent, DesignerMainWnd *mainWnd) :
+    DesignerViewItf(parent, mainWnd),
     ui(new Ui::NetworkView)
 {
     ui->setupUi(this);

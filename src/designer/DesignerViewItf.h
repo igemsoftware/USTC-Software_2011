@@ -3,15 +3,18 @@
 
 #include <QWidget>
 
+class DesignerMainWnd;
 
 //! The abstract view class
 class DesignerViewItf : public QWidget
 {
     Q_OBJECT
 public:
-    DesignerViewItf(QWidget *parent):QWidget(parent){}
+    DesignerViewItf(QWidget *parent, DesignerMainWnd* mainWnd)
+        :QWidget(parent), mainWindow(mainWnd){}
 
-
+public:
+    DesignerMainWnd* mainWindow;
 protected:
 
 

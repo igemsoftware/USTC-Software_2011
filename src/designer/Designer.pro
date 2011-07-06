@@ -33,7 +33,6 @@ SOURCES +=\
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
-    documents/SBML/SBMLDocXmlHandler.cpp \
     documents/SBML/SBMLDocParser.cpp \
     models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.cpp \
     DesignerChooseViewDialog.cpp \
@@ -63,7 +62,6 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPart.h \
     views/behaviorview/BehaviorViewPlotWidget.h \
     documents/SBML/SBMLDoc.h \
-    documents/SBML/SBMLDocXmlHandler.h \
     documents/SBML/SBMLDocParser.h \
     models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h \
     DesignerChooseViewDialog.h \

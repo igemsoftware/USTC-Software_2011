@@ -39,8 +39,6 @@ void DesignerMainWnd::resizeEvent ( QResizeEvent * event )
 
 void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
 {
-
-
     globalUnregisterMainWnd(this);
     this->deleteLater();
     return;
@@ -68,6 +66,7 @@ void DesignerMainWnd::createView(QString viewName)
     if(view)
     {
         currentView = view;
+        view->mainWindow = this;
         view->setGeometry(0, 0, centralWidget()->width(), centralWidget()->height());
         view->show();
     }
