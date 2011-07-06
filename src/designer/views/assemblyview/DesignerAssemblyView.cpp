@@ -10,8 +10,8 @@ namespace AssemblyViewNameSpace
 using namespace AssemblyViewNameSpace;
 
 
-AssemblyView::AssemblyView(QWidget *parent) :
-    DesignerViewItf(parent),
+AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
+    DesignerViewItf(parent, mainWnd),
     ui(new Ui::AssemblyView)
 {
     ui->setupUi(this);

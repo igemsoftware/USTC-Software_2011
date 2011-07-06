@@ -15,7 +15,7 @@ class NetworkView : public DesignerViewItf
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit NetworkView(QWidget *parent = 0);
+    Q_INVOKABLE explicit NetworkView(QWidget *parent = 0, DesignerMainWnd *mainWnd = 0);
     ~NetworkView();
 
 private:

@@ -2,8 +2,8 @@
 #include "ui_DesignerBehaviorView.h"
 #include <QtGui>
 
-BehaviorView::BehaviorView(QWidget *parent) :
-    DesignerViewItf(parent),
+BehaviorView::BehaviorView(QWidget *parent, DesignerMainWnd *mainWnd) :
+    DesignerViewItf(parent, mainWnd),
     ui(new Ui::BehaviorView)
 {
     ui->setupUi(this);

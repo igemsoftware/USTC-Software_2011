@@ -13,7 +13,7 @@ class DesignerDocItf : public QObject
     Q_OBJECT
 public:
     explicit DesignerDocItf(DesignerMainWnd *parent = 0);
-
+	
 public:
     enum extentValue
     {
