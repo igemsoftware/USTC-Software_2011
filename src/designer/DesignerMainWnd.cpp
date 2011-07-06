@@ -61,12 +61,11 @@ void DesignerMainWnd::createView(QString viewName)
     }
 
     DesignerViewItf *view =
-            DesignerViewItf::createView(viewName, centralWidget());
+            DesignerViewItf::createView(viewName, centralWidget(), this);
 
     if(view)
     {
         currentView = view;
-        view->mainWindow = this;
         view->setGeometry(0, 0, centralWidget()->width(), centralWidget()->height());
         view->show();
     }
@@ -179,7 +178,9 @@ void DesignerMainWnd::on_action_Open_File_triggered()
 }
 
 
-DesignerDocItf * DesignerMainWnd::getCurrentDoc()
+DesignerDocItf * DesignerMainWnd::getCurrentDoc(QString defaultDocType)
 {
-    return currentDoc;
+    if(currentDoc)
+        return currentDoc;
+    return (currentDoc = DesignerDocItf::createEmptyDoc(defaultDocType));
 }

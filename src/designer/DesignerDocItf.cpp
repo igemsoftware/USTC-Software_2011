@@ -39,16 +39,31 @@ QMetaObject* DesignerDocItf::getFileFitsDocumentTypesStatus(QString pathName)
     return retValues[bestFit].metaObject;
 }
 
+DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName)
+{
+    const size_t arraySize = sizeof(metaObjectsOfDocuments)/sizeof(metaObjectsOfDocuments[0]);
+    for(size_t i=0;i<arraySize;i++)
+    {
+        if(docName==metaObjectsOfDocuments[i].className())
+        {
+            return (DesignerDocItf*)metaObjectsOfDocuments[i].newInstance();
+        }
+    }
+    return NULL;
+}
 
-DesignerDocItf::DesignerDocItf(DesignerMainWnd *parent) :
-    QObject((QObject*)parent) ,
+DesignerDocItf::DesignerDocItf() :
+    QObject(NULL) ,
     currentModel(NULL)
 {
 
 }
 
 
-DesignerModelItf * DesignerDocItf::getCurrentModel()
+
+DesignerModelItf * DesignerDocItf::getCurrentModel(QString modelName)
 {
-    return currentModel;
+    if(currentModel)
+        return currentModel;
+    return DesignerModelItf::createModel(modelName);
 }

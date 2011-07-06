@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui script xml
+QT       += core gui script scripttools xml
 
 TARGET = Designer
 TEMPLATE = app
@@ -34,7 +34,6 @@ SOURCES +=\
     views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
     documents/SBML/SBMLDocParser.cpp \
-    models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.cpp \
     DesignerChooseViewDialog.cpp \
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp

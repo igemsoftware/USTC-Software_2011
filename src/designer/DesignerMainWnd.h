@@ -22,7 +22,7 @@ public:
 
     void openFile(QString& fileName);
 
-    DesignerDocItf * getCurrentDoc();
+    DesignerDocItf * getCurrentDoc(QString defaultDocType = "");
 
 protected:
     virtual void resizeEvent ( QResizeEvent * event );

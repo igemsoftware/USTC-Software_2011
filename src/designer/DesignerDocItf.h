@@ -15,9 +15,9 @@ class DesignerDocItf : public QObject
 protected:
     DesignerModelItf * currentModel;
 public:
-    DesignerModelItf * getCurrentModel();
+    DesignerModelItf * getCurrentModel(QString defaultModel = "");
 public:
-    explicit DesignerDocItf(DesignerMainWnd *parent = 0);
+    explicit DesignerDocItf();
 	
 public:
     enum extentValue
@@ -46,6 +46,8 @@ public:
 
 
 public:
+
+    static DesignerDocItf* createEmptyDoc(QString docName);
 
     static QMetaObject* getFileFitsDocumentTypesStatus(QString pathName);
 

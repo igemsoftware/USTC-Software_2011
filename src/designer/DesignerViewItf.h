@@ -19,7 +19,7 @@ protected:
 
 
 public:
-    static DesignerViewItf* createView(QString, QWidget*);
+    static DesignerViewItf* createView(QString, QWidget*, DesignerMainWnd* mainWnd);
 
     static QString getViewTitleByName(QString name);
     static QString getViewTitleByIndex(int index);

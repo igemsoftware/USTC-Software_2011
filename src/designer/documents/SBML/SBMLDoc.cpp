@@ -8,8 +8,8 @@
 #include "SBMLDocParser.h"
 
 
-SBMLDoc::SBMLDoc(DesignerMainWnd *parent) :
-    DesignerDocItf(parent)
+SBMLDoc::SBMLDoc() :
+    DesignerDocItf()
 {
 
 }

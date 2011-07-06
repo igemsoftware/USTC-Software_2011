@@ -27,7 +27,7 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
         partTypes.push_back("NULL");
     }
 
-    engine = mainWindow->getCurrentDoc()->getCurrentModel()->getEngine();
+    engine = mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel")->getEngine();
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     QVBoxLayout * vLayout = new QVBoxLayout;

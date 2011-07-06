@@ -1,5 +1,6 @@
 #include "DesignerViewItf.h"
 
+#include "DesignerMainWnd.h"
 #include "views/assemblyview/DesignerAssemblyView.h"
 #include "views/networkview/DesignerNetworkView.h"
 #include "views/behaviorview/DesignerBehaviorView.h"
@@ -17,13 +18,13 @@ static QString     titlesOfViews[] = {
 };
 
 DesignerViewItf* DesignerViewItf::createView
-        (QString viewName, QWidget* centralWidget)
+        (QString viewName, QWidget* centralWidget, DesignerMainWnd* mainWnd)
 {
     for(size_t i = 0 ; i < (sizeof(metaObjectsOfViews)/sizeof(metaObjectsOfViews[0])); i++ )
     {
         if(viewName==metaObjectsOfViews[i].className())
         {
-            return dynamic_cast<DesignerViewItf*>(metaObjectsOfViews[i].newInstance(Q_ARG(QWidget*, centralWidget)));
+            return dynamic_cast<DesignerViewItf*>(metaObjectsOfViews[i].newInstance(Q_ARG(QWidget*, centralWidget), Q_ARG(DesignerMainWnd*, mainWnd)));
         }
     }
     return NULL;

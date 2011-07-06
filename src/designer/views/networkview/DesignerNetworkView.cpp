@@ -11,11 +11,16 @@ NetworkView::NetworkView(QWidget *parent, DesignerMainWnd *mainWnd) :
 {
     ui->setupUi(this);
 
-    sbmlHighlighter = new NetworkView_SBMLHighlighter(ui->SBMLTextEdit->document());
 
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
     scene->clearScene();
     ui->graphicsView->setScene(scene);
+
+
+    //
+    sbmlHighlighter = new NetworkView_SBMLHighlighter(ui->SBMLTextEdit->document());
+
+
 }
 
 NetworkView::~NetworkView()

@@ -9,7 +9,7 @@ class SBMLDoc : public DesignerDocItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit SBMLDoc(DesignerMainWnd *parent = 0);
+    Q_INVOKABLE explicit SBMLDoc();
     ~SBMLDoc();
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);

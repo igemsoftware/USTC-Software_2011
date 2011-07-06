@@ -4,7 +4,6 @@
 
 static QMetaObject metaObjectsOfImporters[] = {
     ReactionNetworkSBMLImportProxy::staticMetaObject,
-
 };
 
 DesignerModelFormatProxyItf* ReactionNetworkModel::createImportProxy(QString proxyFormat)
@@ -24,7 +23,6 @@ DesignerModelFormatProxyItf* ReactionNetworkModel::createImportProxy(QString pro
 ReactionNetworkModel::ReactionNetworkModel(QObject *parent) :
     DesignerModelItf(parent)
 {
-
 }
 
 ReactionNetworkModel::modelObjectIndex

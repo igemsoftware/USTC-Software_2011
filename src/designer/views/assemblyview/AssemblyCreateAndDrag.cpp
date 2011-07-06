@@ -19,7 +19,7 @@ void AssemblyCreateAndDrag::createAndDrag()
 
     QByteArray itemData(sizeof(QScriptValue*),0);
 
-    QScriptValue * copy = new QScriptValue(scriptValue.engine()->newObject());
+    QScriptValue * copy = new QScriptValue();
 
     QScriptValueIterator iter(scriptValue);
     while( iter.hasNext() )
