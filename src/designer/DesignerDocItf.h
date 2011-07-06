@@ -7,10 +7,15 @@
 #include <QFile>
 
 class DesignerMainWnd;
+class DesignerModelItf;
 
 class DesignerDocItf : public QObject
 {
     Q_OBJECT
+protected:
+    DesignerModelItf * currentModel;
+public:
+    DesignerModelItf * getCurrentModel();
 public:
     explicit DesignerDocItf(DesignerMainWnd *parent = 0);
 	

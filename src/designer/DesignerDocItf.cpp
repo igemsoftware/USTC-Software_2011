@@ -41,7 +41,14 @@ QMetaObject* DesignerDocItf::getFileFitsDocumentTypesStatus(QString pathName)
 
 
 DesignerDocItf::DesignerDocItf(DesignerMainWnd *parent) :
-    QObject((QObject*)parent)
+    QObject((QObject*)parent) ,
+    currentModel(NULL)
 {
 
+}
+
+
+DesignerModelItf * DesignerDocItf::getCurrentModel()
+{
+    return currentModel;
 }

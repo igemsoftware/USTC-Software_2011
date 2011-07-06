@@ -2,10 +2,16 @@
 #define DESIGNERMODELITF_H
 
 #include <QObject>
+#include <QScriptEngine>
 
 class DesignerModelItf : public QObject
 {
     Q_OBJECT
+
+protected:
+    QScriptEngine modelEngine;
+public:
+    QScriptEngine* getEngine() {return &modelEngine;}
 public:
     explicit DesignerModelItf(QObject *parent = 0);
 

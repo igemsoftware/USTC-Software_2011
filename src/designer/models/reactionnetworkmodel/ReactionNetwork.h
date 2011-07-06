@@ -18,10 +18,7 @@ public:
     void setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value);
     QString getModelObjectProperty(modelObjectIndex index, QString propertyName);
 
-private:
-    QScriptEngine modelEngine;
-public:
-    QScriptEngine* getEngine() {return &modelEngine;}
+
 
 signals:
 

@@ -9,9 +9,9 @@
 
 
 SBMLDoc::SBMLDoc(DesignerMainWnd *parent) :
-    DesignerDocItf(parent),
-    currentModel(NULL)
+    DesignerDocItf(parent)
 {
+
 }
 
 SBMLDoc::~SBMLDoc()

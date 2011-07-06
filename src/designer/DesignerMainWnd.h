@@ -22,6 +22,8 @@ public:
 
     void openFile(QString& fileName);
 
+    DesignerDocItf * getCurrentDoc();
+
 protected:
     virtual void resizeEvent ( QResizeEvent * event );
     virtual void closeEvent  ( QCloseEvent  * event );

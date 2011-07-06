@@ -5,8 +5,9 @@
 using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
 
-AssemblySearchWidget::AssemblySearchWidget(QWidget *parent) :
-    QWidget(parent)
+AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget *parent) :
+    QWidget(parent) ,
+    engine(newEngine)
 {
     QVBoxLayout * vLayout = new QVBoxLayout;
     QHBoxLayout * hLayout = new QHBoxLayout;
@@ -41,7 +42,7 @@ void AssemblySearchWidget::startDrag(QModelIndex index)
     int row = index.row();
 
     QByteArray itemData(sizeof(QScriptValue*),0);
-    QScriptValue * copy = new QScriptValue(engine->newObject());
+    QScriptValue * copy = new QScriptValue(partList.at(row).engine()->newObject());
 
     QScriptValueIterator iter(partList[row]);
     while( iter.hasNext() )

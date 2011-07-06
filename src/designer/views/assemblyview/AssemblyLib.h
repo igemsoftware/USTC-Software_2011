@@ -16,7 +16,7 @@
 
 namespace AssemblyViewNameSpace
 {
-    extern QScriptEngine * engine;
+    extern bool firstInstance;
     extern QList<QString> partTypes;
 }
 

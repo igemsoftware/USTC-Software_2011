@@ -38,6 +38,7 @@ private:
     AssemblyScene * mainScene;
     AssemblyPropertyWidget * propertyWidget;
     AssemblySearchWidget * searchWidget;
+    QScriptEngine * engine;
 };
 
 #endif // DESIGNERASSEMBLYVIEW_H

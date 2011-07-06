@@ -177,3 +177,9 @@ void DesignerMainWnd::on_action_Open_File_triggered()
 {
     openFileDialog();
 }
+
+
+DesignerDocItf * DesignerMainWnd::getCurrentDoc()
+{
+    return currentDoc;
+}

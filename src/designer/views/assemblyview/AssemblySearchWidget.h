@@ -14,7 +14,7 @@ class AssemblySearchWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AssemblySearchWidget(QWidget *parent = 0);
+    explicit AssemblySearchWidget( QScriptEngine * newEngine , QWidget *parent = 0);
 
 signals:
 
@@ -23,6 +23,7 @@ public slots:
     void startDrag( QModelIndex index );
 
 private:
+    QScriptEngine * engine;
     QTableWidget * tableWidget;
     QLineEdit * lineEdit;
     QComboBox * comboBox;

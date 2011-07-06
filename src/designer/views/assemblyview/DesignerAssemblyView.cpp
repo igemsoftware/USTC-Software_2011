@@ -1,14 +1,15 @@
 #include "DesignerAssemblyView.h"
 #include "ui_DesignerAssemblyView.h"
+#include "DesignerMainWnd.h"
+#include "DesignerModelItf.h"
 
 namespace AssemblyViewNameSpace
 {
-    QScriptEngine * engine = 0;
+    bool firstInstance = true;
     QList<QString> partTypes;
 
 }
 using namespace AssemblyViewNameSpace;
-
 
 AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
     DesignerViewItf(parent, mainWnd),
@@ -16,16 +17,17 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
 {
     ui->setupUi(this);
 
-    if( !engine )
+    if( firstInstance )
     {
-        engine = new QScriptEngine;
-        partTypes.clear();
+        firstInstance = false;
         partTypes.push_back("prom");
         partTypes.push_back("rbs");
         partTypes.push_back("pcs");
         partTypes.push_back("term");
         partTypes.push_back("NULL");
     }
+
+    engine = mainWindow->getCurrentDoc()->getCurrentModel()->getEngine();
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     QVBoxLayout * vLayout = new QVBoxLayout;
@@ -47,7 +49,7 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
 
     vLayout->addWidget( mainView = new QGraphicsView( mainScene = new AssemblyScene ) );
 
-    rvLayout->addWidget( searchWidget = new AssemblySearchWidget );
+    rvLayout->addWidget( searchWidget = new AssemblySearchWidget(engine) );
     rvLayout->addWidget( propertyWidget = new AssemblyPropertyWidget );
     searchWidget->setFixedWidth(200);
     propertyWidget->setFixedWidth(200);

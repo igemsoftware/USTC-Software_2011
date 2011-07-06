@@ -21,7 +21,6 @@ public:
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
 
 private:
-    DesignerModelItf* currentModel;
 signals:
 
 public slots:
