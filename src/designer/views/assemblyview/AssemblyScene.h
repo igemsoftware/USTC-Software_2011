@@ -29,7 +29,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 signals:
-
+    void setScriptValue( QScriptValue value );
 public slots:
     void propagateSelectionChange();
 private:

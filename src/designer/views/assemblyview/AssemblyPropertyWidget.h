@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTreeWidget>
 #include <QLayout>
+#include <QScriptEngine>
+#include <QScriptValueIterator>
 
 class AssemblyPropertyWidget : public QWidget
 {
@@ -14,9 +16,9 @@ public:
 signals:
 
 public slots:
-
+    void changeScriptValue( QScriptValue  value );
 private:
-    QTreeWidget * treeView;
+    QTreeWidget * treeWidget;
 };
 
 #endif // ASSEMBLYPROPERTYWIDGET_H

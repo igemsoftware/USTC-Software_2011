@@ -58,6 +58,8 @@ AssemblyView::AssemblyView(QWidget *parent) :
 
     ui->tabAssemblyView->setLayout( hLayout );
 
+    connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
+
 }
 
 AssemblyView::~AssemblyView()

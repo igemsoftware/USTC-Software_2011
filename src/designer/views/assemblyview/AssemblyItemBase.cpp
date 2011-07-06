@@ -21,7 +21,7 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     displayName = new QGraphicsTextItem( getName() , this );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
-    foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->boundingRect());
+    foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->childrenBoundingRect());
     displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
 }
 

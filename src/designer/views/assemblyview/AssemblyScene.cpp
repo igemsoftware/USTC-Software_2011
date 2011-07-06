@@ -175,7 +175,11 @@ void AssemblyScene::propagateSelectionChange()
     }
     foreach( QGraphicsItem* item , newSelection )
     {
-        if( dynamic_cast<AssemblyItemBase*>(item) ) dynamic_cast<AssemblyItemBase*>(item)->getSelection();
+        if( dynamic_cast<AssemblyItemBase*>(item) )
+        {
+            dynamic_cast<AssemblyItemBase*>(item)->getSelection();
+            emit setScriptValue(dynamic_cast<AssemblyItemBase*>(item)->getScriptValue());
+        }
     }
 }
 

@@ -26,7 +26,7 @@ Compartment:
 end
 
 Species:
-   symbol       name          instacne;
+   symbol       name          instance;
    symbol       compartment   instance;
    precisevalue initialamount instance;
    valuelist    structure     instance;

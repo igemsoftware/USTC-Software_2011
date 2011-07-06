@@ -27,7 +27,10 @@ private:
     QLineEdit * lineEdit;
     QComboBox * comboBox;
 
+    QMap<QString,int> propertyColumn;
+
     QScriptValueList partList;
+
 
     QScriptValueList query( QString type , QString name );
 };

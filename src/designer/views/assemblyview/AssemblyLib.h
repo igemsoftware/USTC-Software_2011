@@ -11,6 +11,8 @@
 #include <QGraphicsScene>
 #include <QScriptEngine>
 #include <QScriptValue>
+#include "models/common/ModelSymbol.h"
+#include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 
 namespace AssemblyViewNameSpace
 {

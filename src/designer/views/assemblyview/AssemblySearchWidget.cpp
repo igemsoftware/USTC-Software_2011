@@ -3,6 +3,7 @@
 #include "AssemblyItemPart.h"
 
 using namespace AssemblyViewNameSpace;
+using namespace ReactionNetworkDataTypes;
 
 AssemblySearchWidget::AssemblySearchWidget(QWidget *parent) :
     QWidget(parent)
@@ -24,6 +25,15 @@ AssemblySearchWidget::AssemblySearchWidget(QWidget *parent) :
     connect( comboBox , SIGNAL(currentIndexChanged(QString)) , this , SLOT(inputChanges(QString)) );
     connect( lineEdit , SIGNAL(textChanged(QString)) , this , SLOT(inputChanges(QString)) );
 
+    QList<PropertyDescriptor> properties = Part::listProperty();
+    tableWidget->setColumnCount(properties.count());
+    int colcount = 0;
+    foreach( PropertyDescriptor property , properties )
+    {
+        tableWidget->setHorizontalHeaderItem(colcount, new QTableWidgetItem(property.property));
+        propertyColumn.insert( property.property , colcount );
+        colcount++;
+    }
 }
 
 void AssemblySearchWidget::startDrag(QModelIndex index)
@@ -31,7 +41,15 @@ void AssemblySearchWidget::startDrag(QModelIndex index)
     int row = index.row();
 
     QByteArray itemData(sizeof(QScriptValue*),0);
-    QScriptValue * copy = new QScriptValue(partList[row]); //assume we can copy here
+    QScriptValue * copy = new QScriptValue(engine->newObject());
+
+    QScriptValueIterator iter(partList[row]);
+    while( iter.hasNext() )
+    {
+        iter.next();
+        copy->setProperty( iter.name() , iter.value() );
+    }
+
     memcpy( itemData.data() , &copy , sizeof(QScriptValue*) );
     QMimeData * mimeData = new QMimeData;
     mimeData->setData( AssemblyItemPart::MimeFormat , itemData );
@@ -56,42 +74,17 @@ QScriptValueList AssemblySearchWidget::query( QString type , QString name )
 void AssemblySearchWidget::inputChanges(QString)
 {
     partList = query( comboBox->currentText() , lineEdit->text() );
-    tableWidget->clear();
+    tableWidget->setRowCount(0);
     if( !partList.count() ) return;
-
-
-    QScriptValueIterator * iter = new QScriptValueIterator( partList.first() );
-    int colcount = 0;
-    while( iter->hasNext() )
-    {
-        iter->next();
-        colcount++;
-    }
-    delete iter;
-    tableWidget->setColumnCount(colcount);
-
-    iter = new QScriptValueIterator( partList.first() );
-    colcount = 0;
-    while( iter->hasNext() )
-    {
-        iter->next();
-        QString name = iter->name();
-        tableWidget->setHorizontalHeaderItem(colcount, new QTableWidgetItem(name));
-        colcount++;
-    }
-    delete iter;
 
     tableWidget->setRowCount(partList.count());
     for( int i = 0 ; i < partList.count() ; i++ )
     {
-        iter = new QScriptValueIterator( partList[i] );
-        colcount = 0;
+        QScriptValueIterator  *iter = new QScriptValueIterator( partList[i] );
         while(iter->hasNext())
         {
             iter->next();
-            QString value = iter->value().toString();
-            tableWidget->setItem( i , colcount , new QTableWidgetItem(value) );
-            colcount++;
+            tableWidget->setItem( i , propertyColumn.value(iter->name()) , new QTableWidgetItem(iter->value().toString()) );
         }
         delete iter;
     }

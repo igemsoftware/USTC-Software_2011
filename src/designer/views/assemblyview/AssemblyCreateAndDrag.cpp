@@ -1,4 +1,6 @@
 #include "AssemblyCreateAndDrag.h"
+#include "AssemblyLib.h"
+#include <QScriptValueIterator>
 
 AssemblyCreateAndDrag::AssemblyCreateAndDrag( QString newType , QScriptValue newScriptValue , QPixmap newIcon , QWidget *parent) :
     QToolButton(parent)
@@ -16,7 +18,16 @@ void AssemblyCreateAndDrag::createAndDrag()
 {
 
     QByteArray itemData(sizeof(QScriptValue*),0);
-    QScriptValue * copy = &scriptValue; //assume we can copy here
+
+    QScriptValue * copy = new QScriptValue(AssemblyViewNameSpace::engine->newObject());
+
+    QScriptValueIterator iter(scriptValue);
+    while( iter.hasNext() )
+    {
+        iter.next();
+        copy->setProperty( iter.name() , iter.value() );
+    }
+
     memcpy( itemData.data() , &copy , sizeof(QScriptValue*) );
     QMimeData * mimeData = new QMimeData;
     mimeData->setData( type , itemData );
