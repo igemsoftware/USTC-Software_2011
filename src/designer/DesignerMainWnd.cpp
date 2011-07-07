@@ -96,8 +96,7 @@ void DesignerMainWnd::openFile(QString& fileName)
     }
 
     DesignerMainWnd* pFrame = (currentDoc ? globalCreateNewMainWnd() : this);
-    DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance(
-                Q_ARG(DesignerMainWnd*, pFrame));
+    DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance();
     if(!pDoc)
     {
         QMessageBox msgBox(QMessageBox::Critical,
@@ -105,6 +104,8 @@ void DesignerMainWnd::openFile(QString& fileName)
                            tr("We encountered an error."),
                            QMessageBox::Ok,
                            pFrame);
+
+        msgBox.exec();
         pFrame->deleteLater();
         pDoc->deleteLater();
         return;
@@ -119,6 +120,7 @@ void DesignerMainWnd::openFile(QString& fileName)
                            tr("We encountered an error."),
                            QMessageBox::Ok,
                            pFrame);
+        msgBox.exec();
         pFrame->deleteLater();
         return;
     }
