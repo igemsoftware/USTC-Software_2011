@@ -27,7 +27,7 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
         arrowLines[i].setParentItem(this);
     updatePos();
 
-    NetworkViewGraphicsSceneLabel *label = new NetworkViewGraphicsSceneLabel(this);
+    labelObject = new NetworkViewGraphicsSceneLabel(this, "");
 }
 
 

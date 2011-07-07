@@ -6,7 +6,7 @@
 class NetworkViewGraphicsSceneLabel : public QGraphicsTextItem
 {
 public:
-    explicit NetworkViewGraphicsSceneLabel(QGraphicsItem* parent = 0);
+    explicit NetworkViewGraphicsSceneLabel(QGraphicsItem* parent = 0, QString text = "Label");
 };
 
 #endif // NETWORKVIEWGRAPHICSSCENELABEL_H

@@ -14,6 +14,10 @@ public:
         DirectedEdge,
         BidirectedEdge
     };
+private:
+    NetworkViewGraphicsSceneLabel* labelObject;
+public:
+    void setLabel(QString label);
 public:
     NetworkViewGraphicsSceneEdge(QGraphicsItem *parent,
                                  NetworkViewGraphicsSceneNode* node1,
