@@ -135,16 +135,16 @@ public:
             itemPool[parent].setProperty("*annotation*", handler_collectElementTreeAsString(domElem));
             return parent;
         }
-        else if(domElem->nodeName()=="listOfReactions")
-        {
-            modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
-            itemPool[0].setProperty("*reactionlist*", itemPool[indexOfList]);
-            return indexOfList;
-        }
         else if(domElem->nodeName()=="listOfSpecies")
         {
             modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
             itemPool[0].setProperty("*specieslist*", itemPool[indexOfList]);
+            return indexOfList;
+        }
+        else if(domElem->nodeName()=="listOfReactions")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
+            itemPool[0].setProperty("*reactionlist*", itemPool[indexOfList]);
             return indexOfList;
         }
         else if(domElem->nodeName()==/*Reaction::*/ "listOfReactants")

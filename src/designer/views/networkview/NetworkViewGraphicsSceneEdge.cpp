@@ -48,9 +48,25 @@ void NetworkViewGraphicsSceneEdge::updatePos(void)
 
         setLine(x1 + cv*r, y1 + sv*r, x2 - cv*r, y2 - sv*r);
 
-        arrowLines[0].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2a, y1 + sv*r + r2*sv2a);
-        arrowLines[1].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2b, y1 + sv*r + r2*sv2b);
-        arrowLines[2].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2a, y2 - sv*r - r2*sv2a);
-        arrowLines[3].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2b, y2 - sv*r - r2*sv2b);
+        if(edgeType==BidirectedEdge)
+        {
+            arrowLines[0].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2a, y1 + sv*r + r2*sv2a);
+            arrowLines[1].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2b, y1 + sv*r + r2*sv2b);
+        }
+        else
+        {
+            arrowLines[0].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r, y1 + sv*r);
+            arrowLines[1].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r, y1 + sv*r);
+        }
+        if(edgeType==BidirectedEdge||edgeType==DirectedEdge)
+        {
+            arrowLines[2].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2a, y2 - sv*r - r2*sv2a);
+            arrowLines[3].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2b, y2 - sv*r - r2*sv2b);
+        }
+        else
+        {
+            arrowLines[2].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r, y2 - sv*r);
+            arrowLines[3].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r, y2 - sv*r);
+        }
     }
 }
