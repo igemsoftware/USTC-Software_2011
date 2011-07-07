@@ -6,7 +6,7 @@ NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent
     : QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent)
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
-    NetworkViewGraphicsSceneLabel *label = new NetworkViewGraphicsSceneLabel(this);
+    labelObject = new NetworkViewGraphicsSceneLabel(this);
 
 }
 
@@ -25,4 +25,9 @@ QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, con
         }
     }
     return QGraphicsEllipseItem::itemChange(change, value);
+}
+
+void NetworkViewGraphicsSceneNode::setLabel(QString label)
+{
+    labelObject->setPlainText(label);
 }

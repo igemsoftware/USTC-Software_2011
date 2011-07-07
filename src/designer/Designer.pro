@@ -36,7 +36,8 @@ SOURCES +=\
     documents/SBML/SBMLDocParser.cpp \
     DesignerChooseViewDialog.cpp \
     views/assemblyview/AssemblyPropertyWidget.cpp \
-    views/assemblyview/AssemblySearchWidget.cpp
+    views/assemblyview/AssemblySearchWidget.cpp \
+    DesignerDebug.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -65,7 +66,8 @@ HEADERS  += DesignerMainWnd.h \
     models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h \
     DesignerChooseViewDialog.h \
     views/assemblyview/AssemblyPropertyWidget.h \
-    views/assemblyview/AssemblySearchWidget.h
+    views/assemblyview/AssemblySearchWidget.h \
+    DesignerDebug.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui \

@@ -1,3 +1,6 @@
+#include <QtDebug>
+#include <QScriptValueIterator>
+
 #include "DesignerModelItf.h"
 
 #include "models/reactionnetworkmodel/ReactionNetwork.h"

@@ -15,6 +15,7 @@ public:
         DesignerModelFormatProxyItf(model)
     {
         itemPool.append(getEngine()->newObject()); //The root Object
+        getEngine()->globalObject().setProperty("*model*", itemPool[0]);
     }
 
     ~ReactionNetworkSBMLImportProxy()
@@ -47,7 +48,7 @@ protected:
         return newModelObjectIndex;
     }
 
-    modelObjectIndex handler_createStandardObject(QDomElement* domElem)
+    modelObjectIndex handler_createNoChildObject(QDomElement* domElem)
     {
         QScriptValue newModelObject = getEngine()->newObject();
         modelObjectIndex newModelObjectIndex = handler_allocateNewIndex(newModelObject);
@@ -60,6 +61,13 @@ protected:
                                          domElem->attributes().item(attrIndex).nodeValue());
         }
 
+        return newModelObjectIndex;
+    }
+
+    modelObjectIndex handler_createStandardObject(QDomElement* domElem)
+    {
+        modelObjectIndex newModelObjectIndex = handler_createNoChildObject(domElem);
+
         for(QDomElement childElem = domElem->firstChildElement();
             !childElem.isNull(); childElem = childElem.nextSiblingElement())
         {
@@ -67,7 +75,7 @@ protected:
         }
 
         return newModelObjectIndex;
-     }
+    }
 
     modelObjectIndex handler_collectChildObjectsAsArray(QDomElement* domElem)
     {
@@ -87,6 +95,28 @@ protected:
         return handler_allocateNewIndex(newObjectList);
     }
 
+    modelObjectIndex handler_collectChildObjectAttributeAsArray(QDomElement* domElem, QString childTagName, QString childPropertyName)
+    {
+        QList<QScriptValue> arrayItemList;
+        for(QDomElement childElem = domElem->firstChildElement();
+            !childElem.isNull(); childElem = childElem.nextSiblingElement())
+        {
+            if(childElem.nodeName()==childTagName)
+            {
+                QString value = childElem.attribute(childPropertyName);
+                if(!value.isNull())
+                {
+                    arrayItemList.append(QScriptValue(value));
+                }
+            }
+        }
+
+        QScriptValue newObjectList = getEngine()->newArray(arrayItemList.count());
+        for(qint32 i = 0; i < arrayItemList.count(); i++)
+            newObjectList.setProperty(i, arrayItemList[i]);
+
+        return handler_allocateNewIndex(newObjectList);
+    }
 
 public:
     modelObjectIndex createModelObject(modelObjectIndex parent = 0, void* data = 0)
@@ -111,6 +141,30 @@ public:
             itemPool[0].setProperty("*reactionlist*", itemPool[indexOfList]);
             return indexOfList;
         }
+        else if(domElem->nodeName()=="listOfSpecies")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
+            itemPool[0].setProperty("*specieslist*", itemPool[indexOfList]);
+            return indexOfList;
+        }
+        else if(domElem->nodeName()==/*Reaction::*/ "listOfReactants")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectAttributeAsArray(domElem, "speciesReference", "species");
+            itemPool[parent].setProperty("reactants", itemPool[indexOfList]);
+            return indexOfList;
+        }
+        else if(domElem->nodeName()==/*Reaction::*/ "listOfProducts")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectAttributeAsArray(domElem, "speciesReference", "species");
+            itemPool[parent].setProperty("products", itemPool[indexOfList]);
+            return indexOfList;
+        }
+        else if(domElem->nodeName()==/*Reaction::*/ "listOfModifiers")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectAttributeAsArray(domElem, "modifierSpeciesReference", "species");
+            itemPool[parent].setProperty("modifier", itemPool[indexOfList]);
+            return indexOfList;
+        }
         else
         {
             return handler_createStandardObject(domElem);
@@ -120,7 +174,8 @@ public:
 
     void setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value)
     {
-        printf(propertyName.toLatin1().data());
+        itemPool[index].setProperty(propertyName, value);
+//        printf(propertyName.toLatin1().data());
     }
     QString getModelObjectProperty(modelObjectIndex index, QString propertyName)
     {

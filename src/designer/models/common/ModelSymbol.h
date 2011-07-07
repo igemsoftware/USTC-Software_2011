@@ -18,7 +18,7 @@ namespace lachesis
 
 Q_DECLARE_METATYPE(QScriptString);
 Q_DECLARE_METATYPE(QList<QScriptString>);
-Q_DECLARE_METATYPE(QScriptValueList);
+Q_DECLARE_METATYPE(QList<QScriptValue>);
 Q_DECLARE_METATYPE(QScriptValue);
 
 template<class T>

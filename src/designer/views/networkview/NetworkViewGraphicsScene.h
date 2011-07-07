@@ -4,6 +4,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 
+class DesignerModelItf;
+
 class NetworkViewGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -18,6 +20,7 @@ public:
 
 public:
     void clearScene();
+    void loadFromModel(DesignerModelItf* model);
 
 signals:
 

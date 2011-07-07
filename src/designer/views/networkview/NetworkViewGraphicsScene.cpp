@@ -1,5 +1,9 @@
-#include "NetworkViewGraphicsScene.h"
+#include <QtScript>
 
+#include "DesignerDebug.h"
+#include "DesignerModelItf.h"
+
+#include "NetworkViewGraphicsScene.h"
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneNodeReaction.h"
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
@@ -17,7 +21,7 @@ void NetworkViewGraphicsScene::clearScene()
         delete items().at(i-1);
         items().removeAt(i-1);
     }
-
+/*
     NetworkViewGraphicsSceneNode* newNode = new NetworkViewGraphicsSceneNode(activePanel());
     newNode->setPos(0, 0);
     addItem(newNode);
@@ -38,5 +42,23 @@ void NetworkViewGraphicsScene::clearScene()
     NetworkViewGraphicsSceneEdge* newEdge3 = new NetworkViewGraphicsSceneEdge(activePanel(),newNode3, newNode, NetworkViewGraphicsSceneEdge::BidirectedEdge);
     addItem(newEdge3);
     NetworkViewGraphicsSceneEdge* newEdge4 = new NetworkViewGraphicsSceneEdge(activePanel(),newNode3, newNode4, NetworkViewGraphicsSceneEdge::BidirectedEdge);
-    addItem(newEdge4);
+    addItem(newEdge4);*/
+}
+
+void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
+{
+    QScriptEngine *engine =  model->getEngine();
+
+    QScriptValue reactionArray = engine->globalObject().property("*model*").property("*reactionlist*");
+    int reactionCount = reactionArray.property("length").toInt32();
+    for(int i=0;i<reactionCount;i++)
+    {
+        qDebug()<<reactionArray.property(i);
+        NetworkViewGraphicsSceneNodeReaction* newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel());
+        addItem(newNode);
+        newNode->setLabel(reactionArray.property(i).property("id").toString());
+
+
+    }
+
 }

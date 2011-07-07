@@ -5,14 +5,16 @@
 #include "NetworkViewGraphicsScene.h"
 
 class NetworkViewGraphicsSceneEdge;
+class NetworkViewGraphicsSceneLabel;
 
 class NetworkViewGraphicsSceneNode : public QGraphicsEllipseItem
 {
 public:
     NetworkViewGraphicsSceneNode(QGraphicsItem *parent);
-
-
-
+private:
+    NetworkViewGraphicsSceneLabel* labelObject;
+public:
+    void setLabel(QString label);
 public:
     void registerEdge(NetworkViewGraphicsSceneEdge* edge);
     QList<NetworkViewGraphicsSceneEdge*> edgeList;

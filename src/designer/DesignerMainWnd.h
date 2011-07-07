@@ -1,6 +1,7 @@
 #ifndef DESIGNERMAINWND_H
 #define DESIGNERMAINWND_H
 
+#include "DesignerDebug.h"
 #include <QMainWindow>
 #include "DesignerDocItf.h"
 #include "DesignerViewItf.h"

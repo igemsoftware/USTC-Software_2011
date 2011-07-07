@@ -4,6 +4,12 @@
 #include "DesignerNetworkView_SBMLHighlighter.h"
 #include "NetworkViewGraphicsScene.h"
 
+#include "DesignerModelItf.h"
+#include "DesignerMainWnd.h"
+
+#include "models/common/ModelSymbol.h"
+
+#include "DesignerDebug.h"
 
 NetworkView::NetworkView(QWidget *parent, DesignerMainWnd *mainWnd) :
     DesignerViewItf(parent, mainWnd),
@@ -14,12 +20,13 @@ NetworkView::NetworkView(QWidget *parent, DesignerMainWnd *mainWnd) :
 
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
     scene->clearScene();
-    ui->graphicsView->setScene(scene);
 
+    scene->loadFromModel(mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel"));
+
+    ui->graphicsView->setScene(scene);
 
     //
     sbmlHighlighter = new NetworkView_SBMLHighlighter(ui->SBMLTextEdit->document());
-
 
 }
 

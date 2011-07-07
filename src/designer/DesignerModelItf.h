@@ -12,6 +12,7 @@ protected:
     QScriptEngine modelEngine;
 public:
     QScriptEngine* getEngine() {return &modelEngine;}
+
 public:
     explicit DesignerModelItf(QObject *parent = 0);
 
@@ -26,6 +27,11 @@ public:
     virtual QString getModelObjectProperty(modelObjectIndex index, QString propertyName) = 0;
 
 
+public:
+    QScriptValue evaluate(QString sourceCode)
+    {
+        return modelEngine.evaluate(sourceCode, tr("lachesis_script.tmp"));
+    }
 
 signals:
 
