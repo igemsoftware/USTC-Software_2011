@@ -154,6 +154,13 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
         if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( item->scenePos() , item ) )
         {
             if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
+            foreach( QGraphicsItem* item , selectedItems() )
+            {
+                if( dynamic_cast<AssemblyItemBase*>(item) )
+                {
+                    emit setScriptValue(dynamic_cast<AssemblyItemBase*>(item)->getScriptValue());
+                }
+            }
             return true;
         }
     }

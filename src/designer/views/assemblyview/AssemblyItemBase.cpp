@@ -46,14 +46,12 @@ bool AssemblyItemBase::addChild( QPointF scenePos , AssemblyItemBase * child )
     if( child->isAncestorOf(this) ) return false;
     child->setParentItem(this);
     child->setPos( mapFromScene(scenePos) );
-    refreshScriptValue();
     return true;
 }
 
 void AssemblyItemBase::removeChild( AssemblyItemBase *child )
 {
     child->setParentItem(0);
-    refreshScriptValue();
 }
 
 void AssemblyItemBase::refreshScriptValue()

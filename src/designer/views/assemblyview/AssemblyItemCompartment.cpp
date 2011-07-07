@@ -1,6 +1,8 @@
 #include "AssemblyItemCompartment.h"
 #include "AssemblyScene.h"
 
+#include <QScriptValueIterator>
+
 const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompartment";
 
 
@@ -24,6 +26,7 @@ bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * ch
         if( AssemblyItemBase::addChild( scenePos , child ) )
         {
             childrenMap.insert( child->getName() , child );
+            refreshScriptValue();
             return true;
         }
     }
@@ -43,6 +46,7 @@ void AssemblyItemCompartment::removeChild( AssemblyItemBase * child )
         }
     }
     AssemblyItemBase::removeChild( child );
+    refreshScriptValue();
 }
 
 void AssemblyItemCompartment::refreshScriptValue()
@@ -52,7 +56,14 @@ void AssemblyItemCompartment::refreshScriptValue()
     {
         list.push_back(item->getScriptValue());
     }
-    //scriptValue.setProperty( "contains" , list );
+    //to be fixed
+    scriptValue.setProperty( "contains" , convertModelTypeToScriptValue( scriptValue.engine() , list ) );
+    QScriptValueIterator iter(scriptValue.property("contains"));
+    while( iter.hasNext() )
+    {
+        iter.next();
+        QString temp = iter.value().toString();
+    }
 }
 
 QList<AssemblyItemBase*> AssemblyItemCompartment::getChildren()

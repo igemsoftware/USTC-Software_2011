@@ -2,6 +2,7 @@
 #include "ui_DesignerAssemblyView.h"
 #include "DesignerMainWnd.h"
 #include "DesignerModelItf.h"
+#include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 
 namespace AssemblyViewNameSpace
 {
@@ -10,6 +11,7 @@ namespace AssemblyViewNameSpace
 
 }
 using namespace AssemblyViewNameSpace;
+using namespace ReactionNetworkDataTypes;
 
 AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
     DesignerViewItf(parent, mainWnd),
@@ -40,9 +42,20 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
     QToolBar * standard = new QToolBar;
     toolBox->addTab( standard , tr("Standard Modules"));
     //will be fixed soon
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , tr("Compartment") ) );
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , tr("Plasmid") ) );
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPart::MimeFormat , tr("Brick") ) );
+    Compartment sCompartment;
+    QScriptValue compartment = Compartment::toScriptValue(engine,sCompartment);
+    compartment.setProperty("name","Compartment");
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , compartment ) );
+
+    Species sSpecies;
+    QScriptValue species = Species::toScriptValue(engine,sSpecies);
+    species.setProperty("name","Plasmid");
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , species ) );
+
+    Part sPart;
+    QScriptValue part = Part::toScriptValue(engine,sPart);
+    part.setProperty("name","prom");
+    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPart::MimeFormat , part ) );
 
     recentModule = new QToolBar;
     toolBox->addTab( recentModule , tr("Recent Modules") );

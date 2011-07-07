@@ -32,7 +32,7 @@ bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child 
     if( index > childrenList.count() ) len = childrenList.count();
     childrenList.insert( index , child );
 
-
+    refreshScriptValue();
     arrangeChild();
     return true;
 }
@@ -41,6 +41,7 @@ void AssemblyItemPlasmid::removeChild( AssemblyItemBase * child )
 {
     childrenList.removeAll(child);
     AssemblyItemBase::removeChild(child);
+    refreshScriptValue();
     arrangeChild();
 }
 
@@ -51,7 +52,8 @@ void AssemblyItemPlasmid::refreshScriptValue()
     {
         list.push_back(item->getScriptValue());
     }
-    //scriptValue.setProperty( "contains" , list );
+    //to be fixed
+    scriptValue.setProperty( "structure" , qScriptValueFromSequence( scriptValue.engine() , list ) );
 }
 
 void AssemblyItemPlasmid::arrangeChild()

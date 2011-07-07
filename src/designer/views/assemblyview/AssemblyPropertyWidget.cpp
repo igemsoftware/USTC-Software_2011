@@ -28,7 +28,26 @@ void AssemblyPropertyWidget::changeScriptValue( QScriptValue value )
         iter.next();
         labels.clear();
         labels.push_back(iter.name());
-        labels.push_back(iter.value().toString());
-        treeWidget->insertTopLevelItem( rowcount++ , new QTreeWidgetItem(labels) );
+        if( iter.value().isArray() )
+        {
+            labels.push_back("");
+            QTreeWidgetItem * item = new QTreeWidgetItem(labels);
+            QScriptValueIterator innerIter(iter.value());
+            QTreeWidgetItem * lastChild = 0;
+            while( innerIter.hasNext() )
+            {
+                innerIter.next();
+                labels.clear();
+                labels.push_back("name");
+                labels.push_back(innerIter.value().property("name").toString());
+                item->addChild( lastChild = new QTreeWidgetItem(labels) );
+            }
+            if( lastChild ) item->removeChild( lastChild ); //dont know why, will be fixed ... probably
+            treeWidget->insertTopLevelItem( rowcount++ , item );
+        }else
+        {
+            labels.push_back(iter.value().toString());
+            treeWidget->insertTopLevelItem( rowcount++ , new QTreeWidgetItem(labels) );
+        }
     }
 }
