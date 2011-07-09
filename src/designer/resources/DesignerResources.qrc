@@ -9,4 +9,14 @@
         <file>assemblyview/plasmid_selected.png</file>
         <file>splash.png</file>
     </qresource>
+    <qresource prefix="/designer/common/toolbar">
+        <file>common/toolbar/file-new.png</file>
+        <file>common/toolbar/file-open.png</file>
+        <file>common/toolbar/file-save.png</file>
+        <file>common/toolbar/file-save-as.png</file>
+        <file>common/toolbar/edit-copy.png</file>
+        <file>common/toolbar/edit-cut.png</file>
+        <file>common/toolbar/edit-paste.png</file>
+        <file>common/toolbar/edit-undo.png</file>
+    </qresource>
 </RCC>

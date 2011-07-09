@@ -13,7 +13,7 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     : QGraphicsLineItem(parent),
       edgeNode1 (node1), edgeNode2 (node2), edgeType (type)
 {
-    setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable );
+    setFlags( QGraphicsItem::ItemIsFocusable );
 
     if(edgeNode1)
     {
