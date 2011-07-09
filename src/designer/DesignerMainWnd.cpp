@@ -5,6 +5,9 @@
 #include "ui_DesignerMainWnd.h"
 
 #include "DesignerWelcomeDialog.h"
+
+#include "views/welcomeview/WelcomeView.h"
+
 #include "DesignerChooseViewDialog.h"
 #include "DesignerDocItf.h"
 
@@ -14,10 +17,18 @@ DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     ui(new Ui::DesignerMainWnd)
 {
     ui->setupUi(this);
-    if((welcomeDialog = new WelcomeDialog(centralWidget(), this)))
-        welcomeDialog->show();
+
+    welcomeDialog = 0;
+
+//    if((welcomeDialog = new WelcomeDialog(centralWidget(), this)))
+//        welcomeDialog->show();
+
     currentView = NULL;
     currentDoc = NULL;
+
+    WelcomeView *welcomeView = new WelcomeView();
+    welcomeView->mainWnd = this;
+    ui->tabWidget->addTab(welcomeView, QString("Welcome"));
 }
 
 DesignerMainWnd::~DesignerMainWnd()
@@ -27,14 +38,14 @@ DesignerMainWnd::~DesignerMainWnd()
 
 void DesignerMainWnd::resizeEvent ( QResizeEvent * event )
 {
-    if(welcomeDialog)
+/*    if(welcomeDialog)
     {
         welcomeDialog->move((centralWidget()->width() - welcomeDialog->width())/2, (centralWidget()->height()-welcomeDialog->height())/2);
     }
     if(currentView)
     {
         currentView->resize(centralWidget()->size());
-    }
+    }*/
 }
 
 void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
@@ -61,13 +72,12 @@ void DesignerMainWnd::createView(QString viewName)
     }
 
     DesignerViewItf *view =
-            DesignerViewItf::createView(viewName, centralWidget(), this);
+            DesignerViewItf::createView(viewName, 0, this);
 
     if(view)
     {
+        ui->tabWidget->addTab(view, DesignerViewItf::getViewTitleByName(viewName));
         currentView = view;
-        view->setGeometry(0, 0, centralWidget()->width(), centralWidget()->height());
-        view->show();
     }
 }
 

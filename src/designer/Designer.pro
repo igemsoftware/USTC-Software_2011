@@ -38,7 +38,8 @@ SOURCES +=\
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
-    DesignerExtensionItf.cpp
+    DesignerExtensionItf.cpp \
+    views/welcomeview/WelcomeView.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerWelcomeDialog.h \
@@ -69,11 +70,13 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
-    DesignerExtensionItf.h
+    DesignerExtensionItf.h \
+    views/welcomeview/WelcomeView.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerWelcomeDialog.ui \
-    DesignerChooseViewDialog.ui
+    DesignerChooseViewDialog.ui \
+    views/welcomeview/WelcomeView.ui
 
 # views
 

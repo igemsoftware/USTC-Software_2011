@@ -1,6 +1,9 @@
 #include "DesignerViewItf.h"
 
 #include "DesignerMainWnd.h"
+
+#include "views/welcomeview/WelcomeView.h"
+
 #include "views/assemblyview/DesignerAssemblyView.h"
 #include "views/networkview/DesignerNetworkView.h"
 #include "views/behaviorview/DesignerBehaviorView.h"
@@ -9,12 +12,14 @@ static QMetaObject metaObjectsOfViews[] = {
     AssemblyView::staticMetaObject,
     NetworkView::staticMetaObject,
     BehaviorView::staticMetaObject,
+    WelcomeView::staticMetaObject,
 };
 
 static QString     titlesOfViews[] = {
     QObject::tr("Assembly View"),
     QObject::tr("Network View"),
     QObject::tr("Behavior View"),
+    QObject::tr("Welcome")
 };
 
 DesignerViewItf* DesignerViewItf::createView

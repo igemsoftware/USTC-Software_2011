@@ -149,6 +149,14 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WelcomeView</class>
+   <extends>QFrame</extends>
+   <header>views/welcomeview/WelcomeView.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
