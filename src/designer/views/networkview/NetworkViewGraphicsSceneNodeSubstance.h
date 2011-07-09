@@ -5,6 +5,8 @@
 
 class NetworkViewGraphicsSceneNodeSubstance : public NetworkViewGraphicsSceneNode
 {
+private:
+    QBrush privateBrush;
 public:
     NetworkViewGraphicsSceneNodeSubstance(QGraphicsItem *parent);
 

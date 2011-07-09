@@ -135,6 +135,12 @@ public:
             itemPool[parent].setProperty("*annotation*", handler_collectElementTreeAsString(domElem));
             return parent;
         }
+        else if(domElem->nodeName()=="listOfCompartments")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
+            itemPool[0].setProperty("*compartmentlist*", itemPool[indexOfList]);
+            return indexOfList;
+        }
         else if(domElem->nodeName()=="listOfSpecies")
         {
             modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);

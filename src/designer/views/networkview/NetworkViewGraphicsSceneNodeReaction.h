@@ -5,6 +5,8 @@
 
 class NetworkViewGraphicsSceneNodeReaction : public NetworkViewGraphicsSceneNode
 {
+private:
+    QBrush privateBrush;
 public:
     NetworkViewGraphicsSceneNodeReaction(QGraphicsItem *parent);
 

@@ -7,5 +7,6 @@
         <file>assemblyview/compartment_selected.png</file>
         <file>assemblyview/plasmid_normal.png</file>
         <file>assemblyview/plasmid_selected.png</file>
+        <file>splash.png</file>
     </qresource>
 </RCC>
