@@ -44,7 +44,11 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
     views/common/MainWndTabWidget.cpp \
-    views/behaviorview/BehaviorView.cpp
+    views/behaviorview/BehaviorView.cpp \
+    models/common/MoDeLDoc.cpp \
+    models/common/MoDeLDocParser.cpp \
+    documents/MoDeL/MoDeLDocParser.cpp \
+    documents/MoDeL/MoDeLDoc.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -81,7 +85,10 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
     views/common/MainWndTabWidget.h \
-    views/behaviorview/BehaviorView.h
+    views/behaviorview/BehaviorView.h \
+    models/common/MoDeLDocParser.h \
+    documents/MoDeL/MoDeLDocParser.h \
+    documents/MoDeL/MoDeLDoc.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerChooseViewDialog.ui \

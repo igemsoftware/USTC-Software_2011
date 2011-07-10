@@ -4,6 +4,8 @@
 #include <QList>
 #include <QScriptString>
 #include <QScriptValueList>
+#include <QScriptEngine>
+#include <QScriptValueIterator>
 
 namespace lachesis
 {
@@ -31,6 +33,19 @@ template<class R>
 QScriptValue convertModelTypeToScriptValue(QScriptEngine* engine, QList<R>& value)
 {
     return qScriptValueFromSequence(engine, value);
+}
+
+QScriptValue copyFromScriptValue( QScriptEngine * engine , QScriptValue source )
+{
+    if( !source.isObject() ) return source;
+    QScriptValue copy = engine->newObject();
+    QScriptValueIterator iter(source);
+    while( iter.hasNext() )
+    {
+        iter.next();
+        copy.setProperty( iter.name() , iter.value() );
+    }
+    return copy;
 }
 
 struct PropertyDescriptor
