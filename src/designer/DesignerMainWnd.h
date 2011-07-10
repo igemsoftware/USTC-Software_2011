@@ -18,6 +18,7 @@ public:
     explicit DesignerMainWnd(QWidget *parent = 0);
     ~DesignerMainWnd();
 
+public slots:
     void createView(QString viewName);
     void openFileDialog(void);
 
@@ -29,17 +30,19 @@ protected:
     virtual void resizeEvent ( QResizeEvent * event );
     virtual void closeEvent  ( QCloseEvent  * event );
 
+protected:
+    void updateTabInfo();
+
 private:
-    QWidget* welcomeDialog;
-    DesignerViewItf* currentView;
     DesignerDocItf* currentDoc;
 
 private:
     Ui::DesignerMainWnd *ui;
 
-private slots:
-    void on_action_New_File_activated(int );
-    void on_action_Open_File_triggered();
+public slots:
+    void on_actionFileNew_triggered();
+    void on_actionFileExit_triggered();
+    void on_actionFileOpen_triggered();
 
 public:
     static DesignerMainWnd* globalCreateNewMainWnd();

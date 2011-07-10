@@ -10,8 +10,8 @@ class DesignerViewItf : public QWidget
 {
     Q_OBJECT
 public:
-    DesignerViewItf(QWidget *parent, DesignerMainWnd* mainWnd)
-        :QWidget(parent), mainWindow(mainWnd){}
+    DesignerViewItf(DesignerMainWnd* mainWnd)
+        :QWidget(), mainWindow(mainWnd){}
 
 public:
     DesignerMainWnd* mainWindow;
@@ -19,10 +19,10 @@ protected:
 
 
 public:
-    static DesignerViewItf* createView(QString, QWidget*, DesignerMainWnd* mainWnd);
+    static DesignerViewItf* createView(QString, DesignerMainWnd* mainWnd);
 
     static QString getViewTitleByName(QString name);
-    static QString getViewTitleByIndex(int index);
+    static QMetaObject getViewMetaObjectByName(QString name);
 
 };
 

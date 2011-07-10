@@ -3,51 +3,19 @@
 
 #include "DesignerMainWnd.h"
 
-WelcomeView::WelcomeView(QWidget *parent) :
-    QWidget(parent),
+WelcomeView::WelcomeView(DesignerMainWnd* mainWnd) :
+    DesignerViewItf(mainWnd),
     ui(new Ui::WelcomeView)
 {
     ui->setupUi(this);
+    Q_ASSERT(mainWnd);
+
+    QObject::connect(this, SIGNAL(createDocWithViewType(QString)), mainWnd, SLOT(createView(QString)));
+    QObject::connect(ui->buttonOpenFile, SIGNAL(clicked()), mainWnd, SLOT(on_actionFileOpen_triggered()));
+    QObject::connect(ui->buttonQuit, SIGNAL(clicked()), mainWnd, SLOT(on_actionFileExit_triggered()));
 }
 
 WelcomeView::~WelcomeView()
 {
     delete ui;
-}
-
-void WelcomeView::on_buttonQuit_clicked()
-{
-    QApplication::quit();
-}
-
-void WelcomeView::on_buttonCreateAssemblyFile_clicked()
-{
-    if(mainWnd)
-    {
-        mainWnd->createView("AssemblyView");
-    }
-}
-
-void WelcomeView::on_buttonCreateNetworkFile_clicked()
-{
-    if(mainWnd)
-    {
-        mainWnd->createView("NetworkView");
-    }
-}
-
-void WelcomeView::on_buttonCreateBehaviorFile_clicked()
-{
-    if(mainWnd)
-    {
-        mainWnd->createView("BehaviorView");
-    }
-}
-
-void WelcomeView::on_buttonOpenFile_clicked()
-{
-    if(mainWnd)
-    {
-        mainWnd->openFileDialog();
-    }
 }

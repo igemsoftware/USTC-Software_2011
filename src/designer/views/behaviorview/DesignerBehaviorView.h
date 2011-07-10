@@ -13,7 +13,7 @@ class BehaviorView : public DesignerViewItf
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit BehaviorView(QWidget *parent = 0, DesignerMainWnd *mainWnd = 0);
+    Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd);
     ~BehaviorView();
     void prepareToPlot();
 

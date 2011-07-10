@@ -4,8 +4,6 @@
 #include "DesignerMainWnd.h"
 #include "ui_DesignerMainWnd.h"
 
-#include "DesignerWelcomeDialog.h"
-
 #include "views/welcomeview/WelcomeView.h"
 
 #include "DesignerChooseViewDialog.h"
@@ -18,17 +16,8 @@ DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    welcomeDialog = 0;
-
-//    if((welcomeDialog = new WelcomeDialog(centralWidget(), this)))
-//        welcomeDialog->show();
-
-    currentView = NULL;
     currentDoc = NULL;
-
-    WelcomeView *welcomeView = new WelcomeView();
-    welcomeView->mainWnd = this;
-    ui->tabWidget->addTab(welcomeView, QString("Welcome"));
+    updateTabInfo();
 }
 
 DesignerMainWnd::~DesignerMainWnd()
@@ -48,6 +37,20 @@ void DesignerMainWnd::resizeEvent ( QResizeEvent * event )
     }*/
 }
 
+void DesignerMainWnd::updateTabInfo()
+{
+    if(!currentDoc)
+    {
+        if(ui->tabWidget->count()==0)
+        {
+            DesignerViewItf* welcomeView = DesignerViewItf::createView("WelcomeView", this);
+            Q_ASSERT(welcomeView);
+            int tabIndex = ui->tabWidget->addTab(welcomeView, QString("Welcome"));
+            ui->tabWidget->protectPage(tabIndex);
+        }
+    }
+}
+
 void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
 {
     globalUnregisterMainWnd(this);
@@ -55,29 +58,25 @@ void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
     return;
 }
 
-
-void DesignerMainWnd::on_action_New_File_activated(int )
-{
-    globalCreateNewMainWnd();
-}
-
-
 void DesignerMainWnd::createView(QString viewName)
 {
-    if(welcomeDialog)
+    for(int i = 0; i < ui->tabWidget->count(); i++)
     {
-        welcomeDialog->close();
-        welcomeDialog->deleteLater();
-        welcomeDialog=NULL;
+        if(ui->tabWidget->widget(i)
+                && (QString(ui->tabWidget->widget(i)->metaObject()->className())
+                == "WelcomeView"))
+        {
+            ui->tabWidget->removeTab(i);
+            break;
+        }
     }
 
     DesignerViewItf *view =
-            DesignerViewItf::createView(viewName, 0, this);
+            DesignerViewItf::createView(viewName, this);
 
     if(view)
     {
         ui->tabWidget->addTab(view, DesignerViewItf::getViewTitleByName(viewName));
-        currentView = view;
     }
 }
 
@@ -160,9 +159,13 @@ void DesignerMainWnd::openFile(QString& fileName)
             viewName=viewList[chooseViewdlg.getChoosenViewIndex()];
         }
     }
+    if(!viewName.isNull())
+    {
+        pFrame->currentDoc = pDoc;
+        pFrame->createView(viewName);
+    }
 
-    pFrame->currentDoc = pDoc;
-    pFrame->createView(viewName);
+    updateTabInfo();
 }
 
 //Top level main window list.
@@ -171,7 +174,7 @@ QList<DesignerMainWnd*> DesignerMainWnd::mainWnd_list;
 DesignerMainWnd* DesignerMainWnd::globalCreateNewMainWnd()
 {
     DesignerMainWnd* pFrame = new DesignerMainWnd();
-    pFrame->show();
+    pFrame->showMaximized();
     mainWnd_list.append(pFrame);
     return pFrame;
 }
@@ -184,15 +187,25 @@ void DesignerMainWnd::globalUnregisterMainWnd(DesignerMainWnd* pFrame)
     }
 }
 
-void DesignerMainWnd::on_action_Open_File_triggered()
-{
-    openFileDialog();
-}
-
-
 DesignerDocItf * DesignerMainWnd::getCurrentDoc(QString defaultDocType)
 {
     if(currentDoc)
         return currentDoc;
     return (currentDoc = DesignerDocItf::createEmptyDoc(defaultDocType));
+}
+
+
+void DesignerMainWnd::on_actionFileNew_triggered()
+{
+    globalCreateNewMainWnd();
+}
+
+void DesignerMainWnd::on_actionFileOpen_triggered()
+{
+    openFileDialog();
+}
+
+void DesignerMainWnd::on_actionFileExit_triggered()
+{
+    QApplication::quit();
 }

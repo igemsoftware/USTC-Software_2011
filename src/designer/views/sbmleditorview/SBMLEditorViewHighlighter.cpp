@@ -1,13 +1,13 @@
-#include "DesignerNetworkView_SBMLHighlighter.h"
+#include "SBMLEditorViewHighlighter.h"
 
-NetworkView_SBMLHighlighter::NetworkView_SBMLHighlighter(QTextDocument *parent) :
+SBMLEditorViewHighlighter::SBMLEditorViewHighlighter(QTextDocument *parent) :
     QSyntaxHighlighter(parent)
 {
 
 }
 
 
-void NetworkView_SBMLHighlighter::highlightBlock ( const QString & text )
+void SBMLEditorViewHighlighter::highlightBlock ( const QString & text )
 {
     QString generalXMLPattern = "<[^<]+>";
     QRegExp generalXMLRegex(generalXMLPattern);
@@ -20,7 +20,7 @@ void NetworkView_SBMLHighlighter::highlightBlock ( const QString & text )
 
 }
 
-QTextCharFormat NetworkView_SBMLHighlighter::getSyntaxFormat (const QString & text)
+QTextCharFormat SBMLEditorViewHighlighter::getSyntaxFormat (const QString & text)
 {
     static struct syntax_rule
     {

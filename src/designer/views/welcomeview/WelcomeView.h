@@ -2,6 +2,7 @@
 #define WELCOMEVIEW_H
 
 #include <QWidget>
+#include "DesignerViewItf.h"
 
 namespace Ui {
     class WelcomeView;
@@ -9,26 +10,36 @@ namespace Ui {
 
 class DesignerMainWnd;
 
-class WelcomeView : public QWidget
+class WelcomeView : public DesignerViewItf
 {
     Q_OBJECT
 
 public:
-    explicit WelcomeView(QWidget *parent = 0);
+    Q_INVOKABLE explicit WelcomeView(DesignerMainWnd* mainWnd);
     ~WelcomeView();
+signals:
+    void createDocWithViewType(QString);
+
+private slots:
+    void on_buttonCreateAssemblyFile_clicked()
+    {
+        emit createDocWithViewType("AssemblyView");
+    }
+
+    void on_buttonCreateNetworkFile_clicked()
+    {
+        emit createDocWithViewType("NetworkView");
+    }
+
+    void on_buttonCreateBehaviorFile_clicked()
+    {
+        emit createDocWithViewType("BehaviorView");
+    }
+
 
 private:
     Ui::WelcomeView *ui;
 
-public:
-    DesignerMainWnd *mainWnd;
-
-private slots:
-    void on_buttonCreateBehaviorFile_clicked();
-    void on_buttonCreateNetworkFile_clicked();
-    void on_buttonCreateAssemblyFile_clicked();
-    void on_buttonOpenFile_clicked();
-    void on_buttonQuit_clicked();
 };
 
 #endif // WELCOMEVIEW_H

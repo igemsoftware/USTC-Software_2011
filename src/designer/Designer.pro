@@ -14,7 +14,6 @@ TEMPLATE = app
 SOURCES +=\
     DesignerMainWnd.cpp \
     Designer.cpp \
-    DesignerWelcomeDialog.cpp \
     DesignerViewItf.cpp \
     DesignerDocItf.cpp \
     views/assemblyview/AssemblyItemPlasmid.cpp \
@@ -39,10 +38,14 @@ SOURCES +=\
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
     DesignerExtensionItf.cpp \
-    views/welcomeview/WelcomeView.cpp
+    views/welcomeview/WelcomeView.cpp \
+    views/assemblyview/AssemblyView.cpp \
+    views/sbmleditorview/SBMLEditorView.cpp \
+    views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
+    views/networkview/NetworkView.cpp \
+    views/common/MainWndTabWidget.cpp
 
 HEADERS  += DesignerMainWnd.h \
-    DesignerWelcomeDialog.h \
     DesignerViewItf.h \
     DesignerDocItf.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -71,10 +74,14 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
     DesignerExtensionItf.h \
-    views/welcomeview/WelcomeView.h
+    views/welcomeview/WelcomeView.h \
+    views/assemblyview/AssemblyView.h \
+    views/sbmleditorview/SBMLEditorView.h \
+    views/sbmleditorview/SBMLEditorViewHighlighter.h \
+    views/networkview/NetworkView.h \
+    views/common/MainWndTabWidget.h
 
 FORMS    += DesignerMainWnd.ui \
-    DesignerWelcomeDialog.ui \
     DesignerChooseViewDialog.ui \
     views/welcomeview/WelcomeView.ui
 
@@ -82,24 +89,17 @@ FORMS    += DesignerMainWnd.ui \
 
 ## assembly view
 
-SOURCES += \
-    views/assemblyview/DesignerAssemblyView.cpp
+SOURCES +=
 
-HEADERS  += \
-    views/assemblyview/DesignerAssemblyView.h
+HEADERS  +=
 
-FORMS    += \
-    views/assemblyview/DesignerAssemblyView.ui
+FORMS    +=
 
 ## network view
 
-SOURCES += \
-    views/networkview/DesignerNetworkView.cpp \
-    views/networkview/DesignerNetworkView_SBMLHighlighter.cpp
+SOURCES +=
 
-HEADERS  += \
-    views/networkview/DesignerNetworkView_SBMLHighlighter.h \
-    views/networkview/DesignerNetworkView.h
+HEADERS  +=
 
 FORMS    += \
     views/networkview/DesignerNetworkView.ui

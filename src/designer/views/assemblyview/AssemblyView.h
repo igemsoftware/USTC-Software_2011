@@ -1,5 +1,5 @@
-#ifndef DESIGNERASSEMBLYVIEW_H
-#define DESIGNERASSEMBLYVIEW_H
+#ifndef ASSEMBLYVIEW_H
+#define ASSEMBLYVIEW_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -17,20 +17,14 @@
 #include "AssemblyPropertyWidget.h"
 #include "AssemblySearchWidget.h"
 
-namespace Ui {
-    class AssemblyView;
-}
-
 class AssemblyView : public DesignerViewItf
 {
     Q_OBJECT
-
 public:
-    Q_INVOKABLE explicit AssemblyView(QWidget *parent = 0, DesignerMainWnd *mainWnd = 0);
+    Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd);
     ~AssemblyView();
 
 private:
-    Ui::AssemblyView *ui;
 
     QToolBar * recentModule;
     QTabWidget * toolBox;
@@ -41,4 +35,4 @@ private:
     QScriptEngine * engine;
 };
 
-#endif // DESIGNERASSEMBLYVIEW_H
+#endif // ASSEMBLYVIEW_H

@@ -1,5 +1,5 @@
-#include "DesignerAssemblyView.h"
-#include "ui_DesignerAssemblyView.h"
+#include "AssemblyView.h"
+
 #include "DesignerMainWnd.h"
 #include "DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
@@ -13,12 +13,9 @@ namespace AssemblyViewNameSpace
 using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
 
-AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
-    DesignerViewItf(parent, mainWnd),
-    ui(new Ui::AssemblyView)
+AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
+    DesignerViewItf(mainWnd)
 {
-    ui->setupUi(this);
-
     if( firstInstance )
     {
         firstInstance = false;
@@ -71,7 +68,7 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
 
 
 
-    ui->tabAssemblyView->setLayout( hLayout );
+    this->setLayout( hLayout );
 
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
 
@@ -79,5 +76,4 @@ AssemblyView::AssemblyView(QWidget *parent, DesignerMainWnd *mainWnd) :
 
 AssemblyView::~AssemblyView()
 {
-    delete ui;
 }

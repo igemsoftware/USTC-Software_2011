@@ -323,7 +323,7 @@
   <customwidget>
    <class>BehaviorViewPlotWidget</class>
    <extends>QWidget</extends>
-   <header location="global">views/behaviorview/BehaviorViewPlotWidget.h</header>
+   <header>views/behaviorview/BehaviorViewPlotWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
