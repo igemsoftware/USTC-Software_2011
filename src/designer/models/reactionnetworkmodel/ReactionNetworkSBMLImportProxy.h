@@ -25,7 +25,7 @@ public:
 
     QScriptEngine* getEngine()
     {
-        static QScriptEngine* engine = dynamic_cast<ReactionNetworkModel*>(getModel())->getEngine();
+        QScriptEngine* engine = dynamic_cast<ReactionNetworkModel*>(getModel())->getEngine();
         return engine;
     }
 

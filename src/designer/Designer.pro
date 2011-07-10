@@ -43,8 +43,9 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorView.cpp \
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
-    views/common/MainWndTabWidget.cpp \
-    views/behaviorview/BehaviorView.cpp
+    views/behaviorview/BehaviorView.cpp \
+    common/widgets/MainWndTabWidget.cpp \
+    views/filedescriptionview/FileDescriptionView.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -81,12 +82,15 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
     views/common/MainWndTabWidget.h \
-    views/behaviorview/BehaviorView.h
+    views/behaviorview/BehaviorView.h \
+    common/widgets/MainWndTabWidget.h \
+    views/filedescriptionview/FileDescriptionView.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerChooseViewDialog.ui \
     views/welcomeview/WelcomeView.ui \
-    views/behaviorview/BehaviorView.ui
+    views/behaviorview/BehaviorView.ui \
+    views/filedescriptionview/FileDescriptionView.ui
 
 # views
 

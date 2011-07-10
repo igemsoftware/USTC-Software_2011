@@ -12,11 +12,11 @@
 
 DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     QMainWindow(parent),
+    currentDoc(NULL),
     ui(new Ui::DesignerMainWnd)
 {
     ui->setupUi(this);
 
-    currentDoc = NULL;
     updateTabInfo();
 }
 
@@ -41,13 +41,7 @@ void DesignerMainWnd::updateTabInfo()
 {
     if(!currentDoc)
     {
-        if(ui->tabWidget->count()==0)
-        {
-            DesignerViewItf* welcomeView = DesignerViewItf::createView("WelcomeView", this);
-            Q_ASSERT(welcomeView);
-            int tabIndex = ui->tabWidget->addTab(welcomeView, QString("Welcome"));
-            ui->tabWidget->protectPage(tabIndex);
-        }
+        if(ui->tabWidget->count()==0) createView("WelcomeView", true);
     }
 }
 
@@ -58,7 +52,7 @@ void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
     return;
 }
 
-void DesignerMainWnd::createView(QString viewName)
+void DesignerMainWnd::createView(QString viewName, bool isProtected)
 {
     for(int i = 0; i < ui->tabWidget->count(); i++)
     {
@@ -76,7 +70,9 @@ void DesignerMainWnd::createView(QString viewName)
 
     if(view)
     {
-        ui->tabWidget->addTab(view, DesignerViewItf::getViewTitleByName(viewName));
+        int tabIndex = ui->tabWidget->addTab(view, DesignerViewItf::getViewTitleByName(viewName));
+        if(isProtected) ui->tabWidget->protectTab(tabIndex);
+        ui->tabWidget->setCurrentIndex(tabIndex);
     }
 }
 
@@ -122,40 +118,15 @@ void DesignerMainWnd::openFile(QString& fileName)
                            pFrame);
         msgBox.exec();
         pFrame->deleteLater();
+        pDoc->deleteLater();
         return;
     }
     file.close();
 
-    QList<QString> viewList = pDoc->getSupportedViewList();
-    QString viewName;
-    if(viewList.count()==0)
-    {
-        QMessageBox msgBox(QMessageBox::Critical,
-                           tr("Lachesis Designer"),
-                           tr("This file format seems supported, while there's no way to display it. "),
-                           QMessageBox::Ok,
-                           pFrame);
-        msgBox.exec();
-        return;
-    }
-    else if(viewList.count()==1)
-    {
-        viewName = viewList[0];
-    }
-    else
-    {
-        ChooseViewDialog chooseViewdlg(pFrame, viewList);
-        if(chooseViewdlg.exec()==QDialog::Accepted)
-        {
-            viewName=viewList[chooseViewdlg.getChoosenViewIndex()];
-        }
-    }
-    if(!viewName.isNull())
-    {
-        pFrame->currentDoc = pDoc;
-        pFrame->createView(viewName);
-    }
-
+    pFrame->currentDoc = pDoc;
+    pFrame->createView("FileDescriptionView", true);
+/*
+*/
     updateTabInfo();
 }
 
@@ -211,3 +182,8 @@ void DesignerMainWnd::on_actionFileExit_triggered()
     QApplication::quit();
 }
 
+
+void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
+{
+    ui->tabWidget->removeTab(index);
+}

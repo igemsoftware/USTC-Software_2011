@@ -54,7 +54,8 @@ DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName)
 
 DesignerDocItf::DesignerDocItf() :
     QObject(NULL) ,
-    currentModel(NULL)
+    currentModel(NULL),
+    modified(false)
 {
 
 }

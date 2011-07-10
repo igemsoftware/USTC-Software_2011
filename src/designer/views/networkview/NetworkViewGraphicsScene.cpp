@@ -27,6 +27,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
     QScriptEngine *engine =  model->getEngine();
 
+//    qDebug()<<engine->globalObject();
     QScriptValue speciesArray = engine->globalObject().property("*model*").property("*specieslist*");
     int speciesCount = speciesArray.property("length").toInt32();
 

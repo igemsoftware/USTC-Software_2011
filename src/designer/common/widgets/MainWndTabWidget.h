@@ -10,7 +10,7 @@ class MainWndTabWidget : public QTabWidget
 public:
     explicit MainWndTabWidget(QWidget *parent = 0);
 
-    void protectPage(int index)
+    void protectTab(int index)
     {
         tabBar()->setTabButton(index, QTabBar::RightSide, 0);
     }
