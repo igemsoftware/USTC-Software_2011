@@ -45,7 +45,8 @@ SOURCES +=\
     views/networkview/NetworkView.cpp \
     views/behaviorview/BehaviorView.cpp \
     common/widgets/MainWndTabWidget.cpp \
-    views/filedescriptionview/FileDescriptionView.cpp
+    views/filedescriptionview/FileDescriptionView.cpp \
+    views/networkview/NetworkViewGraphicsSceneContainer.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -84,7 +85,8 @@ HEADERS  += DesignerMainWnd.h \
     views/common/MainWndTabWidget.h \
     views/behaviorview/BehaviorView.h \
     common/widgets/MainWndTabWidget.h \
-    views/filedescriptionview/FileDescriptionView.h
+    views/filedescriptionview/FileDescriptionView.h \
+    views/networkview/NetworkViewGraphicsSceneContainer.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerChooseViewDialog.ui \

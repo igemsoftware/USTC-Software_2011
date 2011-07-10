@@ -19,6 +19,8 @@ public:
     void registerEdge(NetworkViewGraphicsSceneEdge* edge);
     QList<NetworkViewGraphicsSceneEdge*> edgeList;
 
+    void updatePos();
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
