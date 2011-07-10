@@ -28,6 +28,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
     QScriptEngine *engine =  model->getEngine();
 
+    qDebug()<<testValue1<<testValue2<<endl;
 //    qDebug()<<engine->globalObject().property("*model*");
     QScriptValue compartmentsArray = engine->globalObject().property("*model*").property("*compartmentlist*");
     int compartmentsCount = compartmentsArray.property("length").toInt32();
@@ -53,14 +54,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel());
             addItem(newNode);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
         }
         else
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(container);
-            addItem(newNode);
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(container, true);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
         }
         newNode->setLabel(speciesArray.property(i).property("id").toString());
-        newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
 
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
     }

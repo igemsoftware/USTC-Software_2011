@@ -10,7 +10,7 @@ class NetworkViewGraphicsSceneLabel;
 class NetworkViewGraphicsSceneNode : public QGraphicsEllipseItem
 {
 public:
-    NetworkViewGraphicsSceneNode(QGraphicsItem *parent);
+    NetworkViewGraphicsSceneNode(QGraphicsItem *parent, bool isParentContainer = false);
 private:
     NetworkViewGraphicsSceneLabel* labelObject;
 public:

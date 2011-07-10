@@ -47,6 +47,7 @@ end
 
 Parameter:
    symbol       id;
+   precisevalue value;
    symbol       unit;
    mathsegexpr  rule;
 end
