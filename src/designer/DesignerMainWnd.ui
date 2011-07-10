@@ -71,9 +71,9 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionFileNew"/>
-    <addaction name="action_Open_File"/>
+    <addaction name="actionFileOpen"/>
     <addaction name="separator"/>
-    <addaction name="action_Save"/>
+    <addaction name="actionFileSave"/>
     <addaction name="actionFileSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionFileExit"/>
@@ -116,8 +116,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionFileNew"/>
-   <addaction name="action_Open_File"/>
-   <addaction name="action_Save"/>
+   <addaction name="actionFileOpen"/>
+   <addaction name="actionFileSave"/>
    <addaction name="separator"/>
    <addaction name="actionEditCut"/>
    <addaction name="actionEditCopy"/>
@@ -157,7 +157,7 @@
     <string>&amp;New File...</string>
    </property>
   </action>
-  <action name="action_Save">
+  <action name="actionFileSave">
    <property name="icon">
     <iconset resource="resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-save.png</normaloff>:/designer/common/toolbar/common/toolbar/file-save.png</iconset>
@@ -224,7 +224,7 @@
     <string>About Qt...</string>
    </property>
   </action>
-  <action name="action_Open_File">
+  <action name="actionFileOpen">
    <property name="icon">
     <iconset resource="resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-open.png</normaloff>:/designer/common/toolbar/common/toolbar/file-open.png</iconset>

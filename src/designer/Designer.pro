@@ -43,7 +43,8 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorView.cpp \
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
-    views/common/MainWndTabWidget.cpp
+    views/common/MainWndTabWidget.cpp \
+    views/behaviorview/BehaviorView.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -79,11 +80,13 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorView.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
-    views/common/MainWndTabWidget.h
+    views/common/MainWndTabWidget.h \
+    views/behaviorview/BehaviorView.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerChooseViewDialog.ui \
-    views/welcomeview/WelcomeView.ui
+    views/welcomeview/WelcomeView.ui \
+    views/behaviorview/BehaviorView.ui
 
 # views
 
@@ -101,24 +104,18 @@ SOURCES +=
 
 HEADERS  +=
 
-FORMS    += \
-    views/networkview/DesignerNetworkView.ui
+FORMS    +=
 
 ## behavior view
 
-SOURCES += \
-    views/behaviorview/DesignerBehaviorView.cpp
+SOURCES +=
 
-HEADERS  += \
-    views/behaviorview/DesignerBehaviorView.h
+HEADERS  +=
 
-FORMS    += \
-    views/behaviorview/DesignerBehaviorView.ui
+FORMS    +=
 
 RESOURCES += \
     resources/DesignerResources.qrc
-
-INCLUDEPATH += views/behaviorview
 
 OTHER_FILES += \
     models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype

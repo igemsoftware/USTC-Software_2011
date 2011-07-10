@@ -1,5 +1,5 @@
-#ifndef DESIGNERBEHAVIORVIEW_H
-#define DESIGNERBEHAVIORVIEW_H
+#ifndef BEHAVIORVIEW_H
+#define BEHAVIORVIEW_H
 
 #include <QWidget>
 #include <DesignerViewItf.h>
@@ -31,4 +31,4 @@ private slots:
     void on_pushButton_clicked();
 };
 
-#endif // DESIGNERBEHAVIORVIEW_H
+#endif // BEHAVIORVIEW_H

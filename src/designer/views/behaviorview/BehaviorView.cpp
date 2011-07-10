@@ -1,7 +1,7 @@
 #include <QtGui>
 
-#include "DesignerBehaviorView.h"
-#include "ui_DesignerBehaviorView.h"
+#include "BehaviorView.h"
+#include "ui_BehaviorView.h"
 
 BehaviorView::BehaviorView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd),

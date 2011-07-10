@@ -9,7 +9,7 @@
 #include "views/networkview/NetworkView.h"
 #include "views/sbmleditorview/SBMLEditorView.h"
 
-#include "views/behaviorview/DesignerBehaviorView.h"
+#include "views/behaviorview/BehaviorView.h"
 
 
 static QMetaObject metaObjectsOfViews[] = {

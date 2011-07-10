@@ -20,7 +20,6 @@ public:
 
 public slots:
     void createView(QString viewName);
-    void openFileDialog(void);
 
     void openFile(QString& fileName);
 
@@ -48,6 +47,8 @@ public:
     static DesignerMainWnd* globalCreateNewMainWnd();
     static void globalUnregisterMainWnd(DesignerMainWnd*);
     static QList<DesignerMainWnd*> mainWnd_list;
+private slots:
+    void on_actionFileSave_triggered();
 };
 
 #endif // DESIGNERMAINWND_H

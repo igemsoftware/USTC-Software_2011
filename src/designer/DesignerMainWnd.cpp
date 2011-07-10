@@ -80,15 +80,6 @@ void DesignerMainWnd::createView(QString viewName)
     }
 }
 
-void DesignerMainWnd::openFileDialog()
-{
-    QFileDialog dlg(this, tr("Open File"));
-    if(dlg.exec())
-    {
-        openFile(dlg.selectedFiles().first());
-    }
-}
-
 void DesignerMainWnd::openFile(QString& fileName)
 {
     QMetaObject* metaObject =
@@ -202,10 +193,21 @@ void DesignerMainWnd::on_actionFileNew_triggered()
 
 void DesignerMainWnd::on_actionFileOpen_triggered()
 {
-    openFileDialog();
+    QFileDialog dlg(this, tr("Open File"));
+    if(dlg.exec())
+    {
+        openFile(dlg.selectedFiles().first());
+    }
 }
+
+void DesignerMainWnd::on_actionFileSave_triggered()
+{
+
+}
+
 
 void DesignerMainWnd::on_actionFileExit_triggered()
 {
     QApplication::quit();
 }
+
