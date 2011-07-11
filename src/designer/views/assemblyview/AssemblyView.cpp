@@ -71,6 +71,7 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
     this->setLayout( hLayout );
 
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
+    connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
 
 }
 

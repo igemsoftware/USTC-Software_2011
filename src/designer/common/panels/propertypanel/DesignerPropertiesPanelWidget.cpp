@@ -23,7 +23,7 @@ DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
     updateTarget(QScriptValue(QScriptValue::UndefinedValue));
 }
 
-DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::getScriptValueType(QScriptValue& value)
+DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::getScriptValueType(const QScriptValue& value)
 {
     if(value.isUndefined()) return Undefined;
     else if(value.isNull()) return Null;
@@ -32,8 +32,77 @@ DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::ge
     else if(value.isString()) return String;
     else if(value.isArray()) return Array;
     else if(value.isObject()) return Object;
-    return Unknown;
+    return Undefined;
 }
+
+DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::getScriptValuePropertyType(const QScriptValue& value, QString propertyName)
+{
+    QString typeOfProperty = QString("#") + propertyName;
+    if(value.property(typeOfProperty).isString())
+    {
+        for(int i=0; i < scriptValueUserTypeList.count(); i++)
+        {
+            return (ScriptValueType)(User+i);
+        }
+    }
+    return getScriptValueType(value.property(propertyName));
+}
+
+void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int maxLevel, QTreeWidgetItem* parentItem)
+{
+    ScriptValueType valueType = getScriptValueType(value);
+    QStringList valueList;
+
+    switch(valueType)
+    {
+    case Null:
+    case Boolean:
+    case Number:
+    case String:
+        valueList << " <Value>" << formatScriptValue(value);
+        propertiesWidget->addTopLevelItem(new QTreeWidgetItem(valueList));
+        break;
+    case Array:
+    {
+        valueList << " <Value>" << formatScriptValue(value);
+        propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList), value));
+//                break;
+    }
+    case Object:
+    {
+        QScriptValueIterator propItr(value);
+        while(propItr.hasNext())
+        {
+            propItr.next();
+
+            if(propItr.name().mid(0,1)=="$") //type info, skip
+            {
+                continue;
+            }
+
+            QStringList valueList;
+            valueList<<propItr.name();
+
+            QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
+            if(typeNameValue.isString())
+            {
+
+            }
+            else
+            {
+                valueList<<formatScriptValue(propItr.value());
+                propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
+            }
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+
+}
+
 
 QString DesignerPropertiesPanelWidget::formatScriptValue(QScriptValue value)
 {
@@ -55,6 +124,7 @@ QString DesignerPropertiesPanelWidget::formatScriptValue(QScriptValue value)
         return " <Unknown>";
     }
 }
+
 QTreeWidgetItem* DesignerPropertiesPanelWidget::insertArrayItems(QTreeWidgetItem* item, QScriptValue value)
 {
     if(value.isArray())
@@ -87,75 +157,14 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
         {
             propertiesWidget->clear();
 
-            QStringList valueList;
-            switch(valueType)
-            {
-            case Null:
-            case Boolean:
-            case Number:
-            case String:
-                valueList << " <Value>" << formatScriptValue(value);
-                propertiesWidget->addTopLevelItem(new QTreeWidgetItem(valueList));
-                break;
-            case Array:
-            {
-                valueList << " <Value>" << formatScriptValue(value);
-                propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList), value));
-//                break;
-            }
-            case Object:
-            {
-                QScriptValueIterator propItr(value);
-                while(propItr.hasNext())
-                {
-                    propItr.next();
+            addPropertyItems(value, 1, NULL);
 
-                    if(propItr.name().mid(0,1)=="$") //type info, skip
-                    {
-                        continue;
-                    }
+            //TODO: updateCache;
 
-                    QStringList valueList;
-                    valueList<<propItr.name();
-
-                    QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
-                    if(typeNameValue.isString())
-                    {
-
-                    }
-                    else
-                    {
-                        valueList<<formatScriptValue(propItr.value());
-                        propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-            }
-
-            if(value.isNull())
-            {
-
-            }
-            else if(value.isBoolean())
-            {
-
-            }
-            else if(value.isNumber())
-            {
-
-            }
-            else if(value.isString())
-            {
-
-            }
-            else if(value.isObject())
-            {
-            }
 //            propertiesWidget->addTopLevelItem();
         }
+        propertiesWidget->expandAll();
+
         invalidWidget->hide();
         propertiesWidget->show();
     }

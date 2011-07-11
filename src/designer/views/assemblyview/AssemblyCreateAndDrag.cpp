@@ -32,6 +32,8 @@ void AssemblyCreateAndDrag::createAndDrag()
     QMimeData * mimeData = new QMimeData;
     mimeData->setData( type , itemData );
 
+    this->setDown(false);
+
     QDrag * drag = new QDrag(this);
     drag->setMimeData( mimeData );
     drag->setPixmap( icon );
