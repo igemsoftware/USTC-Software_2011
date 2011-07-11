@@ -1,10 +1,8 @@
 #include "ReactionNetwork.h"
 #include "ReactionNetworkDataTypes.h"
 #include "ReactionNetworkSBMLImportProxy.h"
-#include "ReactionNetworkMoDeLImportProxy.h"
 
 static QMetaObject metaObjectsOfImporters[] = {
-    ReactionNetworkSBMLImportProxy::staticMetaObject,
     ReactionNetworkSBMLImportProxy::staticMetaObject,
 };
 

@@ -1,6 +1,9 @@
-#include <QtXml>
+#include <QRegExp>
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
+#include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 #include "MoDeLDocParser.h"
+
+using namespace ReactionNetworkDataTypes;
 
 MoDeLDocParser::MoDeLDocParser()
 {
@@ -9,10 +12,8 @@ MoDeLDocParser::MoDeLDocParser()
 bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
 {
     ReactionNetworkModel& model = dynamic_cast<ReactionNetworkModel&>(modelItf);
-    DesignerModelFormatProxyItf* importProxy = model.createImportProxy("ReactionNetworkMoDeLImportProxy");
-
-    if(!importProxy) return false;
-
+    QScriptEngine * engine = model.getEngine();
+    QRegExp rx;
     QMap<QString, QPair<int,QString> > section;
 
     section["<ModelName>"]  = qMakePair(0,QString(""));
@@ -44,10 +45,6 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
         section[key].second = section[key].second.simplified().remove(" ");
     }
 
-    //model name
-    if( section["<ModelName>"].first == 0 ) return false;
-    importProxy->setModelObjectProperty(0,"ModelName",section["<ModelName>"].second);
-
     //parameter
     if( section["<Parameter>"].first == 0 ) return false;
     QMap<QString,double> parameterMap;
@@ -66,11 +63,11 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
     QMap<QString,QScriptValue> compartmentMap;
     foreach( QString line , section["<Compartment>"].second.split(",") )
     {
-        ReactionNetworkDataTypes::Compartment compStruct;
-        QScriptValue compValue = compStruct.fromScriptValue(engine,compStruct);
         rx.setPattern("^(\\w+)\\((.*)\\)$");
         if( rx.indexIn(line) > -1 )
         {
+            QScriptValue compValue = engine->newObject();
+            compValue.setProperty( "*type*" , "compartment" );
             compValue.setProperty( "name" , rx.cap(1) );
             compValue.setProperty( "size" , QScriptValue(rx.cap(2).toDouble()) );
             compartmentMap.insert( rx.cap(1) , compValue );
@@ -98,19 +95,30 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
     {
         return false;
     }
-    QScriptValue flask = compartmentMap[rx.cap(1)];
+    QScriptValue flask = copyFromScriptValue(engine,compartmentMap[rx.cap(1)]);
+    QScriptValueList flaskSub;
+    int flaskSubCnt = 0;
     foreach( QString line , rx.cap(2).split("&&") )
     {
         rx.setPattern("^(\\w+)\\{(.*)\\}(\\w+)$");
         if( rx.indexIn(line) > -1 )
         {
-
+            if( compartmentMap.contains( rx.cap(1) ) )
+            {
+                QScriptValue compValue = copyFromScriptValue( engine , compartmentMap[rx.cap(1)] );
+                compValue.setProperty( "name" , compValue.property("name") + QString("_%1").arg(flaskSubCnt) );
+                compValue.setProperty( "initialAmount" , QScriptValue( parameterMap[rx.cap(3)] ) );
+                flaskSubCnt++;
+                flaskSub.push_back(compValue);
+            }else{
+                return false;
+            }
         }else{
             if( rx.indexIn("(\\w+)\\((.*)\\)(.+)") > -1 )
             {
             }
         }
     }
-
+    flask.setProperty( "contains" , convertModelTypeToScriptValue(flaskSub) );
     return true;
 }

@@ -25,7 +25,7 @@ public:
 
     QScriptEngine* getEngine()
     {
-        static QScriptEngine* engine = dynamic_cast<ReactionNetworkModel*>(getModel())->getEngine();
+        QScriptEngine* engine = dynamic_cast<ReactionNetworkModel*>(getModel())->getEngine();
         return engine;
     }
 
@@ -53,7 +53,7 @@ protected:
         QScriptValue newModelObject = getEngine()->newObject();
         modelObjectIndex newModelObjectIndex = handler_allocateNewIndex(newModelObject);
 
-        newModelObject.setProperty("*name*", domElem->nodeName());
+        newModelObject.setProperty("*type*", domElem->nodeName());
 
         for(int attrIndex = 0 ; attrIndex < domElem->attributes().count(); attrIndex++)
         {
@@ -116,6 +116,12 @@ protected:
             newObjectList.setProperty(i, arrayItemList[i]);
 
         return handler_allocateNewIndex(newObjectList);
+    }
+
+    modelObjectIndex handler_createFunctionObjectFromMathML(QDomElement* domElem)
+    {
+        //append
+        return 0;
     }
 
 public:

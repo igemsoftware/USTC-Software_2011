@@ -14,8 +14,13 @@ class DesignerDocItf : public QObject
     Q_OBJECT
 protected:
     DesignerModelItf * currentModel;
+    bool modified;
 public:
     DesignerModelItf * getCurrentModel(QString defaultModel = "");
+
+    bool isModified() {return modified;}
+    void setModified(bool newValue = true) {modified = newValue;}
+
 public:
     explicit DesignerDocItf();
 	
@@ -27,14 +32,6 @@ public:
         EXCESSIVELY = 2,
         EXACTLY = 3
     };
-    static bool fitIsBetterThan(extentValue a, extentValue b)
-    {
-        if(a!=NOTACCEPTABLE && b==NOTACCEPTABLE) return TRUE;
-        if(a==EXACTLY && b!=NOTACCEPTABLE) return TRUE;
-        if(a==EXCESSIVELY && b==INSUFFICIENTLY) return TRUE;
-        return FALSE;
-    }
-
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
 
     virtual bool loadFromFile(QFile& file) = 0;
@@ -50,6 +47,16 @@ public:
     static DesignerDocItf* createEmptyDoc(QString docName);
 
     static QMetaObject* getFileFitsDocumentTypesStatus(QString pathName);
+
+
+private:
+    static bool fitIsBetterThan(extentValue a, extentValue b)
+    {
+        if(a!=NOTACCEPTABLE && b==NOTACCEPTABLE) return TRUE;
+        if(a==EXACTLY && b!=NOTACCEPTABLE) return TRUE;
+        if(a==EXCESSIVELY && b==INSUFFICIENTLY) return TRUE;
+        return FALSE;
+    }
 
 
 signals:

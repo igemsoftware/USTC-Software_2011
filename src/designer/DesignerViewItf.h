@@ -1,7 +1,7 @@
 #ifndef DESIGNERVIEWITF_H
 #define DESIGNERVIEWITF_H
 
-#include <QWidget>
+#include <QtGui>
 
 class DesignerMainWnd;
 

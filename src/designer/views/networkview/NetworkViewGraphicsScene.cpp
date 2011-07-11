@@ -4,6 +4,7 @@
 #include "DesignerModelItf.h"
 
 #include "NetworkViewGraphicsScene.h"
+#include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneNodeReaction.h"
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
@@ -27,15 +28,37 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
     QScriptEngine *engine =  model->getEngine();
 
+//    qDebug()<<engine->globalObject().property("*model*");
+    QScriptValue compartmentsArray = engine->globalObject().property("*model*").property("*compartmentlist*");
+    int compartmentsCount = compartmentsArray.property("length").toInt32();
+    QMap<QString, NetworkViewGraphicsSceneContainer*> containerMap;
+    for(int i=0;i<compartmentsCount;i++)
+    {
+        NetworkViewGraphicsSceneContainer* newContainer =
+                new NetworkViewGraphicsSceneContainer(activePanel());
+        addItem(newContainer);
+        containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
+    }
+
     QScriptValue speciesArray = engine->globalObject().property("*model*").property("*specieslist*");
     int speciesCount = speciesArray.property("length").toInt32();
-
     QMap<QString, NetworkViewGraphicsSceneNodeSubstance*> substanceMap;
     for(int i=0;i<speciesCount;i++)
     {
 //        qDebug()<<speciesArray.property(i);
-        NetworkViewGraphicsSceneNodeSubstance* newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel());
-        addItem(newNode);
+        QScriptValue parentCompartment = speciesArray.property(i).property("compartment");
+        NetworkViewGraphicsSceneNodeSubstance* newNode;
+        NetworkViewGraphicsSceneContainer* container;
+        if(parentCompartment.isNull()||!(container = containerMap[parentCompartment.toString()]))
+        {
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel());
+            addItem(newNode);
+        }
+        else
+        {
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(container);
+            addItem(newNode);
+        }
         newNode->setLabel(speciesArray.property(i).property("id").toString());
         newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
 

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DesignerMainWnd</string>
+   <string>Lachesis Designer</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -36,7 +36,9 @@
        <string notr="true">QTabBar#MainWndTabBar
 {
 	background-color: rgb(32,65,98);
-}</string>
+}
+
+</string>
       </property>
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
@@ -239,7 +241,7 @@
   <customwidget>
    <class>MainWndTabWidget</class>
    <extends>QTabWidget</extends>
-   <header>views/common/MainWndTabWidget.h</header>
+   <header>common/widgets/MainWndTabWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

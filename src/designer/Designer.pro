@@ -48,7 +48,11 @@ SOURCES +=\
     models/common/MoDeLDoc.cpp \
     models/common/MoDeLDocParser.cpp \
     documents/MoDeL/MoDeLDocParser.cpp \
-    documents/MoDeL/MoDeLDoc.cpp
+    documents/MoDeL/MoDeLDoc.cpp \
+    views/behaviorview/BehaviorView.cpp \
+    common/widgets/MainWndTabWidget.cpp \
+    views/filedescriptionview/FileDescriptionView.cpp \
+    views/networkview/NetworkViewGraphicsSceneContainer.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -88,12 +92,16 @@ HEADERS  += DesignerMainWnd.h \
     views/behaviorview/BehaviorView.h \
     models/common/MoDeLDocParser.h \
     documents/MoDeL/MoDeLDocParser.h \
-    documents/MoDeL/MoDeLDoc.h
+    documents/MoDeL/MoDeLDoc.h \
+    common/widgets/MainWndTabWidget.h \
+    views/filedescriptionview/FileDescriptionView.h \
+    views/networkview/NetworkViewGraphicsSceneContainer.h
 
 FORMS    += DesignerMainWnd.ui \
     DesignerChooseViewDialog.ui \
     views/welcomeview/WelcomeView.ui \
-    views/behaviorview/BehaviorView.ui
+    views/behaviorview/BehaviorView.ui \
+    views/filedescriptionview/FileDescriptionView.ui
 
 # views
 

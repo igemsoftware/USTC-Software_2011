@@ -19,7 +19,7 @@ public:
     ~DesignerMainWnd();
 
 public slots:
-    void createView(QString viewName);
+    void createView(QString viewName, bool isProtected = false);
 
     void openFile(QString& fileName);
 
@@ -49,6 +49,7 @@ public:
     static QList<DesignerMainWnd*> mainWnd_list;
 private slots:
     void on_actionFileSave_triggered();
+    void on_tabWidget_tabCloseRequested(int index);
 };
 
 #endif // DESIGNERMAINWND_H

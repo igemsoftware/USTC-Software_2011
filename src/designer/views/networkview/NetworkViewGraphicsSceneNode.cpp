@@ -16,13 +16,18 @@ void NetworkViewGraphicsSceneNode::registerEdge(NetworkViewGraphicsSceneEdge* ed
     if(edge && edgeList.indexOf(edge)==-1) edgeList.append(edge);
 }
 
+void NetworkViewGraphicsSceneNode::updatePos()
+{
+    for(size_t i = edgeList.count(); i > 0; i--)
+    {
+        edgeList[i-1]->updatePos();
+    }
+}
+
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     if (change == ItemPositionHasChanged && scene()) {
-        for(size_t i = edgeList.count(); i > 0; i--)
-        {
-            edgeList[i-1]->updatePos();
-        }
+        updatePos();
     }
     return QGraphicsEllipseItem::itemChange(change, value);
 }
