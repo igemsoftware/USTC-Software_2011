@@ -33,7 +33,6 @@ SOURCES +=\
     views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
     documents/SBML/SBMLDocParser.cpp \
-    DesignerChooseViewDialog.cpp \
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
@@ -52,7 +51,9 @@ SOURCES +=\
     views/behaviorview/BehaviorView.cpp \
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
-    views/networkview/NetworkViewGraphicsSceneContainer.cpp
+    views/networkview/NetworkViewGraphicsSceneContainer.cpp \
+    common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
+    views/networkview/NetworkViewGraphicsItem.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -78,7 +79,6 @@ HEADERS  += DesignerMainWnd.h \
     documents/SBML/SBMLDoc.h \
     documents/SBML/SBMLDocParser.h \
     models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h \
-    DesignerChooseViewDialog.h \
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
@@ -95,10 +95,11 @@ HEADERS  += DesignerMainWnd.h \
     documents/MoDeL/MoDeLDoc.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
-    views/networkview/NetworkViewGraphicsSceneContainer.h
+    views/networkview/NetworkViewGraphicsSceneContainer.h \
+    common/panels/propertypanel/DesignerPropertiesPanelWidget.h \
+    views/networkview/NetworkViewGraphicsItem.h
 
 FORMS    += DesignerMainWnd.ui \
-    DesignerChooseViewDialog.ui \
     views/welcomeview/WelcomeView.ui \
     views/behaviorview/BehaviorView.ui \
     views/filedescriptionview/FileDescriptionView.ui

@@ -14,4 +14,5 @@ SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd) :
 
     sbmlHighlighter = new SBMLEditorViewHighlighter(SBMLTextEdit->document());
 
+
 }

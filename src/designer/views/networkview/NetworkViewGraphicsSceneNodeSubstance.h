@@ -8,7 +8,7 @@ class NetworkViewGraphicsSceneNodeSubstance : public NetworkViewGraphicsSceneNod
 private:
     QBrush privateBrush;
 public:
-    NetworkViewGraphicsSceneNodeSubstance(QGraphicsItem *parent);
+    NetworkViewGraphicsSceneNodeSubstance(QGraphicsItem *parent, QScriptValue value, bool isParentContainer = false);
 
     virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + NodeSubstance;}
 };

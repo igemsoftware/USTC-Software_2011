@@ -118,10 +118,68 @@ protected:
         return handler_allocateNewIndex(newObjectList);
     }
 
+    void handler_ensureTargetPropertyIsArray(QScriptValue object, QString propertyName)
+    {
+        if(!object.property(propertyName).isArray())
+        {
+            object.setProperty(propertyName, getEngine()->newArray(0));
+        }
+    }
+
+    void handler_appendArrayObjectToArrayObject(QScriptValue srcObject, QScriptValue destObject)
+    {
+        int srcLength = srcObject.property("length").toInt32();
+        int destLength = destObject.property("length").toInt32();
+        for(int i = 0; i < srcLength; i++)
+        {
+            destObject.setProperty(i+destLength, srcObject.property(i));
+        }
+        destObject.setProperty("length", srcLength+destLength);
+    }
+
+    QScriptValue handler_createFunctionObjectFromMathMLItem(QDomElement* domElem)
+    {
+        if(domElem->nodeName()=="ci")
+        {
+            return QScriptValue(QString("'")+domElem->nodeValue().toUtf8());
+        }
+        else if(domElem->nodeName()=="cn")
+        {
+            if(domElem->attribute("type")=="integer")
+            {
+                return QScriptValue(domElem->nodeValue().toInt());
+            }
+            else if(domElem->attribute("type")=="real")
+            {
+                return QScriptValue(domElem->nodeValue().toDouble());
+            }
+        }
+        else if(domElem->nodeName()=="apply")
+        {
+            QList<QScriptValue> valueList;
+            for(QDomElement childElem = domElem->firstChildElement(); !childElem.isNull(); childElem=childElem.nextSiblingElement())
+            {
+                valueList.push_back(handler_createFunctionObjectFromMathMLItem(&childElem));
+            }
+
+            QScriptValue newArray = getEngine()->newArray(valueList.count());
+            for(int i=0;i<valueList.count();i++)
+            {
+                newArray.setProperty(i, valueList[i]);
+            }
+            return newArray;
+        }
+
+        return QScriptValue(QString(domElem->nodeValue().toUtf8()));
+
+    }
+
     modelObjectIndex handler_createFunctionObjectFromMathML(QDomElement* domElem)
     {
-        //append
-        return 0;
+        QDomElement childElement = domElem->firstChildElement();
+        QScriptValue functionObject = handler_createFunctionObjectFromMathMLItem(&childElement);
+
+        return handler_allocateNewIndex(functionObject);;
     }
 
 public:
@@ -176,6 +234,18 @@ public:
             modelObjectIndex indexOfList = handler_collectChildObjectAttributeAsArray(domElem, "modifierSpeciesReference", "species");
             itemPool[parent].setProperty("modifier", itemPool[indexOfList]);
             return indexOfList;
+        }
+        else if(domElem->nodeName()==/*Reaction::kineticLaw*/ "math")
+        {
+            itemPool[parent].setProperty("math", itemPool[handler_createFunctionObjectFromMathML(domElem)]);
+            return parent;
+        }
+        else if(domElem->nodeName()==/*Reaction::kineticLaw*/ "listOfParameters")
+        {
+            modelObjectIndex indexOfList = handler_collectChildObjectsAsArray(domElem);
+            handler_ensureTargetPropertyIsArray(itemPool[0], "*parameterlist*");
+            handler_appendArrayObjectToArrayObject(itemPool[indexOfList], itemPool[0].property("*parameterlist*"));
+            return 0;
         }
         else
         {

@@ -1,13 +1,19 @@
+#include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneNode.h"
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneLabel.h"
 
-NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent)
-    : QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent)
+NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value, bool isParentContainer)
+    : QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent),
+      NetworkViewGraphicsItem(value)
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
 
+    if(isParentContainer)
+    {
+        dynamic_cast<NetworkViewGraphicsSceneContainer*>(parent)->registerNode(this);
+    }
 }
 
 

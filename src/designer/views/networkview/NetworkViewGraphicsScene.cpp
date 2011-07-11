@@ -35,8 +35,9 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     for(int i=0;i<compartmentsCount;i++)
     {
         NetworkViewGraphicsSceneContainer* newContainer =
-                new NetworkViewGraphicsSceneContainer(activePanel());
+                new NetworkViewGraphicsSceneContainer(activePanel(),compartmentsArray.property(i));
         addItem(newContainer);
+        newContainer->itemObject = compartmentsArray.property(i);
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
 
@@ -51,16 +52,16 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         NetworkViewGraphicsSceneContainer* container;
         if(parentCompartment.isNull()||!(container = containerMap[parentCompartment.toString()]))
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel());
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel(), speciesArray.property(i));
             addItem(newNode);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
         }
         else
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(container);
-            addItem(newNode);
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(container, speciesArray.property(i), true);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
         }
         newNode->setLabel(speciesArray.property(i).property("id").toString());
-        newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
 
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
     }
@@ -70,7 +71,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     for(int i=0;i<reactionCount;i++)
     {
 //        qDebug()<<reactionArray.property(i);
-        NetworkViewGraphicsSceneNodeReaction* newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel());
+        NetworkViewGraphicsSceneNodeReaction* newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
         addItem(newNode);
         newNode->setLabel(reactionArray.property(i).property("id").toString());
         newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);

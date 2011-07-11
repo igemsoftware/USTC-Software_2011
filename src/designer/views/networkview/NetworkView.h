@@ -1,6 +1,7 @@
 #ifndef NETWORKVIEW_H
 #define NETWORKVIEW_H
 
+#include <QtScript>
 #include "DesignerViewItf.h"
 
 class NetworkView : public DesignerViewItf
@@ -9,10 +10,14 @@ class NetworkView : public DesignerViewItf
 public:
     Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd);
 
+protected:
+    QGraphicsView* graphicsView;
+
 signals:
+    void updateSelectedItem(QScriptValue);
 
 public slots:
-
+    void on_sceneSelectionChanged();
 };
 
 #endif // NETWORKVIEW_H

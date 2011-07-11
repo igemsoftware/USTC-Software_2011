@@ -86,6 +86,7 @@ QList<QString> SBMLDoc::getSupportedViewList() const
     supportedViewList.append("AssemblyView");
     supportedViewList.append("NetworkView");
     supportedViewList.append("BehaviorView");
+    supportedViewList.append("SBMLEditorView");
     return supportedViewList;
 }
 

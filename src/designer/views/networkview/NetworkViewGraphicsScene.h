@@ -1,6 +1,7 @@
 #ifndef NETWORKVIEWGRAPHICSSCENE_H
 #define NETWORKVIEWGRAPHICSSCENE_H
 
+#include <QtScript>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 

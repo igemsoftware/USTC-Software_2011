@@ -1,8 +1,9 @@
 #include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneLabel.h"
 
-NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent) :
-    QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent)
+NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value) :
+    QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent),
+    NetworkViewGraphicsItem(value)
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
