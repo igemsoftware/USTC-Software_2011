@@ -46,7 +46,8 @@ SOURCES +=\
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
-    common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp
+    common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
+    views/networkview/NetworkViewGraphicsItem.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -86,7 +87,8 @@ HEADERS  += DesignerMainWnd.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
     views/networkview/NetworkViewGraphicsSceneContainer.h \
-    common/panels/propertypanel/DesignerPropertiesPanelWidget.h
+    common/panels/propertypanel/DesignerPropertiesPanelWidget.h \
+    views/networkview/NetworkViewGraphicsItem.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

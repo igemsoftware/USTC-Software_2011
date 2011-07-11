@@ -85,6 +85,8 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
     {
         if(!cached.strictlyEquals(value))
         {
+            propertiesWidget->clear();
+
             QStringList valueList;
             switch(valueType)
             {
@@ -108,10 +110,24 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
                 {
                     propItr.next();
 
+                    if(propItr.name().mid(0,1)=="$") //type info, skip
+                    {
+                        continue;
+                    }
+
                     QStringList valueList;
                     valueList<<propItr.name();
-                    valueList<<formatScriptValue(propItr.value());
-                    propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
+
+                    QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
+                    if(typeNameValue.isString())
+                    {
+
+                    }
+                    else
+                    {
+                        valueList<<formatScriptValue(propItr.value());
+                        propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
+                    }
                 }
                 break;
             }

@@ -10,8 +10,6 @@ class DesignerPropertiesPanelWidget : public QWidget
 public:
     explicit DesignerPropertiesPanelWidget(QWidget *parent = 0);
 
-    void updateTarget(QScriptValue value);
-
     enum ScriptValueType
     {
         Undefined,
@@ -37,6 +35,7 @@ protected:
 signals:
 
 public slots:
+    void updateTarget(QScriptValue value);
 
 };
 

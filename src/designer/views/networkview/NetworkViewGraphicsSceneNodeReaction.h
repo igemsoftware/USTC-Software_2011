@@ -8,7 +8,7 @@ class NetworkViewGraphicsSceneNodeReaction : public NetworkViewGraphicsSceneNode
 private:
     QBrush privateBrush;
 public:
-    NetworkViewGraphicsSceneNodeReaction(QGraphicsItem *parent, bool isParentContainer = false);
+    NetworkViewGraphicsSceneNodeReaction(QGraphicsItem *parent, QScriptValue value, bool isParentContainer = false);
 
     virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + NodeReaction;}
 };

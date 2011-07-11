@@ -1,15 +1,18 @@
 #ifndef NETWORKVIEWGRAPHICSSCENECONTAINER_H
 #define NETWORKVIEWGRAPHICSSCENECONTAINER_H
 
+#include <QtScript>
 #include <QGraphicsItem>
+
+#include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsSceneNode.h"
 
 class NetworkViewGraphicsSceneLabel;
 
-class NetworkViewGraphicsSceneContainer : public QGraphicsEllipseItem
+class NetworkViewGraphicsSceneContainer : public QGraphicsEllipseItem, public NetworkViewGraphicsItem
 {
 public:
-    explicit NetworkViewGraphicsSceneContainer(QGraphicsItem *parent = 0);
+    explicit NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value);
 private:
     NetworkViewGraphicsSceneLabel* labelObject;
 
