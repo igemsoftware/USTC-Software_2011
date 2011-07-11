@@ -28,7 +28,6 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
     QScriptEngine *engine =  model->getEngine();
 
-    qDebug()<<testValue1<<testValue2<<endl;
 //    qDebug()<<engine->globalObject().property("*model*");
     QScriptValue compartmentsArray = engine->globalObject().property("*model*").property("*compartmentlist*");
     int compartmentsCount = compartmentsArray.property("length").toInt32();

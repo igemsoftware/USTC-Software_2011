@@ -6,7 +6,6 @@
 
 #include "views/welcomeview/WelcomeView.h"
 
-#include "DesignerChooseViewDialog.h"
 #include "DesignerDocItf.h"
 
 
@@ -35,6 +34,15 @@ void DesignerMainWnd::resizeEvent ( QResizeEvent * event )
     {
         currentView->resize(centralWidget()->size());
     }*/
+}
+
+QWidget* DesignerMainWnd::getPanelWidget(QString panelName)
+{
+    if(panelName=="PropertiesPanel")
+    {
+        return ui->propertiesPanelWidget;
+    }
+    return NULL;
 }
 
 void DesignerMainWnd::updateTabInfo()

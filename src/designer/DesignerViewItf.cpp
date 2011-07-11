@@ -28,7 +28,7 @@ static QString     titlesOfViews[] = {
     QObject::tr("Assembly View"),
     QObject::tr("Network View"),
     QObject::tr("Behavior View"),
-    QObject::tr("SBML Editor"),
+    QObject::tr("SBML Editor View"),
     QObject::tr("Welcome"),
     QObject::tr("Views"),
 };

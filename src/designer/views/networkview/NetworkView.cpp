@@ -10,6 +10,7 @@
 
 #include "DesignerDebug.h"
 
+#include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
 
 NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)
@@ -28,4 +29,6 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     scene->loadFromModel(mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel"));
 
     graphicsView->setScene(scene);
+
+    ((DesignerPropertiesPanelWidget*)mainWindow->getPanelWidget("PropertiesPanel"))->updateTarget(mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel")->getEngine()->globalObject().property("*model*"));
 }

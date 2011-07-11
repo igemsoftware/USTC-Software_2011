@@ -23,7 +23,10 @@ public slots:
 
     void openFile(QString& fileName);
 
-    DesignerDocItf * getCurrentDoc(QString defaultDocType = "");
+    DesignerDocItf * getCurrentDoc(QString defaultDocType = QString());
+
+public:
+    QWidget* getPanelWidget(QString panelName);
 
 protected:
     virtual void resizeEvent ( QResizeEvent * event );

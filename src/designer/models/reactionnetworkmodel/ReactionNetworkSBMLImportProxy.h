@@ -130,9 +130,9 @@ protected:
     {
         int srcLength = srcObject.property("length").toInt32();
         int destLength = destObject.property("length").toInt32();
-        for(int i = 0; i < destLength; i++)
+        for(int i = 0; i < srcLength; i++)
         {
-            destObject.setProperty(i+srcLength, srcObject.property(i));
+            destObject.setProperty(i+destLength, srcObject.property(i));
         }
         destObject.setProperty("length", srcLength+destLength);
     }
