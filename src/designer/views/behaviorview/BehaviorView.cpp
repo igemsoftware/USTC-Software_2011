@@ -165,7 +165,7 @@ void BehaviorView::on_pushButton_ViewValue_clicked()
         {
             int j=int((ui->PlotWidget->vc->value(i).x()-30)*ui->PlotWidget->maxx/(ui->PlotWidget->size().width()-40));
             ui->tableWidget_behavior->setItem(j+1,1+ui->comboBox->currentIndex(),new QTableWidgetItem
-            (QString::number(ui->PlotWidget->maxy-(ui->PlotWidget->vc->value(i).y()-10)*ui->PlotWidget->maxy/(ui->PlotWidget->size().height()-20))));
+            (QString::number(ui->PlotWidget->maxy-(ui->PlotWidget->vc->value(i).y()-10)*ui->PlotWidget->maxy/(ui->PlotWidget->size().height()-20))));        
         }
     }
 }

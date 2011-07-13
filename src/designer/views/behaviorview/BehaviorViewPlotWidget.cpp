@@ -16,7 +16,7 @@ void BehaviorViewPlotWidget::setPenColor(const QColor &newColor)
 
 void BehaviorViewPlotWidget::setPenWidth(int newWidth)
 {
-    myPenWidth = newWidth;
+    myPenWidth = newWidth;    
 }
 
 void BehaviorViewPlotWidget::clearImage()
@@ -31,16 +31,34 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton && this->drawable && event->x()>30 && event->y()<(this->size().height()-10)) {
         lastPoint = event->pos();
         scribbling = true;
+        this->currentPos=event->pos();
     }
 }
 
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    int total=int(this->maxx/this->deltax),index=int((this->currentPos.x()-30)/this->deltax)+1;
+    int i=(event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxx);
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
-    if (this->drawable && (event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxx)==0)
+    if (this->drawable)
     {
-        vc->append(event->pos());
+        if(i==0)
+        {
+            vc->append(event->pos());
+            index++;
+        }
+        else if(int((event->pos().x()-30)/this->deltax)>=index)
+        {
+            int x1=this->currentPos.x(),x2=event->pos().x();
+            int y1=this->currentPos.y(),y2=event->pos().y();
+            int x=index*this->deltax+30;
+            int y=int((y1*x2+y2*x-y1*x-y2*x1)/(x2-x1));
+            QPoint *temp=new QPoint(x,y);
+            vc->append(*temp);
+            index++;
+        }
+        this->currentPos=event->pos();
     }
 }
 

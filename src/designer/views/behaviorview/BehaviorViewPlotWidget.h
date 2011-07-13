@@ -11,6 +11,7 @@ public:
     explicit BehaviorViewPlotWidget(QWidget *parent = 0);
     bool drawable;
     int node;
+    QPoint currentPos;
     double x;    
     double deltax;
     double maxy;
