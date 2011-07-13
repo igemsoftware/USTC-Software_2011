@@ -19,12 +19,22 @@ public:
         String,
         Array,
         Object,
-        Unknown
+        User
     };
 
-    ScriptValueType getScriptValueType(QScriptValue& value);
-    QString formatScriptValue(QScriptValue value);
-    QTreeWidgetItem* insertArrayItems(QTreeWidgetItem* item, QScriptValue value);
+    struct ScriptValueUserType
+    {
+        QScriptString name;
+        void  (*handler)();
+    };
+
+    QList<ScriptValueUserType> scriptValueUserTypeList;
+
+    void addPropertyItems(QScriptValue value, int maxLevel, QTreeWidgetItem* parentItem);
+    QString formatScriptValue(QScriptValue value, int maxLevel);
+
+    ScriptValueType getScriptValueType(const QScriptValue& value);
+    ScriptValueType getScriptValuePropertyType(const QScriptValue& value, QString propertyName);
 
 protected:
     QTreeWidget*  propertiesWidget;
