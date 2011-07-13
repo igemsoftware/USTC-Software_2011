@@ -1,3 +1,4 @@
+#include <QtSingleApplication>
 #include <QtGui/QApplication>
 #include <QDesktopServices>
 #include <QSplashScreen>
@@ -6,9 +7,14 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication designer(argc, argv);
-    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
+    QtSingleApplication designer(argc, argv);
+    if(designer.isRunning())
+    {
+        designer.sendMessage("/new");
+        return 0;
+    }
 
+    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
 
     QPixmap pixmap(":/designer/splash.png");
     QSplashScreen *splash = new QSplashScreen(pixmap, Qt::WindowStaysOnTopHint);
@@ -22,7 +28,12 @@ int main(int argc, char *argv[])
     {
         designer.processEvents();
     }
-    DesignerMainWnd::globalCreateNewMainWnd();
+
+
+    DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
+    designer.setActivationWindow(mainWnd);
+
+    QObject::connect(&designer, SIGNAL(messageReceived(const QString&)), mainWnd, SLOT(instanceMessageReceived(const QString&)));
 
     return designer.exec();
 }

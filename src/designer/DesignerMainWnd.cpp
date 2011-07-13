@@ -8,6 +8,9 @@
 
 #include "DesignerDocItf.h"
 
+#if defined( Q_OS_WIN )
+#include <windows.h>
+#endif
 
 DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     QMainWindow(parent),
@@ -145,6 +148,14 @@ DesignerMainWnd* DesignerMainWnd::globalCreateNewMainWnd()
 {
     DesignerMainWnd* pFrame = new DesignerMainWnd();
     pFrame->showMaximized();
+    pFrame->raise();
+    pFrame->activateWindow();
+
+#if defined( Q_OS_WIN )
+    SetWindowPos( pFrame->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
+    SetWindowPos( pFrame->winId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
+#endif
+
     mainWnd_list.append(pFrame);
     return pFrame;
 }
@@ -190,6 +201,13 @@ void DesignerMainWnd::on_actionFileExit_triggered()
     QApplication::quit();
 }
 
+void DesignerMainWnd::instanceMessageReceived(const QString& message)
+{
+    if(message=="/new")
+    {
+        globalCreateNewMainWnd();
+    }
+}
 
 void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
 {

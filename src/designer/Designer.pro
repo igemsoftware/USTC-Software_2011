@@ -82,7 +82,6 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorView.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
-    views/common/MainWndTabWidget.h \
     views/behaviorview/BehaviorView.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
@@ -126,3 +125,7 @@ RESOURCES += \
 
 OTHER_FILES += \
     models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype
+
+DEPENDSDIR = $$PWD/../../lib
+include($$DEPENDSDIR/libs.pri)
+

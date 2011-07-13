@@ -46,6 +46,8 @@ public slots:
     void on_actionFileExit_triggered();
     void on_actionFileOpen_triggered();
 
+    void instanceMessageReceived(const QString& message);
+
 public:
     static DesignerMainWnd* globalCreateNewMainWnd();
     static void globalUnregisterMainWnd(DesignerMainWnd*);
