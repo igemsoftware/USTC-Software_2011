@@ -1,15 +1,8 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2011-06-23T16:49:44
-#
-#-------------------------------------------------
-
-QT       += core gui script scripttools xml
-
-TARGET = Designer
-TEMPLATE = app
-
 # Designer main UI
+
+INCLUDEPATH += $$PWD
+DEPENDPATH += $$PWD
+
 
 SOURCES +=\
     DesignerMainWnd.cpp \
@@ -94,38 +87,8 @@ FORMS    += DesignerMainWnd.ui \
     views/behaviorview/BehaviorView.ui \
     views/filedescriptionview/FileDescriptionView.ui
 
-# views
-
-## assembly view
-
-SOURCES +=
-
-HEADERS  +=
-
-FORMS    +=
-
-## network view
-
-SOURCES +=
-
-HEADERS  +=
-
-FORMS    +=
-
-## behavior view
-
-SOURCES +=
-
-HEADERS  +=
-
-FORMS    +=
-
 RESOURCES += \
     resources/DesignerResources.qrc
 
 OTHER_FILES += \
     models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype
-
-DEPENDSDIR = $$PWD/../../lib
-include($$DEPENDSDIR/libs.pri)
-
