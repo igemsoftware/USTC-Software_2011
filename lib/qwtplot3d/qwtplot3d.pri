@@ -2,6 +2,7 @@
 CONFIG           += qt warn_on opengl thread zlib debug
 
 INCLUDEPATH       += $$PWD $$PWD/include
+DEPENDPATH        += $$PWD
 
 QT += opengl
 

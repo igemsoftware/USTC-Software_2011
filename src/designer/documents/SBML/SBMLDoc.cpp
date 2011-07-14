@@ -87,6 +87,11 @@ QList<QString> SBMLDoc::getSupportedViewList() const
     supportedViewList.append("NetworkView");
     supportedViewList.append("BehaviorView");
     supportedViewList.append("SBMLEditorView");
+    //! \bug For debug purpose.
+    supportedViewList.append("Plot3DView");
+    supportedViewList.append("PartView");
+    supportedViewList.append("ODEView");
+
     return supportedViewList;
 }
 

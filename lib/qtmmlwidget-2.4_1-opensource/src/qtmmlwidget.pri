@@ -1,6 +1,6 @@
 include(../common.pri)
 INCLUDEPATH += $$PWD
-DEPENDPATH += $$PWD
+#DEPENDPATH += $$PWD
 QT += xml
 
 qtmmlwidget-uselib:!qtmmlwidget-buildlib {
