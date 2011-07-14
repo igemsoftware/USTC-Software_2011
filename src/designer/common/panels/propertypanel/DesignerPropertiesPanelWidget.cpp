@@ -18,6 +18,7 @@ DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
     QStringList propertiesHeaderLabels;
     propertiesHeaderLabels<<tr("Property")<<tr("Value");
     propertiesWidget->setHeaderLabels( propertiesHeaderLabels );
+    propertiesWidget->setWordWrap(true);
 
 //    propertiesWidget->clear();
     updateTarget(QScriptValue(QScriptValue::UndefinedValue));
@@ -53,45 +54,67 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
     ScriptValueType valueType = getScriptValueType(value);
     QStringList valueList;
 
+    QList<QTreeWidgetItem *> newItems;
+
     switch(valueType)
     {
     case Null:
     case Boolean:
     case Number:
     case String:
-        valueList << " <Value>" << formatScriptValue(value);
-        propertiesWidget->addTopLevelItem(new QTreeWidgetItem(valueList));
+        if(!parentItem)
+        {
+            valueList << " <Value>" << formatScriptValue(value, maxLevel);
+            newItems.append(new QTreeWidgetItem(valueList));
+        }
         break;
     case Array:
     {
-        valueList << " <Value>" << formatScriptValue(value);
-        propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList), value));
-//                break;
+        if(maxLevel>=0)
+        {
+            int length = value.property("length").toInt32();
+            for(int i=0; i<length; i++)
+            {
+                QStringList fieldList;
+                fieldList<<QString(" [%1]").arg(i)<<formatScriptValue(value.property(i), maxLevel);
+                QTreeWidgetItem* childItem = new QTreeWidgetItem(fieldList);
+                addPropertyItems(value.property(i), maxLevel-1, childItem);
+                newItems.append(childItem);
+            }
+        }
+        break;
     }
     case Object:
     {
-        QScriptValueIterator propItr(value);
-        while(propItr.hasNext())
+        if(maxLevel>=0)
         {
-            propItr.next();
-
-            if(propItr.name().mid(0,1)=="$") //type info, skip
+            QScriptValueIterator propItr(value);
+            while(propItr.hasNext())
             {
-                continue;
-            }
+                propItr.next();
 
-            QStringList valueList;
-            valueList<<propItr.name();
+                if(propItr.name().mid(0,1)=="$") //type info, skip
+                {
+                    continue;
+                }
 
-            QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
-            if(typeNameValue.isString())
-            {
+                QStringList valueList;
+                valueList<<propItr.name();
 
-            }
-            else
-            {
-                valueList<<formatScriptValue(propItr.value());
-                propertiesWidget->addTopLevelItem(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
+                QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
+                if(typeNameValue.isString())
+                {
+
+                }
+                else
+                {
+                    valueList<<formatScriptValue(propItr.value(), maxLevel);
+                    QTreeWidgetItem *objectItem =  new QTreeWidgetItem(valueList);
+                    addPropertyItems(propItr.value(), maxLevel-1, objectItem);
+    //                newItems.append(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
+                    newItems.append(objectItem);
+
+                }
             }
         }
         break;
@@ -100,11 +123,18 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
         break;
     }
 
-
+    if(parentItem)
+    {
+        parentItem->addChildren(newItems);
+    }
+    else
+    {
+        propertiesWidget->addTopLevelItems(newItems);
+    }
 }
 
 
-QString DesignerPropertiesPanelWidget::formatScriptValue(QScriptValue value)
+QString DesignerPropertiesPanelWidget::formatScriptValue(QScriptValue value, int maxLevel)
 {
     switch(getScriptValueType(value))
     {
@@ -117,27 +147,51 @@ QString DesignerPropertiesPanelWidget::formatScriptValue(QScriptValue value)
     case String:
         return value.toString();
     case Array:
-        return " <Array>";
+        if(maxLevel>0)
+        {
+            return " <Array>";
+        }
+        else
+        {
+            QString result = "{";
+            int length = value.property("length").toInt32();
+            for(int i=0;i<length;i++)
+            {
+                if(i) result+=", ";
+                result+=formatScriptValue(value.property(i), maxLevel-1);
+            }
+            result+="}";
+            return result;
+        }
     case Object:
-        return " <Compound-object>";
+        if(maxLevel>0)
+        {
+            return " <Compound-object>";
+        }
+        else
+        {
+            QString result = "{";
+            bool hasOutput = false;
+            QScriptValueIterator propItr(value);
+            while(propItr.hasNext())
+            {
+                propItr.next();
+                if(hasOutput)
+                {
+                    result+="; ";
+                }
+                hasOutput=true;
+                result+= propItr.name();
+                result+= "=";
+                result+= formatScriptValue(propItr.value(), maxLevel-1);
+            }
+            result+="}";
+
+            return result;
+        }
     default:
         return " <Unknown>";
     }
-}
-
-QTreeWidgetItem* DesignerPropertiesPanelWidget::insertArrayItems(QTreeWidgetItem* item, QScriptValue value)
-{
-    if(value.isArray())
-    {
-        int length = value.property("length").toInt32();
-        for(int i=0; i<length; i++)
-        {
-            QStringList fieldList;
-            fieldList<<QString(" [%1]").arg(i)<<formatScriptValue(value.property(i));
-            item->addChild(new QTreeWidgetItem(fieldList));
-        }
-    }
-    return item;
 }
 
 void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
@@ -158,10 +212,6 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
             propertiesWidget->clear();
 
             addPropertyItems(value, 1, NULL);
-
-            //TODO: updateCache;
-
-//            propertiesWidget->addTopLevelItem();
         }
         propertiesWidget->expandAll();
 

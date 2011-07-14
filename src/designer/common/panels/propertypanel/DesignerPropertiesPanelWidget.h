@@ -31,11 +31,10 @@ public:
     QList<ScriptValueUserType> scriptValueUserTypeList;
 
     void addPropertyItems(QScriptValue value, int maxLevel, QTreeWidgetItem* parentItem);
+    QString formatScriptValue(QScriptValue value, int maxLevel);
 
     ScriptValueType getScriptValueType(const QScriptValue& value);
     ScriptValueType getScriptValuePropertyType(const QScriptValue& value, QString propertyName);
-    QString formatScriptValue(QScriptValue value);
-    QTreeWidgetItem* insertArrayItems(QTreeWidgetItem* item, QScriptValue value);
 
 protected:
     QTreeWidget*  propertiesWidget;
