@@ -88,35 +88,18 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
     switch(valueType)
     {
     case Null:
-        if(!parentItem)
-        {
-            QtVariantProperty *item = variantManager->addProperty(QVariant::Invalid, " <Value>");
-            item->setValue(value.toVariant());
-            newProperties.append(item);
-        }
-        break;
     case Boolean:
-        if(!parentItem)
-        {
-            QtVariantProperty *item = variantManager->addProperty(QVariant::Bool, " <Value>");
-            item->setValue(value.toVariant());
-            newProperties.append(item);
-        }
-        break;
     case Number:
-    {
-        if(!parentItem)
-        {
-            QtVariantProperty *item = variantManager->addProperty(QVariant::Double, " <Value>");
-            item->setValue(value.toVariant());
-            newProperties.append(item);
-        }
-    }
     case String:
     {
         if(!parentItem)
         {
-            QtVariantProperty *item = variantManager->addProperty(QVariant::String, " <Value>");
+            QVariant::Type propType = getQVariantTypeForScriptValueType(getScriptValueType(value));
+            QtVariantProperty *item;
+            if(propType==QVariant::Invalid)
+                item = variantManager->addProperty(QVariant::String, " <Value>");
+            else
+                item = variantManager->addProperty(propType, " <Value>");
             item->setValue(value.toVariant());
             newProperties.append(item);
         }

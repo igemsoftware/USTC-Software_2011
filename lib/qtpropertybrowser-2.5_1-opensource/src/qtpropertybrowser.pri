@@ -1,6 +1,6 @@
 include(../common.pri)
 INCLUDEPATH += $$PWD
-DEPENDPATH += $$PWD
+#DEPENDPATH += $$PWD
 
 qtpropertybrowser-uselib:!qtpropertybrowser-buildlib {
     LIBS += -L$$QTPROPERTYBROWSER_LIBDIR -l$$QTPROPERTYBROWSER_LIBNAME
