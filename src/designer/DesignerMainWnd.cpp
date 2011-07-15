@@ -48,6 +48,13 @@ QWidget* DesignerMainWnd::getPanelWidget(QString panelName)
     return NULL;
 }
 
+void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
+{
+    globalUnregisterMainWnd(this);
+    this->deleteLater();
+    return;
+}
+
 void DesignerMainWnd::updateTabInfo()
 {
     if(!currentDoc)
@@ -56,26 +63,21 @@ void DesignerMainWnd::updateTabInfo()
     }
 }
 
-void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
+void DesignerMainWnd::removeTabWithClass(QString className)
 {
-    globalUnregisterMainWnd(this);
-    this->deleteLater();
-    return;
+    for(int i = 0; i < ui->tabWidget->count(); i++)
+    {
+        QWidget* widget = ui->tabWidget->widget(i);
+        if(widget->metaObject()->className()==className)
+        {
+            ui->tabWidget->removeTab(i);
+            i--;
+        }
+    }
 }
 
 void DesignerMainWnd::createView(QString viewName, bool isProtected)
 {
-    for(int i = 0; i < ui->tabWidget->count(); i++)
-    {
-        if(ui->tabWidget->widget(i)
-                && (QString(ui->tabWidget->widget(i)->metaObject()->className())
-                == "WelcomeView"))
-        {
-            ui->tabWidget->removeTab(i);
-            break;
-        }
-    }
-
     DesignerViewItf *view =
             DesignerViewItf::createView(viewName, this);
 
@@ -85,6 +87,12 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected)
         if(isProtected) ui->tabWidget->protectTab(tabIndex);
         ui->tabWidget->setCurrentIndex(tabIndex);
     }
+
+    if(currentDoc)
+    {
+        removeTabWithClass("WelcomeView");
+    }
+
 }
 
 void DesignerMainWnd::openFile(QString& fileName)
@@ -201,6 +209,11 @@ void DesignerMainWnd::on_actionFileExit_triggered()
     QApplication::quit();
 }
 
+void DesignerMainWnd::on_actionHelpAboutApp_triggered()
+{
+    createView("AboutView");
+}
+
 void DesignerMainWnd::instanceMessageReceived(const QString& message)
 {
     if(message=="/new")
@@ -213,3 +226,4 @@ void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
 {
     ui->tabWidget->removeTab(index);
 }
+

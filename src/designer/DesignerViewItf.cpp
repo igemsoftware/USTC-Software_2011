@@ -15,6 +15,8 @@
 #include "views/partview/PartView.h"
 #include "views/odeview/ODEView.h"
 
+#include "views/aboutview/AboutView.h"
+
 
 
 static QMetaObject metaObjectsOfViews[] = {
@@ -27,6 +29,7 @@ static QMetaObject metaObjectsOfViews[] = {
     PartView::staticMetaObject,
     Plot3DView::staticMetaObject,
     ODEView::staticMetaObject,
+    AboutView::staticMetaObject,
 };
 
 static QString     titlesOfViews[] = {
@@ -39,6 +42,7 @@ static QString     titlesOfViews[] = {
     QObject::tr("Part View"),
     QObject::tr("Plot3D View"),
     QObject::tr("ODE View"),
+    QObject::tr("About"),
 };
 
 DesignerViewItf* DesignerViewItf::createView

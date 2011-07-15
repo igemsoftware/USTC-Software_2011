@@ -6,10 +6,17 @@
 
 QT       += core gui script scripttools xml
 
-Debug:TARGET = LachesisD
-Release:TARGET = Lachesis
+CONFIG(debug, debug|release) {
+    TARGET = LachesisD
+    config += debug
+    DEFINES += DEBUG
+}
+
+CONFIG(release, debug|release) {
+    TARGET = Lachesis
+}
+
 TEMPLATE = app
-DESTDIR = $$PWD/bin
 DESTDIR = $$PWD/bin
 
 include($$PWD/lib/libs.pri)
