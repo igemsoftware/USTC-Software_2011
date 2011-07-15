@@ -91,6 +91,7 @@ QList<QString> SBMLDoc::getSupportedViewList() const
     supportedViewList.append("Plot3DView");
     supportedViewList.append("PartView");
     supportedViewList.append("ODEView");
+    supportedViewList.append("ClothoDBView");
 
     return supportedViewList;
 }

@@ -2,8 +2,8 @@
 #include "ui_ClothoDBView.h"
 #include <QXmlDefaultHandler>
 
-ClothoDBView::ClothoDBView(QWidget *parent) :
-    QWidget(parent),
+ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd) :
+    DesignerViewItf(mainWnd),
     ui(new Ui::ClothoDBView)
 {
     ui->setupUi(this);

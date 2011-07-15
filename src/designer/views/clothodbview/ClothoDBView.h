@@ -6,11 +6,14 @@
 #include <QXmlSimpleReader>
 #include <QDesktopServices>
 
+#include "DesignerViewItf.h"
+
+
 namespace Ui {
     class ClothoDBView;
 }
 
-class ClothoDBView : public QWidget
+class ClothoDBView : public DesignerViewItf
 {
     Q_OBJECT
     QXmlSimpleReader xmlReader;
@@ -20,7 +23,7 @@ public:
     void initiate();
     void connect();
 
-    explicit ClothoDBView(QWidget *parent = 0);
+    Q_INVOKABLE explicit ClothoDBView(DesignerMainWnd *mainWnd);
     ~ClothoDBView();
 
 private:
