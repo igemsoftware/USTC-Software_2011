@@ -19,8 +19,8 @@ public class connect implements ClothoWidget{
     @Override
     public void launch() {
         try{
-        //String tmp=this.prepare();+" -from-clotho";
-        Runtime.getRuntime().exec(this.prepare());
+        String tmp=this.prepare()+" -from-clotho";
+        Runtime.getRuntime().exec(tmp);
         }
         catch(Exception e){
             JOptionPane.showConfirmDialog(null, "Cannot start GeneStudio please reconfigure it!","Launch Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -35,7 +35,7 @@ public class connect implements ClothoWidget{
         Runtime.getRuntime().exec(tmp);
         }
         catch(Exception e){
-            JOptionPane.showConfirmDialog(null, "Cannot start GeneStudio please reconfigure it!","Launch Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showConfirmDialog(null, "Cannot close GeneStudio please reconfigure it!","Terminate Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
         }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -58,22 +58,9 @@ public class connect implements ClothoWidget{
     }
     
 
-    public String GetPath(){
-        String osname=System.getProperty("os.name");
-        if(osname.equals("Windows 7")){
-            return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Windows  XP"))
-        {
-             return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Windows  XP")){
-             return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Linux")){
-            return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else return null;
+    public String GetPath()
+    {
+        return System.getProperty("user.home")+"/.genestudio/genestudio.conf";        
     }
 
 }
