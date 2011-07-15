@@ -7,14 +7,13 @@ package org.clothocad.widget.genestudioconnector;
 import org.clothocore.api.plugin.ClothoWidget;
 import java.io.*;
 import javax.swing.*;
+import org.ini4j.*; 
 /**
  *
  * @author USTC_Software
  */
 public class connect implements ClothoWidget{
     File f;
-    FileReader fr;
-    BufferedReader br;
 
     @Override
     public void launch() {
@@ -47,20 +46,14 @@ public class connect implements ClothoWidget{
     public String prepare() throws Exception{
         String tmp=null;
         f=new File(this.GetPath());
-        fr=new FileReader(f);
-        br=new BufferedReader(fr);
-        br.readLine();
-        tmp=br.readLine();
-        tmp=tmp.substring(8,tmp.length());
-        this.br.close();
-        this.fr.close();
-        return tmp;
+        Ini i=new Ini(f);        
+        return i.get("Designer", "AppPath");
     }
     
 
     public String GetPath()
     {
-        return System.getProperty("user.home")+"/.genestudio/genestudio.conf";        
+        return System.getProperty("user.home")+"/.lachesis/lachesis.conf";        
     }
 
 }
