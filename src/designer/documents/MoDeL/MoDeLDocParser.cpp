@@ -1,4 +1,7 @@
 #include <QRegExp>
+#include <QString>
+#include <QStringList>
+#include "models/common/ModelSymbol.h"
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 #include "MoDeLDocParser.h"
@@ -106,7 +109,7 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
             if( compartmentMap.contains( rx.cap(1) ) )
             {
                 QScriptValue compValue = copyFromScriptValue( engine , compartmentMap[rx.cap(1)] );
-                compValue.setProperty( "name" , compValue.property("name") + QString("_%1").arg(flaskSubCnt) );
+                compValue.setProperty( "name" , compValue.property("name").toString() + QString("_%1").arg(flaskSubCnt) );
                 compValue.setProperty( "initialAmount" , QScriptValue( parameterMap[rx.cap(3)] ) );
                 flaskSubCnt++;
                 flaskSub.push_back(compValue);
@@ -119,6 +122,6 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
             }
         }
     }
-    flask.setProperty( "contains" , convertModelTypeToScriptValue(flaskSub) );
+    flask.setProperty( "contains" , convertModelTypeToScriptValue(engine,flaskSub) );
     return true;
 }

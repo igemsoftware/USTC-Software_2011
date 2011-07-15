@@ -42,18 +42,15 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorView.cpp \
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
-    views/common/MainWndTabWidget.cpp \
     views/behaviorview/BehaviorView.cpp \
-    models/common/MoDeLDoc.cpp \
-    models/common/MoDeLDocParser.cpp \
     documents/MoDeL/MoDeLDocParser.cpp \
     documents/MoDeL/MoDeLDoc.cpp \
-    views/behaviorview/BehaviorView.cpp \
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
     common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
-    views/networkview/NetworkViewGraphicsItem.cpp
+    views/networkview/NetworkViewGraphicsItem.cpp \
+    models/common/ModelSymbol.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -88,9 +85,7 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorView.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
-    views/common/MainWndTabWidget.h \
     views/behaviorview/BehaviorView.h \
-    models/common/MoDeLDocParser.h \
     documents/MoDeL/MoDeLDocParser.h \
     documents/MoDeL/MoDeLDoc.h \
     common/widgets/MainWndTabWidget.h \

@@ -3,7 +3,6 @@
 #include <QtScript>
 
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
-#include "models/reactionnetworkmodel/ReactionNetworkMoDeLImportProxy.h"
 
 #include "MoDeLDoc.h"
 #include "MoDeLDocParser.h"
