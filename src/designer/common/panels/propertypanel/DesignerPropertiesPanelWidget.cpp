@@ -14,27 +14,16 @@ DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
     invalidWidget->setAlignment(Qt::AlignCenter);
     invalidWidget->setText(tr("Not Available"));
     gridLayout->addWidget(invalidWidget, 0, 0, 1, 1);
-/*
-    propertiesWidget = new QTreeWidget(this);
-    gridLayout->addWidget(propertiesWidget, 0, 0, 1, 1);
-
-    QStringList propertiesHeaderLabels;
-    propertiesHeaderLabels<<tr("Property")<<tr("Value");
-    propertiesWidget->setHeaderLabels( propertiesHeaderLabels );
-    propertiesWidget->setWordWrap(true);
-    propertiesWidget->hide();
-*/
-//    propertiesWidget->clear();
     variantManager = new QtVariantPropertyManager();
 
     variantFactory = new QtVariantEditorFactory();
-    propertyBrowser = new QtTreePropertyBrowser(this);
-    propertyBrowser->setFactoryForManager(variantManager, variantFactory);
-//    propertyBrowser->setPropertiesWithoutValueMarked(true);
-//    propertyBrowser->setRootIsDecorated(true);
-    propertyBrowser->show();
+    propertiesWidget = new QtTreePropertyBrowser(this);
+    propertiesWidget->setFactoryForManager(variantManager, variantFactory);
+//    propertiesWidget->setPropertiesWithoutValueMarked(true);
+//    propertiesWidget->setRootIsDecorated(true);
+    propertiesWidget->show();
 
-    gridLayout->addWidget(propertyBrowser, 0, 0, 1, 1);
+    gridLayout->addWidget(propertiesWidget, 0, 0, 1, 1);
 
 //    updateTarget(QScriptValue(QScriptValue::UndefinedValue));
 }
@@ -178,7 +167,7 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
     else
     {
         for(int i=0;i<newProperties.count();i++)
-            propertyBrowser->addProperty(newProperties[i]);
+            propertiesWidget->addProperty(newProperties[i]);
     }
 }
 
@@ -250,7 +239,7 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
     if(valueType==Undefined)
     {
         invalidWidget->show();
-        propertyBrowser->hide();
+        propertiesWidget->hide();
         cached = QScriptValue(QScriptValue::UndefinedValue);
         return;
     }
@@ -259,11 +248,9 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
         if(!cached.strictlyEquals(value))
         {
             variantManager->clear();
-            propertyBrowser->clear();
+            propertiesWidget->clear();
             addPropertyItems(value, 1, NULL);
         }
-//        propertyBrowser->setExpanded( , true);
-//        propertiesWidget->expandAll();
 
         invalidWidget->hide();
         propertiesWidget->show();

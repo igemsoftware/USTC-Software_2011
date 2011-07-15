@@ -43,15 +43,12 @@ public:
     QVariant::Type  getQVariantTypeForScriptValueType(ScriptValueType type);
 
 protected:
-    QTreeWidget*  propertiesWidget;
     QtVariantPropertyManager *variantManager;
     QtVariantEditorFactory *variantFactory;
-    QtTreePropertyBrowser* propertyBrowser;
+    QtTreePropertyBrowser* propertiesWidget;
     QLabel*       invalidWidget;
 
     QScriptValue  cached;
-
-signals:
 
 public slots:
     void updateTarget(QScriptValue value);

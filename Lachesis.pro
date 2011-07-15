@@ -6,8 +6,10 @@
 
 QT       += core gui script scripttools xml
 
-TARGET = Lachesis
+Debug:TARGET = LachesisD
+Release:TARGET = Lachesis
 TEMPLATE = app
+DESTDIR = $$PWD/bin
 DESTDIR = $$PWD/bin
 
 include($$PWD/lib/libs.pri)
