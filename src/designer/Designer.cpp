@@ -5,6 +5,16 @@
 #include <QTextCodec>
 #include "DesignerMainWnd.h"
 
+void writeLachesisConfiguration()
+{
+    QSettings settings(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)
+                                                         + "/.lachesis/lachesis.conf", QSettings::IniFormat);
+    settings.beginGroup("Designer");
+    settings.setValue("AppPath", QtSingleApplication::applicationFilePath());
+    settings.endGroup();
+    settings.sync();
+    }
+
 int main(int argc, char *argv[])
 {
     QtSingleApplication designer(argc, argv);
@@ -21,14 +31,14 @@ int main(int argc, char *argv[])
     splash->show();
     splash->showMessage("Loading...");
     designer.processEvents();
+
+    writeLachesisConfiguration();
+
     QTimer::singleShot(1500, splash, SLOT(close()));
-
-
     while(splash->isVisible())
     {
         designer.processEvents();
     }
-
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
     designer.setActivationWindow(mainWnd);
