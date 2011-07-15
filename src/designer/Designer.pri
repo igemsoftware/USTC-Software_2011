@@ -40,7 +40,8 @@ SOURCES +=\
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
     common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
-    views/networkview/NetworkViewGraphicsItem.cpp
+    views/networkview/NetworkViewGraphicsItem.cpp \
+    src/designer/views/partsview/partsview.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -80,12 +81,14 @@ HEADERS  += DesignerMainWnd.h \
     views/filedescriptionview/FileDescriptionView.h \
     views/networkview/NetworkViewGraphicsSceneContainer.h \
     common/panels/propertypanel/DesignerPropertiesPanelWidget.h \
-    views/networkview/NetworkViewGraphicsItem.h
+    views/networkview/NetworkViewGraphicsItem.h \
+    src/designer/views/partsview/partsview.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \
     views/behaviorview/BehaviorView.ui \
-    views/filedescriptionview/FileDescriptionView.ui
+    views/filedescriptionview/FileDescriptionView.ui \
+    src/designer/views/partsview/partsview.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc
