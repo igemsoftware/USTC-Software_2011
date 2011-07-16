@@ -1,5 +1,5 @@
 #include <QtGui>
-
+#include <QtCore>
 #include "BehaviorView.h"
 #include "ui_BehaviorView.h"
 

@@ -44,7 +44,8 @@ SOURCES +=\
     src/designer/views/plot3dview/Plot3DView.cpp \
     src/designer/views/partview/PartView.cpp \
     src/designer/views/odeview/ODEView.cpp \
-    src/designer/views/aboutview/AboutView.cpp
+    src/designer/views/aboutview/AboutView.cpp \
+    src/designer/views/clothodbview/ClothoDBView.cpp
 
 HEADERS  += DesignerMainWnd.h \
     DesignerViewItf.h \
@@ -88,14 +89,16 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/views/plot3dview/Plot3DView.h \
     src/designer/views/partview/PartView.h \
     src/designer/views/odeview/ODEView.h \
-    src/designer/views/aboutview/AboutView.h
+    src/designer/views/aboutview/AboutView.h \
+    src/designer/views/clothodbview/ClothoDBView.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \
     views/behaviorview/BehaviorView.ui \
     views/filedescriptionview/FileDescriptionView.ui \
     src/designer/views/partview/PartView.ui \
-    src/designer/views/aboutview/AboutView.ui
+    src/designer/views/aboutview/AboutView.ui \
+    src/designer/views/clothodbview/ClothoDBView.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc
