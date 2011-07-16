@@ -29,6 +29,11 @@ MoDeLDoc::extentValue MoDeLDoc::checkIfFileFitsDocumentType( QFile& file )
 
     file.close();
     //fix later
+    if(!file.fileName().toLower().endsWith(".model"))
+        return NOTACCEPTABLE;
+
+    // A quick workaround : Or the system will be unusable -by CrLF0710.
+
     return EXACTLY;
 }
 
