@@ -100,7 +100,9 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
     }
     QScriptValue flask = copyFromScriptValue(engine,compartmentMap[rx.cap(1)]);
     QScriptValueList flaskSub;
-    int flaskSubCnt = 0;
+    QMap<QString,int> compartmentCnt;
+    foreach( QString key , compartmentMap.keys() ) compartmentCnt.insert( key , 0 );
+
     foreach( QString line , rx.cap(2).split("&&") )
     {
         rx.setPattern("^(\\w+)\\{(.*)\\}(\\w+)$");
@@ -109,17 +111,26 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
             if( compartmentMap.contains( rx.cap(1) ) )
             {
                 QScriptValue compValue = copyFromScriptValue( engine , compartmentMap[rx.cap(1)] );
-                compValue.setProperty( "name" , compValue.property("name").toString() + QString("_%1").arg(flaskSubCnt) );
+                compartmentCnt[rx.cap(1)]++;
+                compValue.setProperty( "name" , rx.cap(1) + ((compartmentCnt[rx.cap(1)])>1?QString("_%1").arg(compartmentCnt[rx.cap(1)]):"") );
                 compValue.setProperty( "initialAmount" , QScriptValue( parameterMap[rx.cap(3)] ) );
-                flaskSubCnt++;
+
+                foreach( QString plasmid , rx.cap(2).split(";") )
+                {
+
+                }
+
+
                 flaskSub.push_back(compValue);
             }else{
                 return false;
             }
-        }else{
-            if( rx.indexIn("(\\w+)\\((.*)\\)(.+)") > -1 )
-            {
-            }
+        }else if( rx.setPattern("(\\w+)\\((.*)\\)(.+)"),rx.indexIn(line) > -1 )
+        {
+
+        }else
+        {
+            return false;
         }
     }
     flask.setProperty( "contains" , convertModelTypeToScriptValue(engine,flaskSub) );

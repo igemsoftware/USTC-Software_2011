@@ -2,7 +2,7 @@
 #define MODELDOCPARSER_H
 
 #include <QTextStream>
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 class MoDeLDocParser
 {

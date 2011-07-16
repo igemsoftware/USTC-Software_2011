@@ -2,8 +2,8 @@
 #define MODELDOC_H
 
 #include <QtScript>
-#include "DesignerDocItf.h"
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerDocItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 class MoDeLDoc : public DesignerDocItf
 {
