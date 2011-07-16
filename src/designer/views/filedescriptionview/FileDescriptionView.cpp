@@ -3,6 +3,8 @@
 
 #include "DesignerMainWnd.h"
 
+LACHESIS_DECLARE_VIEW(FileDescriptionView, "Views");
+
 FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::FileDescriptionView)

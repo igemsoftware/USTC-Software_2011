@@ -6,7 +6,7 @@
 #include <QXmlSimpleReader>
 #include <QDesktopServices>
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 
 namespace Ui {

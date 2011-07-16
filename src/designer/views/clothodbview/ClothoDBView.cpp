@@ -2,6 +2,8 @@
 #include "ui_ClothoDBView.h"
 #include <QXmlDefaultHandler>
 
+LACHESIS_DECLARE_VIEW(ClothoDBView, "Clotho Data Source");
+
 ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::ClothoDBView)

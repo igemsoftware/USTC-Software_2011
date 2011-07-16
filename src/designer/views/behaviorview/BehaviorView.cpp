@@ -3,6 +3,8 @@
 #include "BehaviorView.h"
 #include "ui_BehaviorView.h"
 
+LACHESIS_DECLARE_VIEW(BehaviorView, "Behavior View");
+
 BehaviorView::BehaviorView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::BehaviorView)

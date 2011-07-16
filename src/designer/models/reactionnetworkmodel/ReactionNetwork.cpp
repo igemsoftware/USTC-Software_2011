@@ -20,8 +20,8 @@ DesignerModelFormatProxyItf* ReactionNetworkModel::createImportProxy(QString pro
     return NULL;
 }
 
-ReactionNetworkModel::ReactionNetworkModel(QObject *parent) :
-    DesignerModelItf(parent)
+ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
+    DesignerModelItf(newDoc)
 {
 }
 

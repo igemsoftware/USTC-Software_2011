@@ -57,7 +57,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"));
+    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 

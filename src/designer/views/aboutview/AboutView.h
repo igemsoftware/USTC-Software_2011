@@ -1,7 +1,7 @@
 #ifndef ABOUTVIEW_H
 #define ABOUTVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class AboutView;

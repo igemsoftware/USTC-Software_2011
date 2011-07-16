@@ -6,7 +6,7 @@
 
 #include "views/welcomeview/WelcomeView.h"
 
-#include "DesignerDocItf.h"
+#include "interfaces/DesignerDocItf.h"
 
 #if defined( Q_OS_WIN )
 #include <windows.h>
@@ -15,6 +15,7 @@
 DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     QMainWindow(parent),
     currentDoc(NULL),
+    currentModel(NULL),
     ui(new Ui::DesignerMainWnd)
 {
     ui->setupUi(this);
@@ -143,6 +144,7 @@ void DesignerMainWnd::openFile(QString& fileName)
     file.close();
 
     pFrame->currentDoc = pDoc;
+    pFrame->currentModel = pDoc->getCurrentModel();
     pFrame->createView("FileDescriptionView", true);
 /*
 */

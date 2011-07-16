@@ -4,7 +4,7 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
 
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 #include "DesignerMainWnd.h"
 
 #include "models/common/ModelSymbol.h"
@@ -12,6 +12,8 @@
 #include "DesignerDebug.h"
 
 #include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
+
+LACHESIS_DECLARE_VIEW(NetworkView, "Network View");
 
 NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)

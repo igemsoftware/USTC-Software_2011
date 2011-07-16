@@ -1,7 +1,7 @@
 #ifndef SBMLDOCPARSER_H
 #define SBMLDOCPARSER_H
 
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 class SBMLDocParser
 {

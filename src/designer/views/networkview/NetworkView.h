@@ -2,7 +2,7 @@
 #define NETWORKVIEW_H
 
 #include <QtScript>
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 class NetworkView : public DesignerViewItf
 {
