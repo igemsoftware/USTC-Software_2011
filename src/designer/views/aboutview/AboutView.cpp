@@ -3,8 +3,6 @@
 #include "ui_AboutView.h"
 #include "AboutView.h"
 
-LACHESIS_DECLARE_VIEW(AboutView, "About");
-
 AboutView::AboutView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::AboutView)

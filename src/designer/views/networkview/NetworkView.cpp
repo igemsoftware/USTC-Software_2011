@@ -13,8 +13,6 @@
 
 #include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
 
-LACHESIS_DECLARE_VIEW(NetworkView, "Network View");
-
 NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)
 {
@@ -29,7 +27,7 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(graphicsView);
     scene->clearScene();
 
-    scene->loadFromModel(mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel"));
+    scene->loadFromModel(mainWindow->getCurrentModel());
 
     graphicsView->setScene(scene);
 
@@ -51,5 +49,5 @@ void NetworkView::on_sceneSelectionChanged()
             return;
         }
     }
-    emit updateSelectedItem(mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel")->getEngine()->globalObject().property("*model*"));
+    emit updateSelectedItem(mainWindow->getCurrentModel()->getEngine()->globalObject().property("*model*"));
 }

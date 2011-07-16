@@ -92,7 +92,8 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/interfaces/DesignerModelItf.h \
     src/designer/interfaces/DesignerExtensionItf.h \
     src/designer/interfaces/DesignerDocItf.h \
-    src/designer/common/utils/itemregistry/ItemRegistry.h
+    src/designer/common/utils/itemregistry/ItemRegistry.h \
+    src/designer/interfaces/DesignerInterface.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

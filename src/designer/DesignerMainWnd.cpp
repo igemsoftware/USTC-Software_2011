@@ -6,7 +6,7 @@
 
 #include "views/welcomeview/WelcomeView.h"
 
-#include "interfaces/DesignerDocItf.h"
+#include "interfaces/DesignerInterface.h"
 
 #if defined( Q_OS_WIN )
 #include <windows.h>
@@ -14,7 +14,6 @@
 
 DesignerMainWnd::DesignerMainWnd(QWidget *parent) :
     QMainWindow(parent),
-    currentDoc(NULL),
     currentModel(NULL),
     ui(new Ui::DesignerMainWnd)
 {
@@ -58,7 +57,7 @@ void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
 
 void DesignerMainWnd::updateTabInfo()
 {
-    if(!currentDoc)
+    if(!currentModel)
     {
         if(ui->tabWidget->count()==0) createView("WelcomeView", true);
     }
@@ -76,8 +75,12 @@ void DesignerMainWnd::removeTabWithClass(QString className)
         }
     }
 }
-
 void DesignerMainWnd::createView(QString viewName, bool isProtected)
+{
+    createView(viewName, isProtected, currentModel);
+}
+
+void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerModelItf* model)
 {
     DesignerViewItf *view =
             DesignerViewItf::createView(viewName, this);
@@ -89,11 +92,17 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected)
         ui->tabWidget->setCurrentIndex(tabIndex);
     }
 
-    if(currentDoc)
+    if(currentModel)
     {
         removeTabWithClass("WelcomeView");
     }
 
+}
+
+void DesignerMainWnd::createModelWithView(QString viewName)
+{
+    currentModel = DesignerModelItf::createModel("ReactionNetworkModel");
+    createView(viewName);
 }
 
 void DesignerMainWnd::openFile(QString& fileName)
@@ -111,7 +120,7 @@ void DesignerMainWnd::openFile(QString& fileName)
         return;
     }
 
-    DesignerMainWnd* pFrame = (currentDoc ? globalCreateNewMainWnd() : this);
+    DesignerMainWnd* pFrame = (currentModel ? globalCreateNewMainWnd() : this);
     DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance();
     if(!pDoc)
     {
@@ -143,7 +152,6 @@ void DesignerMainWnd::openFile(QString& fileName)
     }
     file.close();
 
-    pFrame->currentDoc = pDoc;
     pFrame->currentModel = pDoc->getCurrentModel();
     pFrame->createView("FileDescriptionView", true);
 /*
@@ -180,9 +188,7 @@ void DesignerMainWnd::globalUnregisterMainWnd(DesignerMainWnd* pFrame)
 
 DesignerDocItf * DesignerMainWnd::getCurrentDoc(QString defaultDocType)
 {
-    if(currentDoc)
-        return currentDoc;
-    return (currentDoc = DesignerDocItf::createEmptyDoc(defaultDocType));
+    return currentModel->getCurrentDoc();
 }
 
 

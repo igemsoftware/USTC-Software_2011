@@ -39,6 +39,11 @@ public:
     //! The list of submodels of this model.
     QList<DesignerModelItf*> subModels;
 
+    //display support
+public:
+    virtual QStringList getSupportedViewList() const = 0;
+
+
     //serialization support
 private:
     DesignerDocItf *currentDoc;
