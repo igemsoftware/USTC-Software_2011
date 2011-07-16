@@ -142,47 +142,12 @@ protected:
         destObject.setProperty("length", srcLength+destLength);
     }
 
-    QScriptValue handler_createFunctionObjectFromMathMLItem(QDomElement* domElem)
-    {
-        if(domElem->nodeName()=="ci")
-        {
-            return QScriptValue(QString("'")+domElem->nodeValue().toUtf8());
-        }
-        else if(domElem->nodeName()=="cn")
-        {
-            if(domElem->attribute("type")=="integer")
-            {
-                return QScriptValue(domElem->nodeValue().toInt());
-            }
-            else if(domElem->attribute("type")=="real")
-            {
-                return QScriptValue(domElem->nodeValue().toDouble());
-            }
-        }
-        else if(domElem->nodeName()=="apply")
-        {
-            QList<QScriptValue> valueList;
-            for(QDomElement childElem = domElem->firstChildElement(); !childElem.isNull(); childElem=childElem.nextSiblingElement())
-            {
-                valueList.push_back(handler_createFunctionObjectFromMathMLItem(&childElem));
-            }
-
-            QScriptValue newArray = getEngine()->newArray(valueList.count());
-            for(int i=0;i<valueList.count();i++)
-            {
-                newArray.setProperty(i, valueList[i]);
-            }
-            return newArray;
-        }
-
-        return QScriptValue(QString(domElem->nodeValue().toUtf8()));
-
-    }
-
     modelObjectIndex handler_createFunctionObjectFromMathML(QDomElement* domElem)
     {
-        QDomElement childElement = domElem->firstChildElement();
-        QScriptValue functionObject = handler_createFunctionObjectFromMathMLItem(&childElement);
+        QString contentML = handler_collectElementTreeAsString(domElem);
+
+        QScriptValue functionObject = getEngine()->newArray(2);
+        functionObject.setProperty(0, contentML);
 
         return handler_allocateNewIndex(functionObject);;
     }
@@ -250,7 +215,7 @@ public:
         {
             modelObjectIndex newIndex = handler_createStandardObject(domElem);
             itemPool[parent].setProperty("kineticLaw", itemPool[newIndex]);
-            return parent;
+            return newIndex;
         }
         else if(domElem->nodeName()==/*Reaction::kineticLaw*/ "math")
         {

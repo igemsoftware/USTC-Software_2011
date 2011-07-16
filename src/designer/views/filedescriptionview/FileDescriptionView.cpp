@@ -18,11 +18,21 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }
+
+    connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
 }
 
 FileDescriptionView::~FileDescriptionView()
 {
     delete ui;
+}
+
+void FileDescriptionView::storageUpdated()
+{
+    if(currentModel->getCurrentDoc())
+        ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
+    else
+        ui->labelFileName->setText(tr("<Not saved>"));
 }
 
 void FileDescriptionView::on_listViews_itemClicked(QListWidgetItem *item)

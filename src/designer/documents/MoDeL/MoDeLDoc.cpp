@@ -39,8 +39,9 @@ MoDeLDoc::extentValue MoDeLDoc::checkIfFileFitsDocumentType( QFile& file )
 
 bool MoDeLDoc::loadFromFile(QFile& file)
 {
-    if(!file.open(QFile::ReadOnly|QIODevice::Text))
-        return false;
+    if(!file.open(QFile::ReadWrite|QIODevice::Text))
+        if(!file.open(QFile::ReadOnly|QIODevice::Text))
+            return false;
 
     QTextStream fin(&file);
     if(currentModel)

@@ -43,8 +43,9 @@ SBMLDoc::extentValue SBMLDoc::checkIfFileFitsDocumentType(QFile& file)
 bool SBMLDoc::loadFromFile(QFile& file)
 {
     QDomDocument domdoc("sbmldoctest");
-    if(!file.open(QFile::ReadOnly))
-        return false;
+    if(!file.open(QFile::ReadWrite))
+        if(!file.open(QFile::ReadOnly))
+            return false;
 
     if(!domdoc.setContent(&file))
     {
@@ -71,8 +72,12 @@ bool SBMLDoc::loadFromFile(QFile& file)
 
     SBMLDocParser parser;
 
-
-    return parser.parse(*currentModel, domDocElem);
+    bool retValue = parser.parse(*currentModel, domDocElem);
+    if(retValue)
+    {
+        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+    }
+    return retValue;
 }
 
 bool SBMLDoc::saveToFile(QFile& file)

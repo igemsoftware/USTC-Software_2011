@@ -109,7 +109,7 @@ void DesignerMainWnd::createModelWithView(QString viewName)
 void DesignerMainWnd::openFile(QString& fileName)
 {
     QMetaObject* metaObject =
-            DesignerDocItf::getFileFitsDocumentTypesStatus(fileName);
+            DesignerDocItf::getBestFitDocumentTypeForFile(fileName);
     if(!metaObject)
     {
         QMessageBox msgBox(QMessageBox::Critical,
@@ -209,7 +209,26 @@ void DesignerMainWnd::on_actionFileOpen_triggered()
 
 void DesignerMainWnd::on_actionFileSave_triggered()
 {
+    if(!getCurrentModel()) return;
+    if(!getCurrentModel()->getCurrentDoc()||
+            getCurrentModel()->getCurrentDoc()->isReadOnly())
+    {
+        on_actionFileSaveAs_triggered();
+        return;
+    }
 
+    getCurrentModel()->getCurrentDoc()->saveToFile();
+}
+
+
+void DesignerMainWnd::on_actionFileSaveAs_triggered()
+{
+    QFileDialog dlg(this, tr("Save File"));
+    dlg.setAcceptMode(QFileDialog::AcceptSave);
+    if(dlg.exec())
+    {
+
+    }
 }
 
 
@@ -235,4 +254,3 @@ void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
 {
     ui->tabWidget->removeTab(index);
 }
-

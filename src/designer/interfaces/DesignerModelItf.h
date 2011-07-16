@@ -56,6 +56,9 @@ public:
     //! NULL is the model is never saved yet.
     DesignerDocItf *getCurrentDoc() { return currentDoc; }
 
+signals:
+    void dataUpdated();
+    void storageUpdated();
 
     //manipulation methods (overridable)
 public:
@@ -70,6 +73,23 @@ public:
     //! Implement dependent
     virtual QString getModelObjectProperty(modelObjectIndex index, QString propertyName) = 0;
 
+    enum UpdateFlags
+    {
+        updateByData = 1,
+        updateByStorage = 2
+    };
+public slots:
+    void requestUpdate(unsigned int flags)
+    {
+        if(flags&updateByStorage)
+        {
+            emit storageUpdated();
+        }
+        if(flags&updateByData)
+        {
+            emit dataUpdated();
+        }
+    }
 
 public:
     //! Execute a piece of script.
@@ -78,8 +98,6 @@ public:
     {
         return modelEngine.evaluate(sourceCode, tr("lachesis_script.tmp"));
     }
-
-signals:
 
 public slots:
 

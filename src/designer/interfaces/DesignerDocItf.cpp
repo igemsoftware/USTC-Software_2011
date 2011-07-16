@@ -8,8 +8,21 @@ static QMetaObject metaObjectsOfDocuments[] = {
     MoDeLDoc::staticMetaObject
 };
 
+DesignerDocItf::DesignerDocItf() :
+    QObject(NULL) ,
+    currentModel(NULL),
+    modified(false)
+{
 
-QMetaObject* DesignerDocItf::getFileFitsDocumentTypesStatus(QString pathName)
+}
+
+bool DesignerDocItf::saveToFile()
+{
+
+}
+
+
+QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)
 {
     const size_t arraySize = sizeof(metaObjectsOfDocuments)/sizeof(metaObjectsOfDocuments[0]);
     struct fitStatusStucture
@@ -53,19 +66,10 @@ DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName)
     return NULL;
 }
 
-DesignerDocItf::DesignerDocItf() :
-    QObject(NULL) ,
-    currentModel(NULL),
-    modified(false)
-{
-
-}
-
-
-
 DesignerModelItf * DesignerDocItf::getCurrentModel(QString modelName)
 {
     if(currentModel)
         return currentModel;
     return DesignerModelItf::createModel(modelName, this);
 }
+

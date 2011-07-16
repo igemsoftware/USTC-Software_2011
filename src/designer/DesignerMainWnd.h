@@ -61,6 +61,7 @@ public:
     static QList<DesignerMainWnd*> mainWnd_list;
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
+    void on_actionFileSaveAs_triggered();
 };
 
 #endif // DESIGNERMAINWND_H

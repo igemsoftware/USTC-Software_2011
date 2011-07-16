@@ -126,11 +126,11 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
                 valueList<<propItr.name();
 
                 QScriptValue typeNameValue = value.property(QString("$")+propItr.name());
-                if(typeNameValue.isString())
+/*                if(typeNameValue.isString())
                 {
 
                 }
-                else
+                else*/
                 {
                     QtVariantProperty *item;
                     QVariant::Type propType = getQVariantTypeForScriptValueType(getScriptValuePropertyType(value, propItr.name()));

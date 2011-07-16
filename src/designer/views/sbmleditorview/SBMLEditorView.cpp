@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QXmlStreamWriter>
 #include "SBMLEditorView.h"
 
 SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :

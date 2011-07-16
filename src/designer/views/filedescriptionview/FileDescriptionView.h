@@ -16,6 +16,8 @@ public:
     ~FileDescriptionView();
 
 public:
+    void storageUpdated();
+//public slots:
 
 private slots:
     void on_listViews_itemClicked(QListWidgetItem *item);

@@ -17,12 +17,21 @@ protected:
     //! Constructor for initialization, should be called by children class constructors.
     DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model)
         :mainWindow(mainWnd){}
-public:
 
+    //frame
+public:
     //! Pointer to the frame this view currently belongs to.
     DesignerMainWnd* mainWindow;
+
+    //model
+public:
     //! Pointer to the document this view presents.
     DesignerModelItf* currentModel;
+
+    //event slots
+public slots:
+    virtual void dataUpdated(){}
+    virtual void storageUpdated(){}
 
 protected:
 

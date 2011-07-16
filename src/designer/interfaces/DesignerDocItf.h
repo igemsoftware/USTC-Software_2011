@@ -28,11 +28,23 @@ public:
     // modified flag
 public:
     //! Retrieve the modified flag associated with this document.
-    bool isModified() {return modified;}
+    bool isModified() const {return modified;}
     //! Update the modified flag associated with this document.
     void setModified(bool newValue = true) {modified = newValue;}
 protected:
     bool modified;
+
+    // readonly flag
+public:
+    bool isReadOnly() const { return readOnly;}
+protected:
+    bool readOnly;
+
+    // storage
+protected:
+    QFile file;
+public:
+    QString getFileName() {return file.fileName();}
 
     // converting items.
 public:
@@ -52,11 +64,13 @@ public:
     virtual bool loadFromFile(QFile& file) = 0;
     //! Dump data to this file
     virtual bool saveToFile(QFile& file) = 0;
+    //! Dump data to the previous file.
+    bool saveToFile();
 
 public:
     static DesignerDocItf* createEmptyDoc(QString docName);
 
-    static QMetaObject* getFileFitsDocumentTypesStatus(QString pathName);
+    static QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
 
 
 private:
