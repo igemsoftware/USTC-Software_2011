@@ -3,10 +3,9 @@
 
 #include <QtGui>
 #include <QtCore>
-#include <QXmlSimpleReader>
-#include <QDesktopServices>
-
+#include <QtXml>
 #include "interfaces/DesignerViewItf.h"
+
 
 
 namespace Ui {
@@ -16,8 +15,8 @@ namespace Ui {
 class ClothoDBView : public DesignerViewItf
 {
     Q_OBJECT
-    QXmlSimpleReader xmlReader;
-    QXmlInputSource *source;
+    QDomDocument doc;
+
 
 public:
     void initiate();
@@ -28,6 +27,10 @@ public:
 
 private:
     Ui::ClothoDBView *ui;
+
+private slots:
+    void on_treeView_doubleClicked(QModelIndex index);
+    void on_pushButton_clicked();
 };
 
 #endif // CLOTHODBVIEW_H

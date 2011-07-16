@@ -2,7 +2,7 @@
 
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
-
+QT +=sql
 
 SOURCES +=\
     DesignerMainWnd.cpp \
@@ -32,11 +32,14 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
     views/behaviorview/BehaviorView.cpp \
+    documents/MoDeL/MoDeLDocParser.cpp \
+    documents/MoDeL/MoDeLDoc.cpp \
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
     common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
     views/networkview/NetworkViewGraphicsItem.cpp \
+    models/common/ModelSymbol.cpp \
     src/designer/views/plot3dview/Plot3DView.cpp \
     src/designer/views/partview/PartView.cpp \
     src/designer/views/odeview/ODEView.cpp \
@@ -78,6 +81,8 @@ HEADERS  += DesignerMainWnd.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
     views/behaviorview/BehaviorView.h \
+    documents/MoDeL/MoDeLDocParser.h \
+    documents/MoDeL/MoDeLDoc.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
     views/networkview/NetworkViewGraphicsSceneContainer.h \

@@ -1,10 +1,11 @@
 #include "DesignerDocItf.h"
 
-#include "Documents/SBML/SBMLDoc.h"
+#include "documents/SBML/SBMLDoc.h"
+#include "documents/MoDeL/MoDeLDoc.h"
 
 static QMetaObject metaObjectsOfDocuments[] = {
     SBMLDoc::staticMetaObject,
-
+    MoDeLDoc::staticMetaObject
 };
 
 
