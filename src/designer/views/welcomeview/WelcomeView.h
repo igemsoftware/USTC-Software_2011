@@ -15,7 +15,7 @@ class WelcomeView : public DesignerViewItf
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit WelcomeView(DesignerMainWnd* mainWnd);
+    Q_INVOKABLE explicit WelcomeView(DesignerMainWnd* mainWnd, DesignerModelItf* model);
     ~WelcomeView();
 signals:
     void createDocWithViewType(QString);

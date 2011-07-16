@@ -5,8 +5,8 @@
 
 #include "interfaces/DesignerInterface.h"
 
-FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd) :
-    DesignerViewItf(mainWnd),
+FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model),
     ui(new Ui::FileDescriptionView)
 {
     ui->setupUi(this);

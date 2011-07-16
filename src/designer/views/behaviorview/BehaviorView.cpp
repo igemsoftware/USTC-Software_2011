@@ -4,8 +4,8 @@
 #include "ui_BehaviorView.h"
 
 
-BehaviorView::BehaviorView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd),
+BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model),
     ui(new Ui::BehaviorView)
 {
     ui->setupUi(this);

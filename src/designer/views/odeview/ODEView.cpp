@@ -1,8 +1,8 @@
 #include <QtMmlWidget>
 #include "ODEView.h"
 
-ODEView::ODEView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd)
+ODEView::ODEView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model)
 {
     mmlWidget = new QtMmlWidget(this);
     mmlWidget->show();

@@ -9,7 +9,7 @@ class ODEView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit ODEView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit ODEView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
 
     void resizeEvent ( QResizeEvent * event );
 

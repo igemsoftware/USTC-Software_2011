@@ -45,7 +45,8 @@ SOURCES +=\
     src/designer/interfaces/DesignerViewItf.cpp \
     src/designer/interfaces/DesignerModelItf.cpp \
     src/designer/interfaces/DesignerExtensionItf.cpp \
-    src/designer/interfaces/DesignerDocItf.cpp
+    src/designer/interfaces/DesignerDocItf.cpp \
+    src/designer/views/webpageview/WebPageView.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -93,7 +94,8 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/interfaces/DesignerExtensionItf.h \
     src/designer/interfaces/DesignerDocItf.h \
     src/designer/common/utils/itemregistry/ItemRegistry.h \
-    src/designer/interfaces/DesignerInterface.h
+    src/designer/interfaces/DesignerInterface.h \
+    src/designer/views/webpageview/WebPageView.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

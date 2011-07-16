@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui script scripttools xml webkit
+QT       += core gui script scripttools xml xmlpatterns webkit
 
 CONFIG(debug, debug|release) {
     TARGET = LachesisD

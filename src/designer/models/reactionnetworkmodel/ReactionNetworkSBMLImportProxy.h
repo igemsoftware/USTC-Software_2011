@@ -64,17 +64,22 @@ protected:
         return newModelObjectIndex;
     }
 
+    modelObjectIndex handler_createChildObjects(QDomElement* domElem, modelObjectIndex parentObjectIndex)
+    {
+        for(QDomElement childElem = domElem->firstChildElement();
+            !childElem.isNull(); childElem = childElem.nextSiblingElement())
+        {
+            createModelObject(parentObjectIndex, &childElem);
+        }
+
+        return parentObjectIndex;
+    }
+
     modelObjectIndex handler_createStandardObject(QDomElement* domElem)
     {
         modelObjectIndex newModelObjectIndex = handler_createNoChildObject(domElem);
 
-        for(QDomElement childElem = domElem->firstChildElement();
-            !childElem.isNull(); childElem = childElem.nextSiblingElement())
-        {
-            createModelObject(newModelObjectIndex, &childElem);
-        }
-
-        return newModelObjectIndex;
+        return handler_createChildObjects(domElem,newModelObjectIndex);
     }
 
     modelObjectIndex handler_collectChildObjectsAsArray(QDomElement* domElem)
@@ -191,13 +196,19 @@ public:
 
         if(domElem->nodeName()=="notes")
         {
-            itemPool[parent].setProperty("*notes*", handler_collectElementTreeAsString(domElem));
+            QDomElement childElem = domElem->firstChildElement();
+            itemPool[parent].setProperty("*notes*", handler_collectElementTreeAsString(&childElem));
             return parent;
         }
         else if(domElem->nodeName()=="annotation")
         {
-            itemPool[parent].setProperty("*annotation*", handler_collectElementTreeAsString(domElem));
+            QDomElement childElem = domElem->firstChildElement();
+            itemPool[parent].setProperty("*annotation*", handler_collectElementTreeAsString(&childElem));
             return parent;
+        }
+        else if(domElem->nodeName()=="model")
+        {
+            return handler_createChildObjects(domElem, 0);
         }
         else if(domElem->nodeName()=="listOfCompartments")
         {

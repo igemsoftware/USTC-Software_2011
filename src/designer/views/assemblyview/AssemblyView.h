@@ -22,7 +22,7 @@ class AssemblyView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~AssemblyView();
 
 private:

@@ -8,7 +8,7 @@ class NetworkView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
 
 protected:
     QGraphicsView* graphicsView;

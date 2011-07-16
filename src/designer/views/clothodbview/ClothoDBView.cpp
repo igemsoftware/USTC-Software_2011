@@ -2,8 +2,8 @@
 #include "ui_ClothoDBView.h"
 #include <QXmlDefaultHandler>
 
-ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd),
+ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model),
     ui(new Ui::ClothoDBView)
 {
     ui->setupUi(this);

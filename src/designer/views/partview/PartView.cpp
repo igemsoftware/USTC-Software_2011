@@ -4,8 +4,8 @@
 #include "ui_partview.h"
 #include "DesignerMainWnd.h"
 
-PartView::PartView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd),
+PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model),
     ui(new Ui::PartView)
 {
     ui->setupUi(this);

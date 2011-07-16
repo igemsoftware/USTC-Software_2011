@@ -12,7 +12,7 @@ class FileDescriptionView : public DesignerViewItf
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit FileDescriptionView(DesignerMainWnd* mainWnd);
+    Q_INVOKABLE explicit FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf* model);
     ~FileDescriptionView();
 
 public:

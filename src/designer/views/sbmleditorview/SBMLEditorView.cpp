@@ -1,8 +1,8 @@
 #include <QtGui>
 #include "SBMLEditorView.h"
 
-SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd) :
-    DesignerViewItf(mainWnd)
+SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model)
 {
     QGridLayout* gridLayout = new QGridLayout(this);
     gridLayout->setContentsMargins(0, 0, 0, 0);

@@ -8,7 +8,7 @@ class SBMLEditorView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit SBMLEditorView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit SBMLEditorView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
 
 private:
     SBMLEditorViewHighlighter *sbmlHighlighter;

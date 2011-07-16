@@ -83,7 +83,7 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected)
 void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerModelItf* model)
 {
     DesignerViewItf *view =
-            DesignerViewItf::createView(viewName, this);
+            DesignerViewItf::createView(viewName, this, model);
 
     if(view)
     {
@@ -101,7 +101,8 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerMod
 
 void DesignerMainWnd::createModelWithView(QString viewName)
 {
-    currentModel = DesignerModelItf::createModel("ReactionNetworkModel");
+    QString modelName = DesignerViewItf::getViewDefaultModelByName(viewName);
+    currentModel = DesignerModelItf::createModel(modelName);
     createView(viewName);
 }
 

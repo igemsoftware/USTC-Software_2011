@@ -14,8 +14,8 @@ using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
 
 
-AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd)
+AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model)
 {
     if( firstInstance )
     {

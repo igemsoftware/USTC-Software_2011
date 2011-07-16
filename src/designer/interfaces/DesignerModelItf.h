@@ -41,11 +41,15 @@ public:
 
     //display support
 public:
+    //! Retrive the name of views this model DIRECTLY SUPPORTS.
+    //! Notice that the views supported by the submodels
+    //! should not appear here.
     virtual QStringList getSupportedViewList() const = 0;
 
 
     //serialization support
 private:
+    //! \internal Pointer to the document object.
     DesignerDocItf *currentDoc;
 public:
     //! Retrieve the pointer to the document object.
@@ -80,6 +84,9 @@ signals:
 public slots:
 
 };
+
+Q_DECLARE_INTERFACE(DesignerModelItf, "com.ustcsoftware.Lachesis.ModelInterface/1.0")
+
 
 class DesignerModelFormatProxyItf : public QObject
 {

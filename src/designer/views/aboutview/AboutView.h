@@ -11,7 +11,7 @@ class AboutView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit AboutView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit AboutView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~AboutView();
 
 signals:

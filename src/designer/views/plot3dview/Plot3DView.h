@@ -9,7 +9,7 @@ class Plot3DView : public DesignerViewItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit Plot3DView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit Plot3DView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     Plot* plot;
 
 protected:

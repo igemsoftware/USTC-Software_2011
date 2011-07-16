@@ -23,7 +23,7 @@ public:
     void initiate();
     void connect();
 
-    Q_INVOKABLE explicit ClothoDBView(DesignerMainWnd *mainWnd);
+    Q_INVOKABLE explicit ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~ClothoDBView();
 
 private:

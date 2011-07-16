@@ -38,6 +38,7 @@ QStringList ReactionNetworkModel::getSupportedViewList() const
     supportedViewList.append("PartView");
     supportedViewList.append("ODEView");
     supportedViewList.append("ClothoDBView");
+    supportedViewList.append("WebPageView");
 
     return supportedViewList;
 }

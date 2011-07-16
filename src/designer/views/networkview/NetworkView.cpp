@@ -13,8 +13,8 @@
 
 #include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
 
-NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
-    DesignerViewItf(mainWnd)
+NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
+    DesignerViewItf(mainWnd, model)
 {
 
     QGridLayout* gridLayout = new QGridLayout(this);
@@ -27,7 +27,7 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd) :
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(graphicsView);
     scene->clearScene();
 
-    scene->loadFromModel(mainWindow->getCurrentModel());
+    scene->loadFromModel(model);
 
     graphicsView->setScene(scene);
 
