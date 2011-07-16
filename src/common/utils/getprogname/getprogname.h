@@ -1,1 +1,0 @@
-namespace lachesis{namespace common{namespace utils{const char *getprogname();}}}

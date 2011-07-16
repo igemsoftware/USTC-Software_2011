@@ -11,7 +11,11 @@
 #include "views/sbmleditorview/SBMLEditorView.h"
 
 #include "views/behaviorview/BehaviorView.h"
+#include "views/plot3dview/Plot3DView.h"
+#include "views/partview/PartView.h"
+#include "views/odeview/ODEView.h"
 
+#include "views/aboutview/AboutView.h"
 
 
 
@@ -22,6 +26,10 @@ static QMetaObject metaObjectsOfViews[] = {
     SBMLEditorView::staticMetaObject,
     WelcomeView::staticMetaObject,
     FileDescriptionView::staticMetaObject,
+    PartView::staticMetaObject,
+    Plot3DView::staticMetaObject,
+    ODEView::staticMetaObject,
+    AboutView::staticMetaObject,
 };
 
 static QString     titlesOfViews[] = {
@@ -31,6 +39,10 @@ static QString     titlesOfViews[] = {
     QObject::tr("SBML Editor View"),
     QObject::tr("Welcome"),
     QObject::tr("Views"),
+    QObject::tr("Part View"),
+    QObject::tr("Plot3D View"),
+    QObject::tr("ODE View"),
+    QObject::tr("About"),
 };
 
 DesignerViewItf* DesignerViewItf::createView

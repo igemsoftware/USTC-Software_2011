@@ -18,5 +18,7 @@
         <file>common/toolbar/edit-cut.png</file>
         <file>common/toolbar/edit-paste.png</file>
         <file>common/toolbar/edit-undo.png</file>
+        <file>common/toolbar/help-about.png</file>
+        <file>common/toolbar/help-content.png</file>
     </qresource>
 </RCC>

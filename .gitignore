@@ -4,9 +4,7 @@
 /prep/external/*
 /experimental/*
 *.swp
-*.h~
-*.cpp~
-*.pro
+*.*~
 *.pro.user
 *.pro.user.*
 *.*#

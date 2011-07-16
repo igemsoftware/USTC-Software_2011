@@ -1,4 +1,7 @@
 #include <QtScript>
+#include <QtVariantEditorFactory>
+#include <QtTreePropertyBrowser>
+
 #include "DesignerPropertiesPanelWidget.h"
 
 DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
@@ -11,17 +14,18 @@ DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
     invalidWidget->setAlignment(Qt::AlignCenter);
     invalidWidget->setText(tr("Not Available"));
     gridLayout->addWidget(invalidWidget, 0, 0, 1, 1);
+    variantManager = new QtVariantPropertyManager();
 
-    propertiesWidget = new QTreeWidget(this);
+    variantFactory = new QtVariantEditorFactory();
+    propertiesWidget = new QtTreePropertyBrowser(this);
+    propertiesWidget->setFactoryForManager(variantManager, variantFactory);
+//    propertiesWidget->setPropertiesWithoutValueMarked(true);
+//    propertiesWidget->setRootIsDecorated(true);
+    propertiesWidget->show();
+
     gridLayout->addWidget(propertiesWidget, 0, 0, 1, 1);
 
-    QStringList propertiesHeaderLabels;
-    propertiesHeaderLabels<<tr("Property")<<tr("Value");
-    propertiesWidget->setHeaderLabels( propertiesHeaderLabels );
-    propertiesWidget->setWordWrap(true);
-
-//    propertiesWidget->clear();
-    updateTarget(QScriptValue(QScriptValue::UndefinedValue));
+//    updateTarget(QScriptValue(QScriptValue::UndefinedValue));
 }
 
 DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::getScriptValueType(const QScriptValue& value)
@@ -34,6 +38,15 @@ DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::ge
     else if(value.isArray()) return Array;
     else if(value.isObject()) return Object;
     return Undefined;
+}
+
+QVariant::Type DesignerPropertiesPanelWidget::getQVariantTypeForScriptValueType(DesignerPropertiesPanelWidget::ScriptValueType type)
+{
+    if(type==Undefined || type==Null) return QVariant::Invalid;//(QVariant::Type)QtVariantPropertyManager::groupTypeId();
+    else if(type==Boolean) return QVariant::Bool;
+    else if(type==Number)  return QVariant::Double;
+    else if(type==String)  return QVariant::String;
+    return (QVariant::Type)QtVariantPropertyManager::groupTypeId();
 }
 
 DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::getScriptValuePropertyType(const QScriptValue& value, QString propertyName)
@@ -49,12 +62,17 @@ DesignerPropertiesPanelWidget::ScriptValueType DesignerPropertiesPanelWidget::ge
     return getScriptValueType(value.property(propertyName));
 }
 
-void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int maxLevel, QTreeWidgetItem* parentItem)
+void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int maxLevel, QtProperty* parentItem)
 {
     ScriptValueType valueType = getScriptValueType(value);
     QStringList valueList;
 
-    QList<QTreeWidgetItem *> newItems;
+    QList<QtProperty*> newProperties;
+//    QtProperty *topItem = variantManager->addProperty(QtVariantPropertyManager::groupTypeId(),
+//                QLatin1String(" Group Property"));
+
+
+
 
     switch(valueType)
     {
@@ -62,12 +80,19 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
     case Boolean:
     case Number:
     case String:
+    {
         if(!parentItem)
         {
-            valueList << " <Value>" << formatScriptValue(value, maxLevel);
-            newItems.append(new QTreeWidgetItem(valueList));
+            QVariant::Type propType = getQVariantTypeForScriptValueType(getScriptValueType(value));
+            QtVariantProperty *item;
+            if(propType==QVariant::Invalid)
+                item = variantManager->addProperty(QVariant::String, " <Value>");
+            else
+                item = variantManager->addProperty(propType, " <Value>");
+            item->setValue(value.toVariant());
+            newProperties.append(item);
         }
-        break;
+    }
     case Array:
     {
         if(maxLevel>=0)
@@ -75,11 +100,10 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
             int length = value.property("length").toInt32();
             for(int i=0; i<length; i++)
             {
-                QStringList fieldList;
-                fieldList<<QString(" [%1]").arg(i)<<formatScriptValue(value.property(i), maxLevel);
-                QTreeWidgetItem* childItem = new QTreeWidgetItem(fieldList);
-                addPropertyItems(value.property(i), maxLevel-1, childItem);
-                newItems.append(childItem);
+                QtVariantProperty *item = variantManager->addProperty(QVariant::String, QString(" [%1]").arg(i));
+                item->setValue(formatScriptValue(value.property(i), maxLevel));
+                addPropertyItems(value.property(i), maxLevel-1, item);
+                newProperties.append(item);
             }
         }
         break;
@@ -108,12 +132,24 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
                 }
                 else
                 {
-                    valueList<<formatScriptValue(propItr.value(), maxLevel);
-                    QTreeWidgetItem *objectItem =  new QTreeWidgetItem(valueList);
-                    addPropertyItems(propItr.value(), maxLevel-1, objectItem);
-    //                newItems.append(insertArrayItems(new QTreeWidgetItem(valueList),propItr.value()));
-                    newItems.append(objectItem);
+                    QtVariantProperty *item;
+                    QVariant::Type propType = getQVariantTypeForScriptValueType(getScriptValuePropertyType(value, propItr.name()));
+                    if(propType==QVariant::Invalid)
+                    {
+                        item = variantManager->addProperty(
+                                QVariant::String, propItr.name());
+                        item->setEnabled(false);
+                    }
+                    else
+                    {
+                        item = variantManager->addProperty(
+                                propType, propItr.name());
+                    }
+                    item->setValue(formatScriptValue(propItr.value(), maxLevel));
+//                    item->setEnabled(false);
 
+                    addPropertyItems(propItr.value(), maxLevel-1, item);
+                    newProperties.append(item);
                 }
             }
         }
@@ -125,11 +161,13 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
 
     if(parentItem)
     {
-        parentItem->addChildren(newItems);
+        for(int i=0;i<newProperties.count();i++)
+            parentItem->addSubProperty(newProperties[i]);
     }
     else
     {
-        propertiesWidget->addTopLevelItems(newItems);
+        for(int i=0;i<newProperties.count();i++)
+            propertiesWidget->addProperty(newProperties[i]);
     }
 }
 
@@ -209,11 +247,10 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
     {
         if(!cached.strictlyEquals(value))
         {
+            variantManager->clear();
             propertiesWidget->clear();
-
             addPropertyItems(value, 1, NULL);
         }
-        propertiesWidget->expandAll();
 
         invalidWidget->hide();
         propertiesWidget->show();

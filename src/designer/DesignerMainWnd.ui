@@ -233,6 +233,10 @@
    </property>
   </action>
   <action name="actionHelpAboutApp">
+   <property name="icon">
+    <iconset resource="resources/DesignerResources.qrc">
+     <normaloff>:/designer/common/toolbar/common/toolbar/help-about.png</normaloff>:/designer/common/toolbar/common/toolbar/help-about.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About Lachesis Designer...</string>
    </property>

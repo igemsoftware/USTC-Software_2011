@@ -7,20 +7,19 @@ package org.clothocad.widget.genestudioconnector;
 import org.clothocore.api.plugin.ClothoWidget;
 import java.io.*;
 import javax.swing.*;
+import org.ini4j.*; 
 /**
  *
  * @author USTC_Software
  */
 public class connect implements ClothoWidget{
     File f;
-    FileReader fr;
-    BufferedReader br;
 
     @Override
     public void launch() {
         try{
-        //String tmp=this.prepare();+" -from-clotho";
-        Runtime.getRuntime().exec(this.prepare());
+        String tmp=this.prepare()+" -from-clotho";
+        Runtime.getRuntime().exec(tmp);
         }
         catch(Exception e){
             JOptionPane.showConfirmDialog(null, "Cannot start GeneStudio please reconfigure it!","Launch Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -35,7 +34,7 @@ public class connect implements ClothoWidget{
         Runtime.getRuntime().exec(tmp);
         }
         catch(Exception e){
-            JOptionPane.showConfirmDialog(null, "Cannot start GeneStudio please reconfigure it!","Launch Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showConfirmDialog(null, "Cannot close GeneStudio please reconfigure it!","Terminate Failed!",JOptionPane.CLOSED_OPTION,JOptionPane.WARNING_MESSAGE);
         }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -47,33 +46,14 @@ public class connect implements ClothoWidget{
     public String prepare() throws Exception{
         String tmp=null;
         f=new File(this.GetPath());
-        fr=new FileReader(f);
-        br=new BufferedReader(fr);
-        br.readLine();
-        tmp=br.readLine();
-        tmp=tmp.substring(8,tmp.length());
-        this.br.close();
-        this.fr.close();
-        return tmp;
+        Ini i=new Ini(f);        
+        return i.get("Designer", "AppPath");
     }
     
 
-    public String GetPath(){
-        String osname=System.getProperty("os.name");
-        if(osname.equals("Windows 7")){
-            return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Windows  XP"))
-        {
-             return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Windows  XP")){
-             return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else if(osname.equals("Linux")){
-            return "C:/Users/farseer/Desktop/files/confg.txt";
-        }
-        else return null;
+    public String GetPath()
+    {
+        return System.getProperty("user.home")+"/.lachesis/lachesis.conf";        
     }
 
 }

@@ -4,6 +4,11 @@
 #include <QtScript>
 #include <QtGui>
 
+class QtVariantPropertyManager;
+class QtVariantEditorFactory;
+class QtTreePropertyBrowser;
+class QtProperty;
+
 class DesignerPropertiesPanelWidget : public QWidget
 {
     Q_OBJECT
@@ -30,19 +35,20 @@ public:
 
     QList<ScriptValueUserType> scriptValueUserTypeList;
 
-    void addPropertyItems(QScriptValue value, int maxLevel, QTreeWidgetItem* parentItem);
+    void addPropertyItems(QScriptValue value, int maxLevel, QtProperty* parentItem);
     QString formatScriptValue(QScriptValue value, int maxLevel);
 
     ScriptValueType getScriptValueType(const QScriptValue& value);
     ScriptValueType getScriptValuePropertyType(const QScriptValue& value, QString propertyName);
+    QVariant::Type  getQVariantTypeForScriptValueType(ScriptValueType type);
 
 protected:
-    QTreeWidget*  propertiesWidget;
+    QtVariantPropertyManager *variantManager;
+    QtVariantEditorFactory *variantFactory;
+    QtTreePropertyBrowser* propertiesWidget;
     QLabel*       invalidWidget;
 
     QScriptValue  cached;
-
-signals:
 
 public slots:
     void updateTarget(QScriptValue value);

@@ -34,6 +34,8 @@ protected:
 
 protected:
     void updateTabInfo();
+public:
+    void removeTabWithClass(QString className);
 
 private:
     DesignerDocItf* currentDoc;
@@ -45,13 +47,16 @@ public slots:
     void on_actionFileNew_triggered();
     void on_actionFileExit_triggered();
     void on_actionFileOpen_triggered();
+    void on_actionFileSave_triggered();
+    void on_actionHelpAboutApp_triggered();
+
+    void instanceMessageReceived(const QString& message);
 
 public:
     static DesignerMainWnd* globalCreateNewMainWnd();
     static void globalUnregisterMainWnd(DesignerMainWnd*);
     static QList<DesignerMainWnd*> mainWnd_list;
 private slots:
-    void on_actionFileSave_triggered();
     void on_tabWidget_tabCloseRequested(int index);
 };
 

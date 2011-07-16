@@ -235,6 +235,12 @@ public:
             itemPool[parent].setProperty("modifier", itemPool[indexOfList]);
             return indexOfList;
         }
+        else if(domElem->nodeName()==/*Reaction::*/ "kineticLaw")
+        {
+            modelObjectIndex newIndex = handler_createStandardObject(domElem);
+            itemPool[parent].setProperty("kineticLaw", itemPool[newIndex]);
+            return parent;
+        }
         else if(domElem->nodeName()==/*Reaction::kineticLaw*/ "math")
         {
             itemPool[parent].setProperty("math", itemPool[handler_createFunctionObjectFromMathML(domElem)]);
