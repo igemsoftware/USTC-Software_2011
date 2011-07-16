@@ -1,6 +1,8 @@
 #include <QtGui>
 #include "SBMLEditorView.h"
 
+LACHESIS_DECLARE_VIEW(SBMLEditorView, "SBML Editor View");
+
 SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd) :
     DesignerViewItf(mainWnd)
 {

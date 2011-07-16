@@ -67,5 +67,5 @@ DesignerModelItf * DesignerDocItf::getCurrentModel(QString modelName)
 {
     if(currentModel)
         return currentModel;
-    return DesignerModelItf::createModel(modelName);
+    return DesignerModelItf::createModel(modelName, this);
 }

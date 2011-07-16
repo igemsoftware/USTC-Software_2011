@@ -3,6 +3,8 @@
 
 #include "DesignerMainWnd.h"
 
+LACHESIS_DECLARE_VIEW(WelcomeView, "Welcome");
+
 WelcomeView::WelcomeView(DesignerMainWnd* mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::WelcomeView)

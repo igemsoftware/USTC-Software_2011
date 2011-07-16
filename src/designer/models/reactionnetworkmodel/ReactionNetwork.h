@@ -3,13 +3,13 @@
 
 #include <QObject>
 #include <QScriptEngine>
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 class ReactionNetworkModel : public DesignerModelItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit ReactionNetworkModel(QObject *parent = 0);
+    Q_INVOKABLE explicit ReactionNetworkModel(DesignerDocItf *newDoc);
 
     DesignerModelFormatProxyItf* createImportProxy(QString importFormat);
 

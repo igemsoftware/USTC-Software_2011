@@ -57,7 +57,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"));
+    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 
@@ -91,6 +91,7 @@ QList<QString> SBMLDoc::getSupportedViewList() const
     supportedViewList.append("Plot3DView");
     supportedViewList.append("PartView");
     supportedViewList.append("ODEView");
+    supportedViewList.append("ClothoDBView");
 
     return supportedViewList;
 }

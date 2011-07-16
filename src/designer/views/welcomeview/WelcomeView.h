@@ -2,7 +2,7 @@
 #define WELCOMEVIEW_H
 
 #include <QWidget>
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class WelcomeView;

@@ -1,7 +1,7 @@
 #include "AssemblyView.h"
 
 #include "DesignerMainWnd.h"
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 
 namespace AssemblyViewNameSpace
@@ -12,6 +12,9 @@ namespace AssemblyViewNameSpace
 }
 using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
+
+
+LACHESIS_DECLARE_VIEW(AssemblyView, "Assembly View");
 
 AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)

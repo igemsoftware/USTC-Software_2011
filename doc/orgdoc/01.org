@@ -1,0 +1,33 @@
+Reaction Network Model 的内部结构 (Draft)
+
+ReactionNetworkModel实现 DesignerModelItf 接口，使用 QtScript 的环境存储所需的全部内部数据。 
+
+
+<Root>
+  | ...                                           |
+  | model  <---This is the root of our data       |
+  |                                               |
+  |                                               |
+  |                                               |
+
+<Model>
+  | compartmentlist                               |
+  | speciesList                                   |
+  | reactionList                                  |
+
+<Compartment>
+  | id                                            |
+  | size                                          |
+
+<Species>
+  | id                                            |
+  | structure                                     |
+
+<Reaction>
+  | id                                            |
+  | reactants                                     |
+  | products                                      |
+  | modifiers                                     |
+
+
+<to be continued>

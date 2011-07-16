@@ -2,6 +2,8 @@
 #include <qwt3d_surfaceplot.h>
 #include "Plot3DView.h"
 
+LACHESIS_DECLARE_VIEW(Plot3DView, "Plot3D View");
+
 //! \bug This is sample code shipped with qwt3d, will be removed soon.
 using namespace Qwt3D;
 

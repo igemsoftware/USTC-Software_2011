@@ -1,7 +1,7 @@
 #ifndef FILEDESCRIPTIONVIEW_H
 #define FILEDESCRIPTIONVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class FileDescriptionView;

@@ -2,8 +2,8 @@
 #define SBMLDOC_H
 
 #include <QtScript>
-#include "DesignerDocItf.h"
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerDocItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 class SBMLDoc : public DesignerDocItf
 {

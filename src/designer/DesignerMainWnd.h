@@ -3,8 +3,8 @@
 
 #include "DesignerDebug.h"
 #include <QMainWindow>
-#include "DesignerDocItf.h"
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerDocItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class DesignerMainWnd;
@@ -39,6 +39,7 @@ public:
 
 private:
     DesignerDocItf* currentDoc;
+    DesignerModelItf* currentModel;
 
 private:
     Ui::DesignerMainWnd *ui;
