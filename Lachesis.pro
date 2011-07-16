@@ -14,6 +14,7 @@ CONFIG(debug, debug|release) {
 
 CONFIG(release, debug|release) {
     TARGET = Lachesis
+    config += release
 }
 
 TEMPLATE = app

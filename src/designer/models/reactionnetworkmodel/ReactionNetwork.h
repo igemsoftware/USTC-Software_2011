@@ -19,6 +19,8 @@ public:
     QString getModelObjectProperty(modelObjectIndex index, QString propertyName);
 
 
+    virtual QStringList getSupportedViewList() const;
+
 
 signals:
 

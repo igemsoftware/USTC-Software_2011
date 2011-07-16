@@ -25,6 +25,24 @@ ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
 {
 }
 
+
+QStringList ReactionNetworkModel::getSupportedViewList() const
+{
+    QStringList supportedViewList;
+    supportedViewList.append("AssemblyView");
+    supportedViewList.append("NetworkView");
+    supportedViewList.append("BehaviorView");
+    supportedViewList.append("SBMLEditorView");
+    //! \bug For debug purpose.
+    supportedViewList.append("Plot3DView");
+    supportedViewList.append("PartView");
+    supportedViewList.append("ODEView");
+    supportedViewList.append("ClothoDBView");
+
+    return supportedViewList;
+}
+
+
 ReactionNetworkModel::modelObjectIndex
 ReactionNetworkModel::createModelObject(modelObjectIndex parent, void* data)
 {

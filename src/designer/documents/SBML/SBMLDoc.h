@@ -16,8 +16,6 @@ public:
     virtual bool loadFromFile(QFile& file);
     virtual bool saveToFile(QFile& file);
 
-    virtual QList<QString> getSupportedViewList() const;
-
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
 
 private:

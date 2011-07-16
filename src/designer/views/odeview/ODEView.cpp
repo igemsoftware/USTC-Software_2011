@@ -1,8 +1,6 @@
 #include <QtMmlWidget>
 #include "ODEView.h"
 
-LACHESIS_DECLARE_VIEW(ODEView, "ODE View");
-
 ODEView::ODEView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)
 {

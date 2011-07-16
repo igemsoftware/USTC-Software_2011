@@ -3,8 +3,6 @@
 
 #include "DesignerMainWnd.h"
 
-LACHESIS_DECLARE_VIEW(WelcomeView, "Welcome");
-
 WelcomeView::WelcomeView(DesignerMainWnd* mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::WelcomeView)
@@ -12,7 +10,7 @@ WelcomeView::WelcomeView(DesignerMainWnd* mainWnd) :
     ui->setupUi(this);
     Q_ASSERT(mainWnd);
 
-    QObject::connect(this, SIGNAL(createDocWithViewType(QString)), mainWnd, SLOT(createView(QString)));
+    QObject::connect(this, SIGNAL(createDocWithViewType(QString)), mainWnd, SLOT(createModelWithView(QString)));
     QObject::connect(ui->buttonOpenFile, SIGNAL(clicked()), mainWnd, SLOT(on_actionFileOpen_triggered()));
     QObject::connect(ui->buttonQuit, SIGNAL(clicked()), mainWnd, SLOT(on_actionFileExit_triggered()));
 }

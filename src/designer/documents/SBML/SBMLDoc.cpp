@@ -80,22 +80,6 @@ bool SBMLDoc::saveToFile(QFile& file)
     return false;
 }
 
-QList<QString> SBMLDoc::getSupportedViewList() const
-{
-    QList<QString> supportedViewList;
-    supportedViewList.append("AssemblyView");
-    supportedViewList.append("NetworkView");
-    supportedViewList.append("BehaviorView");
-    supportedViewList.append("SBMLEditorView");
-    //! \bug For debug purpose.
-    supportedViewList.append("Plot3DView");
-    supportedViewList.append("PartView");
-    supportedViewList.append("ODEView");
-    supportedViewList.append("ClothoDBView");
-
-    return supportedViewList;
-}
-
 SBMLDoc::extentValue SBMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
 {
     return SBMLDoc::NOTACCEPTABLE;

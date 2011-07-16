@@ -23,17 +23,19 @@ public:
     {
         QMetaObject metaObject;
         QString     viewTitle;
-
+        QString     defaultModelName;
 
         ViewItfRegistryItem() { ViewItfRegistryItem(DesignerViewItf::staticMetaObject, "Invalid"); }
-
-        ViewItfRegistryItem(QMetaObject m ,QString v) : metaObject(m), viewTitle(v) {}
+//        ViewItfRegistryItem(QMetaObject m ,QString v) { ViewItfRegistryItem(m, v, ""); }
+        ViewItfRegistryItem(QMetaObject m ,QString v, QString d = "")
+            : metaObject(m), viewTitle(v), defaultModelName(d) {}
      };
 
     typedef ItemRegistry<QString, ViewItfRegistryItem> ViewItfRegistry;
 public:
+    static void initializeIfNotYet();
+public:
     static DesignerViewItf* createView(QString, DesignerMainWnd* mainWnd);
-
     static QString getViewTitleByName(QString name);
     static QMetaObject getViewMetaObjectByName(QString name);
 
