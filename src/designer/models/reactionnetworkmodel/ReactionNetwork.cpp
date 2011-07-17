@@ -43,27 +43,3 @@ QStringList ReactionNetworkModel::getSupportedViewList() const
     return supportedViewList;
 }
 
-
-ReactionNetworkModel::modelObjectIndex
-ReactionNetworkModel::createModelObject(modelObjectIndex parent, void* data)
-{
-    return 1;
-}
-
-void ReactionNetworkModel::removeModelObject(modelObjectIndex index)
-{
-
-}
-
-#include <stdio.h>
-void ReactionNetworkModel::setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value)
-{
-//    printf(propertyName.toLatin1().data());
-//    printf(value.toLatin1().data());
-}
-
-QString ReactionNetworkModel::getModelObjectProperty(modelObjectIndex index, QString propertyName)
-{
-    return "";
-}
-

@@ -18,7 +18,7 @@ DesignerDocItf::DesignerDocItf() :
 
 bool DesignerDocItf::saveToFile()
 {
-
+    return true;
 }
 
 

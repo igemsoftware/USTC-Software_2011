@@ -1,10 +1,10 @@
-// Designer Document Common Interface
+//! \file DesignerDocItf.h
+//! Lachesis Designer Document Common Interface
 
 #ifndef DESIGNERDOCITF_H
 #define DESIGNERDOCITF_H
 
-#include <QObject>
-#include <QFile>
+#include <QtCore>
 
 class DesignerMainWnd;
 class DesignerModelItf;

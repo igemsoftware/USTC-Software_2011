@@ -18,7 +18,7 @@
 
 #define LACHESIS_DECLARE_VIEW(className, titleString, modelName) \
     DesignerViewItf::ViewItfRegistry::ItemRegistryInlineAdd viewreg_##className (QString( #className ), \
-    DesignerViewItf::ViewItfRegistryItem( className ::staticMetaObject, QObject::tr(titleString), modelName))
+    DesignerViewItf::ViewItfRegistryItem(& className ::staticMetaObject, QObject::tr(titleString), modelName))
 
 
 void DesignerViewItf::initializeIfNotYet()
@@ -47,9 +47,9 @@ DesignerViewItf* DesignerViewItf::createView
 {
     initializeIfNotYet();
     ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
-    if(metaObj.metaObject.className()==viewName)
+    if(metaObj.metaObject)
         return dynamic_cast<DesignerViewItf*>
-                (metaObj.metaObject.newInstance(Q_ARG(DesignerMainWnd*, mainWnd),
+                (metaObj.metaObject->newInstance(Q_ARG(DesignerMainWnd*, mainWnd),
                                                 Q_ARG(DesignerModelItf*, model)));
 
     return NULL;
@@ -59,7 +59,7 @@ QString DesignerViewItf::getViewTitleByName(QString viewName)
 {
 
     ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
-    if(metaObj.metaObject.className()==viewName)
+    if(metaObj.metaObject->className()==viewName)
         return metaObj.viewTitle;
 
     return viewName;
@@ -72,6 +72,6 @@ QString DesignerViewItf::getViewDefaultModelByName(QString viewName)
 
 QMetaObject DesignerViewItf::getViewMetaObjectByName(QString viewName)
 {
-    return ViewItfRegistry::find(viewName).metaObject;
+    return *ViewItfRegistry::find(viewName).metaObject;
 }
 

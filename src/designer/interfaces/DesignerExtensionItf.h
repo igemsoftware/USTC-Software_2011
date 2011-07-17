@@ -1,7 +1,10 @@
+//! \file DesignerExtensionItf.h
+//! Lachesis Designer Extension Common Interface
+
 #ifndef DESIGNEREXTENSIONITF_H
 #define DESIGNEREXTENSIONITF_H
 
-#include <QObject>
+#include <QtCore>
 
 class DesignerExtensionItf : public QObject
 {

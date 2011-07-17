@@ -49,7 +49,8 @@ SOURCES +=\
     src/designer/interfaces/DesignerModelItf.cpp \
     src/designer/interfaces/DesignerExtensionItf.cpp \
     src/designer/interfaces/DesignerDocItf.cpp \
-    src/designer/views/webpageview/WebPageView.cpp
+    src/designer/views/webpageview/WebPageView.cpp \
+    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -100,7 +101,8 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/interfaces/DesignerDocItf.h \
     src/designer/common/utils/itemregistry/ItemRegistry.h \
     src/designer/interfaces/DesignerInterface.h \
-    src/designer/views/webpageview/WebPageView.h
+    src/designer/views/webpageview/WebPageView.h \
+    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

@@ -1,8 +1,12 @@
+//! \file DesignerModelItf.h
+//! Lachesis Designer Model Common Interface
+
 #ifndef DESIGNERMODELITF_H
 #define DESIGNERMODELITF_H
 
-#include <QObject>
-#include <QScriptEngine>
+#include <QtCore>
+#include <QtScript>
+#include "common/utils/itemregistry/ItemRegistry.h"
 
 class DesignerDocItf;
 
@@ -60,24 +64,6 @@ signals:
     void dataUpdated();
     void storageUpdated();
 
-    //manipulation methods (overridable)
-public:
-    typedef size_t modelObjectIndex;
-
-    //! Implement dependent
-    virtual modelObjectIndex createModelObject(modelObjectIndex parent = 0, void* data = 0) = 0;
-    //! Implement dependent
-    virtual void removeModelObject(modelObjectIndex index) = 0;
-    //! Implement dependent
-    virtual void setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value) = 0;
-    //! Implement dependent
-    virtual QString getModelObjectProperty(modelObjectIndex index, QString propertyName) = 0;
-
-    enum UpdateFlags
-    {
-        updateByData = 1,
-        updateByStorage = 2
-    };
 public slots:
     void requestUpdate(unsigned int flags)
     {
@@ -99,7 +85,40 @@ public:
         return modelEngine.evaluate(sourceCode, tr("lachesis_script.tmp"));
     }
 
-public slots:
+public:
+    struct ModelItfRegistryItem
+    {
+        const QMetaObject* metaObject;
+
+        ModelItfRegistryItem(const QMetaObject* m = 0)
+            : metaObject(m){}
+     };
+
+    //! The archive for view dynamic loading
+    typedef ItemRegistry<QString, ModelItfRegistryItem> ModelItfRegistry;
+
+public:
+    //! Initialization(dynamic loading).
+    static void initializeIfNotYet();
+
+    //manipulation methods (overridable)
+public:
+    typedef size_t modelObjectIndex;
+
+    //! Implement dependent
+    virtual modelObjectIndex createModelObject(modelObjectIndex parent = 0, void* data = 0);
+    //! Implement dependent
+    virtual void removeModelObject(modelObjectIndex index);
+    //! Implement dependent
+    virtual void setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value);
+    //! Implement dependent
+    virtual QString getModelObjectProperty(modelObjectIndex index, QString propertyName);
+
+    enum UpdateFlags
+    {
+        updateByData = 1,
+        updateByStorage = 2
+    };
 
 };
 

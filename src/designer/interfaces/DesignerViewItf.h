@@ -1,6 +1,10 @@
+//! \file DesignerViewItf.h
+//! Lachesis Designer View Common Interface
+
 #ifndef DESIGNERVIEWITF_H
 #define DESIGNERVIEWITF_H
 
+#include <QtCore>
 #include <QtGui>
 #include "common/utils/itemregistry/ItemRegistry.h"
 
@@ -38,12 +42,11 @@ protected:
 public:
     struct ViewItfRegistryItem
     {
-        QMetaObject metaObject;
-        QString     viewTitle;
-        QString     defaultModelName;
+        const QMetaObject*  metaObject;
+        QString             viewTitle;
+        QString             defaultModelName;
 
-        ViewItfRegistryItem() { ViewItfRegistryItem(DesignerViewItf::staticMetaObject, "Invalid"); }
-        ViewItfRegistryItem(QMetaObject m ,QString v, QString d = "")
+        ViewItfRegistryItem(const QMetaObject* m = 0,QString v = "Invalid", QString d = "")
             : metaObject(m), viewTitle(v), defaultModelName(d) {}
      };
 
