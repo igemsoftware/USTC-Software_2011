@@ -97,7 +97,7 @@ namespace ReactionNetworkDataTypes
 		// symbol_t name; ;; instance-value
 		// precisevalue_t size; ;; instance-value
 		// valuelist_t contains; ;; instance-value
-
+                // presicevalue_t initialAmount; ;;
 		static QScriptValue toScriptValue(QScriptEngine *engine,   const Compartment &s)
 		{
 			QScriptValue obj = engine->newObject();

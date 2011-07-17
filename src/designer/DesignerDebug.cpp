@@ -1,5 +1,6 @@
 #include "DesignerDebug.h"
 
+#ifdef DEBUG
 
 QDebug operator<< (QDebug d, const QScriptValue & s )
 {
@@ -24,3 +25,5 @@ QDebug operator<< (QDebug d, const QScriptValue & s )
     }
     return d;
 }
+
+#endif

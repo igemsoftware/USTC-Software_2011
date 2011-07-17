@@ -8,7 +8,8 @@
 #include <QGraphicsScene>
 #include <QToolBar>
 #include <QToolButton>
-#include <DesignerViewItf.h>
+#include "interfaces/DesignerViewItf.h"
+
 #include "AssemblyItemPart.h"
 #include "AssemblyItemCompartment.h"
 #include "AssemblyItemPlasmid.h"

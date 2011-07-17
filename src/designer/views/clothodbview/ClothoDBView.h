@@ -5,7 +5,7 @@
 #include <QtCore>
 #include <QtXml>
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 
 namespace Ui {

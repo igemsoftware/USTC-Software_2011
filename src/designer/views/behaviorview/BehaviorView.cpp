@@ -3,6 +3,7 @@
 #include "BehaviorView.h"
 #include "ui_BehaviorView.h"
 
+
 BehaviorView::BehaviorView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::BehaviorView)

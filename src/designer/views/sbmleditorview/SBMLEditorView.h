@@ -1,7 +1,7 @@
 #ifndef SBMLEDITORVIEW_H
 #define SBMLEDITORVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 #include "SBMLEditorViewHighlighter.h"
 
 class SBMLEditorView : public DesignerViewItf

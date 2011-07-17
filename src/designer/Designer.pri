@@ -7,13 +7,10 @@ QT +=sql
 SOURCES +=\
     DesignerMainWnd.cpp \
     Designer.cpp \
-    DesignerViewItf.cpp \
-    DesignerDocItf.cpp \
     views/assemblyview/AssemblyItemPlasmid.cpp \
     views/assemblyview/AssemblyItemCompartment.cpp \
     views/assemblyview/AssemblyScene.cpp \
     views/assemblyview/AssemblyCreateAndDrag.cpp \
-    DesignerModelItf.cpp \
     models/reactionnetworkmodel/ReactionNetwork.cpp \
     views/networkview/NetworkViewGraphicsScene.cpp \
     views/networkview/NetworkViewGraphicsSceneEdge.cpp \
@@ -29,33 +26,36 @@ SOURCES +=\
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
-    DesignerExtensionItf.cpp \
     views/welcomeview/WelcomeView.cpp \
     views/assemblyview/AssemblyView.cpp \
     views/sbmleditorview/SBMLEditorView.cpp \
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
     views/networkview/NetworkView.cpp \
     views/behaviorview/BehaviorView.cpp \
+    documents/MoDeL/MoDeLDocParser.cpp \
+    documents/MoDeL/MoDeLDoc.cpp \
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
     common/panels/propertypanel/DesignerPropertiesPanelWidget.cpp \
     views/networkview/NetworkViewGraphicsItem.cpp \
+    models/common/ModelSymbol.cpp \
     src/designer/views/plot3dview/Plot3DView.cpp \
     src/designer/views/partview/PartView.cpp \
     src/designer/views/odeview/ODEView.cpp \
     src/designer/views/aboutview/AboutView.cpp \
-    src/designer/views/clothodbview/ClothoDBView.cpp
+    src/designer/views/clothodbview/ClothoDBView.cpp \
+    src/designer/interfaces/DesignerViewItf.cpp \
+    src/designer/interfaces/DesignerModelItf.cpp \
+    src/designer/interfaces/DesignerExtensionItf.cpp \
+    src/designer/interfaces/DesignerDocItf.cpp
 
 HEADERS  += DesignerMainWnd.h \
-    DesignerViewItf.h \
-    DesignerDocItf.h \
     views/assemblyview/AssemblyItemPlasmid.h \
     views/assemblyview/AssemblyItemCompartment.h \
     views/assemblyview/AssemblyScene.h \
     views/assemblyview/AssemblyLib.h \
     views/assemblyview/AssemblyCreateAndDrag.h \
-    DesignerModelItf.h \
     models/common/ModelSymbol.h \
     views/networkview/NetworkViewGraphicsScene.h \
     views/networkview/NetworkViewGraphicsSceneEdge.h \
@@ -74,13 +74,14 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
-    DesignerExtensionItf.h \
     views/welcomeview/WelcomeView.h \
     views/assemblyview/AssemblyView.h \
     views/sbmleditorview/SBMLEditorView.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \
     views/networkview/NetworkView.h \
     views/behaviorview/BehaviorView.h \
+    documents/MoDeL/MoDeLDocParser.h \
+    documents/MoDeL/MoDeLDoc.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
     views/networkview/NetworkViewGraphicsSceneContainer.h \
@@ -90,7 +91,14 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/views/partview/PartView.h \
     src/designer/views/odeview/ODEView.h \
     src/designer/views/aboutview/AboutView.h \
-    src/designer/views/clothodbview/ClothoDBView.h
+    src/designer/views/clothodbview/ClothoDBView.h \
+    src/designer/models/common/ModelFunction.h \
+    src/designer/interfaces/DesignerViewItf.h \
+    src/designer/interfaces/DesignerModelItf.h \
+    src/designer/interfaces/DesignerExtensionItf.h \
+    src/designer/interfaces/DesignerDocItf.h \
+    src/designer/common/utils/itemregistry/ItemRegistry.h \
+    src/designer/interfaces/DesignerInterface.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

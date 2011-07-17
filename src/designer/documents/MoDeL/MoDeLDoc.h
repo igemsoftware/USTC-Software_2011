@@ -1,28 +1,31 @@
-#ifndef SBMLDOC_H
-#define SBMLDOC_H
+#ifndef MODELDOC_H
+#define MODELDOC_H
 
 #include <QtScript>
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class SBMLDoc : public DesignerDocItf
+class MoDeLDoc : public DesignerDocItf
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit SBMLDoc();
-    ~SBMLDoc();
+    Q_INVOKABLE explicit MoDeLDoc();
+    ~MoDeLDoc();
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
     virtual bool loadFromFile(QFile& file);
     virtual bool saveToFile(QFile& file);
 
+    virtual QList<QString> getSupportedViewList() const;
+
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
 
 private:
+
 signals:
 
 public slots:
 
 };
 
-#endif // SBMLDOC_H
+#endif // MODELDOC_H

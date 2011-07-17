@@ -1,0 +1,26 @@
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <apply>
+  <divide /> 
+  <apply>
+  <times /> 
+  <ci>uVol</ci> 
+  <ci>V10</ci> 
+  <ci>MAPK_P</ci> 
+  </apply>
+  <apply>
+  <plus /> 
+  <ci>KK10</ci> 
+  <ci>MAPK_P</ci> 
+  </apply>
+  </apply>
+  </math>
+
+
+[apply divide [apply times [ci uvol] [ci V10] [ci MAPK_P] ] [apply plus [ci KK10] [ci MAPK_P]]]]
+
+<math>
+<mfrac>
+<mtd><ci>uvol</ci><mo>&middot;</mo><ci>V10</ci><mo>&middot;</mo><ci>MAPK_P</ci></mtd>
+<mtd><ci>KK10</ci><mo>+</mo><ci>MAPK_P</ci></mtd>
+</mfrac>
+</math>

@@ -3,13 +3,15 @@
 
 #include "DesignerMainWnd.h"
 
+#include "interfaces/DesignerInterface.h"
+
 FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd) :
     DesignerViewItf(mainWnd),
     ui(new Ui::FileDescriptionView)
 {
     ui->setupUi(this);
 
-    QList<QString> viewList = mainWnd->getCurrentDoc("")->getSupportedViewList();
+    QStringList viewList = mainWnd->getCurrentModel()->getSupportedViewList();
     for(int i=0;i<viewList.count();i++)
     {
         QListWidgetItem *newItem = new QListWidgetItem(DesignerViewItf::getViewTitleByName(viewList[i]));

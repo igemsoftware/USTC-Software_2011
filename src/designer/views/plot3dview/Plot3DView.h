@@ -1,7 +1,7 @@
 #ifndef PLOT3DVIEW_H
 #define PLOT3DVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 class Plot;
 

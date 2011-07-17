@@ -1,7 +1,7 @@
 #include <QtScript>
 
 #include "DesignerDebug.h"
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 
 #include "NetworkViewGraphicsScene.h"
 #include "NetworkViewGraphicsSceneContainer.h"

@@ -1,7 +1,9 @@
 #ifndef ODEVIEW_H
 #define ODEVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
+
+class QtMmlWidget;
 
 class ODEView : public DesignerViewItf
 {
@@ -9,9 +11,14 @@ class ODEView : public DesignerViewItf
 public:
     Q_INVOKABLE explicit ODEView(DesignerMainWnd *mainWnd);
 
+    void resizeEvent ( QResizeEvent * event );
+
+    QtMmlWidget * mmlWidget;
+    QTextEdit   * textWidget;
 signals:
 
 public slots:
+    void textChanged();
 
 };
 

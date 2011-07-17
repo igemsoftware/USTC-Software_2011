@@ -3,8 +3,8 @@
 
 #include "DesignerDebug.h"
 #include <QMainWindow>
-#include "DesignerDocItf.h"
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerDocItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class DesignerMainWnd;
@@ -19,14 +19,16 @@ public:
     ~DesignerMainWnd();
 
 public slots:
-    void createView(QString viewName, bool isProtected = false);
-
+    void createModelWithView(QString viewName);
     void openFile(QString& fileName);
-
     DesignerDocItf * getCurrentDoc(QString defaultDocType = QString());
 
 public:
     QWidget* getPanelWidget(QString panelName);
+
+public:
+    void createView(QString viewName, bool isProtected = false);
+    void createView(QString viewName, bool isProtected, DesignerModelItf* model);
 
 protected:
     virtual void resizeEvent ( QResizeEvent * event );
@@ -38,8 +40,9 @@ public:
     void removeTabWithClass(QString className);
 
 private:
-    DesignerDocItf* currentDoc;
-
+    DesignerModelItf* currentModel;
+public:
+    DesignerModelItf* getCurrentModel() { return currentModel; }
 private:
     Ui::DesignerMainWnd *ui;
 

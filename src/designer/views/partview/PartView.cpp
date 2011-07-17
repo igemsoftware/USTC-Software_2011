@@ -1,4 +1,5 @@
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
+
 #include "PartView.h"
 #include "ui_partview.h"
 #include "DesignerMainWnd.h"

@@ -1,7 +1,7 @@
 #ifndef PARTVIEW_H
 #define PARTVIEW_H
 
-#include "DesignerViewItf.h"
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class PartView;

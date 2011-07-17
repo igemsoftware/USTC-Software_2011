@@ -1,7 +1,7 @@
 #include "AssemblyView.h"
 
 #include "DesignerMainWnd.h"
-#include "DesignerModelItf.h"
+#include "interfaces/DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 
 namespace AssemblyViewNameSpace
@@ -12,6 +12,7 @@ namespace AssemblyViewNameSpace
 }
 using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
+
 
 AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
     DesignerViewItf(mainWnd)
@@ -26,7 +27,7 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd) :
         partTypes.push_back("NULL");
     }
 
-    engine = mainWindow->getCurrentDoc("SBMLDoc")->getCurrentModel("ReactionNetworkModel")->getEngine();
+    engine = mainWindow->getCurrentModel()->getEngine();
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     QVBoxLayout * vLayout = new QVBoxLayout;
