@@ -23,6 +23,9 @@ SOURCES +=\
     views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
     documents/SBML/SBMLDocParser.cpp \
+    documents/Part/Part.cpp \
+    documents/Part/PartDoc.cpp \
+    documents/Part/PartDocParser.cpp \
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
@@ -72,6 +75,9 @@ HEADERS  += DesignerMainWnd.h \
     views/behaviorview/BehaviorViewPlotWidget.h \
     documents/SBML/SBMLDoc.h \
     documents/SBML/SBMLDocParser.h \
+    documents/Part/Part.h \
+    documents/Part/PartDoc.h \
+    documents/Part/PartDocParser.h \
     models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h \
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
