@@ -4,6 +4,9 @@
 #include <QtGui>
 #include <QtCore>
 #include <QtXml>
+#include <QtSql/QtSql>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 #include "interfaces/DesignerViewItf.h"
 
 
@@ -16,6 +19,7 @@ class ClothoDBView : public DesignerViewItf
 {
     Q_OBJECT
     QDomDocument doc;
+    QSqlDatabase db;
 
 
 public:

@@ -1,8 +1,6 @@
 #include "ClothoDBView.h"
 #include "ui_ClothoDBView.h"
-#include <QtSql/QtSql>
-#include <QtSql/QSqlError>
-#include <QtSql/QSqlQuery>
+
 
 ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),
@@ -55,7 +53,7 @@ void ClothoDBView::initiate()
 void ClothoDBView::connect()
 {
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    this->db=QSqlDatabase::addDatabase("QODBC");
     db.setHostName(ui->lineEdit_server->text());
     db.setDatabaseName(ui->lineEdit_dbname->text());
     db.setUserName(ui->lineEdit_user->text());
@@ -85,8 +83,6 @@ void ClothoDBView::on_pushButton_clicked()
         }
         tablesModel->setHeaderData(0, Qt::Horizontal, ui->lineEdit_dbname->text());
     }
-
-
 }
 
 void ClothoDBView::on_treeView_doubleClicked(QModelIndex index)
@@ -95,7 +91,17 @@ void ClothoDBView::on_treeView_doubleClicked(QModelIndex index)
     QSqlQuery query;
     if(query.exec("select * from "+tmp))
     {
-        ui->lineEdit_dbname->setText(tmp);
+        QSqlTableModel *model=new QSqlTableModel(this,this->db);
+        model->setTable(tmp);
+        model->select();
+        int i=0;
+        query.next();
+        while(!query.value(i).isNull())
+        {
+            model->setHeaderData(0, Qt::Horizontal,query.value(i).toString());
+            i++;
+        }
+        ui->tableView->setModel(model);
     }
 
 }
