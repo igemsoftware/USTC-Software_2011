@@ -1,7 +1,5 @@
 #include "ClothoDBView.h"
 #include "ui_ClothoDBView.h"
-#include "DesignerViewItf.h"
-#include "DesignerMainWnd.h"
 #include <QtSql/QtSql>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>

@@ -4,8 +4,8 @@
 #include <QtGui>
 #include <QtCore>
 #include <QtXml>
-
 #include "interfaces/DesignerViewItf.h"
+
 
 
 namespace Ui {
