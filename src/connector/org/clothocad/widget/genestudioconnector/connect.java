@@ -44,7 +44,6 @@ public class connect implements ClothoWidget{
        // throw new UnsupportedOperationException("Not supported yet.");
     }
     public String prepare() throws Exception{
-        String tmp=null;
         f=new File(this.GetPath());
         Ini i=new Ini(f);        
         return i.get("Designer", "AppPath");

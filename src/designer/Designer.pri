@@ -2,7 +2,7 @@
 
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
-
+QT +=sql
 
 SOURCES +=\
     DesignerMainWnd.cpp \
