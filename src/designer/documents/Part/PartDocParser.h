@@ -7,7 +7,8 @@ class PartDocParser
 {
 public:
     PartDocParser();
-    bool parse(PartDoc& model, QTextStream& fin);
+    bool parse(PartDoc& model, QTextStream& fin);    
+    QString extract(QString &s);
 };
 
 #endif // PARTDOCPARSER_H

@@ -5,7 +5,7 @@
 class Part
 {
 public:
-    QString ass;
+    QString acc;
     QString descr;
     QString sq;
     QString len;
