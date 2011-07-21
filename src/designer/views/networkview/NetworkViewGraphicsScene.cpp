@@ -70,14 +70,66 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     int reactionCount = reactionArray.property("length").toInt32();
     for(int i=0;i<reactionCount;i++)
     {
-//        qDebug()<<reactionArray.property(i);
-        NetworkViewGraphicsSceneNodeReaction* newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
-        addItem(newNode);
-        newNode->setLabel(reactionArray.property(i).property("id").toString());
-        newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
+        //  qDebug()<<reactionArray.property(i);
+        //  judge if the reaction belongs to a certain compartment
+        int reactantsCount = reactionArray.property(i).property("reactants").property("length").toInt32();
+        int productsCount = reactionArray.property(i).property("products").property("length").toInt32();
+        bool judge=true;
+        QString tmpCompartment=NULL;
+        for(int j=0;j<reactantsCount;j++)
+        {
+            QScriptValue parentCompartment = reactionArray.property(i).property("reactants").property(j).property("compartment");
+            if(parentCompartment.isNull())
+            {
+                judge=false;
+                break;
+            }
+            else if(tmpCompartment.isNull())
+                tmpCompartment=parentCompartment.toString();
+            if(parentCompartment.toString()!=tmpCompartment)
+            {
+                judge=false;
+                break;
+            }
+        }
+        for(int j=0;j<productsCount;j++)
+        {
+            QScriptValue parentCompartment = reactionArray.property(i).property("products").property(j).property("compartment");
+            if(parentCompartment.isNull())
+            {
+                judge=false;
+                break;
+            }
+            else if(tmpCompartment.isNull())
+                tmpCompartment=parentCompartment.toString();
+            if(parentCompartment.toString()!=tmpCompartment)
+            {
+                judge=false;
+                break;
+            }
+        }
+
+        NetworkViewGraphicsSceneContainer* container;
+        NetworkViewGraphicsSceneNodeReaction* newNode;
+
+        if(!judge)
+        {
+            newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
+            addItem(newNode);
+            newNode->setLabel(reactionArray.property(i).property("id").toString());
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
+        }
+        else
+        {
+            container=containerMap[tmpCompartment];
+            newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
+            addItem(newNode);
+            newNode->setLabel(reactionArray.property(i).property("id").toString());
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
+        }
 
         //reactants
-        int reactantsCount = reactionArray.property(i).property("reactants").property("length").toInt32();
+
         for(int j=0;j<reactantsCount;j++)
         {
             NetworkViewGraphicsSceneNodeSubstance* existingNode =
@@ -92,7 +144,6 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         }
 
         //products
-        int productsCount = reactionArray.property(i).property("products").property("length").toInt32();
         for(int j=0;j<productsCount;j++)
         {
             NetworkViewGraphicsSceneNodeSubstance* existingNode =

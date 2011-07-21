@@ -18,8 +18,6 @@ public:
     };
 
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
-
-public:
     void clearScene();
     void loadFromModel(DesignerModelItf* model);
 

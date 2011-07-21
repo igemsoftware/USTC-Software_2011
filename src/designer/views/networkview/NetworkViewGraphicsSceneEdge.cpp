@@ -3,8 +3,8 @@
 #include "NetworkViewGraphicsSceneNode.h"
 #include "NetworkViewGraphicsSceneLabel.h"
 
-const qreal NetworkViewGraphicsSceneEdge::arrowLength = 15.0;
-const qreal NetworkViewGraphicsSceneEdge::arrowAngle  = 0.2;
+const qreal NetworkViewGraphicsSceneEdge::arrowLength = 12.0;
+const qreal NetworkViewGraphicsSceneEdge::arrowAngle  = 0.15;
 
 NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent,
                                                            NetworkViewGraphicsSceneNode* node1,
