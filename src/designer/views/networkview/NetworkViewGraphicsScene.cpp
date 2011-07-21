@@ -101,8 +101,8 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
                 break;
             }
             else if(tmpCompartment.isNull())
-                tmpCompartment=parentCompartment.toString();
-            if(parentCompartment.toString()!=tmpCompartment)
+                tmpCompartment=parentCompartment.property("id").toString();
+            if(parentCompartment.property("id").toString()!=tmpCompartment)
             {
                 judge=false;
                 break;

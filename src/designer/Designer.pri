@@ -53,7 +53,11 @@ SOURCES +=\
     src/designer/interfaces/DesignerExtensionItf.cpp \
     src/designer/interfaces/DesignerDocItf.cpp \
     src/designer/views/webpageview/WebPageView.cpp \
-    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp
+    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp \
+    src/designer/documents/RSBPML/RSBPMLDoc.cpp \
+    src/designer/documents/RSBPML/RSBPMLDocParser.cpp \
+    src/designer/documents/RSBPML/RSBPMLParser.cpp \
+    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -108,7 +112,11 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/common/utils/itemregistry/ItemRegistry.h \
     src/designer/interfaces/DesignerInterface.h \
     src/designer/views/webpageview/WebPageView.h \
-    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h
+    src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h \
+    src/designer/documents/RSBPML/RSBPMLDoc.h \
+    src/designer/documents/RSBPML/RSBPMLDocParser.h \
+    src/designer/documents/RSBPML/RSBPMLParser.h \
+    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

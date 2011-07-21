@@ -1,0 +1,53 @@
+rsbpml                                               => 
+rsbpml/part_list                                     =>   #array$createArray
+rsbpml/part_list/part                                =>   #object$markAsModel$standardObject~/model
+
+rsbpml/part_list/part/part_id                        =>   #value^/*partsregistry.org*/part_id
+rsbpml/part_list/part/part_name                      =>   #value^/*partsregistry.org*/part_name
+rsbpml/part_list/part/part_short_name                =>   #value^/*partsregistry.org*/part_short_name
+rsbpml/part_list/part/part_short_desc                =>   #value^/*partsregistry.org*/part_short_desc
+rsbpml/part_list/part/part_type                      =>   #value^/*partsregistry.org*/part_type
+rsbpml/part_list/part/part_status                    =>   #value^/*partsregistry.org*/part_status
+rsbpml/part_list/part/part_results                   =>   #value^/*partsregistry.org*/part_results
+rsbpml/part_list/part/part_nickname                  =>   #value^/*partsregistry.org*/part_short_desc
+rsbpml/part_list/part/part_rating                    =>   #value^/*partsregistry.org*/part_rating
+rsbpml/part_list/part/part_url                       =>   #value^/*partsregistry.org*/part_url
+rsbpml/part_list/part/part_entered                   =>   #value^/*partsregistry.org*/part_entered
+rsbpml/part_list/part/part_author                    =>   #value^/*partsregistry.org*/part_author
+rsbpml/part_list/part/best_quality                   =>   #value^/*partsregistry.org*/best_quailty
+rsbpml/part_list/part/deep_subparts                  =>   #value^/*partsregistry.org*/deep_subparts           ;;FIXME
+rsbpml/part_list/part/specified_subparts             =>   #value^/*partsregistry.org*/specified_subparts      ;;FIXME
+rsbpml/part_list/part/specified_subscars             =>   #value^/*partsregistry.org*/specified_subscars      ;;FIXME
+
+rsbpml/part_list/part/sequences                      =>   
+rsbpml/part_list/part/sequences/seq_data             =>   #value^/partsequence
+rsbpml/part_list/part/features                       =>   #array$createArray^/partfeatures
+rsbpml/part_list/part/features/feature               =>   #object$standardObject$appendToArray^
+rsbpml/part_list/part/features/feature/id            =>   #value^/featureid
+rsbpml/part_list/part/features/feature/title         =>   #value^/featuretitle
+rsbpml/part_list/part/features/feature/type          =>   #value^/featuretype
+rsbpml/part_list/part/features/feature/direction     =>   #value^/featuredirection
+rsbpml/part_list/part/features/feature/startpos      =>   #value^/featurestartpos
+rsbpml/part_list/part/features/feature/endpos        =>   #value^/featureendpos
+
+rsbpml/part_list/part/parameters                     =>   #array$createArray^/*partsregistry.org*/part_parameters
+rsbpml/part_list/part/parameters/parameter           =>   #object$standardObject$appendToArray^
+rsbpml/part_list/part/parameters/parameter/name      =>   #value^/parameter_name
+rsbpml/part_list/part/parameters/parameter/value     =>   #value^/parameter_value
+rsbpml/part_list/part/parameters/parameter/units     =>   #value^/parameter_units
+rsbpml/part_list/part/parameters/parameter/url       =>   #value^/parameter_url
+rsbpml/part_list/part/parameters/parameter/id        =>   #value^/parameter_id
+rsbpml/part_list/part/parameters/parameter/m_date    =>   #value^/paramter_m_date
+rsbpml/part_list/part/parameters/parameter/user_id   =>   #value^/parameter_user_id
+rsbpml/part_list/part/parameters/parameter/user_name =>   #value^/parameter_user_name
+
+rsbpml/part_list/part/categories                     =>   #array$createArray^/*partsregistry.org*/categories
+rsbpml/part_list/part/categories/category            =>   #value$setProperty$appendToArray^
+
+rsbpml/part_list/part/samples                        =>   #value^/*partsregistry.org*/categories
+rsbpml/part_list/part/references                     =>   #value^/*partsregistry.org*/references
+rsbpml/part_list/part/groups                         =>   #value^/*partsregistry.org*/groups
+
+
+
+

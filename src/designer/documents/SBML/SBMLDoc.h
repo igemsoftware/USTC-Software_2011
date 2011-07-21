@@ -18,11 +18,6 @@ public:
 
     virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
 
-private:
-signals:
-
-public slots:
-
 };
 
 #endif // SBMLDOC_H

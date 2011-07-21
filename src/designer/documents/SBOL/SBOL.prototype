@@ -1,0 +1,10 @@
+rdf:RDF                                                                => #array$createArray~/model
+rdf:RDF/rdf:Description                                                => #object$markAsModel$standardObject$appendToArray~/model
+
+rdf:RDF/rdf:Description/rdf:type                                       => #value$getProperty(rdf:resource)^/*sbol*/rdf_type_uri
+rdf:RDF/rdf:Description/shortDescription                               => #value^/*sbol*/shortDescription
+rdf:RDF/rdf:Description/author                                         => #value^/*sbol*/author
+rdf:RDF/rdf:Description/name                                           => #value^/*sbol*/name
+rdf:RDF/rdf:Description/dnaSequence                                    => #value^/partsequence
+rdf:RDF/rdf:Description/date                                           => #value^/*sbol*/date
+rdf:RDF/rdf:Description/longDescription                                => #value^/*sbol*/longDescription

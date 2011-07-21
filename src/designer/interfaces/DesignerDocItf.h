@@ -58,7 +58,8 @@ public:
     //! Check if the file is loadable by this type of document .
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
     //! Check if the file in memory can be coverted to the specified file format.
-    virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
+    //! \bug this should be moved to Model.
+    // virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
 
     //! Retrieve data from this file
     virtual bool loadFromFile(QFile& file) = 0;

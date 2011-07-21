@@ -1,0 +1,31 @@
+sbml                                                                      => #object$standardObject~/model/*sbml*
+sbml@metaid                                                               => #value$getProperty(metaid)~/model/*sbml*/*biomodels.net*/metaid
+
+sbml/model                                                                => #object$markAsModel$standardObject~/model
+sbml/model/notes                                                          => #value$collectChildrenTreesAsString~/model/*notes*
+sbml/model/annotation                                                     => #value$collectChildrenTreesAsString~/model/*annotation*
+
+sbml/model/listOfUnitDefinitions                                          => #array$createArray~/model/units
+sbml/model/listOfUnitDefinitions/unitDefinition                           => #object$standardObject$appendToArray^
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits               => #array$createArray^/unitlist
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit          => #object$standardObject$appendToArray^
+
+sbml/model/listOfCompartments                                             => #array$createArray~/model/compartments
+sbml/model/listOfCompartments/compartment                                 => #object$standardObject$appendToArray^
+
+sbml/model/listOfSpecies                                                  => #array$createArray~/model/species
+sbml/model/listOfSpecies/species                                          => #object$standardObject$appendToArray^
+sbml/model/listOfSpecies/species/annotation                               => #value$collectChildrenTreeAsString^/*annotation*
+
+sbml/model/listOfReactions                                                => #array$createArray~/model/reactions
+sbml/model/listOfReactions/reaction                                       => #object$standardObject$appendToArray^
+sbml/model/listOfReactions/reaction/annotation                            => #value$collectChildrenTreeAsString^/*annotation*
+sbml/model/listOfReactions/reaction/listOfReactants                       => #array$collectChildrenAttribute(speciesReference@species)^/reactants
+sbml/model/listOfReactions/reaction/listOfProducts                        => #array$collectChildrenAttribute(speciesReference@species)^/products
+sbml/model/listOfReactions/reaction/listOfModifiers                       => #array$collectChildrenAttribute(modifierSpeciesReference@species)^/modifiers
+
+sbml/model/listOfReactions/reaction/kineticLaw                            => #object$standardObject^/kineticLaw
+sbml/model/listOfReactions/reaction/kineticLaw/math                       => #object$collectTreeAsString^/math
+sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters           => #array$createArray
+sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters/parameter => #object$standardObject$appendToArray~/model/parameters
+

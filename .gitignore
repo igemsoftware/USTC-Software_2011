@@ -9,3 +9,6 @@
 *.pro.user.*
 *.*#
 *.orig
+*.sln
+*.suo
+*.vcx*
