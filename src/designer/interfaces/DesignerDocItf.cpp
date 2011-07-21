@@ -3,11 +3,13 @@
 #include "documents/SBML/SBMLDoc.h"
 #include "documents/MoDeL/MoDeLDoc.h"
 #include "documents/RSBPML/RSBPMLDoc.h"
+#include "documents/SBOL/SBOLDoc.h"
 
 static QMetaObject metaObjectsOfDocuments[] = {
     SBMLDoc::staticMetaObject,
     MoDeLDoc::staticMetaObject,
-    RSBPMLDoc::staticMetaObject
+    RSBPMLDoc::staticMetaObject,
+    SBOLDoc::staticMetaObject
 };
 
 DesignerDocItf::DesignerDocItf() :

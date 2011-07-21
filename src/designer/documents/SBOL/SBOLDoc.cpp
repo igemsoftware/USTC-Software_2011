@@ -1,29 +1,25 @@
 #include <QtXml>
 #include <QtScript>
 
-#include "models/reactionnetworkmodel/ReactionNetwork.h"
+#include "models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h"
 
-#include "SBMLDoc.h"
-#include "SBMLParser.h"
+#include "SBOLDoc.h"
+#include "SBOLParser.h"
 
-
-SBMLDoc::SBMLDoc() :
+SBOLDoc::SBOLDoc() :
     DesignerDocItf()
 {
+}
+
+
+SBOLDoc::~SBOLDoc()
+{
 
 }
 
-SBMLDoc::~SBMLDoc()
+DesignerDocItf::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& file)
 {
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-}
-
-SBMLDoc::extentValue SBMLDoc::checkIfFileFitsDocumentType(QFile& file)
-{
-    QDomDocument domdoc("sbmldoctest");
+    QDomDocument domdoc("sboldoc");
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
     if(!domdoc.setContent(&file))
@@ -34,14 +30,18 @@ SBMLDoc::extentValue SBMLDoc::checkIfFileFitsDocumentType(QFile& file)
     file.close();
 
     QDomElement domDocElem = domdoc.documentElement();
-    if(domDocElem.nodeName()==tr("sbml"))
-        return EXACTLY;
+    if(domDocElem.nodeName()==tr("rdf:RDF"))
+    {
+        if(domDocElem.attribute("xmlns").endsWith("/sbol.owl#"))
+            return EXACTLY;
+        return DesignerDocItf::INSUFFICIENTLY;
+    }
     return NOTACCEPTABLE;
 }
 
-bool SBMLDoc::loadFromFile(QFile& file)
+bool SBOLDoc::loadFromFile(QFile& file)
 {
-    QDomDocument domdoc("sbmldoctest");
+    QDomDocument domdoc("sboldoc");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
             return false;
@@ -57,21 +57,22 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
 
     QDomElement domDocElem = domdoc.documentElement();
-    if(domDocElem.nodeName()!="sbml")
+    if(domDocElem.nodeName()!="rdf:RDF")
     {
         currentModel->deleteLater();
         currentModel=NULL;
         return false;
     }
 
-    SBMLParser parser;
+    SBOLParser parser;
 
     bool retValue = parser.parse(currentModel, domdoc);
+    qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
         currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
@@ -79,13 +80,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     return retValue;
 }
 
-bool SBMLDoc::saveToFile(QFile& file)
+bool SBOLDoc::saveToFile(QFile& file)
 {
     return false;
 }
-
-SBMLDoc::extentValue SBMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
-{
-    return SBMLDoc::NOTACCEPTABLE;
-}
-

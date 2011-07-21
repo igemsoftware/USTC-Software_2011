@@ -6,6 +6,8 @@
 
 #include <QtCore>
 
+#include "DesignerDebug.h"
+
 class DesignerMainWnd;
 class DesignerModelItf;
 

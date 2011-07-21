@@ -140,6 +140,11 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
                                 QVariant::String, propItr.name());
                         item->setEnabled(false);
                     }
+                    else if(propType==(QVariant::Type)QtVariantPropertyManager::groupTypeId() && maxLevel<=0)
+                    {
+                        item = variantManager->addProperty(
+                                QVariant::String, propItr.name());
+                    }
                     else
                     {
                         item = variantManager->addProperty(

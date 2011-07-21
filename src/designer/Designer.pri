@@ -22,7 +22,6 @@ SOURCES +=\
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
     documents/SBML/SBMLDoc.cpp \
-    documents/SBML/SBMLDocParser.cpp \
     documents/Part/Part.cpp \
     documents/Part/PartDoc.cpp \
     documents/Part/PartDocParser.cpp \
@@ -56,7 +55,10 @@ SOURCES +=\
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp \
     src/designer/documents/RSBPML/RSBPMLDoc.cpp \
     src/designer/documents/RSBPML/RSBPMLParser.cpp \
-    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp
+    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp \
+    src/designer/documents/SBOL/SBOLDoc.cpp \
+    src/designer/documents/SBOL/SBOLParser.cpp \
+    src/designer/documents/SBML/SBMLParser.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -77,11 +79,9 @@ HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPart.h \
     views/behaviorview/BehaviorViewPlotWidget.h \
     documents/SBML/SBMLDoc.h \
-    documents/SBML/SBMLDocParser.h \
     documents/Part/Part.h \
     documents/Part/PartDoc.h \
     documents/Part/PartDocParser.h \
-    models/reactionnetworkmodel/ReactionNetworkSBMLImportProxy.h \
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
@@ -114,7 +114,10 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h \
     src/designer/documents/RSBPML/RSBPMLDoc.h \
     src/designer/documents/RSBPML/RSBPMLParser.h \
-    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h
+    src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h \
+    src/designer/documents/SBOL/SBOLDoc.h \
+    src/designer/documents/SBOL/SBOLParser.h \
+    src/designer/documents/SBML/SBMLParser.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

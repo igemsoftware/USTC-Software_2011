@@ -67,6 +67,7 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
     RSBPMLParser parser;
 
     bool retValue = parser.parse(currentModel, domdoc);
+    qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
         currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);

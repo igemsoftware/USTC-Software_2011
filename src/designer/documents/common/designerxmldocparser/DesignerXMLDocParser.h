@@ -4,6 +4,8 @@
 #include <QtXml>
 #include <QtScript>
 #include "interfaces/DesignerModelItf.h"
+#include "DesignerDebug.h"
+
 
 class DesignerXMLDocParser
 {

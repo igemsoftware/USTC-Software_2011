@@ -1,6 +1,6 @@
 rsbpml                                               => 
-rsbpml/part_list                                     =>   #array$createArray
-rsbpml/part_list/part                                =>   #object$markAsModel$standardObject~/model
+rsbpml/part_list                                     =>   #array$createArray~/model
+rsbpml/part_list/part                                =>   #object$markAsModel$standardObject$appendToArray^
 
 rsbpml/part_list/part/part_id                        =>   #value^/*partsregistry.org*/part_id
 rsbpml/part_list/part/part_name                      =>   #value^/*partsregistry.org*/part_name
@@ -19,7 +19,7 @@ rsbpml/part_list/part/deep_subparts                  =>   #value^/*partsregistry
 rsbpml/part_list/part/specified_subparts             =>   #value^/*partsregistry.org*/specified_subparts      ;;FIXME
 rsbpml/part_list/part/specified_subscars             =>   #value^/*partsregistry.org*/specified_subscars      ;;FIXME
 
-rsbpml/part_list/part/sequences                      =>   
+rsbpml/part_list/part/sequences                      =>   #value$ignoreThis
 rsbpml/part_list/part/sequences/seq_data             =>   #value^/partsequence
 rsbpml/part_list/part/features                       =>   #array$createArray^/partfeatures
 rsbpml/part_list/part/features/feature               =>   #object$standardObject$appendToArray^
@@ -44,7 +44,10 @@ rsbpml/part_list/part/parameters/parameter/user_name =>   #value^/parameter_user
 rsbpml/part_list/part/categories                     =>   #array$createArray^/*partsregistry.org*/categories
 rsbpml/part_list/part/categories/category            =>   #value$setProperty$appendToArray^
 
-rsbpml/part_list/part/samples                        =>   #value^/*partsregistry.org*/categories
+rsbpml/part_list/part/twins                          =>   #array$createArray^/*partsregistry.org*/twins
+rsbpml/part_list/part/twin/twin                      =>   #value$setProperty$appendToArray^
+
+rsbpml/part_list/part/samples                        =>   #value^/*partsregistry.org*/samples
 rsbpml/part_list/part/references                     =>   #value^/*partsregistry.org*/references
 rsbpml/part_list/part/groups                         =>   #value^/*partsregistry.org*/groups
 

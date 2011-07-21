@@ -17,6 +17,11 @@ PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
 
     emit updateSelectedItem(model->getModel());
 
+    {
+        ui->partNameEdit->setText(model->getModel().property(0).property("*partsregistry.org*").property("part_name").toString());
+        ui->partNameEdit->setText(model->getModel().property(0).property("*partsregistry.org*").property("twins").property("length").toString());
+    }
+
 }
 
 PartView::~PartView()

@@ -2,24 +2,6 @@
 #include "ReactionNetworkDataTypes.h"
 #include "ReactionNetworkSBMLImportProxy.h"
 
-static QMetaObject metaObjectsOfImporters[] = {
-    ReactionNetworkSBMLImportProxy::staticMetaObject,
-};
-
-DesignerModelFormatProxyItf* ReactionNetworkModel::createImportProxy(QString proxyFormat)
-{
-    for(size_t i = 0 ; i < (sizeof(metaObjectsOfImporters)/sizeof(metaObjectsOfImporters[0])); i++ )
-    {
-        if(proxyFormat==metaObjectsOfImporters[i].className())
-        {
-            return dynamic_cast<DesignerModelFormatProxyItf*>
-                    (metaObjectsOfImporters[i].newInstance(Q_ARG(ReactionNetworkModel*, this)));
-        }
-    }
-
-    return NULL;
-}
-
 ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
     DesignerModelItf(newDoc)
 {

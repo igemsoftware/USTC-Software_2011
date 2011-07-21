@@ -9,8 +9,6 @@ class ReactionNetworkModel : public DesignerModelItf
 public:
     Q_INVOKABLE explicit ReactionNetworkModel(DesignerDocItf *newDoc);
 
-    DesignerModelFormatProxyItf* createImportProxy(QString importFormat);
-
     virtual QStringList getSupportedViewList() const;
 
 

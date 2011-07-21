@@ -49,5 +49,5 @@ void NetworkView::on_sceneSelectionChanged()
             return;
         }
     }
-    emit updateSelectedItem(mainWindow->getCurrentModel()->getEngine()->globalObject().property("*model*"));
+    emit updateSelectedItem(mainWindow->getCurrentModel()->getModel());
 }

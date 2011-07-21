@@ -28,8 +28,8 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
     QScriptEngine *engine =  model->getEngine();
 
-//    qDebug()<<engine->globalObject().property("*model*");
-    QScriptValue compartmentsArray = engine->globalObject().property("*model*").property("*compartmentlist*");
+//    qDebug()<<model->getModel();
+    QScriptValue compartmentsArray = model->getModel().property("compartments");
     int compartmentsCount = compartmentsArray.property("length").toInt32();
     QMap<QString, NetworkViewGraphicsSceneContainer*> containerMap;
     for(int i=0;i<compartmentsCount;i++)
@@ -41,7 +41,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
 
-    QScriptValue speciesArray = engine->globalObject().property("*model*").property("*specieslist*");
+    QScriptValue speciesArray = model->getModel().property("species");
     int speciesCount = speciesArray.property("length").toInt32();
     QMap<QString, NetworkViewGraphicsSceneNodeSubstance*> substanceMap;
     for(int i=0;i<speciesCount;i++)
@@ -66,7 +66,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
     }
 
-    QScriptValue reactionArray = engine->globalObject().property("*model*").property("*reactionlist*");
+    QScriptValue reactionArray = model->getModel().property("reactions");
     int reactionCount = reactionArray.property("length").toInt32();
     for(int i=0;i<reactionCount;i++)
     {

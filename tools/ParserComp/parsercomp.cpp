@@ -337,7 +337,7 @@ string generateAssertionClause(string assertionString)
 			{
 				resultString+="curElem.attribute(\"";
 				resultString+=targetString.substr(2);
-				resultString+="\").text()";
+				resultString+="\")";
 				resultString+=assertionList[i].substr(equalPos);
 			}
 		}
@@ -576,7 +576,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 						fout<<"\t\t\t\t"<<"{"<<endl;
 						fout<<"\t\t\t\t\t"<<"QString text;" <<endl;
 						fout<<"\t\t\t\t\t"<<"QTextStream textStream(&text);"<<endl;
-						fout<<"\t\t\t\t\t"<<"taskList[curTask].taskElem->save(textStream, 0);"<<endl;
+						fout<<"\t\t\t\t\t"<<"taskList[curTask].taskElem.save(textStream, 0);"<<endl;
 						fout<<"\t\t\t\t\t"<<"newItemValue = QScriptValue(text);"<<endl;
 						fout<<"\t\t\t\t"<<"}"<<endl;
 					}
@@ -586,12 +586,12 @@ int parse(const char* _inputfile, const char* _outputfile)
 						fout<<"\t\t\t\t"<<"QScriptValue newItemValue;"<<endl;
 						fout<<"\t\t\t\t"<<"QString      alltext;"<<endl;
 						fout<<"\t\t\t\t"<<"{"<<endl;
-						fout<<"\t\t\t\t\t"<<"for(QDomElement childElem = taskList[curTask].taskElem->firstChildElement();"<<endl;
+						fout<<"\t\t\t\t\t"<<"for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();"<<endl;
 						fout<<"\t\t\t\t\t\t"<<"!childElem.isNull(); childElem = childElem.nextSiblingElement())"<<endl;						
 						fout<<"\t\t\t\t\t"<<"{"<<endl;
 						fout<<"\t\t\t\t\t\t"<<"QString text;" <<endl;
 						fout<<"\t\t\t\t\t\t"<<"QTextStream textStream(&text);"<<endl;
-						fout<<"\t\t\t\t\t\t"<<"childElem->save(textStream, 0);"<<endl;
+						fout<<"\t\t\t\t\t\t"<<"childElem.save(textStream, 0);"<<endl;
 						fout<<"\t\t\t\t\t\t"<<"alltext+=text;"<<endl;
 						fout<<"\t\t\t\t\t"<<"}"<<endl;
 						fout<<"\t\t\t\t\t"<<"newItemValue = QScriptValue(alltext);"<<endl;
@@ -600,6 +600,13 @@ int parse(const char* _inputfile, const char* _outputfile)
 					else if(commands[j]=="markAsModel")
 					{
 						//TODO:
+					}
+					else if(commands[j]=="skipThis"||commands[j]=="ignoreThis")
+					{
+						fout<<"\t\t\t\t"<<"//skipThis"<<endl;
+						fout<<"\t\t\t\t"<<"QScriptValue newItemValue = taskList[curTask].taskParent;"<<endl;
+						fout<<"\t\t\t\t"<<"QDomElement curElem = taskList[curTask].taskElem;"<<endl;
+						generateWriteChildrenObjectsStub(fout, i, 4);						
 					}
 					else if(commands[j]=="createArray")
 					{
@@ -631,7 +638,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 						propertyName.erase(propertyName.find_last_of(')'));
 						fout<<"\t\t\t\t"<<"//getProperty"<<endl;
 						fout<<"\t\t\t\t"<<"QScriptValue newItemValue;"<<endl;
-						fout<<"\t\t\t\t"<<"newItemValue = QScriptValue(taskList[curTask].taskElem.attribute(\""<<propertyName<<"\").text());"<<endl;
+						fout<<"\t\t\t\t"<<"newItemValue = QScriptValue(taskList[curTask].taskElem.attribute(\""<<propertyName<<"\"));"<<endl;
 
 					}
 					else if(startWith(commands[j], "collectChildrenAttribute("))
@@ -643,7 +650,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 						string propName = propertyName.substr(propertyName.find('@')+1);
 
 						fout<<"\t\t\t\t"<<"QList<QScriptValue> arrayItemList;"<<endl;
-						fout<<"\t\t\t\t"<<"for(QDomElement childElem = taskList[curTask].taskElem->firstChildElement();"<<endl;
+						fout<<"\t\t\t\t"<<"for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();"<<endl;
 						fout<<"\t\t\t\t\t"<<"!childElem.isNull(); childElem = childElem.nextSiblingElement())"<<endl;
 						fout<<"\t\t\t\t"<<"{"<<endl;
 						fout<<"\t\t\t\t\t"<<"if(childElem.nodeName()==\""<<elemName<<"\")"<<endl;
