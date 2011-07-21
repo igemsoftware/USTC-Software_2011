@@ -55,7 +55,6 @@ SOURCES +=\
     src/designer/views/webpageview/WebPageView.cpp \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp \
     src/designer/documents/RSBPML/RSBPMLDoc.cpp \
-    src/designer/documents/RSBPML/RSBPMLDocParser.cpp \
     src/designer/documents/RSBPML/RSBPMLParser.cpp \
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp
 
@@ -114,7 +113,6 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/views/webpageview/WebPageView.h \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h \
     src/designer/documents/RSBPML/RSBPMLDoc.h \
-    src/designer/documents/RSBPML/RSBPMLDocParser.h \
     src/designer/documents/RSBPML/RSBPMLParser.h \
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h
 

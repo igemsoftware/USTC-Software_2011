@@ -6,6 +6,7 @@
 
 #include <QtCore>
 #include <QtGui>
+#include <QtScript>
 #include "common/utils/itemregistry/ItemRegistry.h"
 
 class DesignerModelItf;

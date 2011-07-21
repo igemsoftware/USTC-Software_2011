@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::PartView *ui;
+
+signals:
+    void updateSelectedItem(QScriptValue);
+
 };
 
 #endif // PARTVIEW_H

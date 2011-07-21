@@ -512,7 +512,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 	}
 
 	{
-		fout<< "void " << className << "::parse(DesignerModelItf* model, QDomElement elem, QScriptValue parent)"<<endl;
+		fout<< "bool " << className << "::parse(DesignerModelItf* model, QDomDocument& doc)"<<endl;
 		fout<< "{" <<endl;
 //		fout<< "\t" << "struct parseTask"<<endl;
 //		fout<< "\t" << "{"<<endl;
@@ -524,7 +524,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 //		fout<<endl;
 
 		fout<< "\t" << "QList<parseTask> taskList;" <<endl;
-		fout<< "\t" << "taskList.push_back(parseTask(elem, parent, 0));" <<endl;
+		fout<< "\t" << "taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));" <<endl;
 	
 		fout<< "\t" << "size_t curTask = 0;" <<endl;
 		fout<< "\t" << "while(curTask<(size_t)taskList.size())" <<endl;
@@ -556,7 +556,10 @@ int parse(const char* _inputfile, const char* _outputfile)
 					if(commands[j]=="standardObject")
 					{
 						fout<<"\t\t\t\t"<<"//standardObject"<<endl;
-						fout<<"\t\t\t\t"<<"QDomElement curElem = taskList[curTask].taskElem;"<<endl;
+						if(i==0)
+							fout<<"\t\t\t\t"<<"QDomDocument curElem = doc;"<<endl;
+						else
+							fout<<"\t\t\t\t"<<"QDomElement curElem = taskList[curTask].taskElem;"<<endl;
 		
 						fout<<"\t\t\t\t"<<"//create object."<<endl;
 						fout<<"\t\t\t\t"<<"QScriptValue newItemValue = model->getEngine()->newObject();"<<endl;
@@ -701,6 +704,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 //		fout<< "contin:" <<endl;
 		fout<< "\t\t" << "curTask++;" <<endl;
 		fout<< "\t" << "}"<<endl;
+		fout<< "\t" << "return true;" << endl;
 		fout<< "}" <<endl;
 	}
 

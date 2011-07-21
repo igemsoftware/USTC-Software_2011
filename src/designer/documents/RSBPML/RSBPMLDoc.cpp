@@ -1,9 +1,10 @@
 #include <QtXml>
 #include <QtScript>
 
-#include "RSBPMLDoc.h"
-#include "RSBPMLDocParser.h"
 #include "models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h"
+
+#include "RSBPMLDoc.h"
+#include "RSBPMLParser.h"
 
 RSBPMLDoc::RSBPMLDoc() :
     DesignerDocItf()
@@ -63,9 +64,9 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
         return false;
     }
 
-    RSBPMLDocParser parser;
+    RSBPMLParser parser;
 
-    bool retValue = parser.parse(*currentModel, domDocElem);
+    bool retValue = parser.parse(currentModel, domdoc);
     if(retValue)
     {
         currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);

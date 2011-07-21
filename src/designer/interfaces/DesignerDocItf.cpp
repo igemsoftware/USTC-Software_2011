@@ -2,10 +2,12 @@
 
 #include "documents/SBML/SBMLDoc.h"
 #include "documents/MoDeL/MoDeLDoc.h"
+#include "documents/RSBPML/RSBPMLDoc.h"
 
 static QMetaObject metaObjectsOfDocuments[] = {
     SBMLDoc::staticMetaObject,
-    MoDeLDoc::staticMetaObject
+    MoDeLDoc::staticMetaObject,
+    RSBPMLDoc::staticMetaObject
 };
 
 DesignerDocItf::DesignerDocItf() :

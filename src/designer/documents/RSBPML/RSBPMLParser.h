@@ -6,7 +6,7 @@
 class RSBPMLParser : public DesignerXMLDocParser
 {
 public:
-    void parse(DesignerModelItf* model, QDomElement elem, QScriptValue parent);
+    bool parse(DesignerModelItf* model, QDomDocument& elem);
 
 };
 

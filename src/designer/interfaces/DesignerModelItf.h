@@ -33,6 +33,7 @@ public:
     //! Notice that if you modify the data directly from here,
     //! You'll need to set this model to Modified state manually.
     QScriptEngine* getEngine() {return &modelEngine;}
+    QScriptValue  getModel() {return getEngine()->globalObject().property("model");}
 
     //model hierarchy
 public:
