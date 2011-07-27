@@ -738,11 +738,11 @@ int main(int argc, char* argv[])
 	}
 	else if(argc==2)
 	{
-		if(endWith(argv[1], ".prototype"))
+		if(endWith(argv[1], ".parserules"))
 		{
 			return parse(argv[1],
 				(((string)argv[1])
-				.substr(0, strlen(argv[1])-strlen(".prototype"))+"Parser")
+				.substr(0, strlen(argv[1])-strlen(".parserules"))+"Parser")
 				.c_str());
 
 		}

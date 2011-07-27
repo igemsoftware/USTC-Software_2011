@@ -6,28 +6,31 @@
 template<class SRC, class DEST>
 class ItemRegistry
 {
-public:
-    static const DEST& accessor(bool isRead, const SRC& src, const DEST* dest = 0)
+protected:
+    static QMap<SRC, DEST>& getRegistry()
     {
         static QMap<SRC, DEST> registry;
-        if(isRead)
-        {
-            return registry[src];
-        }
-        else
-        {
-            return (registry[src] = *dest);
-        }
+        return registry;
+    }
+public:
+    static inline int count()
+    {
+        return getRegistry().count();
+    }
+
+    static inline const DEST item(int index)
+    {
+        return getRegistry().values()[index];
     }
 
     static inline const DEST& find(const SRC& src)
     {
-        return accessor(true, src);
+        return getRegistry()[src];
     }
 
-    static inline void set(const SRC& src, const DEST* dest = 0)
+    static inline void set(const SRC& src, const DEST& dest)
     {
-        accessor(false, src, dest);
+        getRegistry()[src]=dest;
     }
 
 public:
@@ -35,7 +38,7 @@ public:
     {
         ItemRegistryInlineAdd(const SRC& src, const DEST& dest)
         {
-            ItemRegistry<SRC, DEST>::set(src, &dest);
+            ItemRegistry<SRC, DEST>::set(src, dest);
         }
     };
 };

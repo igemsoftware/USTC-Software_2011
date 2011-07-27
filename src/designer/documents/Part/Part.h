@@ -5,10 +5,7 @@
 class Part
 {
 public:
-    QString acc;
-    QString descr;
-    QString sq;
-    QString len;
+    QMap<QString,QPair<QString,QString> > properties;
 
 public:
     Part();

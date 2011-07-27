@@ -5,6 +5,7 @@
 #define DESIGNEREXTENSIONITF_H
 
 #include <QtCore>
+#include "common/utils/itemregistry/ItemRegistry.h"
 
 class DesignerExtensionItf : public QObject
 {
@@ -31,6 +32,22 @@ public:
         NewToolBarButton   = 16,
         NewViewHook        = 32
     };
+
+public:
+    struct ExtensionItfRegistryItem
+    {
+        const QMetaObject* metaObject;
+
+        ExtensionItfRegistryItem(const QMetaObject* m = 0)
+            : metaObject(m){}
+     };
+
+    //! The archive for extension dynamic loading
+    typedef ItemRegistry<QString, ExtensionItfRegistryItem> ExtensionItfRegistry;
+
+public:
+    //! Initialization(dynamic loading).
+    static void initializeIfNotYet();
 
 signals:
 

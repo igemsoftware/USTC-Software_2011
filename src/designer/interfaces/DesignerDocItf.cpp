@@ -4,13 +4,25 @@
 #include "documents/MoDeL/MoDeLDoc.h"
 #include "documents/RSBPML/RSBPMLDoc.h"
 #include "documents/SBOL/SBOLDoc.h"
+#include "documents/Part/PartDoc.h"
 
-static QMetaObject metaObjectsOfDocuments[] = {
-    SBMLDoc::staticMetaObject,
-    MoDeLDoc::staticMetaObject,
-    RSBPMLDoc::staticMetaObject,
-    SBOLDoc::staticMetaObject
-};
+#define LACHESIS_DECLARE_DOCUMENT(className) \
+    DesignerDocItf::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
+    DesignerDocItf::DocItfRegistryItem(& className ::staticMetaObject))
+
+void DesignerDocItf::initializeIfNotYet()
+{
+    static bool initialized = false;
+    if(!initialized)
+    {
+        initialized = true;
+        LACHESIS_DECLARE_DOCUMENT(SBMLDoc);
+        LACHESIS_DECLARE_DOCUMENT(MoDeLDoc);
+        LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc);
+        LACHESIS_DECLARE_DOCUMENT(SBOLDoc);
+        LACHESIS_DECLARE_DOCUMENT(PartDoc);
+    }
+}
 
 DesignerDocItf::DesignerDocItf() :
     QObject(NULL) ,
@@ -26,22 +38,22 @@ bool DesignerDocItf::saveToFile()
 }
 
 
-QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)
+const QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)
 {
-    const size_t arraySize = sizeof(metaObjectsOfDocuments)/sizeof(metaObjectsOfDocuments[0]);
+    const size_t arraySize = DocItfRegistry::count();
     struct fitStatusStucture
     {
         extentValue extent;
-        QMetaObject* metaObject;
+        const QMetaObject* metaObject;
     } retValues[arraySize];
     size_t bestFit = arraySize;
     for(size_t i=0;i<arraySize;i++)
     {
-        DesignerDocItf* newDocument = (DesignerDocItf*)metaObjectsOfDocuments[i].newInstance();
+        DesignerDocItf* newDocument = (DesignerDocItf*)DocItfRegistry::item(i).metaObject->newInstance();
         QFile file(pathName);
         retValues[i].extent = newDocument->checkIfFileFitsDocumentType(file);
 
-        retValues[i].metaObject = &metaObjectsOfDocuments[i];
+        retValues[i].metaObject = DocItfRegistry::item(i).metaObject;
 
         if((retValues[i].extent!=NOTACCEPTABLE) &&
                 ( bestFit==arraySize ||
@@ -59,14 +71,11 @@ QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)
 
 DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName)
 {
-    const size_t arraySize = sizeof(metaObjectsOfDocuments)/sizeof(metaObjectsOfDocuments[0]);
-    for(size_t i=0;i<arraySize;i++)
-    {
-        if(docName==metaObjectsOfDocuments[i].className())
-        {
-            return (DesignerDocItf*)metaObjectsOfDocuments[i].newInstance();
-        }
-    }
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return dynamic_cast<DesignerDocItf*>
+                (metaObj.metaObject->newInstance());
+
     return NULL;
 }
 

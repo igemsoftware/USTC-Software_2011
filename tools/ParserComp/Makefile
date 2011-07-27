@@ -9,6 +9,6 @@ install:
 	make update
 
 update:
-	../../src/designer/documents/SBML/parsercomp.exe ../../src/designer/documents/SBML/SBML.prototype
-	../../src/designer/documents/SBOL/parsercomp.exe ../../src/designer/documents/SBOL/SBOL.prototype
-	../../src/designer/documents/RSBPML/parsercomp.exe ../../src/designer/documents/RSBPML/RSBPML.prototype
+	../../src/designer/documents/SBML/parsercomp.exe ../../src/designer/documents/SBML/SBML.parserules
+	../../src/designer/documents/SBOL/parsercomp.exe ../../src/designer/documents/SBOL/SBOL.parserules
+	../../src/designer/documents/RSBPML/parsercomp.exe ../../src/designer/documents/RSBPML/RSBPML.parserules

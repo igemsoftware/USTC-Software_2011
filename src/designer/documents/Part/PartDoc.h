@@ -7,10 +7,11 @@
 
 class PartDoc : public DesignerDocItf
 {
+    Q_OBJECT
 public:
     QString type;
-    QList<Part> *parts;
-    QList<QString> *content;
+
+    void detectDocType(QFile &file);
 public:
     Q_INVOKABLE explicit PartDoc();
     ~PartDoc();
@@ -19,7 +20,6 @@ public:
     virtual bool loadFromFile(QFile& file);
     virtual bool saveToFile(QFile& file);
 
-    virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
 };
 
 #endif // PARTDOC_H

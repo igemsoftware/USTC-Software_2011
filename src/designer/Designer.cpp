@@ -4,6 +4,7 @@
 #include <QSplashScreen>
 #include <QTextCodec>
 #include "DesignerMainWnd.h"
+#include "interfaces/DesignerInterface.h"
 
 void writeLachesisConfiguration()
 {
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
     designer.processEvents();
 
     writeLachesisConfiguration();
+    DesignerViewItf::initializeIfNotYet();
+    DesignerDocItf::initializeIfNotYet();
 
     QTimer::singleShot(1500, splash, SLOT(close()));
     while(splash->isVisible())

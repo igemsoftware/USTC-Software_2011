@@ -2,8 +2,6 @@
 #include "PartDoc.h"
 #include "PartDocParser.h"
 
-#include "models/reactionnetworkmodel/ReactionNetwork.h"
-
 PartDoc::PartDoc():
         DesignerDocItf()
     {
@@ -29,11 +27,13 @@ bool PartDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
     PartDocParser parser;
-    bool status = parser.parse(*this, fin );
+    this->detectDocType(file);
+
+    bool status = parser.parse(currentModel,fin,this->type);
     file.close();
     return status;
 }
@@ -42,6 +42,7 @@ bool PartDoc::saveToFile(QFile& file)
 {
      return false;
 }
+
 PartDoc::extentValue PartDoc::checkIfFileFitsDocumentType( QFile& file )
 {
     if(!file.open(QFile::ReadOnly))
@@ -49,45 +50,12 @@ PartDoc::extentValue PartDoc::checkIfFileFitsDocumentType( QFile& file )
 
     file.close();
     //detect doc type;
-    if(file.fileName().toLower().endsWith(".fasta"))
-    {
-        this->type="fasta";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".plain"))
-    {
-        this->type="plain";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".embl"))
-    {
-        this->type="embl";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".gcg"))
-    {
-        this->type="gcg";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".genbank"))
-    {
-        this->type="genbank";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".ig"))
-    {
-        this->type="ig";
-        return EXACTLY;
-    }
-    if(file.fileName().toLower().endsWith(".Genomatix"))
-    {
-        this->type="Genomatix";
-        return EXACTLY;
-    }
-    return NOTACCEPTABLE;
+    return INSUFFICIENTLY;
 }
 
-PartDoc::extentValue PartDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
+void PartDoc::detectDocType(QFile &file)
 {
-     return NOTACCEPTABLE;
+    if(file.fileName().endsWith(".fasta"))
+        this->type="fasta";
 }
+

@@ -2,6 +2,7 @@
 #define PARTVIEW_H
 
 #include "interfaces/DesignerViewItf.h"
+#include "ui_PartView.h"
 
 namespace Ui {
     class PartView;
@@ -12,6 +13,7 @@ class PartView : public DesignerViewItf
     Q_OBJECT
 
 public:
+    DesignerModelItf* model;
     Q_INVOKABLE explicit PartView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~PartView();
 
@@ -21,6 +23,9 @@ private:
 signals:
     void updateSelectedItem(QScriptValue);
 
+
+private slots:
+    void on_listView_clicked(QModelIndex index);
 };
 
 #endif // PARTVIEW_H

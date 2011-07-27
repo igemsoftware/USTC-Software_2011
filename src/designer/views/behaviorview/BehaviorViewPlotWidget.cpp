@@ -37,7 +37,7 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    int total=int(this->maxx/this->deltax),index=int((this->currentPos.x()-30)/this->deltax)+1;
+    int index=int((this->currentPos.x()-30)/this->deltax)+1;
     int i=(event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxx);
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());

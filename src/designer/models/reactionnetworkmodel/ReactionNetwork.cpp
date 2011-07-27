@@ -1,6 +1,5 @@
 #include "ReactionNetwork.h"
 #include "ReactionNetworkDataTypes.h"
-#include "ReactionNetworkSBMLImportProxy.h"
 
 ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
     DesignerModelItf(newDoc)

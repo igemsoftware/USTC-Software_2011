@@ -108,7 +108,7 @@ void DesignerMainWnd::createModelWithView(QString viewName)
 
 void DesignerMainWnd::openFile(QString& fileName)
 {
-    QMetaObject* metaObject =
+    const QMetaObject* metaObject =
             DesignerDocItf::getBestFitDocumentTypeForFile(fileName);
     if(!metaObject)
     {

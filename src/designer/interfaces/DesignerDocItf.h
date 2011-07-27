@@ -5,7 +5,7 @@
 #define DESIGNERDOCITF_H
 
 #include <QtCore>
-
+#include "common/utils/itemregistry/ItemRegistry.h"
 #include "DesignerDebug.h"
 
 class DesignerMainWnd;
@@ -69,11 +69,25 @@ public:
     virtual bool saveToFile(QFile& file) = 0;
     //! Dump data to the previous file.
     bool saveToFile();
+public:
+    struct DocItfRegistryItem
+    {
+        const QMetaObject*  metaObject;
+
+        DocItfRegistryItem(const QMetaObject* m = 0)
+            : metaObject(m){}
+     };
+
+    //! The archive for document dynamic loading
+    typedef ItemRegistry<QString, DocItfRegistryItem> DocItfRegistry;
+public:
+    //! Initialization(dynamic loading).
+    static void initializeIfNotYet();
 
 public:
     static DesignerDocItf* createEmptyDoc(QString docName);
 
-    static QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
+    static const QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
 
 
 private:

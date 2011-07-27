@@ -95,7 +95,7 @@ public:
             : metaObject(m){}
      };
 
-    //! The archive for view dynamic loading
+    //! The archive for model dynamic loading
     typedef ItemRegistry<QString, ModelItfRegistryItem> ModelItfRegistry;
 
 public:
