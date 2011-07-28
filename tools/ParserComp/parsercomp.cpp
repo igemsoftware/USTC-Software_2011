@@ -308,7 +308,7 @@ string generateClassName(string fileName)
 {
 	string className = result_split_path(fileName, 2);
 	for(int i=0;i<className.length();i++)
-		if(!isalpha(className[i]))
+		if(!isalnum(className[i]))
 			className[i]='_';
 	return className;
 }
@@ -553,7 +553,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 				}
 				for(int j=0;j<commands.size();j++)
 				{
-					if(commands[j]=="standardObject")
+					if(commands[j]=="standardObject"||commands[j]=="createObject")
 					{
 						fout<<"\t\t\t\t"<<"//standardObject"<<endl;
 						if(i==0)
