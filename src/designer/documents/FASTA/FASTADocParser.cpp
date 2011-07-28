@@ -71,7 +71,7 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
         }
 
 
-        if(FASTAs.property("length").toInt32()==0)
+        if(FASTAs.property("length").toInteger()==0)
             return false;
         else
             return true;

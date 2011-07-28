@@ -4,7 +4,8 @@
 #include "documents/MoDeL/MoDeLDoc.h"
 #include "documents/RSBPML/RSBPMLDoc.h"
 #include "documents/SBOL/SBOLDoc.h"
-#include "documents/Part/PartDoc.h"
+#include "documents/FASTA/FASTADoc.h"
+#include "documents/EMBL/EMBLDoc.h"
 
 #define LACHESIS_DECLARE_DOCUMENT(className) \
     DesignerDocItf::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
@@ -20,7 +21,8 @@ void DesignerDocItf::initializeIfNotYet()
         LACHESIS_DECLARE_DOCUMENT(MoDeLDoc);
         LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc);
         LACHESIS_DECLARE_DOCUMENT(SBOLDoc);
-        LACHESIS_DECLARE_DOCUMENT(PartDoc);
+        LACHESIS_DECLARE_DOCUMENT(FASTADoc);
+        LACHESIS_DECLARE_DOCUMENT(EMBLDoc);
     }
 }
 
