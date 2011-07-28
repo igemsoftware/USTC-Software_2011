@@ -59,7 +59,9 @@ SOURCES +=\
     src/designer/documents/FASTA/FASTADocParser.cpp \
     src/designer/documents/FASTA/FASTADoc.cpp \
     src/designer/documents/EMBL/EMBLDocParser.cpp \
-    src/designer/documents/EMBL/EMBLDoc.cpp
+    src/designer/documents/EMBL/EMBLDoc.cpp \
+    src/designer/documents/GENBANK/GENBANKDoc.cpp \
+    src/designer/documents/GENBANK/GENBANKDocParser.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -119,7 +121,9 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/FASTA/FASTADocParser.h \
     src/designer/documents/FASTA/FASTADoc.h \
     src/designer/documents/EMBL/EMBLDocParser.h \
-    src/designer/documents/EMBL/EMBLDoc.h
+    src/designer/documents/EMBL/EMBLDoc.h \
+    src/designer/documents/GENBANK/GENBANKDoc.h \
+    src/designer/documents/GENBANK/GENBANKDocParser.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

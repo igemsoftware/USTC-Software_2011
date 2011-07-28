@@ -11,7 +11,7 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
     int c=0,p=0;
 
 
-        QScriptValue content=model->getEngine()->newArray();
+        QScriptValue content;
         QScriptValue newFASTA;
         QScriptValue partregisty;
         QString tsq="";
@@ -26,15 +26,15 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
                 {
                     partregisty.setProperty("partsequence",this->extract(tsq));
                     newFASTA.setProperty("content",content);
-                    content=model->getEngine()->newObject();
-                    c=0;
                     FASTAs.setProperty(p,partregisty);
                     partregisty.setProperty("*partsregistry.org*",newFASTA);
                     p++;
                 }
                 newFASTA = model->getEngine()->newObject();
                 partregisty=model->getEngine()->newObject();
-                tsq="";
+                content=model->getEngine()->newArray();
+                tsq="";c=0;
+
                 {
                     int t=line.indexOf("acc=",0);
                     if(t>0)
