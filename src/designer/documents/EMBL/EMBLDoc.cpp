@@ -1,22 +1,17 @@
-#include <QtCore>
-#include "PartDoc.h"
-#include "PartDocParser.h"
-
-PartDoc::PartDoc():
+#include "EMBLDocParser.h"
+EMBLDoc::EMBLDoc():
         DesignerDocItf()
-    {
+{
 
-    }
-
-PartDoc::~PartDoc()
+}
+EMBLDoc::~EMBLDoc()
 {
     if(currentModel)
     {
         currentModel->deleteLater();
     }
 }
-
-bool PartDoc::loadFromFile(QFile& file)
+bool EMBLDoc::loadFromFile(QFile& file)
 {
     if(!file.open(QFile::ReadWrite|QIODevice::Text))
         if(!file.open(QFile::ReadOnly|QIODevice::Text))
@@ -30,32 +25,25 @@ bool PartDoc::loadFromFile(QFile& file)
     currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
-    PartDocParser parser;
-    this->detectDocType(file);
+    EMBLDocParser parser;
 
-    bool status = parser.parse(currentModel,fin,this->type);
+    bool status = parser.parse(currentModel,fin);
     file.close();
     return status;
 }
 
-bool PartDoc::saveToFile(QFile& file)
+bool EMBLDoc::saveToFile(QFile& file)
 {
      return false;
 }
 
-PartDoc::extentValue PartDoc::checkIfFileFitsDocumentType( QFile& file )
+EMBLDoc::extentValue EMBLDoc::checkIfFileFitsDocumentType( QFile& file )
 {
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
 
     file.close();
-    //detect doc type;
-    return INSUFFICIENTLY;
+    if(file.fileName().toLower().endsWith(".embl"))
+        return EXACTLY;
+    return NOTACCEPTABLE;
 }
-
-void PartDoc::detectDocType(QFile &file)
-{
-    if(file.fileName().endsWith(".fasta"))
-        this->type="fasta";
-}
-

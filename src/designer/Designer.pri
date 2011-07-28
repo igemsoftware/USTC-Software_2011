@@ -21,10 +21,7 @@ SOURCES +=\
     views/assemblyview/AssemblyItemBase.cpp \
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
-    documents/SBML/SBMLDoc.cpp \
-    documents/Part/Part.cpp \
-    documents/Part/PartDoc.cpp \
-    documents/Part/PartDocParser.cpp \
+    documents/SBML/SBMLDoc.cpp \    
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
@@ -58,7 +55,11 @@ SOURCES +=\
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp \
     src/designer/documents/SBOL/SBOLDoc.cpp \
     src/designer/documents/SBOL/SBOLParser.cpp \
-    src/designer/documents/SBML/SBMLParser.cpp
+    src/designer/documents/SBML/SBMLParser.cpp \
+    src/designer/documents/FASTA/FASTADocParser.cpp \
+    src/designer/documents/FASTA/FASTADoc.cpp \
+    src/designer/documents/EMBL/EMBLDocParser.cpp \
+    src/designer/documents/EMBL/EMBLDoc.cpp
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -78,10 +79,7 @@ HEADERS  += DesignerMainWnd.h \
     models/reactionnetworkmodel/ReactionNetwork.h \
     views/assemblyview/AssemblyItemPart.h \
     views/behaviorview/BehaviorViewPlotWidget.h \
-    documents/SBML/SBMLDoc.h \
-    documents/Part/Part.h \
-    documents/Part/PartDoc.h \
-    documents/Part/PartDocParser.h \
+    documents/SBML/SBMLDoc.h \    
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
@@ -117,7 +115,11 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h \
     src/designer/documents/SBOL/SBOLDoc.h \
     src/designer/documents/SBOL/SBOLParser.h \
-    src/designer/documents/SBML/SBMLParser.h
+    src/designer/documents/SBML/SBMLParser.h \
+    src/designer/documents/FASTA/FASTADocParser.h \
+    src/designer/documents/FASTA/FASTADoc.h \
+    src/designer/documents/EMBL/EMBLDocParser.h \
+    src/designer/documents/EMBL/EMBLDoc.h
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

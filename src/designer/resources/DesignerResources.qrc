@@ -8,6 +8,23 @@
         <file>assemblyview/plasmid_normal.png</file>
         <file>assemblyview/plasmid_selected.png</file>
         <file>splash.png</file>
+        <file>partview/icon_coding.png</file>
+        <file>partview/icon_composite.png</file>
+        <file>partview/icon_dna.png</file>
+        <file>partview/icon_generator.png</file>
+        <file>partview/icon_intermediate.png</file>
+        <file>partview/icon_measurement.png</file>
+        <file>partview/icon_other.png</file>
+        <file>partview/icon_plasmid.png</file>
+        <file>partview/icon_plasmid_backbone.png</file>
+        <file>partview/icon_project.png</file>
+        <file>partview/icon_protein_domain.png</file>
+        <file>partview/icon_rbs.png</file>
+        <file>partview/icon_regulatory.png</file>
+        <file>partview/icon_reporter.png</file>
+        <file>partview/icon_signalling.png</file>
+        <file>partview/icon_temporary.png</file>
+        <file>partview/icon_terminator.png</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>
