@@ -13,14 +13,14 @@ MoDeL/dbInterface/input/listOfRules/assignmentRule/variable                     
 MoDeL/dbInterface/input/listOfRules/assignmentRule/math                                                    => #value$setProperty^/function
 MoDeL/dbInterface/input/listOfCompartments                                                                 => #array$createArray~/model/compartments
 MoDeL/dbInterface/input/listOfCompartments/compartment                                                     => #object$standardObject$appendToArray^
-MoDeL/dbInterface/input/listOfCompartments/compartment@db                                                  => #value$setProperty^/*iGame1*/db
+MoDeL/dbInterface/input/listOfCompartments/compartment@db                                                  => #value$getProperty(db)^/*iGame1*/db
 MoDeL/dbInterface/input/listOfCompartments/compartment/id                                                  => #value^/id
 MoDeL/dbInterface/input/listOfCompartments/compartment/size                                                => #value^/size
 MoDeL/dbInterface/input/listOfCompartments/compartment/outside                                             => #value^/outside
 MoDeL/dbInterface/input/listOfCompartments/compartment/constant                                            => #value^/constant
 MoDeL/dbInterface/input/listOfSpecies                                                                      => #array$createArray~/model/species
 MoDeL/dbInterface/input/listOfSpecies/species                                                              => #object$standardObject$appendToArray^
-MoDeL/dbInterface/input/listOfSpecies/species@db                                                           => #value$setProperty^/*iGame1*/db
+MoDeL/dbInterface/input/listOfSpecies/species@db                                                           => #value$getProperty(db)^/*iGame1*/db
 MoDeL/dbInterface/input/listOfSpecies/species/id                                                           => #value^/id
 MoDeL/dbInterface/input/listOfSpecies/species/compartment                                                  => #value^/compartment
 MoDeL/dbInterface/input/listOfSpecies/species/initialConcentration                                         => #value^/initialConcentration
