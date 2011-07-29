@@ -62,7 +62,12 @@ SOURCES +=\
     src/designer/documents/EMBL/EMBLDoc.cpp \
     src/designer/documents/GENBANK/GENBANKDoc.cpp \
     src/designer/documents/GENBANK/GENBANKDocParser.cpp \
+<<<<<<< HEAD
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.cpp
+=======
+    src/designer/documents/MoDeL_1/MoDeL1Parser.cpp \
+    src/designer/documents/MoDeL_1/MoDeL1Doc.cpp
+>>>>>>> d0368894d491e65c14c68cb0e17af0e4157c346c
 
 HEADERS  += DesignerMainWnd.h \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -125,7 +130,12 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/EMBL/EMBLDoc.h \
     src/designer/documents/GENBANK/GENBANKDoc.h \
     src/designer/documents/GENBANK/GENBANKDocParser.h \
+<<<<<<< HEAD
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.h
+=======
+    src/designer/documents/MoDeL_1/MoDeL1Parser.h \
+    src/designer/documents/MoDeL_1/MoDeL1Doc.h
+>>>>>>> d0368894d491e65c14c68cb0e17af0e4157c346c
 
 FORMS    += DesignerMainWnd.ui \
     views/welcomeview/WelcomeView.ui \

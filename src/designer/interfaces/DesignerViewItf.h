@@ -21,7 +21,7 @@ class DesignerViewItf : public QWidget
 protected:
     //! Constructor for initialization, should be called by children class constructors.
     DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model)
-        :mainWindow(mainWnd){}
+        :mainWindow(mainWnd), currentModel(model){}
 
     //frame
 public:

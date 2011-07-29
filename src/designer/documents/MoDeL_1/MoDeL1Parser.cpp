@@ -3,9 +3,9 @@
 // Generate Time: Thu Jul 28 20:56:42 2011
 
 
-#include "SBMLParser.h"
+#include "MoDeL1Parser.h"
 
-bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool MoDeL1Parser::parse(DesignerModelItf* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));
@@ -37,7 +37,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="sbml")
+					if(childElem.nodeName()=="MoDeL")
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, 1));
 					}
@@ -48,56 +48,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				}
 			}
 			break;
-		case 1:   //#object$standardObject~/model/*sbml*
-			{
-				//standardObject
-				QDomElement curElem = taskList[curTask].taskElem;
-				//create object.
-				QScriptValue newItemValue = model->getEngine()->newObject();
-				newItemValue.setProperty("*tag*", curElem.nodeName());
-
-				//[append this Item To *subobjects*]
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
-
-				//[write properties]
-				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
-				{
-					if(curElem.attributes().item(attrIndex).nodeName()=="metaid")
-					{
-						taskList.push_back(parseTask(curElem, newItemValue, 2));
-					}
-					else
-					{
-						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
-					}
-				}
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="model")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 3));
-					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/*sbml*");
-			}
-			break;
-		case 2:   //#value$getProperty(metaid)~/model/*sbml*/*biomodels.net*/metaid
-			{
-				//getProperty
-				QScriptValue newItemValue;
-				newItemValue = QScriptValue(taskList[curTask].taskElem.attribute("metaid"));
-				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/*sbml*/*biomodels.net*/metaid");
-			}
-			break;
-		case 3:   //#object$markAsModel$standardObject~/model
+		case 1:   //#object$standardObject~/model
 			{
 				//standardObject
 				QDomElement curElem = taskList[curTask].taskElem;
@@ -119,29 +70,9 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="notes")
+					if(childElem.nodeName()=="dbInterface")
 					{
-						taskList.push_back(parseTask(childElem, newItemValue, 4));
-					}
-					else if(childElem.nodeName()=="annotation")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 5));
-					}
-					else if(childElem.nodeName()=="listOfUnitDefinitions")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 6));
-					}
-					else if(childElem.nodeName()=="listOfCompartments")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 10));
-					}
-					else if(childElem.nodeName()=="listOfSpecies")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 12));
-					}
-					else if(childElem.nodeName()=="listOfReactions")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 15));
+						taskList.push_back(parseTask(childElem, newItemValue, 2));
 					}
 					else
 					{
@@ -152,47 +83,59 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				writeValueToModel(newItemValue, curTargetItem, "/model");
 			}
 			break;
-		case 4:   //#value$collectChildrenTreesAsString~/model/*notes*
+		case 2:   //#object$ignoreThis
 			{
-				//collectChildrenTreesAsString
-				QScriptValue newItemValue;
-				QString      alltext;
+				//skipThis
+				QScriptValue newItemValue = taskList[curTask].taskParent;
+				QDomElement curElem = taskList[curTask].taskElem;
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-						!childElem.isNull(); childElem = childElem.nextSiblingElement())
+					if(childElem.nodeName()=="input")
 					{
-						QString text;
-						QTextStream textStream(&text);
-						childElem.save(textStream, 0);
-						alltext+=text;
+						taskList.push_back(parseTask(childElem, newItemValue, 3));
 					}
-					newItemValue = QScriptValue(alltext);
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
 				}
-				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/*notes*");
 			}
 			break;
-		case 5:   //#value$collectChildrenTreesAsString~/model/*annotation*
+		case 3:   //#object$ignoreThis
 			{
-				//collectChildrenTreesAsString
-				QScriptValue newItemValue;
-				QString      alltext;
+				//skipThis
+				QScriptValue newItemValue = taskList[curTask].taskParent;
+				QDomElement curElem = taskList[curTask].taskElem;
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-						!childElem.isNull(); childElem = childElem.nextSiblingElement())
+					if(childElem.nodeName()=="listOfParameters")
 					{
-						QString text;
-						QTextStream textStream(&text);
-						childElem.save(textStream, 0);
-						alltext+=text;
+						taskList.push_back(parseTask(childElem, newItemValue, 4));
 					}
-					newItemValue = QScriptValue(alltext);
+					else if(childElem.nodeName()=="listOfRules")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 10));
+					}
+					else if(childElem.nodeName()=="listOfCompartments")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 14));
+					}
+					else if(childElem.nodeName()=="listOfSpecies")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 21));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
 				}
-				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/*annotation*");
 			}
 			break;
-		case 6:   //#array$createArray~/model/units
+		case 4:   //#array$createArray~/model/parameters
 			{
 				//createArray
 				QScriptValue newItemValue;
@@ -202,9 +145,9 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="unitDefinition")
+					if(childElem.nodeName()=="parameter")
 					{
-						taskList.push_back(parseTask(childElem, newItemValue, 7));
+						taskList.push_back(parseTask(childElem, newItemValue, 5));
 					}
 					else
 					{
@@ -212,10 +155,10 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 					}
 				}
 				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/units");
+				writeValueToModel(newItemValue, curTargetItem, "/model/parameters");
 			}
 			break;
-		case 7:   //#object$standardObject$appendToArray^
+		case 5:   //#object$standardObject$appendToArray^
 			{
 				//standardObject
 				QDomElement curElem = taskList[curTask].taskElem;
@@ -237,29 +180,19 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="listOfUnits")
+					if(childElem.nodeName()=="id")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 6));
+					}
+					else if(childElem.nodeName()=="value")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 7));
+					}
+					else if(childElem.nodeName()=="units")
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, 8));
 					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
-			}
-			break;
-		case 8:   //#array$createArray^/unitlist
-			{
-				//createArray
-				QScriptValue newItemValue;
-				newItemValue = model->getEngine()->newArray(0);
-				QDomElement curElem = taskList[curTask].taskElem;
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="unit")
+					else if(childElem.nodeName()=="constant")
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, 9));
 					}
@@ -268,40 +201,50 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
 					}
 				}
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/unitlist");
-			}
-			break;
-		case 9:   //#object$standardObject$appendToArray^
-			{
-				//standardObject
-				QDomElement curElem = taskList[curTask].taskElem;
-				//create object.
-				QScriptValue newItemValue = model->getEngine()->newObject();
-				newItemValue.setProperty("*tag*", curElem.nodeName());
-
-				//[append this Item To *subobjects*]
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
-
-				//[write properties]
-				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
-				{
-					{
-						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
-					}
-				}
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
 				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
 			}
 			break;
-		case 10:   //#array$createArray~/model/compartments
+		case 6:   //#value^/id
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/id");
+			}
+			break;
+		case 7:   //#value^/value
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/value");
+			}
+			break;
+		case 8:   //#value^/units
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/units");
+			}
+			break;
+		case 9:   //#value^/constant
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/constant");
+			}
+			break;
+		case 10:   //#array$createArray~/model/rules
 			{
 				//createArray
 				QScriptValue newItemValue;
@@ -311,7 +254,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="compartment")
+					if(childElem.nodeName()=="assignmentRule")
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, 11));
 					}
@@ -321,7 +264,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 					}
 				}
 				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/compartments");
+				writeValueToModel(newItemValue, curTargetItem, "/model/rules");
 			}
 			break;
 		case 11:   //#object$standardObject$appendToArray^
@@ -346,6 +289,15 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
+					if(childElem.nodeName()=="variable")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 12));
+					}
+					else if(childElem.nodeName()=="math")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 13));
+					}
+					else
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
 					}
@@ -353,7 +305,148 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
 			}
 			break;
-		case 12:   //#array$createArray~/model/species
+		case 12:   //#value$setProperty^/variable
+			{
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/variable");
+			}
+			break;
+		case 13:   //#value$setProperty^/function
+			{
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/function");
+			}
+			break;
+		case 14:   //#array$createArray~/model/compartments
+			{
+				//createArray
+				QScriptValue newItemValue;
+				newItemValue = model->getEngine()->newArray(0);
+				QDomElement curElem = taskList[curTask].taskElem;
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="compartment")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 15));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				QScriptValue curTargetItem = model->getEngine()->globalObject();
+				writeValueToModel(newItemValue, curTargetItem, "/model/compartments");
+			}
+			break;
+		case 15:   //#object$standardObject$appendToArray^
+			{
+				//standardObject
+				QDomElement curElem = taskList[curTask].taskElem;
+				//create object.
+				QScriptValue newItemValue = model->getEngine()->newObject();
+				newItemValue.setProperty("*tag*", curElem.nodeName());
+
+				//[append this Item To *subobjects*]
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
+
+				//[write properties]
+				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
+				{
+					if(curElem.attributes().item(attrIndex).nodeName()=="db")
+					{
+						taskList.push_back(parseTask(curElem, newItemValue, 16));
+					}
+					else
+					{
+						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
+					}
+				}
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="id")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 17));
+					}
+					else if(childElem.nodeName()=="size")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 18));
+					}
+					else if(childElem.nodeName()=="outside")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 19));
+					}
+					else if(childElem.nodeName()=="constant")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 20));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
+			}
+			break;
+		case 16:   //#value$setProperty^/*iGame1*/db
+			{
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/*iGame1*/db");
+			}
+			break;
+		case 17:   //#value^/id
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/id");
+			}
+			break;
+		case 18:   //#value^/size
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/size");
+			}
+			break;
+		case 19:   //#value^/outside
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/outside");
+			}
+			break;
+		case 20:   //#value^/constant
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/constant");
+			}
+			break;
+		case 21:   //#array$createArray~/model/species
 			{
 				//createArray
 				QScriptValue newItemValue;
@@ -365,7 +458,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				{
 					if(childElem.nodeName()=="species")
 					{
-						taskList.push_back(parseTask(childElem, newItemValue, 13));
+						taskList.push_back(parseTask(childElem, newItemValue, 22));
 					}
 					else
 					{
@@ -376,7 +469,7 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				writeValueToModel(newItemValue, curTargetItem, "/model/species");
 			}
 			break;
-		case 13:   //#object$standardObject$appendToArray^
+		case 22:   //#object$standardObject$appendToArray^
 			{
 				//standardObject
 				QDomElement curElem = taskList[curTask].taskElem;
@@ -390,6 +483,11 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				//[write properties]
 				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
 				{
+					if(curElem.attributes().item(attrIndex).nodeName()=="db")
+					{
+						taskList.push_back(parseTask(curElem, newItemValue, 23));
+					}
+					else
 					{
 						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
 					}
@@ -398,272 +496,98 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
-					if(childElem.nodeName()=="annotation")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 14));
-					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
-			}
-			break;
-		case 14:   //#value$collectChildrenTreeAsString^/*annotation*
-			{
-				//collectChildrenTreesAsString
-				QScriptValue newItemValue;
-				QString      alltext;
-				{
-					for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-						!childElem.isNull(); childElem = childElem.nextSiblingElement())
-					{
-						QString text;
-						QTextStream textStream(&text);
-						childElem.save(textStream, 0);
-						alltext+=text;
-					}
-					newItemValue = QScriptValue(alltext);
-				}
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/*annotation*");
-			}
-			break;
-		case 15:   //#array$createArray~/model/reactions
-			{
-				//createArray
-				QScriptValue newItemValue;
-				newItemValue = model->getEngine()->newArray(0);
-				QDomElement curElem = taskList[curTask].taskElem;
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="reaction")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 16));
-					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				QScriptValue curTargetItem = model->getEngine()->globalObject();
-				writeValueToModel(newItemValue, curTargetItem, "/model/reactions");
-			}
-			break;
-		case 16:   //#object$standardObject$appendToArray^
-			{
-				//standardObject
-				QDomElement curElem = taskList[curTask].taskElem;
-				//create object.
-				QScriptValue newItemValue = model->getEngine()->newObject();
-				newItemValue.setProperty("*tag*", curElem.nodeName());
-
-				//[append this Item To *subobjects*]
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
-
-				//[write properties]
-				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
-				{
-					{
-						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
-					}
-				}
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="annotation")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 17));
-					}
-					else if(childElem.nodeName()=="listOfReactants")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 18));
-					}
-					else if(childElem.nodeName()=="listOfProducts")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 19));
-					}
-					else if(childElem.nodeName()=="listOfModifiers")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 20));
-					}
-					else if(childElem.nodeName()=="kineticLaw")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 21));
-					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
-			}
-			break;
-		case 17:   //#value$collectChildrenTreeAsString^/*annotation*
-			{
-				//collectChildrenTreesAsString
-				QScriptValue newItemValue;
-				QString      alltext;
-				{
-					for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-						!childElem.isNull(); childElem = childElem.nextSiblingElement())
-					{
-						QString text;
-						QTextStream textStream(&text);
-						childElem.save(textStream, 0);
-						alltext+=text;
-					}
-					newItemValue = QScriptValue(alltext);
-				}
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/*annotation*");
-			}
-			break;
-		case 18:   //#array$collectChildrenAttribute(speciesReference@species)^/reactants
-			{
-				QList<QScriptValue> arrayItemList;
-				for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="speciesReference")
-					{
-						QString value = childElem.attribute("species");
-						if(!value.isNull())
-						{
-							arrayItemList.append(QScriptValue(value));
-						}
-					}
-				}
-				QScriptValue newItemValue = model->getEngine()->newArray(arrayItemList.count());
-				for(qint32 i = 0; i < arrayItemList.count(); i++)
-				newItemValue.setProperty(i, arrayItemList[i]);
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/reactants");
-			}
-			break;
-		case 19:   //#array$collectChildrenAttribute(speciesReference@species)^/products
-			{
-				QList<QScriptValue> arrayItemList;
-				for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="speciesReference")
-					{
-						QString value = childElem.attribute("species");
-						if(!value.isNull())
-						{
-							arrayItemList.append(QScriptValue(value));
-						}
-					}
-				}
-				QScriptValue newItemValue = model->getEngine()->newArray(arrayItemList.count());
-				for(qint32 i = 0; i < arrayItemList.count(); i++)
-				newItemValue.setProperty(i, arrayItemList[i]);
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/products");
-			}
-			break;
-		case 20:   //#array$collectChildrenAttribute(modifierSpeciesReference@species)^/modifiers
-			{
-				QList<QScriptValue> arrayItemList;
-				for(QDomElement childElem = taskList[curTask].taskElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="modifierSpeciesReference")
-					{
-						QString value = childElem.attribute("species");
-						if(!value.isNull())
-						{
-							arrayItemList.append(QScriptValue(value));
-						}
-					}
-				}
-				QScriptValue newItemValue = model->getEngine()->newArray(arrayItemList.count());
-				for(qint32 i = 0; i < arrayItemList.count(); i++)
-				newItemValue.setProperty(i, arrayItemList[i]);
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/modifiers");
-			}
-			break;
-		case 21:   //#object$standardObject^/kineticLaw
-			{
-				//standardObject
-				QDomElement curElem = taskList[curTask].taskElem;
-				//create object.
-				QScriptValue newItemValue = model->getEngine()->newObject();
-				newItemValue.setProperty("*tag*", curElem.nodeName());
-
-				//[append this Item To *subobjects*]
-				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
-
-				//[write properties]
-				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
-				{
-					{
-						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
-					}
-				}
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="math")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 22));
-					}
-					else if(childElem.nodeName()=="listOfParameters")
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, 23));
-					}
-					else
-					{
-						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
-					}
-				}
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/kineticLaw");
-			}
-			break;
-		case 22:   //#object$collectTreeAsString^/math
-			{
-				//collectTreeAsString
-				QScriptValue newItemValue;
-				{
-					QString text;
-					QTextStream textStream(&text);
-					taskList[curTask].taskElem.save(textStream, 0);
-					newItemValue = QScriptValue(text);
-				}
-				QScriptValue curTargetItem = taskList[curTask].taskParent;
-				writeValueToModel(newItemValue, curTargetItem, "/math");
-			}
-			break;
-		case 23:   //#array$createArray
-			{
-				//createArray
-				QScriptValue newItemValue;
-				newItemValue = model->getEngine()->newArray(0);
-				QDomElement curElem = taskList[curTask].taskElem;
-				//[write children objects]
-				for(QDomElement childElem = curElem.firstChildElement();
-					!childElem.isNull(); childElem = childElem.nextSiblingElement())
-				{
-					if(childElem.nodeName()=="parameter")
+					if(childElem.nodeName()=="id")
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, 24));
 					}
+					else if(childElem.nodeName()=="compartment")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 25));
+					}
+					else if(childElem.nodeName()=="initialConcentration")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 26));
+					}
+					else if(childElem.nodeName()=="constant")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 27));
+					}
+					else if(childElem.nodeName()=="boundaryCondition")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 28));
+					}
+					else if(childElem.nodeName()=="cnModel")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 29));
+					}
 					else
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
 					}
 				}
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
 			}
 			break;
-		case 24:   //#object$standardObject$appendToArray~/model/parameters
+		case 23:   //#value$setProperty^/*iGame1*/db
+			{
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/*iGame1*/db");
+			}
+			break;
+		case 24:   //#value^/id
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/id");
+			}
+			break;
+		case 25:   //#value^/compartment
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/compartment");
+			}
+			break;
+		case 26:   //#value^/initialConcentration
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/initialConcentration");
+			}
+			break;
+		case 27:   //#value^/constant
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/constant");
+			}
+			break;
+		case 28:   //#value^/boundaryCondition
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/boundaryCondition");
+			}
+			break;
+		case 29:   //#object$standardObject^/*iGame1*
 			{
 				//standardObject
 				QDomElement curElem = taskList[curTask].taskElem;
@@ -685,11 +609,183 @@ bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
 				for(QDomElement childElem = curElem.firstChildElement();
 					!childElem.isNull(); childElem = childElem.nextSiblingElement())
 				{
+					if(childElem.nodeName()=="listOfChains")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 30));
+					}
+					else
 					{
 						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
 					}
 				}
-				appendValueToModel(newItemValue, model->getEngine()->globalObject(), "/model/parameters");
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/*iGame1*");
+			}
+			break;
+		case 30:   //#array$createArray^/chains
+			{
+				//createArray
+				QScriptValue newItemValue;
+				newItemValue = model->getEngine()->newArray(0);
+				QDomElement curElem = taskList[curTask].taskElem;
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="chain")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 31));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/chains");
+			}
+			break;
+		case 31:   //#object$standardObject$appendToArray^
+			{
+				//standardObject
+				QDomElement curElem = taskList[curTask].taskElem;
+				//create object.
+				QScriptValue newItemValue = model->getEngine()->newObject();
+				newItemValue.setProperty("*tag*", curElem.nodeName());
+
+				//[append this Item To *subobjects*]
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
+
+				//[write properties]
+				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
+				{
+					{
+						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
+					}
+				}
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="listOfParts")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 32));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
+			}
+			break;
+		case 32:   //#array$createArray^/parts
+			{
+				//createArray
+				QScriptValue newItemValue;
+				newItemValue = model->getEngine()->newArray(0);
+				QDomElement curElem = taskList[curTask].taskElem;
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="part")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 33));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/parts");
+			}
+			break;
+		case 33:   //#object$standardObject$appendToArray^
+			{
+				//standardObject
+				QDomElement curElem = taskList[curTask].taskElem;
+				//create object.
+				QScriptValue newItemValue = model->getEngine()->newObject();
+				newItemValue.setProperty("*tag*", curElem.nodeName());
+
+				//[append this Item To *subobjects*]
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "/*subobjects*");
+
+				//[write properties]
+				for(int attrIndex = 0 ; attrIndex < curElem.attributes().count(); attrIndex++)
+				{
+					{
+						newItemValue.setProperty(  curElem.attributes().item(attrIndex).nodeName(), curElem.attributes().item(attrIndex).nodeValue());
+					}
+				}
+				//[write children objects]
+				for(QDomElement childElem = curElem.firstChildElement();
+					!childElem.isNull(); childElem = childElem.nextSiblingElement())
+				{
+					if(childElem.nodeName()=="partReference")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 34));
+					}
+					else if(childElem.nodeName()=="partLabel")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 35));
+					}
+					else if(childElem.nodeName()=="partType")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 36));
+					}
+					else if(childElem.nodeName()=="partCategory")
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, 37));
+					}
+					else
+					{
+						taskList.push_back(parseTask(childElem, newItemValue, (size_t)-1));
+					}
+				}
+				appendValueToModel(newItemValue, taskList[curTask].taskParent, "");
+			}
+			break;
+		case 34:   //#value^/reference
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/reference");
+			}
+			break;
+		case 35:   //#value^/label
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/label");
+			}
+			break;
+		case 36:   //#value^/type
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/type");
+			}
+			break;
+		case 37:   //#value^/category
+			{
+				//defaultAction
+				//setProperty
+				QScriptValue newItemValue;
+				newItemValue = QScriptValue(taskList[curTask].taskElem.text());
+				QScriptValue curTargetItem = taskList[curTask].taskParent;
+				writeValueToModel(newItemValue, curTargetItem, "/category");
 			}
 			break;
 		default:

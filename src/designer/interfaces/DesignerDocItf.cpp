@@ -7,6 +7,7 @@
 #include "documents/FASTA/FASTADoc.h"
 #include "documents/EMBL/EMBLDoc.h"
 #include "documents/GENBANK/GENBANKDoc.h"
+#include "documents/MoDeL_1/MoDeL1Doc.h"
 
 #define LACHESIS_DECLARE_DOCUMENT(className) \
     DesignerDocItf::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
@@ -25,6 +26,7 @@ void DesignerDocItf::initializeIfNotYet()
         LACHESIS_DECLARE_DOCUMENT(FASTADoc);
         LACHESIS_DECLARE_DOCUMENT(EMBLDoc);
         LACHESIS_DECLARE_DOCUMENT(GENBANKDoc);
+        LACHESIS_DECLARE_DOCUMENT(MoDeL1Doc);
     }
 }
 
