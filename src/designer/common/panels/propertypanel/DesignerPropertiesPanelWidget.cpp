@@ -254,7 +254,7 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
         {
             variantManager->clear();
             propertiesWidget->clear();
-            addPropertyItems(value, 1, NULL);
+            addPropertyItems(value, 3, NULL);
         }
 
         invalidWidget->hide();
