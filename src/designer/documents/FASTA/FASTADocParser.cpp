@@ -1,5 +1,4 @@
 #include "FASTADocParser.h"
-#include <QtCore>
 
 FASTADocParser::FASTADocParser()
 {
@@ -24,7 +23,7 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
             {
                 if(newFASTA.property("part_name").toString()!="")
                 {
-                    partregisty.setProperty("partsequence",this->extract(tsq));
+                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
                     newFASTA.setProperty("content",content);
                     FASTAs.setProperty(p,partregisty);
                     partregisty.setProperty("*partsregistry.org*",newFASTA);
@@ -59,8 +58,8 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
             if(fin.atEnd())
             {
                 if(!newFASTA.isNull())
-                {
-                    partregisty.setProperty("partsequence",this->extract(tsq));
+                {                    
+                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
                     newFASTA.setProperty("content",content);
                     FASTAs.setProperty(p,partregisty);
                     partregisty.setProperty("*partsregistry.org*",newFASTA);
@@ -75,20 +74,6 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
             return false;
         else
             return true;
-}
-
-QString FASTADocParser::extract(QString &s)
-{
-    s=s.toLower();
-    QString t="";
-    int l=s.length();
-    for(int i=0;i<l;i++)
-    {
-        QChar c=s.at(i);
-        if(c=='a'||c=='t'||c=='c'||c=='g'||c=='u')
-            t+=QString(c);
-    }
-    return t;
 }
 
 QString FASTADocParser::readWord(QString &s, int &index)

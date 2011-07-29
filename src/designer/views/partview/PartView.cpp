@@ -11,8 +11,6 @@ PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     ui(new Ui::PartView)
 {
     ui->setupUi(this);
-    this->model=model;
-
     connect(this, SIGNAL(updateSelectedItem(QScriptValue)),  mainWindow->getPanelWidget("PropertiesPanel"), SLOT(updateTarget(QScriptValue)));
 
     emit updateSelectedItem(model->getModel());
@@ -54,11 +52,11 @@ PartView::~PartView()
 void PartView::on_listView_clicked(QModelIndex index)
 {
     int i=index.row();
-    QScriptValue part=this->model->getModel().property(i);
+    QScriptValue part=this->currentModel->getModel().property(i);
     ui->textEdit->setText("Description&Features:"+part.property("*partsregistry.org*").property("part_descr").toString()+part.property("partfeatures").toString());
     ui->textEdit_seq->setText(part.property("partsequence").toString());
-    ui->partNameEdit->setText(model->getModel().property(0).property("*partsregistry.org*").property("part_name").toString());
-    ui->label_length->setText(QString::number(model->getModel().property(0).property("partsequence").toString().length()));
+    ui->partNameEdit->setText(part.property("*partsregistry.org*").property("part_name").toString());
+    ui->label_length->setText(QString::number(part.property("partsequence").toString().length()));
     QString t=part.property("*partsregistry.org*").property("part_parameters").property(0).property("parameter_value").toString();
     if(t!="")
         ui->lineEdit_2->setText(t);

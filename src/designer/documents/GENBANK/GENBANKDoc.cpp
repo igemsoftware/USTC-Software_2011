@@ -41,9 +41,10 @@ GENBANKDoc::extentValue GENBANKDoc::checkIfFileFitsDocumentType( QFile& file )
 {
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
-
+    QTextStream fin(&file);
+    bool b=fin.readLine().toLower().startsWith("locus");
     file.close();
-    if(file.fileName().toLower().endsWith(".genbank"))
+    if(b)
         return EXACTLY;
     return NOTACCEPTABLE;
 }

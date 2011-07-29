@@ -12,8 +12,7 @@ class PartView : public DesignerViewItf
 {
     Q_OBJECT
 
-public:
-    DesignerModelItf* model;
+public:    
     Q_INVOKABLE explicit PartView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~PartView();
 

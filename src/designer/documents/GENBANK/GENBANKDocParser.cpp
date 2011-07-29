@@ -33,7 +33,7 @@ bool GENBANKDocParser::parse(DesignerModelItf* model, QTextStream& fin)
             tsq+=line;
         else if(line.startsWith("//"))
         {
-            partregisty.setProperty("partsequence",this->extract(tsq));
+            partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
             partregisty.setProperty("*partsregistry.org*",newGENBANK);
             newGENBANK.setProperty("content",content);
             GENBANKs.setProperty(p,partregisty);
@@ -53,20 +53,6 @@ bool GENBANKDocParser::parse(DesignerModelItf* model, QTextStream& fin)
         return false;
     else
         return true;
-}
-
-QString GENBANKDocParser::extract(QString &s)
-{
-    s=s.toLower();
-    QString t="";
-    int l=s.length();
-    for(int i=0;i<l;i++)
-    {
-        QChar c=s.at(i);
-        if(c=='a'||c=='t'||c=='c'||c=='g'||c=='u')
-            t+=QString(c);
-    }
-    return t;
 }
 
 QString GENBANKDocParser::readWord(QString &s, int &index)

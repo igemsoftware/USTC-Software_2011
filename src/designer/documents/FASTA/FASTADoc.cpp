@@ -42,9 +42,10 @@ FASTADoc::extentValue FASTADoc::checkIfFileFitsDocumentType( QFile& file )
 {
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
-
+    QTextStream fin(&file);
+    bool b=fin.readLine().startsWith(">");
     file.close();
-    if(file.fileName().toLower().endsWith(".fasta"))
+    if(b)
         return EXACTLY;
     return NOTACCEPTABLE;
 }

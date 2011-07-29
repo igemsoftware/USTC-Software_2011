@@ -3,13 +3,13 @@
 
 #include "EMBLDoc.h"
 #include "models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h"
+#include "documents/common/designerpartdocparser/DesignerPartDocParser.h"
 
 class EMBLDocParser
 {
 public:
     EMBLDocParser();
-    bool parse(DesignerModelItf* model, QTextStream& fin);
-    QString extract(QString &s);
+    bool parse(DesignerModelItf* model, QTextStream& fin);    
     QString readWord(QString &s,int &index);
 };
 

@@ -41,9 +41,10 @@ EMBLDoc::extentValue EMBLDoc::checkIfFileFitsDocumentType( QFile& file )
 {
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
-
+    QTextStream fin(&file);
+    bool b=fin.readLine().toLower().startsWith("id");
     file.close();
-    if(file.fileName().toLower().endsWith(".embl"))
+    if(b)
         return EXACTLY;
     return NOTACCEPTABLE;
 }
