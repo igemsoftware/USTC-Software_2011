@@ -1,6 +1,6 @@
 #include "DesignerXMLDocParser.h"
 
-DesignerXMLDocParser::DesignerXMLDocParser()
+DesignerXMLDocParser::DesignerXMLDocParser()   
 {
 }
 

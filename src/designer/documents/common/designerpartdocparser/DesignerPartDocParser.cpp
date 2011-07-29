@@ -4,7 +4,7 @@ DesignerPartDocParser::DesignerPartDocParser()
 {    
 }
 
-QString DesignerPartDocParser::generateSequence(QString &s)
+QString DesignerPartDocParser::generateSequence(QString s)
 {
     s=s.toLower();
     QString t="";

@@ -41,6 +41,11 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
                     t=line.indexOf("descr=",0);
                     if(t>0)
                         newFASTA.setProperty("part_descr",line.mid(t+6,line.indexOf("|",t)-t-6).trimmed());
+                    t=line.indexOf("type=",0);
+                    if(t>0)
+                        newFASTA.setProperty("part_type",line.mid(t+5,line.indexOf("|",t)-t-5).trimmed());
+                    else if(t==-1)
+                        newFASTA.setProperty("part_type","other");
                 }
                 if(line.indexOf("=")==-1)
                 {

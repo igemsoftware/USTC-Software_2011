@@ -5,6 +5,7 @@
 
 #include "PartView.h"
 #include "DesignerMainWnd.h"
+#include "documents/common/designerpartdocparser/DesignerPartDocParser.h"
 
 PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),
@@ -25,16 +26,15 @@ PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
             sl->append(parts.property(i).property("*partsregistry.org*").property("part_name").toString());
         }
         slm->setStringList(*sl);
-        ui->listView->setModel(slm);
-
-        ui->textEdit->setText("Description&Features:"+parts.property(0).property("*partsregistry.org*").property("part_descr").toString()+parts.property(0).property("partfeatures").toString());
+        ui->listView->setModel(slm);        
+        ui->textEdit->setText(parts.property(0).property("*partsregistry.org*").property("part_descr").toString()+parts.property(0).property("partfeatures").toString());
         ui->textEdit_seq->setText(parts.property(0).property("partsequence").toString());
         ui->partNameEdit->setText(model->getModel().property(0).property("*partsregistry.org*").property("part_name").toString());
         ui->label_length->setText(QString::number(model->getModel().property(0).property("partsequence").toString().length()));
         QString t=parts.property(0).property("*partsregistry.org*").property("part_parameters").property(0).property("parameter_value").toString();
         if(t!="")
             ui->lineEdit_2->setText(t);
-        t=parts.property(0).property("*partsregistry.org*").property("part_parameters").property(0).property("parameter_biology").toString();
+        t=parts.property(0).property("*partsregistry.org*").property("part_parameters").property(1).property("parameter_value").toString();
         if(t!="")
             ui->lineEdit->setText(t);
         QPixmap pic(":/designer/partview/icon_"+parts.property(0).property("*partsregistry.org*").property("part_type").toString().toLower()+".png");
@@ -53,18 +53,66 @@ void PartView::on_listView_clicked(QModelIndex index)
 {
     int i=index.row();
     QScriptValue part=this->currentModel->getModel().property(i);
-    ui->textEdit->setText("Description&Features:"+part.property("*partsregistry.org*").property("part_descr").toString()+part.property("partfeatures").toString());
+    ui->textEdit->setText(part.property("*partsregistry.org*").property("part_descr").toString()+part.property("partfeatures").toString());
     ui->textEdit_seq->setText(part.property("partsequence").toString());
     ui->partNameEdit->setText(part.property("*partsregistry.org*").property("part_name").toString());
     ui->label_length->setText(QString::number(part.property("partsequence").toString().length()));
     QString t=part.property("*partsregistry.org*").property("part_parameters").property(0).property("parameter_value").toString();
     if(t!="")
         ui->lineEdit_2->setText(t);
-    t=part.property("*partsregistry.org*").property("part_parameters").property(0).property("parameter_biology").toString();
+    t=part.property("*partsregistry.org*").property("part_parameters").property(1).property("parameter_value").toString();
     if(t!="")
         ui->lineEdit->setText(t);
 
     QPixmap pic(":/designer/partview/icon_"+part.property("*partsregistry.org*").property("part_type").toString().toLower()+".png");
     if(!pic.isNull())
         ui->label_image->setPixmap(pic);
+}
+
+void PartView::on_pushButton_clicked()
+{
+    int i=ui->listView->currentIndex().row();
+    QScriptValue part;
+    {
+        if(i==-1)
+            i++;
+        part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
+        part.setProperty("part_name",ui->partNameEdit->text());
+        QStringListModel* slm=dynamic_cast<QStringListModel *>(ui->listView->model());
+        QStringList sl=slm->stringList();
+        sl[i]=ui->partNameEdit->text();
+        slm->setStringList(sl);
+        ui->listView->setModel(slm);
+    }
+    {
+        if(i==-1)
+            i++;
+        QScriptValue parameter=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("part_parameters").property(1);
+        if(!parameter.isNull())
+        {
+            parameter.setProperty("parameter_value",ui->lineEdit->text());
+        }
+    }
+    {
+        if(i==-1)
+            i++;
+        QScriptValue parameter=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("part_parameters").property(0);
+        if(!parameter.isNull())
+        {
+            parameter.setProperty("parameter_value",ui->lineEdit_2->text());
+        }
+    }
+    {
+        if(i==-1)
+            i++;
+        part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
+        part.setProperty("part_descr",ui->textEdit->toPlainText());
+    }
+    {
+        if(i==-1)
+            i++;
+        part=this->currentModel->getModel().property(i);
+        part.setProperty("partsequence",DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText()));
+    }
+    emit updateSelectedItem(this->currentModel->getModel());
 }

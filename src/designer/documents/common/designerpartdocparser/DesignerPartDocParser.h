@@ -6,7 +6,7 @@ class DesignerPartDocParser
 {
 public:
     DesignerPartDocParser();
-    static QString generateSequence(QString &s);
+    static QString generateSequence(QString s);
 };
 
 #endif // DESIGNERPARTDOCPARSER_H
