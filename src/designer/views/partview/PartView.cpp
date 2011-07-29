@@ -27,7 +27,7 @@ PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
         }
         slm->setStringList(*sl);
         ui->listView->setModel(slm);        
-        ui->textEdit->setText(parts.property(0).property("*partsregistry.org*").property("part_descr").toString()+parts.property(0).property("partfeatures").toString());
+        ui->textEdit->setText(parts.property(0).property("*partsregistry.org*").property("part_descr").toString());
         ui->textEdit_seq->setText(parts.property(0).property("partsequence").toString());
         ui->partNameEdit->setText(model->getModel().property(0).property("*partsregistry.org*").property("part_name").toString());
         ui->label_length->setText(QString::number(model->getModel().property(0).property("partsequence").toString().length()));
@@ -53,7 +53,7 @@ void PartView::on_listView_clicked(QModelIndex index)
 {
     int i=index.row();
     QScriptValue part=this->currentModel->getModel().property(i);
-    ui->textEdit->setText(part.property("*partsregistry.org*").property("part_descr").toString()+part.property("partfeatures").toString());
+    ui->textEdit->setText(part.property("*partsregistry.org*").property("part_descr").toString());
     ui->textEdit_seq->setText(part.property("partsequence").toString());
     ui->partNameEdit->setText(part.property("*partsregistry.org*").property("part_name").toString());
     ui->label_length->setText(QString::number(part.property("partsequence").toString().length()));
