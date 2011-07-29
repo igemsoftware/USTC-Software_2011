@@ -1,21 +1,65 @@
-sbml                                                                      => #object$standardObject~/model/*sbml*
-sbml@metaid                                                               => #value$getProperty(metaid)~/model/*sbml*/*biomodels.net*/metaid
+sbml                                                                        => #object$standardObject~/model/*sbml*
+sbml@xmlns                                                                  => #value$getProperty(xmlns)~/model/*sbml*/xmlns
+sbml@metaid                                                                 => #value$getProperty(metaid)~/model/*sbml*/metaid
+sbml@level                                                                  => #value$getProperty(level)~/model/*sbml*/level
+sbml@version                                                                => #value$getProperty(version)~/model/*sbml*/version
 
-sbml/model                                                                => #object$markAsModel$standardObject~/model
-sbml/model/notes                                                          => #value$collectChildrenTreesAsString~/model/*notes*
-sbml/model/annotation                                                     => #value$collectChildrenTreesAsString~/model/*annotation*
+sbml/model                                                                  => #object$markAsModel$standardObject~/model
+sbml/model@id                                                               => #value$getProperty(id)~/model/*sbml*/model_id
+sbml/model@name                                                             => #value$getProperty(name)~/model/*sbml*/model_name
+sbml/model@substanceUnits                                                   => #value$getProperty(substanceUnits)~/model/*sbml*/model_unit_substance
+sbml/model@timeUnits                                                        => #value$getProperty(timeUnits)~/model/*sbml*/model_unit_time
+sbml/model@volumeUnits                                                      => #value$getProperty(volumeUnits)~/model/*sbml*/model_unit_volume
+sbml/model@areaUnits                                                        => #value$getProperty(areaUnits)~/model/*sbml*/model_unit_area
+sbml/model@lengthUnits                                                      => #value$getProperty(lengthUnits)~/model/*sbml*/model_unit_length
+sbml/model@extentUnits                                                      => #value$getProperty(extentUnits)~/model/*sbml*/model_unit_extent
+sbml/model@conversionFactor                                                 => #value$getProperty(conversionFactor)~/model/*sbml*/model_conversion_factor
+sbml/model/notes                                                            => #value$collectChildrenTreesAsString~/model/*sbml*/model_notes
+sbml/model/annotation                                                       => #value$collectChildrenTreesAsString~/model/*sbml*/model_annotation
 
-sbml/model/listOfUnitDefinitions                                          => #array$createArray~/model/units
-sbml/model/listOfUnitDefinitions/unitDefinition                           => #object$standardObject$appendToArray^
-sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits               => #array$createArray^/unitlist
-sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit          => #object$standardObject$appendToArray^
+sbml/model/listOfFunctionDefinitions                                        => #array$createArray~/model/functions
+sbml/model/listOfFunctionDefinitions/functionDefinition                     => #object$standardObject$appendToArray^
+sbml/model/listOfFunctionDefinitions/functionDefinition@id                  => #value$getProperty(id)^/id
+sbml/model/listOfFunctionDefinitions/functionDefinition/math                => #value$collectTreeAsString^/math
+
+sbml/model/listOfUnitDefinitions                                            => #array$createArray~/model/units
+sbml/model/listOfUnitDefinitions/unitDefinition                             => #object$standardObject$appendToArray^
+sbml/model/listOfUnitDefinitions/unitDefinition@id                          => #value$getProperty(id)^id
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits                 => #array$createArray^/unitlist
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit            => #object$standardObject$appendToArray^
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit@kind       => #value$getProperty(kind)^/kind
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit@exponent   => #value$getProperty(exponent)^/exponent
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit@scale      => #value$getProperty(scale)^/scale
+sbml/model/listOfUnitDefinitions/unitDefinition/listOfUnits/unit@multiplier => #value$getProperty(multiplier)^/multiplier
+
 
 sbml/model/listOfCompartments                                             => #array$createArray~/model/compartments
 sbml/model/listOfCompartments/compartment                                 => #object$standardObject$appendToArray^
+sbml/model/listOfCompartments/compartment@id                              => #value$getProperty(id)^/id
+sbml/model/listOfCompartments/compartment@name                            => #value$getProperty(name)^/name
+sbml/model/listOfCompartments/compartment@spatialDimensions               => #value$getProperty(spatialDimensions)^/spatialDimensions
+sbml/model/listOfCompartments/compartment@size                            => #value$getProperty(size)^/size
+sbml/model/listOfCompartments/compartment@units                           => #value$getProperty(units)^/units
+sbml/model/listOfCompartments/compartment@constant                        => #value$getProperty(constant)^/constant
 
 sbml/model/listOfSpecies                                                  => #array$createArray~/model/species
 sbml/model/listOfSpecies/species                                          => #object$standardObject$appendToArray^
-sbml/model/listOfSpecies/species/annotation                               => #value$collectChildrenTreeAsString^/*annotation*
+sbml/model/listOfSpecies/species@id                                       => #value$getProperty(id)^/id
+sbml/model/listOfSpecies/species@name                                     => #value$getProperty(name)^/name
+sbml/model/listOfSpecies/species@compartment                              => #value$getProperty(compartment)^/compartment
+sbml/model/listOfSpecies/species/annotation                               => #value$collectChildrenTreeAsString^/*sbml*/species_annotation
+
+sbml/model/listOfParameters                                               => #array$createArray~/model/parameters
+sbml/model/listOfParameters/parameter                                     => #object$standardObject$appendToArray^
+
+sbml/model/listOfInitialAssignment                                        => #array$createArray~/model/initialAssignments
+sbml/model/listOfInitialAssignment/initialAssignment                      => #object$standardObject$appendToArray^
+
+sbml/model/listOfRules                                                    => #array$createArray~/model/rules
+sbml/model/listOfRules/rule                                               => #object$standardObject$appendToArray^
+
+sbml/model/listOfConstraints                                              => #array$createArray~/model/constraints
+sbml/model/listOfConstraints/constraint                                   => #object$standardObject$appendToArray^
 
 sbml/model/listOfReactions                                                => #array$createArray~/model/reactions
 sbml/model/listOfReactions/reaction                                       => #object$standardObject$appendToArray^
@@ -23,9 +67,10 @@ sbml/model/listOfReactions/reaction/annotation                            => #va
 sbml/model/listOfReactions/reaction/listOfReactants                       => #array$collectChildrenAttribute(speciesReference@species)^/reactants
 sbml/model/listOfReactions/reaction/listOfProducts                        => #array$collectChildrenAttribute(speciesReference@species)^/products
 sbml/model/listOfReactions/reaction/listOfModifiers                       => #array$collectChildrenAttribute(modifierSpeciesReference@species)^/modifiers
-
 sbml/model/listOfReactions/reaction/kineticLaw                            => #object$standardObject^/kineticLaw
 sbml/model/listOfReactions/reaction/kineticLaw/math                       => #object$collectTreeAsString^/math
-sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters           => #array$createArray
-sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters/parameter => #object$standardObject$appendToArray~/model/parameters
+sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters           => #array$createArray^/parameters
+sbml/model/listOfReactions/reaction/kineticLaw/listOfParameters/parameter => #object$standardObject$appendToArray^
 
+sbml/model/listOfEvents                                                   => #array$createArray~/model/events
+sbml/model/listOfEvents/event                                             => #object$standardObject$appendToArray^

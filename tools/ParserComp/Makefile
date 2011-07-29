@@ -6,7 +6,8 @@ install:
 	cp -f parsercomp.exe ../../src/designer/documents/SBML/parsercomp.exe
 	cp -f parsercomp.exe ../../src/designer/documents/SBOL/parsercomp.exe
 	cp -f parsercomp.exe ../../src/designer/documents/RSBPML/parsercomp.exe
-	mv -f parsercomp.exe ../../src/designer/documents/MoDeL_1/parsercomp.exe
+	cp -f parsercomp.exe ../../src/designer/documents/MoDeL_1/parsercomp.exe
+	mv -f parsercomp.exe ../../src/designer/documents/USML/parsercomp.exe
 	make update
 
 update:

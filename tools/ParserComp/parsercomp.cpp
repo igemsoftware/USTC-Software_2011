@@ -460,6 +460,7 @@ int parse(const char* _inputfile, const char* _outputfile)
 		line=trim(line.substr(0, line.find(";;") ));
 
 		int arrowPos = line.find("=>");
+		int arrow2Pos = line.find("<=");
 		if(arrowPos==string::npos)
 		{
 			if(line!="")
@@ -470,7 +471,14 @@ int parse(const char* _inputfile, const char* _outputfile)
 		else
 		{
 			lhs_rule.push_back(trim(line.substr(0, arrowPos)));
-			rhs_rule.push_back(trim(line.substr(arrowPos + 2)));
+			if(arrow2Pos==string::npos)
+			{
+				rhs_rule.push_back(trim(line.substr(arrowPos + 2)));
+			}
+			else
+			{
+				rhs_rule.push_back(trim(line.substr(arrowPos + 2, arrow2Pos - arrowPos - 2)));
+			}
 		}
 	}
 

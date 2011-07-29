@@ -30,6 +30,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     QScriptValue compartmentsArray = model->getModel().property("compartments");
     int compartmentsCount = compartmentsArray.property("length").toInt32();
     QMap<QString, NetworkViewGraphicsSceneContainer*> containerMap;
+
     for(int i=0;i<compartmentsCount;i++)
     {
         NetworkViewGraphicsSceneContainer* newContainer =
@@ -38,6 +39,9 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         newContainer->itemObject = compartmentsArray.property(i);
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
+
+
+
 
     QScriptValue speciesArray = model->getModel().property("species");
     int speciesCount = speciesArray.property("length").toInt32();

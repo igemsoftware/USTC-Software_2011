@@ -145,4 +145,8 @@ RESOURCES += \
     resources/DesignerResources.qrc
 
 OTHER_FILES += \
-    models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype
+    models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype \
+    src/designer/documents/SBML/SBML.parserules \
+    src/designer/documents/SBOL/SBOL.parserules \
+    src/designer/documents/RSBPML/RSBPML.parserules \
+    src/designer/documents/MoDeL_1/MoDeL1.parserules
