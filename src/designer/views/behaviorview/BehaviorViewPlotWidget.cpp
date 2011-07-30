@@ -86,7 +86,7 @@ void BehaviorViewPlotWidget::paintEvent(QPaintEvent *event)
         //draw marks
         for(int i=0;i<10;i++)
         {
-            painter.drawText(i*(width-40)/10+25,height,QString::number(this->deltax*i*(this->times-1)/10));
+            painter.drawText(i*(width-40)/10+25,height,QString::number(i*this->maxt/10));
         }
         for(int i=0;i<10;i++)
         {
@@ -140,16 +140,16 @@ void BehaviorViewPlotWidget::PlotFromValue()
 
         if(this->cb->currentIndex()==i||this->cb->currentIndex()==(this->cb->count()-1))
         {
-            QComboBox *comboBox=(QComboBox *)this->tab->cellWidget(i,1);
+            QComboBox *comboBox=(QComboBox *)this->tab->cellWidget(i+1,1);
             this->myPenColor=comboBox->itemData(comboBox->currentIndex(), Qt::UserRole).value<QColor>();
             for(int j=0;j<this->times;j++)
             {
                     int height=this->size().height()-20;
                     int width=this->size().width()-40;
                     double value;
-                    if(this->tab->item(j,i+1)!=NULL)
+                    if(this->tab->item(i+1,j+2)!=NULL)
                     {
-                        value=this->tab->item(j,i+1)->text().toDouble();
+                        value=this->tab->item(i+1,j+2)->text().toDouble();
                         QPoint *pt=new QPoint(int(30+this->tab->item(j,0)->text().toDouble()*width/this->maxt),int(10+(this->maxc-value)*height/this->maxc));
                         if(j==0)
                         {

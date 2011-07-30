@@ -30,6 +30,8 @@ private:
     bool initiated;
 
 private slots:
+    void on_ConcentrationEdit_textChanged(QString );
+    void on_TimeEdit_textChanged(QString );
     void on_tabWidget_currentChanged(int index);
     void on_tableWidget_value_cellActivated(int row, int column);
 };

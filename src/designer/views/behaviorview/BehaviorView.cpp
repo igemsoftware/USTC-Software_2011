@@ -11,6 +11,8 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     ui->setupUi(this);
     this->nodes=0;
     this->times=0;
+    this->maxt=ui->TimeEdit->text().toDouble();
+    this->maxc=ui->ConcentrationEdit->text().toDouble();
     this->initiated=false;
     this->initiate();
 }
@@ -22,8 +24,8 @@ BehaviorView::~BehaviorView()
 
 void BehaviorView::addnode()
 {
-    ui->tableWidget_value->setRowCount(this->nodes+1);
-    ui->tableWidget_value->setItem(this->nodes,0,new QTableWidgetItem(tr("node")+QString::number(this->nodes+1)));
+    ui->tableWidget_value->setRowCount(this->nodes+2);
+    ui->tableWidget_value->setItem(this->nodes+1,0,new QTableWidgetItem(tr("node")+QString::number(this->nodes+1)));
     QComboBox *cb=new QComboBox(ui->tableWidget_value);
     cb->addItem(QObject::tr("Red"), Qt::red);
     cb->addItem(QObject::tr("blue"), Qt::blue);
@@ -31,7 +33,7 @@ void BehaviorView::addnode()
     cb->addItem(QObject::tr("gray"), Qt::gray);
     cb->addItem(QObject::tr("green"), Qt::green);
     cb->addItem(QObject::tr("yellow"), Qt::yellow);
-    ui->tableWidget_value->setCellWidget(this->nodes,1,cb);
+    ui->tableWidget_value->setCellWidget(this->nodes+1,1,cb);
     for(int i=2;i<this->times;i++)
     {
         ui->tableWidget_value->setItem(this->nodes,i,new QTableWidgetItem());
@@ -42,10 +44,15 @@ void BehaviorView::addnode()
 void BehaviorView::initiate()
 {
         ui->tableWidget_value->setColumnCount(2);
-        ui->tableWidget_value->setHorizontalHeaderItem(0,new QTableWidgetItem("name"));
-        ui->tableWidget_value->setHorizontalHeaderItem(1,new QTableWidgetItem("color   time"));
+        ui->tableWidget_value->setRowCount(1);
+        QLabel *label=new QLabel(ui->tableWidget_value);
+        label->setText("name");
+        ui->tableWidget_value->setCellWidget(0,0,label);
+        label=new QLabel(ui->tableWidget_value);
+        label->setText("color");
+        ui->tableWidget_value->setCellWidget(0,1,label);
         ui->tableWidget_value->setCurrentCell(0, 0);
-        ui->tableWidget_value->setSelectionMode(QTableView::ContiguousSelection);
+        ui->tableWidget_value->setSelectionMode(QTableView::ContiguousSelection);        
         ui->comboBox->clear();
         this->addnode();
         this->addtime();
@@ -55,53 +62,17 @@ void BehaviorView::initiate()
 void BehaviorView::addtime()
 {
     ui->tableWidget_value->setColumnCount(this->times+3);
-    ui->tableWidget_value->setHorizontalHeaderItem(this->times+2,new QTableWidgetItem(QString::number(this->times+1)));
-    for(int i=0;i<this->nodes;i++)
+    ui->tableWidget_value->setHorizontalHeaderItem(this->times+2,new QTableWidgetItem("Time "+QString::number(this->times+1)));
+    for(int i=0;i<=this->times;i++)
+    {
+        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/this->times)));
+    }
+    for(int i=1;i<this->nodes;i++)
     {
         ui->tableWidget_value->setItem(i,this->times+2,new QTableWidgetItem());
     }
     this->times++;
 }
-//void BehaviorView::define()
-//{
-
-//  //initiate tabwidget
-//  if(this->initiated)
-//  try
-//  {
-//      double timeDuration=ui->lineEdit_timeDuration->text().toDouble();
-//      double timeInterval=ui->lineEdit_timeInterval->text().toDouble();
-//      int confTableRowCount=timeDuration/timeInterval+1;
-
-//      //initiate tableWidget_bahavior
-//      ui->tableWidget_value->setRowCount(confTableRowCount);
-//      ui->tableWidget_value->setColumnCount(this->nodes + 1);
-//      ui->tableWidget_value->setHorizontalHeaderItem(0, new QTableWidgetItem(QString(tr("Time(s)"))));
-
-//      for(int i = 0; i < this->nodes; i++)
-//      {
-//          ui->tableWidget_value->setHorizontalHeaderItem(i + 1, new QTableWidgetItem(ui->tableWidget_value->item(i,0)->text()));
-//          ui->tableWidget_value->setItem(0,i+1,new QTableWidgetItem(QString::number(0)));
-//          ui->comboBox->addItem(ui->tableWidget_value->item(i,0)->text());
-//      }
-//      for(int i=0;i<confTableRowCount;i++){
-//          ui->tableWidget_value->setItem(i,0,new QTableWidgetItem(QString::number(i*timeInterval)));
-//      }
-//      ui->tableWidget_value->setCurrentCell(0, 0);
-//      ui->tableWidget_value->setSelectionMode(QTableView::ContiguousSelection);
-//      ui->comboBox->addItem(tr("all"));
-
-//      //mark defined
-//      this->prepareToPlot();
-//  }
-//  catch(...)
-//  {
-//    QMessageBox mb;
-//    mb.setText("Invalid value");
-//    mb.exec();
-//  }
-//  ui->tabWidget->setCurrentIndex(2);
-//}
 
 //void BehaviorView::on_pushButton_ViewGraphic_clicked()
 //{
@@ -180,7 +151,7 @@ void BehaviorView::prepareToPlot()
 {
     //deliver parameters to PlotWidget
     ui->PlotWidget->nodes=this->nodes;
-    ui->PlotWidget->times=this->times;
+    ui->PlotWidget->times=this->times;    
     ui->PlotWidget->maxc=this->maxc;
     ui->PlotWidget->maxt=this->maxt;
     ui->PlotWidget->deltax=this->maxt/(this->times-1);
@@ -190,7 +161,7 @@ void BehaviorView::prepareToPlot()
 
 void BehaviorView::on_tableWidget_value_cellActivated(int row, int column)
 {
-    if(row==this->nodes-1)
+    if(row==this->nodes)
         this->addnode();
     if(column==this->times+1)
         this->addtime();
@@ -203,10 +174,28 @@ void BehaviorView::on_tabWidget_currentChanged(int index)
     if(index==1)
     {
         this->initiated=true;
+        this->prepareToPlot();
+        //ui->PlotWidget->PlotFromValue();
     }
     if(index==0)
     {
         this->initiated=false;
         ui->comboBox->clear();
     }
+}
+
+void BehaviorView::on_TimeEdit_textChanged(QString )
+{
+    ui->tabWidget->setCurrentIndex(0);
+    this->maxt=ui->TimeEdit->text().toDouble();
+    for(int i=0;i<this->times;i++)
+    {
+        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
+    }
+}
+
+void BehaviorView::on_ConcentrationEdit_textChanged(QString )
+{
+    ui->tabWidget->setCurrentIndex(0);
+    this->maxc=ui->ConcentrationEdit->text().toDouble();
 }
