@@ -36,7 +36,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         NetworkViewGraphicsSceneContainer* newContainer =
                 new NetworkViewGraphicsSceneContainer(activePanel(),compartmentsArray.property(i));
         addItem(newContainer);
-        newContainer->itemObject = compartmentsArray.property(i);
+        newContainer->setLabel(compartmentsArray.property(i).property("id").toString());
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
 
@@ -48,7 +48,6 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     QMap<QString, NetworkViewGraphicsSceneNodeSubstance*> substanceMap;
     for(int i=0;i<speciesCount;i++)
     {
-//        qDebug()<<speciesArray.property(i);
         QScriptValue parentCompartment = speciesArray.property(i).property("compartment");
         NetworkViewGraphicsSceneNodeSubstance* newNode;
         NetworkViewGraphicsSceneContainer* container;
@@ -76,45 +75,51 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         //  judge if the reaction belongs to a certain compartment
         int reactantsCount = reactionArray.property(i).property("reactants").property("length").toInt32();
         int productsCount = reactionArray.property(i).property("products").property("length").toInt32();
-        bool judge=true;
-        QString tmpCompartment=NULL;
+
+
+        bool sameCompartment=true;
+        QString sameCompartmentName;
+        bool foundItem = false;
         for(int j=0;j<reactantsCount;j++)
         {
-            QScriptValue parentCompartment = reactionArray.property(i).property("reactants").property(j).property("compartment");
-            if(parentCompartment.isNull())
+            NetworkViewGraphicsSceneNodeSubstance* substanceItem = substanceMap[reactionArray.property(i).property("reactants").property(j).property("species").toString()];
+            QString compartmentName = "";
+            if(substanceItem)
+                compartmentName = substanceItem->itemObject.property("compartment").toString();
+            if(!foundItem)
             {
-                judge=false;
-                break;
+                foundItem = true;
+                sameCompartmentName = compartmentName;
             }
-            else if(tmpCompartment.isNull())
-                tmpCompartment=parentCompartment.toString();
-            if(parentCompartment.toString()!=tmpCompartment)
+            if(sameCompartmentName!=compartmentName||!sameCompartment)
             {
-                judge=false;
+                sameCompartment = false;
                 break;
             }
         }
         for(int j=0;j<productsCount;j++)
         {
-            QScriptValue parentCompartment = reactionArray.property(i).property("products").property(j).property("compartment");
-            if(parentCompartment.isNull())
+            NetworkViewGraphicsSceneNodeSubstance* substanceItem = substanceMap[reactionArray.property(i).property("products").property(j).property("species").toString()];
+            QString compartmentName = "";
+            if(substanceItem)
+                compartmentName = substanceItem->itemObject.property("compartment").toString();
+            if(!foundItem)
             {
-                judge=false;
+                foundItem = true;
+                sameCompartmentName = compartmentName;
+            }
+            if(sameCompartmentName!=compartmentName||!sameCompartment)
+            {
+                sameCompartment = false;
                 break;
             }
-            else if(tmpCompartment.isNull())
-                tmpCompartment=parentCompartment.property("id").toString();
-            if(parentCompartment.property("id").toString()!=tmpCompartment)
-            {
-                judge=false;
-                break;
-            }
+
         }
 
         NetworkViewGraphicsSceneContainer* container;
         NetworkViewGraphicsSceneNodeReaction* newNode;
 
-        if(!judge)
+        if(!sameCompartment)
         {
             newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
             addItem(newNode);
@@ -123,7 +128,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         }
         else
         {
-            container=containerMap[tmpCompartment];
+            container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
             addItem(newNode);
             newNode->setLabel(reactionArray.property(i).property("id").toString());
@@ -135,7 +140,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         for(int j=0;j<reactantsCount;j++)
         {
             NetworkViewGraphicsSceneNodeSubstance* existingNode =
-                    substanceMap[reactionArray.property(i).property("reactants").property(j).toString()];
+                    substanceMap[reactionArray.property(i).property("reactants").property(j).property("species").toString()];
             if(existingNode)
             {
                 NetworkViewGraphicsSceneEdge* newEdge = new NetworkViewGraphicsSceneEdge(
@@ -149,7 +154,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         for(int j=0;j<productsCount;j++)
         {
             NetworkViewGraphicsSceneNodeSubstance* existingNode =
-                    substanceMap[reactionArray.property(i).property("products").property(j).toString()];
+                    substanceMap[reactionArray.property(i).property("products").property(j).property("species").toString()];
             if(existingNode)
             {
                 NetworkViewGraphicsSceneEdge* newEdge = new NetworkViewGraphicsSceneEdge(

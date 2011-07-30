@@ -7,6 +7,7 @@ NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsIt
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
+    labelObject->setPos(0, radius);
 }
 
 
@@ -29,4 +30,9 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
         updatePos();
     }
     return QGraphicsEllipseItem::itemChange(change, value);
+}
+
+void NetworkViewGraphicsSceneContainer::setLabel(QString label)
+{
+    labelObject->setPlainText(label);
 }

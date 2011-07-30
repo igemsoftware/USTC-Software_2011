@@ -675,6 +675,15 @@ int parse(const char* _inputfile, const char* _outputfile)
 						fout<<"\t\t\t\t"<<"for(qint32 i = 0; i < arrayItemList.count(); i++)"<<endl;
 						fout<<"\t\t\t\t"<<"newItemValue.setProperty(i, arrayItemList[i]);"<<endl;
 					}
+					else if(startWith(commands[j], "withProperty("))
+					{
+						string propertyName = commands[j].substr(commands[j].find_first_of('(')+1);
+						propertyName.erase(propertyName.find_last_of(','));
+						string propertyValue = commands[j].substr(commands[j].find_first_of(',')+1);
+						propertyValue.erase(propertyValue.find_last_of(')'));
+					
+						fout<<"\t\t\t\t"<<"newItemValue.setProperty(\""<<propertyName<<"\", \""<<propertyValue<<"\");"<<endl;
+					}
 					else
 					{
 						fout<<"\t\t\t\t"<<"//"<<commands[j]<<endl;
