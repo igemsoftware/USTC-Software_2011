@@ -10,15 +10,15 @@ class BehaviorViewPlotWidget : public QWidget
 public:
     explicit BehaviorViewPlotWidget(QWidget *parent = 0);
     bool drawable;
-    int node;
-    QPoint currentPos;
-    double x;    
+    int nodes;
+    int times;
+    double maxc;
+    double maxt;
     double deltax;
-    double maxy;
-    double maxx;
+    QPoint currentPos;
     QVector<QPoint> *vc;
     QColor myPenColor;
-    QTableWidget *tab_1,*tab_2;
+    QTableWidget *tab;
     QComboBox *cb;
 
     void setPenColor(const QColor &newColor);

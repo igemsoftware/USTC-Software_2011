@@ -4,7 +4,7 @@ BehaviorViewPlotWidget::BehaviorViewPlotWidget(QWidget *parent) :
     QWidget(parent)
 {
     this->drawable=false;
-    this->maxy=0;
+    this->maxc=0;
     this->myPenWidth=1;
     this->myPenColor=Qt::red;
     this->vc=new QVector<QPoint>();
@@ -16,7 +16,7 @@ void BehaviorViewPlotWidget::setPenColor(const QColor &newColor)
 
 void BehaviorViewPlotWidget::setPenWidth(int newWidth)
 {
-    myPenWidth = newWidth;    
+    myPenWidth = newWidth;
 }
 
 void BehaviorViewPlotWidget::clearImage()
@@ -38,7 +38,7 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int index=int((this->currentPos.x()-30)/this->deltax)+1;
-    int i=(event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxx);
+    int i=(event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxt);
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
     if (this->drawable)
@@ -86,11 +86,11 @@ void BehaviorViewPlotWidget::paintEvent(QPaintEvent *event)
         //draw marks
         for(int i=0;i<10;i++)
         {
-            painter.drawText(i*(width-40)/10+25,height,QString::number(this->deltax*i*(this->x-1)/10));
+            painter.drawText(i*(width-40)/10+25,height,QString::number(this->deltax*i*(this->times-1)/10));
         }
         for(int i=0;i<10;i++)
         {
-            painter.drawText(0,i*(height-20)/10+15,QString::number((10-i)*this->maxy/10));
+            painter.drawText(0,i*(height-20)/10+15,QString::number((10-i)*this->maxc/10));
         }
     }
 }
@@ -110,7 +110,7 @@ void BehaviorViewPlotWidget::drawLineTo(const QPoint &endPoint)
 {
     QPainter painter(&image);
     painter.setPen(QPen(myPenColor, myPenWidth, Qt::SolidLine, Qt::RoundCap,
-                        Qt::RoundJoin));    
+                        Qt::RoundJoin));
     painter.drawLine(lastPoint, endPoint);
     modified = true;
 
@@ -135,22 +135,22 @@ void BehaviorViewPlotWidget::resizeImage(QImage *image, const QSize &newSize)
 void BehaviorViewPlotWidget::PlotFromValue()
 {
     this->clearImage();
-    for(int i=0;i<this->node;i++)
+    for(int i=0;i<this->nodes;i++)
     {
 
         if(this->cb->currentIndex()==i||this->cb->currentIndex()==(this->cb->count()-1))
         {
-            QComboBox *comboBox=(QComboBox *)this->tab_1->cellWidget(i,1);
+            QComboBox *comboBox=(QComboBox *)this->tab->cellWidget(i,1);
             this->myPenColor=comboBox->itemData(comboBox->currentIndex(), Qt::UserRole).value<QColor>();
-            for(int j=0;j<this->x;j++)
+            for(int j=0;j<this->times;j++)
             {
                     int height=this->size().height()-20;
                     int width=this->size().width()-40;
                     double value;
-                    if(this->tab_2->item(j,i+1)!=NULL)
+                    if(this->tab->item(j,i+1)!=NULL)
                     {
-                        value=this->tab_2->item(j,i+1)->text().toDouble();
-                        QPoint *pt=new QPoint(int(30+this->tab_2->item(j,0)->text().toDouble()*width/this->maxx),int(10+(this->maxy-value)*height/this->maxy));
+                        value=this->tab->item(j,i+1)->text().toDouble();
+                        QPoint *pt=new QPoint(int(30+this->tab->item(j,0)->text().toDouble()*width/this->maxt),int(10+(this->maxc-value)*height/this->maxc));
                         if(j==0)
                         {
                             this->lastPoint=*pt;

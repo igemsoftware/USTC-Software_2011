@@ -14,13 +14,16 @@ class BehaviorView : public DesignerViewItf
 
 public:
     int nodes;
+    int times;
+    double maxc;
+    double maxt;
 
     Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~BehaviorView();
     void prepareToPlot();
     void initiate();
-    void define();
     void addnode();
+    void addtime();
 
 private:
     Ui::BehaviorView *ui;
@@ -28,12 +31,7 @@ private:
 
 private slots:
     void on_tabWidget_currentChanged(int index);
-    void on_tableWidget_define_cellActivated(int row, int column);
-    void on_pushButton_ViewValue_clicked();
-    void on_comboBox_currentIndexChanged();
-    void on_pushButton_Clear_clicked();
-    void on_pushButton_Draw_clicked();
-    void on_pushButton_ViewGraphic_clicked();    
+    void on_tableWidget_value_cellActivated(int row, int column);
 };
 
 #endif // BEHAVIORVIEW_H
