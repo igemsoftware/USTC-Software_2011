@@ -26,7 +26,7 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="text">
-      <string>MAX Time</string>
+      <string>MAX Time(s)</string>
      </property>
      <property name="textFormat">
       <enum>Qt::AutoText</enum>
@@ -40,34 +40,28 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>MAX Concentration</string>
+      <string>Time Nodes Num</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="ConcentrationEdit">
+   <item row="0" column="3">
+    <widget class="QLineEdit" name="TimeNodesEdit">
      <property name="text">
-      <string>10</string>
+      <string>2</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" rowspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="ResetButton">
+     <property name="text">
+      <string>Data Reset</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>265</width>
-       <height>48</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item row="3" column="0" colspan="5">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -131,7 +125,7 @@
         <widget class="QComboBox" name="comboBox"/>
        </item>
        <item row="1" column="5">
-        <widget class="QPushButton" name="pushButton_ViewValue">
+        <widget class="QPushButton" name="generatevalueButton">
          <property name="text">
           <string>generate value</string>
          </property>
@@ -139,6 +133,33 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>268</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>MAX Concentration(mol/L)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="ConcentrationEdit">
+     <property name="text">
+      <string>10</string>
+     </property>
     </widget>
    </item>
   </layout>

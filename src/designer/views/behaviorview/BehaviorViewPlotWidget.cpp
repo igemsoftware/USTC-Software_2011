@@ -37,8 +37,9 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    int index=int((this->currentPos.x()-30)/this->deltax)+1;
-    int i=(event->x()-30)%int(this->deltax*(this->size().width()-40)/this->maxt);
+    int deltax=int(this->deltax*(this->size().width()-40)/this->maxt);
+    int index=int((this->currentPos.x()-30)/deltax)+1;
+    int i=(event->x()-30)%deltax;
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
     if (this->drawable)
@@ -48,11 +49,11 @@ void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
             vc->append(event->pos());
             index++;
         }
-        else if(int((event->pos().x()-30)/this->deltax)>=index)
+        else if(int((event->pos().x()-30)/deltax)>=index)
         {
             int x1=this->currentPos.x(),x2=event->pos().x();
             int y1=this->currentPos.y(),y2=event->pos().y();
-            int x=index*this->deltax+30;
+            int x=index*deltax+30;
             int y=int((y1*x2+y2*x-y1*x-y2*x1)/(x2-x1));
             QPoint *temp=new QPoint(x,y);
             vc->append(*temp);
@@ -137,26 +138,27 @@ void BehaviorViewPlotWidget::PlotFromValue()
     this->clearImage();
     for(int i=0;i<this->nodes;i++)
     {
-
         if(this->cb->currentIndex()==i||this->cb->currentIndex()==(this->cb->count()-1))
         {
+            int count=0;
             QComboBox *comboBox=(QComboBox *)this->tab->cellWidget(i+1,1);
             this->myPenColor=comboBox->itemData(comboBox->currentIndex(), Qt::UserRole).value<QColor>();
             for(int j=0;j<this->times;j++)
-            {
-                    int height=this->size().height()-20;
-                    int width=this->size().width()-40;
-                    double value;
-                    if(this->tab->item(i+1,j+2)!=NULL)
+            {                
+                int height=this->size().height()-20;
+                int width=this->size().width()-40;
+                double value;
+                if(this->tab->item(i+1,j+2)!=NULL && !this->tab->item(i+1,j+2)->text().isEmpty())
+                {
+                    value=this->tab->item(i+1,j+2)->text().toDouble();
+                    QPoint *pt=new QPoint(int(30+this->tab->item(0,j+2)->text().toDouble()*width/this->maxt),int(10+(this->maxc-value)*height/this->maxc));
+                    if(count==0)
                     {
-                        value=this->tab->item(i+1,j+2)->text().toDouble();
-                        QPoint *pt=new QPoint(int(30+this->tab->item(j,0)->text().toDouble()*width/this->maxt),int(10+(this->maxc-value)*height/this->maxc));
-                        if(j==0)
-                        {
-                            this->lastPoint=*pt;
-                        }
-                        this->drawLineTo(*pt);
+                        this->lastPoint=*pt;
+                        count++;
                     }
+                    this->drawLineTo(*pt);
+                }
             }
         }
     }
