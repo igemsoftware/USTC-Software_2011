@@ -64,7 +64,9 @@ SOURCES +=\
     src/designer/documents/GENBANK/GENBANKDocParser.cpp \
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.cpp \
     src/designer/documents/MoDeL_1/MoDeL1Parser.cpp \
-    src/designer/documents/MoDeL_1/MoDeL1Doc.cpp
+    src/designer/documents/MoDeL_1/MoDeL1Doc.cpp \
+    src/designer/documents/USML/USMLDoc.cpp \
+    src/designer/documents/USML/USMLParser.cpp
 
 
 HEADERS  += DesignerMainWnd.h \
@@ -130,7 +132,9 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/GENBANK/GENBANKDocParser.h \
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.h \
     src/designer/documents/MoDeL_1/MoDeL1Parser.h \
-    src/designer/documents/MoDeL_1/MoDeL1Doc.h
+    src/designer/documents/MoDeL_1/MoDeL1Doc.h \
+    src/designer/documents/USML/USMLParser.h \
+    src/designer/documents/USML/USMLDoc.h
 
 
 FORMS    += DesignerMainWnd.ui \
@@ -145,4 +149,8 @@ RESOURCES += \
     resources/DesignerResources.qrc
 
 OTHER_FILES += \
-    models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype
+    models/reactionnetworkmodel/ReactionNetworkDataTypes.prototype \
+    src/designer/documents/SBML/SBML.parserules \
+    src/designer/documents/SBOL/SBOL.parserules \
+    src/designer/documents/RSBPML/RSBPML.parserules \
+    src/designer/documents/MoDeL_1/MoDeL1.parserules

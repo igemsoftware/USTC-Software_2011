@@ -52,6 +52,7 @@ protected:
 
 public slots:
     void updateTarget(QScriptValue value);
+    void refreshTarget();
 
 };
 

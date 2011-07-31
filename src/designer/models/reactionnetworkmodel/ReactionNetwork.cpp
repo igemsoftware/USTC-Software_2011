@@ -16,7 +16,6 @@ QStringList ReactionNetworkModel::getSupportedViewList() const
     supportedViewList.append("SBMLEditorView");
     //! \bug For debug purpose.
     supportedViewList.append("Plot3DView");
-    supportedViewList.append("PartView");
     supportedViewList.append("ODEView");
     supportedViewList.append("ClothoDBView");
     supportedViewList.append("WebPageView");

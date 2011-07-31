@@ -19,6 +19,7 @@ public:
     explicit NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value);
     int getRadius() {return radius;}
     void registerNode(NetworkViewGraphicsSceneNode* node);
+    void setLabel(QString label);
     void updatePos();
 
 private:

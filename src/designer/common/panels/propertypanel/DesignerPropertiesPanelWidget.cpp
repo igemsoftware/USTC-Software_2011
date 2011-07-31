@@ -261,3 +261,10 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
         propertiesWidget->show();
     }
 }
+
+void DesignerPropertiesPanelWidget::refreshTarget()
+{
+    QScriptValue newValue = cached;
+    cached = QScriptValue(QScriptValue::UndefinedValue);
+    updateTarget(newValue);
+}
