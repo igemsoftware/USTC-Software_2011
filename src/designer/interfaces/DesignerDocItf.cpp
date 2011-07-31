@@ -8,10 +8,11 @@
 #include "documents/EMBL/EMBLDoc.h"
 #include "documents/GENBANK/GENBANKDoc.h"
 #include "documents/MoDeL_1/MoDeL1Doc.h"
+#include "documents/USML/USMLDoc.h"
 
-#define LACHESIS_DECLARE_DOCUMENT(className) \
+#define LACHESIS_DECLARE_DOCUMENT(className, supportSave, filterText) \
     DesignerDocItf::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
-    DesignerDocItf::DocItfRegistryItem(& className ::staticMetaObject))
+    DesignerDocItf::DocItfRegistryItem(& className ::staticMetaObject, supportSave, filterText))
 
 void DesignerDocItf::initializeIfNotYet()
 {
@@ -19,14 +20,15 @@ void DesignerDocItf::initializeIfNotYet()
     if(!initialized)
     {
         initialized = true;
-        LACHESIS_DECLARE_DOCUMENT(SBMLDoc);
-        LACHESIS_DECLARE_DOCUMENT(MoDeLDoc);
-        LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc);
-        LACHESIS_DECLARE_DOCUMENT(SBOLDoc);
-        LACHESIS_DECLARE_DOCUMENT(FASTADoc);
-        LACHESIS_DECLARE_DOCUMENT(EMBLDoc);
-        LACHESIS_DECLARE_DOCUMENT(GENBANKDoc);
-        LACHESIS_DECLARE_DOCUMENT(MoDeL1Doc);
+        LACHESIS_DECLARE_DOCUMENT(SBMLDoc,      false, "");
+        LACHESIS_DECLARE_DOCUMENT(MoDeLDoc,     false, "");
+        LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc,    false, "");
+        LACHESIS_DECLARE_DOCUMENT(SBOLDoc,      false, "");
+        LACHESIS_DECLARE_DOCUMENT(FASTADoc,     false, "");
+        LACHESIS_DECLARE_DOCUMENT(EMBLDoc,      false, "");
+        LACHESIS_DECLARE_DOCUMENT(GENBANKDoc,   false, "");
+        LACHESIS_DECLARE_DOCUMENT(MoDeL1Doc,    false, "");
+        LACHESIS_DECLARE_DOCUMENT(USMLDoc,      true , "USML Files (*.xml *.usml)");
     }
 }
 
@@ -83,6 +85,24 @@ DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName)
                 (metaObj.metaObject->newInstance());
 
     return NULL;
+}
+
+bool DesignerDocItf::isDocTypeSaveSupported(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return metaObj.supportSave;
+
+    return false;
+}
+
+QString DesignerDocItf::getDocTypeFilter(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return metaObj.filterText;
+
+    return QString();
 }
 
 DesignerModelItf * DesignerDocItf::getCurrentModel(QString modelName)

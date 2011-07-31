@@ -50,6 +50,7 @@ public:
     //! Notice that the views supported by the submodels
     //! should not appear here.
     virtual QStringList getSupportedViewList() const = 0;
+    virtual QStringList getSupportedDocumentList() const = 0;
 
 
     //serialization support

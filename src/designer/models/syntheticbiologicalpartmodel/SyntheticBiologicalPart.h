@@ -10,6 +10,7 @@ public:
     Q_INVOKABLE explicit SyntheticBiologicalPartModel(DesignerDocItf *newDoc);
 
     virtual QStringList getSupportedViewList() const;
+    virtual QStringList getSupportedDocumentList() const;
 
 signals:
 

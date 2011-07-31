@@ -13,3 +13,17 @@ QStringList SyntheticBiologicalPartModel::getSupportedViewList() const
 
     return supportedViewList;
 }
+
+QStringList SyntheticBiologicalPartModel::getSupportedDocumentList() const
+{
+    QStringList supportedDocumentList;
+    supportedDocumentList.append("USMLDoc");
+    supportedDocumentList.append("SBOLDoc");
+    supportedDocumentList.append("FASTADoc");
+    supportedDocumentList.append("RSBPMLDoc");
+    supportedDocumentList.append("EMBLDoc");
+    supportedDocumentList.append("GENBANKDoc");
+    return supportedDocumentList;
+}
+
+

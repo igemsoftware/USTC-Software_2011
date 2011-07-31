@@ -79,7 +79,38 @@ bool USMLDoc::loadFromFile(QFile& file)
 
 bool USMLDoc::saveToFile(QFile& file)
 {
-    return false;
+    QDomDocument doc("usml");
+    doc.documentElement().setAttribute("model", getCurrentModel()->staticMetaObject.className());
+
+    typedef QPair<QDomElement, QScriptValue> workQueueRecord;
+    QList<workQueueRecord> workQueue;
+    workQueue.append(workQueueRecord(doc.documentElement(), getCurrentModel()->getModel()));
+    int workQueuePos = 0;
+    while(workQueuePos < workQueue.size())
+    {
+        workQueueRecord& curItem = workQueue[workQueuePos];
+        QDomElement& elem = curItem.first;
+
+
+        QScriptValueIterator iter(curItem.second);
+        while(iter.hasNext())
+        {
+            iter.next();
+            if(iter.value().isObject()/*||iter.value().isArray()*/)
+            {
+                QDomElement newNode;
+                elem.appendChild(newNode);
+                workQueue.append(workQueueRecord(newNode, iter.value()));
+            }
+            else
+            {
+                elem.setAttribute(iter.name(), iter.value().toString());
+            }
+        }
+        workQueuePos++;
+    }
+
+    return true;
 }
 
 USMLDoc::extentValue USMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)

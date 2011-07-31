@@ -225,9 +225,27 @@ void DesignerMainWnd::on_actionFileSaveAs_triggered()
 {
     QFileDialog dlg(this, tr("Save File"));
     dlg.setAcceptMode(QFileDialog::AcceptSave);
+
+    QStringList doclist = getCurrentModel()->getSupportedDocumentList();
+    QStringList filters;
+    for(int i=0;i<doclist.count();i++)
+    {
+        if(!DesignerDocItf::isDocTypeSaveSupported(doclist[i]))
+        {
+            doclist.removeAt(i);
+            i--;
+        }
+        else
+        {
+            filters << DesignerDocItf::getDocTypeFilter(doclist[i]);
+        }
+    }
+
+    dlg.setNameFilters(filters);
+
     if(dlg.exec())
     {
-
+       int filterIndex = doclist.indexOf(dlg.selectedNameFilter());
     }
 }
 

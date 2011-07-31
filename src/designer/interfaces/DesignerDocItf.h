@@ -73,9 +73,11 @@ public:
     struct DocItfRegistryItem
     {
         const QMetaObject*  metaObject;
+        bool  supportSave;
+        QString filterText;
 
-        DocItfRegistryItem(const QMetaObject* m = 0)
-            : metaObject(m){}
+        DocItfRegistryItem(const QMetaObject* m = 0, bool s = false, QString f = QString())
+            : metaObject(m), supportSave(s), filterText(f){}
      };
 
     //! The archive for document dynamic loading
@@ -86,6 +88,8 @@ public:
 
 public:
     static DesignerDocItf* createEmptyDoc(QString docName);
+    static bool isDocTypeSaveSupported(QString docName);
+    static QString getDocTypeFilter(QString docName);
 
     static const QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
 
