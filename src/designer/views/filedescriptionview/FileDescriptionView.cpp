@@ -1,8 +1,6 @@
 #include "FileDescriptionView.h"
 #include "ui_FileDescriptionView.h"
-
 #include "DesignerMainWnd.h"
-
 #include "interfaces/DesignerInterface.h"
 
 FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
@@ -17,7 +15,16 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
         QListWidgetItem *newItem = new QListWidgetItem(DesignerViewItf::getViewTitleByName(viewList[i]));
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
+    }    
+    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).
+                mid(0,QString(currentModel->getCurrentDoc()->metaObject()->className()).length()-3).toLower()+".png");
+    if(!pic.isNull()){
+        ui->labelImage->setPixmap(pic);
     }
+    ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
+    ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->file.size()));
+    ui->labelFileType->setText(QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower());
+    ui->labelFilePath->setText(currentModel->getCurrentDoc()->file.symLinkTarget());
 
     connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
 }
@@ -30,7 +37,9 @@ FileDescriptionView::~FileDescriptionView()
 void FileDescriptionView::storageUpdated()
 {
     if(currentModel->getCurrentDoc())
+    {
         ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
+    }
     else
         ui->labelFileName->setText(tr("<Not saved>"));
 }

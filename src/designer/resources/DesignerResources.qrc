@@ -38,4 +38,16 @@
         <file>common/toolbar/help-about.png</file>
         <file>common/toolbar/help-content.png</file>
     </qresource>
+    <qresource prefix="/designer/fileicons">
+        <file>documents/blank.png</file>
+        <file>documents/embl.png</file>
+        <file>documents/fasta.png</file>
+        <file>documents/genbank.png</file>
+        <file>documents/model.png</file>
+        <file>documents/model1.png</file>
+        <file>documents/rsbpml.png</file>
+        <file>documents/sbml.png</file>
+        <file>documents/sbol.png</file>
+        <file>documents/usml.png</file>
+    </qresource>
 </RCC>

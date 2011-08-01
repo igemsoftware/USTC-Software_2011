@@ -42,10 +42,9 @@ public:
 protected:
     bool readOnly;
 
-    // storage
-protected:
-    QFile file;
+    // storage    
 public:
+    QFile file;
     QString getFileName() {return file.fileName();}
 
     // converting items.
