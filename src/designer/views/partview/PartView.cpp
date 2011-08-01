@@ -112,7 +112,9 @@ void PartView::on_pushButton_clicked()
         if(i==-1)
             i++;
         part=this->currentModel->getModel().property(i);
-        part.setProperty("partsequence",DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText()));
-    }
+        QString newsq=DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText());
+        part.setProperty("partsequence",newsq);
+        ui->label_length->setText(QString::number(newsq.length()));
+    }    
     emit updateSelectedItem(this->currentModel->getModel());
 }
