@@ -137,10 +137,8 @@ void DesignerMainWnd::openFile(QString& fileName)
         return;
     }
 
-    QFile file(fileName);
-    if(!pDoc->loadFromFile(file))
+    if(!pDoc->loadFromDiskFile(fileName))
     {
-        file.close();
         QMessageBox msgBox(QMessageBox::Critical,
                            tr("Lachesis Designer"),
                            tr("We encountered an error."),
@@ -151,12 +149,23 @@ void DesignerMainWnd::openFile(QString& fileName)
         pDoc->deleteLater();
         return;
     }
-    file.close();
 
     pFrame->currentModel = pDoc->getCurrentModel();
     pFrame->createView("FileDescriptionView", true);
 /*
 */
+    updateTabInfo();
+}
+
+void DesignerMainWnd::saveFile(QString& fileName, QString docTypeName)
+{
+    DesignerDocItf* newDoc =
+            DesignerDocItf::createEmptyDoc(docTypeName, getCurrentModel());
+    if(newDoc)
+    {
+        currentModel->setCurrentDoc(newDoc);
+        newDoc->saveToDiskFile(fileName);
+    }
     updateTabInfo();
 }
 
@@ -201,7 +210,17 @@ void DesignerMainWnd::on_actionFileNew_triggered()
 void DesignerMainWnd::on_actionFileOpen_triggered()
 {
     QFileDialog dlg(this, tr("Open File"));
-    if(dlg.exec())
+    QStringList doclist = DesignerDocItf::getDocTypeList();
+    QStringList filterlist;
+    filterlist<< "All Files (*.*)";
+    for(int i=0;i<doclist.count();i++)
+    {
+        filterlist << DesignerDocItf::getDocTypeFilter(doclist[i]);
+    }
+    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setNameFilters(filterlist);
+
+    if(dlg.exec()==QDialog::Accepted)
     {
         openFile(dlg.selectedFiles().first());
     }
@@ -214,10 +233,12 @@ void DesignerMainWnd::on_actionFileSave_triggered()
             getCurrentModel()->getCurrentDoc()->isReadOnly())
     {
         on_actionFileSaveAs_triggered();
-        return;
     }
-
-    getCurrentModel()->getCurrentDoc()->saveToFile();
+    else
+    {
+        getCurrentModel()->getCurrentDoc()->updateFile();
+    }
+    updateTabInfo();
 }
 
 
@@ -243,9 +264,13 @@ void DesignerMainWnd::on_actionFileSaveAs_triggered()
 
     dlg.setNameFilters(filters);
 
-    if(dlg.exec())
+    if(dlg.exec()==QDialog::Accepted)
     {
-       int filterIndex = doclist.indexOf(dlg.selectedNameFilter());
+        if(dlg.selectedFiles().size())
+        {
+            int filterIndex = filters.indexOf(dlg.selectedNameFilter());
+            saveFile(dlg.selectedFiles()[0], doclist[filterIndex]);
+        }
     }
 }
 

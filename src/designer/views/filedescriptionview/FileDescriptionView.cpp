@@ -21,10 +21,11 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
     if(!pic.isNull()){
         ui->labelImage->setPixmap(pic);
     }
-    ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
-    ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->file.size()));
+    ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->getDocumentFileInfo().size()));
+    ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
+    ui->labelFilePath->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().filePath());
+
     ui->labelFileType->setText(QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower());
-    ui->labelFilePath->setText(currentModel->getCurrentDoc()->file.symLinkTarget());
 
     connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
 }
@@ -38,7 +39,7 @@ void FileDescriptionView::storageUpdated()
 {
     if(currentModel->getCurrentDoc())
     {
-        ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
+        ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
     }
     else
         ui->labelFileName->setText(tr("<Not saved>"));

@@ -21,7 +21,7 @@ USMLDoc::~USMLDoc()
 
 USMLDoc::extentValue USMLDoc::checkIfFileFitsDocumentType(QFile& file)
 {
-    QDomDocument domdoc("usmldoctest");
+    QDomDocument domdoc("usml");
     if(!file.open(QFile::ReadOnly))
         return NOTACCEPTABLE;
     if(!domdoc.setContent(&file))
@@ -39,7 +39,7 @@ USMLDoc::extentValue USMLDoc::checkIfFileFitsDocumentType(QFile& file)
 
 bool USMLDoc::loadFromFile(QFile& file)
 {
-    QDomDocument domdoc("usmldoctest");
+    QDomDocument domdoc("usml");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
             return false;
@@ -79,12 +79,20 @@ bool USMLDoc::loadFromFile(QFile& file)
 
 bool USMLDoc::saveToFile(QFile& file)
 {
-    QDomDocument doc("usml");
-    doc.documentElement().setAttribute("model", getCurrentModel()->staticMetaObject.className());
+    if(!file.open(QFile::ReadWrite))
+        return false;
+
+    QDomDocument usmlDoc("usml");
+    usmlDoc.createDocumentFragment();
+
+    QDomElement rootElem = usmlDoc.createElement("usml");
+    rootElem.setTagName("usml");
+    rootElem.setAttribute("model", getCurrentModel()->staticMetaObject.className());
+    usmlDoc.appendChild(rootElem);
 
     typedef QPair<QDomElement, QScriptValue> workQueueRecord;
     QList<workQueueRecord> workQueue;
-    workQueue.append(workQueueRecord(doc.documentElement(), getCurrentModel()->getModel()));
+    workQueue.append(workQueueRecord(rootElem, getCurrentModel()->getModel()));
     int workQueuePos = 0;
     while(workQueuePos < workQueue.size())
     {
@@ -98,7 +106,7 @@ bool USMLDoc::saveToFile(QFile& file)
             iter.next();
             if(iter.value().isObject()/*||iter.value().isArray()*/)
             {
-                QDomElement newNode;
+                QDomElement newNode = usmlDoc.createElement(iter.name());
                 elem.appendChild(newNode);
                 workQueue.append(workQueueRecord(newNode, iter.value()));
             }
@@ -109,6 +117,12 @@ bool USMLDoc::saveToFile(QFile& file)
         }
         workQueuePos++;
     }
+
+    QTextStream ts(&file);
+    usmlDoc.save(ts, 4);
+
+
+    file.close();
 
     return true;
 }

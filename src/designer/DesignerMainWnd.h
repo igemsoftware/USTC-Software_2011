@@ -18,9 +18,14 @@ public:
     explicit DesignerMainWnd(QWidget *parent = 0);
     ~DesignerMainWnd();
 
+public:
+    void openFile(QString& fileName);
+    void saveFile(QString& fileName, QString docTypeName);
+
 public slots:
     void createModelWithView(QString viewName);
-    void openFile(QString& fileName);
+
+
     DesignerDocItf * getCurrentDoc(QString defaultDocType = QString());
 
 public:
