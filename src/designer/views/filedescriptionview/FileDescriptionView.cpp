@@ -16,8 +16,7 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }    
-    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).
-                mid(0,QString(currentModel->getCurrentDoc()->metaObject()->className()).length()-3).toLower()+".png");
+    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower().remove("doc")+".png");
     if(!pic.isNull()){
         ui->labelImage->setPixmap(pic);
     }
