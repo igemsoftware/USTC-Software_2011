@@ -153,4 +153,5 @@ OTHER_FILES += \
     src/designer/documents/SBML/SBML.parserules \
     src/designer/documents/SBOL/SBOL.parserules \
     src/designer/documents/RSBPML/RSBPML.parserules \
-    src/designer/documents/MoDeL_1/MoDeL1.parserules
+    src/designer/documents/MoDeL_1/MoDeL1.parserules \
+    src/designer/documents/USML/USML.parserules

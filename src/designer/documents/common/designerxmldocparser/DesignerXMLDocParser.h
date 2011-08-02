@@ -24,6 +24,10 @@ protected:
 protected:
     void appendValueToModel(QScriptValue value, QScriptValue root, QString path);
     void writeValueToModel(QScriptValue value, QScriptValue root, QString path);
+    void writePropertyToModel(QScriptValue value, QScriptValue root, QString property);
+
+public:
+    static QString unmangleElementName(QString mangledName);
 };
 
 #endif // DESIGNERXMLDOCPARSER_H

@@ -139,6 +139,15 @@ bool DesignerDocItf::isDocTypeSaveSupported(QString docName)
     return false;
 }
 
+QString DesignerDocItf::getDocTypeTitle(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return metaObj.titleText;
+
+    return QString();
+}
+
 QString DesignerDocItf::getDocTypeFilter(QString docName)
 {
     DocItfRegistryItem metaObj = DocItfRegistry::find(docName);

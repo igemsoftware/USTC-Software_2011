@@ -25,7 +25,7 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
     ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
     ui->labelFilePath->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().filePath());
 
-    ui->labelFileType->setText(QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower());
+    ui->labelFileType->setText(DesignerDocItf::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
 
     connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
 }

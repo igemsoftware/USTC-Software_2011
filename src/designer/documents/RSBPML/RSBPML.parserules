@@ -45,7 +45,7 @@ rsbpml/part_list/part/categories                     =>   #array$createArray^/*p
 rsbpml/part_list/part/categories/category            =>   #value$setProperty$appendToArray^
 
 rsbpml/part_list/part/twins                          =>   #array$createArray^/*partsregistry.org*/twins
-rsbpml/part_list/part/twins/twin                      =>   #value$setProperty$appendToArray^
+rsbpml/part_list/part/twins/twin                     =>   #value$setProperty$appendToArray^
 
 rsbpml/part_list/part/samples                        =>   #value^/*partsregistry.org*/samples
 rsbpml/part_list/part/references                     =>   #value^/*partsregistry.org*/references

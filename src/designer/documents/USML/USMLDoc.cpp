@@ -79,6 +79,28 @@ bool USMLDoc::loadFromFile(QFile& file)
 
 bool USMLDoc::saveToFile(QFile& file)
 {
+    struct mangler
+    {
+        static QString nameMangle(QString text)
+        {
+            QString retText;
+            for(int i = 0; i < text.length(); i++)
+            {
+                if(((QChar)text[i]).isLetter())
+                {
+                    retText+=text[i];
+                }
+                else
+                {
+                    retText+="_";
+                    retText+=QString::number(text[i].unicode(),16);
+                    retText+="_";
+                }
+            }
+            return retText;
+        }
+    };
+
     if(!file.open(QFile::ReadWrite))
         return false;
 
@@ -86,13 +108,19 @@ bool USMLDoc::saveToFile(QFile& file)
     usmlDoc.createDocumentFragment();
 
     QDomElement rootElem = usmlDoc.createElement("usml");
-    rootElem.setTagName("usml");
-    rootElem.setAttribute("model", getCurrentModel()->staticMetaObject.className());
+    rootElem.setAttribute("model", getCurrentModel()->metaObject()->className());
     usmlDoc.appendChild(rootElem);
+
+    QDomElement modelElem = usmlDoc.createElement("model");
+    if(getCurrentModel()->getModel().isArray())
+    {
+        modelElem.setAttribute("_", "_");
+    }
+    rootElem.appendChild(modelElem);
 
     typedef QPair<QDomElement, QScriptValue> workQueueRecord;
     QList<workQueueRecord> workQueue;
-    workQueue.append(workQueueRecord(rootElem, getCurrentModel()->getModel()));
+    workQueue.append(workQueueRecord(modelElem, getCurrentModel()->getModel()));
     int workQueuePos = 0;
     while(workQueuePos < workQueue.size())
     {
@@ -106,13 +134,17 @@ bool USMLDoc::saveToFile(QFile& file)
             iter.next();
             if(iter.value().isObject()/*||iter.value().isArray()*/)
             {
-                QDomElement newNode = usmlDoc.createElement(iter.name());
+                QDomElement newNode = usmlDoc.createElement(mangler::nameMangle(iter.name()));
+                if(iter.value().isArray())
+                {
+                    newNode.setAttribute("_", "_");
+                }
                 elem.appendChild(newNode);
                 workQueue.append(workQueueRecord(newNode, iter.value()));
             }
             else
             {
-                elem.setAttribute(iter.name(), iter.value().toString());
+                elem.setAttribute(mangler::nameMangle(iter.name()), iter.value().toString());
             }
         }
         workQueuePos++;

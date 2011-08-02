@@ -64,3 +64,44 @@ void DesignerXMLDocParser::writeValueToModel(QScriptValue value, QScriptValue ro
     }
     item.setProperty(pathList[pathList.count()-1], value);
 }
+
+void DesignerXMLDocParser::writePropertyToModel(QScriptValue value, QScriptValue root, QString property)
+{
+    quint32 val = property.toUInt();
+    if(QString::number(val) == property)
+    {
+        root.setProperty(val, value);
+    }
+    else
+    {
+        root.setProperty(property, value);
+    }
+}
+
+QString DesignerXMLDocParser::unmangleElementName(QString mangledName)
+{
+    QString retName;
+    for(int i = 0; i < mangledName.length(); i++)
+    {
+        if(mangledName[i]=='_')
+        {
+            int endPos = mangledName.indexOf('_', i+1);
+            if(endPos!=-1)
+            {
+                bool succeeded = true;
+                QChar unmangledChar(mangledName.mid(i+1, endPos-i-1).toShort(&succeeded, 16));
+                if(succeeded)
+                {
+                    retName+=unmangledChar;
+                    i = endPos;
+                    continue;
+                }
+            }
+        }
+        else
+        {
+            retName+=mangledName[i];
+        }
+    }
+    return retName;
+}
