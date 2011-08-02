@@ -16,15 +16,13 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }    
-    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).
-                mid(0,QString(currentModel->getCurrentDoc()->metaObject()->className()).length()-3).toLower()+".png");
+    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower().remove("doc")+".png");
     if(!pic.isNull()){
         ui->labelImage->setPixmap(pic);
     }
     ui->labelFileName->setText(currentModel->getCurrentDoc()->getFileName());
     ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->file.size()));
     ui->labelFileType->setText(QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower());
-    ui->labelFilePath->setText(currentModel->getCurrentDoc()->file.symLinkTarget());
 
     connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
 }
