@@ -61,6 +61,7 @@ public:
     //! Retrieve the pointer to the document object.
     //! NULL is the model is never saved yet.
     DesignerDocItf *getCurrentDoc() { return currentDoc; }
+    void setCurrentDoc(DesignerDocItf* newDoc) {currentDoc = newDoc;}
 
 signals:
     void dataUpdated();

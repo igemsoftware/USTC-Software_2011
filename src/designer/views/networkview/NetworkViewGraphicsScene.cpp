@@ -130,7 +130,6 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
-            addItem(newNode);
             newNode->setLabel(reactionArray.property(i).property("id").toString());
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
         }

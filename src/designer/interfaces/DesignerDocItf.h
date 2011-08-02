@@ -43,9 +43,10 @@ protected:
     bool readOnly;
 
     // storage    
+protected:
+    QFileInfo documentFileInfo;
 public:
-    QFile file;
-    QString getFileName() {return file.fileName();}
+    QFileInfo& getDocumentFileInfo() {return documentFileInfo;}
 
     // converting items.
 public:
@@ -62,21 +63,29 @@ public:
     //! \bug this should be moved to Model.
     // virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
 
-    //! Retrieve data from this file
+protected:
+    //! Retrieve data from this file. (implemented by subclasses)
     virtual bool loadFromFile(QFile& file) = 0;
-    //! Dump data to this file
+    //! Dump data to this file. (implemented by subclasses)
     virtual bool saveToFile(QFile& file) = 0;
+public:
+    //! Retrieve data from file on disk.
+    bool loadFromDiskFile(QString fileName);
+    //! Dump data to file on disk.
+    bool saveToDiskFile(QString fileName);
     //! Dump data to the previous file.
-    bool saveToFile();
+    bool updateFile();
+
 public:
     struct DocItfRegistryItem
     {
         const QMetaObject*  metaObject;
         bool  supportSave;
+        QString titleText;
         QString filterText;
 
-        DocItfRegistryItem(const QMetaObject* m = 0, bool s = false, QString f = QString())
-            : metaObject(m), supportSave(s), filterText(f){}
+        DocItfRegistryItem(const QMetaObject* m = 0, bool s = false, QString t = QString(), QString f = QString())
+            : metaObject(m), supportSave(s), titleText(t), filterText(f){}
      };
 
     //! The archive for document dynamic loading
@@ -86,9 +95,10 @@ public:
     static void initializeIfNotYet();
 
 public:
-    static DesignerDocItf* createEmptyDoc(QString docName);
+    static DesignerDocItf* createEmptyDoc(QString docName, DesignerModelItf* model = NULL);
     static bool isDocTypeSaveSupported(QString docName);
     static QString getDocTypeFilter(QString docName);
+    static QStringList getDocTypeList();
 
     static const QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
 
