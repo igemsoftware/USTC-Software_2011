@@ -67,7 +67,7 @@ bool DesignerDocItf::loadFromDiskFile(QString fileName)
 bool DesignerDocItf::saveToDiskFile(QString fileName)
 {
     QFile file(fileName);
-    if(!file.remove()) return false;
+    if(file.exists()&&!file.remove()) return false;
     bool retValue = saveToFile(file);
 
     if(retValue)
