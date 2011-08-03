@@ -48,13 +48,6 @@ QWidget* DesignerMainWnd::getPanelWidget(QString panelName)
     return NULL;
 }
 
-void DesignerMainWnd::closeEvent  ( QCloseEvent  * event )
-{
-    globalUnregisterMainWnd(this);
-    this->deleteLater();
-    return;
-}
-
 void DesignerMainWnd::updateTabInfo()
 {
     if(!currentModel)
@@ -157,14 +150,54 @@ void DesignerMainWnd::openFile(QString& fileName)
     updateTabInfo();
 }
 
+void DesignerMainWnd::closeEvent(QCloseEvent *event)
+{
+    QMessageBox msgbox(
+                QMessageBox::NoIcon,
+                tr("Lachesis Designer"),
+                tr("Your file \'%1\' is modified, do you want to save it?").arg(""),
+                QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel,
+                this
+                );
+    while(getCurrentModel()&& getCurrentModel()->isModified())
+    {
+        int retValue = msgbox.exec();
+        if(retValue == QMessageBox::Yes)
+        {
+            on_actionFileSave_triggered();
+        }
+        else if(retValue == QMessageBox::No)
+        {
+            globalUnregisterMainWnd(this);
+            event->accept();
+            return;
+        }
+        else
+        {
+            event->ignore();
+            return;
+        }
+    }
+    globalUnregisterMainWnd(this);
+    event->accept();
+}
+
 void DesignerMainWnd::saveFile(QString& fileName, QString docTypeName)
 {
     DesignerDocItf* newDoc =
             DesignerDocItf::createEmptyDoc(docTypeName, getCurrentModel());
     if(newDoc)
     {
+        DesignerDocItf* oldDoc = currentModel->getCurrentDoc();
         currentModel->setCurrentDoc(newDoc);
-        newDoc->saveToDiskFile(fileName);
+        if(newDoc->saveToDiskFile(fileName))
+        {
+            if(oldDoc) oldDoc->deleteLater();
+        }
+        else
+        {
+            currentModel->setCurrentDoc(oldDoc);
+        }
     }
     updateTabInfo();
 }
@@ -230,7 +263,9 @@ void DesignerMainWnd::on_actionFileSave_triggered()
 {
     if(!getCurrentModel()) return;
     if(!getCurrentModel()->getCurrentDoc()||
-            getCurrentModel()->getCurrentDoc()->isReadOnly())
+            getCurrentModel()->getCurrentDoc()->isReadOnly()||
+            !DesignerDocItf::isDocTypeSaveSupported(getCurrentModel()->getCurrentDoc()->metaObject()->className())
+            )
     {
         on_actionFileSaveAs_triggered();
     }

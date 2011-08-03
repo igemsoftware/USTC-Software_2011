@@ -19,10 +19,6 @@ public:
 private:
     Ui::PartView *ui;
 
-signals:
-    void updateSelectedItem(QScriptValue);
-
-
 private slots:
     void on_pushButton_clicked();
     void on_listView_clicked(QModelIndex index);

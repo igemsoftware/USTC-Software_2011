@@ -115,6 +115,10 @@ void PartView::on_pushButton_clicked()
         QString newsq=DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText());
         part.setProperty("partsequence",newsq);
         ui->label_length->setText(QString::number(newsq.length()));
-    }    
+    }
+
+    //! \bug This is test code. Will be handled in a more elegant way in the future -CrLF0710
+    mainWindow->getCurrentModel()->setModified(true);
+
     emit updateSelectedItem(this->currentModel->getModel());
 }

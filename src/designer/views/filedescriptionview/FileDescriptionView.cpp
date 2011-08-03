@@ -16,17 +16,10 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }    
-    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower().remove("doc")+".png");
-    if(!pic.isNull()){
-        ui->labelImage->setPixmap(pic);
-    }
-    ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->getDocumentFileInfo().size()));
-    ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
-    ui->labelFilePath->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().filePath());
-
-    ui->labelFileType->setText(DesignerDocItf::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
 
     connect(model, SIGNAL(storageUpdated()), SLOT(storageUpdated()));
+    storageUpdated();
+    emit updateSelectedItem(mainWnd->getCurrentModel()->getModel());
 }
 
 FileDescriptionView::~FileDescriptionView()
@@ -36,12 +29,25 @@ FileDescriptionView::~FileDescriptionView()
 
 void FileDescriptionView::storageUpdated()
 {
+    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower().remove("doc")+".png");
+    if(!pic.isNull()){
+        ui->labelImage->setPixmap(pic);
+    }
     if(currentModel->getCurrentDoc())
     {
         ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
+        ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->getDocumentFileInfo().size()));
+        ui->labelFilePath->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().filePath());
     }
     else
+    {
         ui->labelFileName->setText(tr("<Not saved>"));
+        ui->labelFileSize->setText(tr("<Not saved>"));
+        ui->labelFilePath->setText(tr("<Not saved>"));
+    }
+    ui->labelFileType->setText(DesignerDocItf::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
+
+
 }
 
 void FileDescriptionView::on_listViews_itemClicked(QListWidgetItem *item)

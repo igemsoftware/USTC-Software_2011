@@ -14,7 +14,6 @@ protected:
     QGraphicsView* graphicsView;
 
 signals:
-    void updateSelectedItem(QScriptValue);
 
 public slots:
     void on_sceneSelectionChanged();

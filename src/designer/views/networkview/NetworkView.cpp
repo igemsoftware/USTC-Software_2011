@@ -32,7 +32,6 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     graphicsView->setScene(scene);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));
-    connect(this, SIGNAL(updateSelectedItem(QScriptValue)),  mainWindow->getPanelWidget("PropertiesPanel"), SLOT(updateTarget(QScriptValue)));
 
     emit on_sceneSelectionChanged();
 }

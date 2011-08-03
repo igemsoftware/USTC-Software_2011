@@ -27,15 +27,6 @@ public:
     //! Retrieve the model object associated with this document.
     DesignerModelItf * getCurrentModel(QString defaultModel = "");
 
-    // modified flag
-public:
-    //! Retrieve the modified flag associated with this document.
-    bool isModified() const {return modified;}
-    //! Update the modified flag associated with this document.
-    void setModified(bool newValue = true) {modified = newValue;}
-protected:
-    bool modified;
-
     // readonly flag
 public:
     bool isReadOnly() const { return readOnly;}
@@ -114,7 +105,6 @@ private:
     }
 
 
-signals:
 
 public slots:
 

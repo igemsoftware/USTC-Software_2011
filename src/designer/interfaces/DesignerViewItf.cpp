@@ -42,6 +42,14 @@ void DesignerViewItf::initializeIfNotYet()
     }
 }
 
+DesignerViewItf::DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model)
+    :mainWindow(mainWnd), currentModel(model)
+{
+    connect(this, SIGNAL(updateSelectedItem(QScriptValue)),  mainWindow->getPanelWidget("PropertiesPanel"), SLOT(updateTarget(QScriptValue)));
+}
+
+
+
 DesignerViewItf* DesignerViewItf::createView
         (QString viewName, DesignerMainWnd* mainWnd, DesignerModelItf* model)
 {

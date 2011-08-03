@@ -24,7 +24,8 @@ void DesignerModelItf::initializeIfNotYet()
 }
 
 DesignerModelItf::DesignerModelItf(DesignerDocItf *newDoc) :
-    currentDoc(newDoc)
+    currentDoc(newDoc),
+    modified(false)
 {
 }
 

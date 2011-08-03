@@ -34,8 +34,7 @@ void DesignerDocItf::initializeIfNotYet()
 
 DesignerDocItf::DesignerDocItf() :
     QObject(NULL) ,
-    currentModel(NULL),
-    modified(false)
+    currentModel(NULL)
 {
 
 }
@@ -58,8 +57,9 @@ bool DesignerDocItf::loadFromDiskFile(QString fileName)
     {
         this->documentFileInfo = QFileInfo(file);
         this->readOnly = isReadOnly;
+        getCurrentModel()->setModified(false);
+        getCurrentModel()->requestUpdate(DesignerModelItf::updateByStorage);
     }
-
 
     return retValue;
 }
@@ -74,6 +74,8 @@ bool DesignerDocItf::saveToDiskFile(QString fileName)
     {
         this->documentFileInfo = QFileInfo(file);
         this->readOnly = false;
+        getCurrentModel()->setModified(false);
+        getCurrentModel()->requestUpdate(DesignerModelItf::updateByStorage);
     }
 
     return retValue;
@@ -81,7 +83,7 @@ bool DesignerDocItf::saveToDiskFile(QString fileName)
 
 bool DesignerDocItf::updateFile()
 {
-    return false;
+    return saveToDiskFile(documentFileInfo.absoluteFilePath());
 }
 
 const QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)

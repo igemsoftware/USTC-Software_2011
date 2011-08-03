@@ -20,8 +20,7 @@ class DesignerViewItf : public QWidget
     //constructor
 protected:
     //! Constructor for initialization, should be called by children class constructors.
-    DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model)
-        :mainWindow(mainWnd), currentModel(model){}
+    DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model);
 
     //frame
 public:
@@ -32,6 +31,11 @@ public:
 public:
     //! Pointer to the document this view presents.
     DesignerModelItf* currentModel;
+
+    //signals
+
+signals:
+    void updateSelectedItem(QScriptValue);
 
     //event slots
 public slots:

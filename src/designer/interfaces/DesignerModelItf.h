@@ -63,10 +63,25 @@ public:
     DesignerDocItf *getCurrentDoc() { return currentDoc; }
     void setCurrentDoc(DesignerDocItf* newDoc) {currentDoc = newDoc;}
 
+    // modified flag
+public:
+    //! Retrieve the modified flag associated with this document.
+    bool isModified() const {return modified;}
+    //! Update the modified flag associated with this document.
+    void setModified(bool newValue = true) {modified = newValue;}
+protected:
+    bool modified;
+
 signals:
     void dataUpdated();
     void storageUpdated();
 
+public:
+    enum UpdateFlags
+    {
+        updateByData = 1,
+        updateByStorage = 2
+    };
 public slots:
     void requestUpdate(unsigned int flags)
     {
@@ -117,11 +132,7 @@ public:
     //! Implement dependent
     virtual QString getModelObjectProperty(modelObjectIndex index, QString propertyName);
 
-    enum UpdateFlags
-    {
-        updateByData = 1,
-        updateByStorage = 2
-    };
+
 
 };
 
