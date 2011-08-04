@@ -25,8 +25,8 @@ void DesignerDocItf::initializeIfNotYet()
         LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc,    false, "RSBPML File",   "*.xml *.rsbpml");
         LACHESIS_DECLARE_DOCUMENT(SBOLDoc,      false, "SBOL File",     "*.xml");
         LACHESIS_DECLARE_DOCUMENT(FASTADoc,     true, "FASTA File",    "*.xml *.fasta");
-        LACHESIS_DECLARE_DOCUMENT(EMBLDoc,      false, "EMBL File",     "*.xml *.embl");
-        LACHESIS_DECLARE_DOCUMENT(GENBANKDoc,   false, "GenBank File",  "*.xml *.genbank");
+        LACHESIS_DECLARE_DOCUMENT(EMBLDoc,      true, "EMBL File",     "*.xml *.embl");
+        LACHESIS_DECLARE_DOCUMENT(GENBANKDoc,   true, "GenBank File",  "*.xml *.genbank");
         LACHESIS_DECLARE_DOCUMENT(MoDeL1Doc,    false, "MoDeL-1 File",  "*.xml");
         LACHESIS_DECLARE_DOCUMENT(USMLDoc,      true , "USML File",     "*.xml *.usml");
     }

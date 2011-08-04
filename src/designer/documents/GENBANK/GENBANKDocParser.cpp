@@ -40,6 +40,7 @@ bool GENBANKDocParser::parse(DesignerModelItf* model, QTextStream& fin)
         {
             partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
             partregisty.setProperty("*partsregistry.org*",newGENBANK);
+            newGENBANK.setProperty("part_length",DesignerPartDocParser::generateSequence(tsq).length());
             newGENBANK.setProperty("content",content);
             GENBANKs.setProperty(p,partregisty);
 

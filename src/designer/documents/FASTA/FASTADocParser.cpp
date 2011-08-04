@@ -23,7 +23,8 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
             {
                 if(newFASTA.property("part_name").toString()!="")
                 {
-                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
+                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));                    
+                    newFASTA.setProperty("part_length",DesignerPartDocParser::generateSequence(tsq).length());
                     newFASTA.setProperty("content",content);
                     FASTAs.setProperty(p,partregisty);
                     partregisty.setProperty("*partsregistry.org*",newFASTA);
@@ -64,7 +65,8 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
             {
                 if(!newFASTA.isNull())
                 {                    
-                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
+                    partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));                    
+                    newFASTA.setProperty("part_length",DesignerPartDocParser::generateSequence(tsq).length());
                     newFASTA.setProperty("content",content);
                     FASTAs.setProperty(p,partregisty);
                     partregisty.setProperty("*partsregistry.org*",newFASTA);

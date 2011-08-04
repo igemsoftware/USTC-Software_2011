@@ -34,7 +34,21 @@ bool GENBANKDoc::loadFromFile(QFile& file)
 
 bool GENBANKDoc::saveToFile(QFile& file)
 {
-     return false;
+    if(!file.open(QFile::ReadWrite))
+        return false;
+    QTextStream stream(&file);
+    for(int i=0;i<this->currentModel->getModel().property("length").toInt32();i++)
+    {
+        QScriptValue content;
+        if(this->currentModel->getModel().property(i).property("*partsregistry.org*").property("newcontent").property("length").toInt32()==0)
+            content=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("content");
+        else
+            content=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("newcontent");
+        for(int j=0;j<content.property("length").toInt32();j++)
+            stream<<content.property(j).toString()<<"\n";
+    }
+    file.close();
+    return true;
 }
 
 GENBANKDoc::extentValue GENBANKDoc::checkIfFileFitsDocumentType( QFile& file )

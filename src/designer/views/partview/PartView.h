@@ -12,7 +12,8 @@ class PartView : public DesignerViewItf
 {
     Q_OBJECT
 
-public:    
+public:
+    int listviewindex;
     Q_INVOKABLE explicit PartView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~PartView();
 

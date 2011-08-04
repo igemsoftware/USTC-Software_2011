@@ -38,10 +38,10 @@ bool EMBLDocParser::parse(DesignerModelItf* model, QTextStream& fin)
         else if(line.startsWith("//"))
         {
             partregisty.setProperty("partsequence",DesignerPartDocParser::generateSequence(tsq));
-            partregisty.setProperty("*partsregistry.org*",newEMBL);
+            partregisty.setProperty("*partsregistry.org*",newEMBL);            
+            newEMBL.setProperty("part_length",DesignerPartDocParser::generateSequence(tsq).length());
             newEMBL.setProperty("content",content);
             EMBLs.setProperty(p,partregisty);
-
 
             newEMBL=model->getEngine()->newObject();
             partregisty=model->getEngine()->newObject();

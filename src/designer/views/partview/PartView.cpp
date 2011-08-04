@@ -17,6 +17,7 @@ PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     emit updateSelectedItem(model->getModel());
 
     {
+        this->listviewindex=0;
         QScriptValue parts=model->getModel();
         int length=parts.property("length").toInt32();
         QStringListModel* slm = new QStringListModel(this);
@@ -72,25 +73,111 @@ void PartView::on_listView_clicked(QModelIndex index)
 void PartView::on_pushButton_clicked()
 {
     int i=ui->listView->currentIndex().row();
-    if(i==-1)
-        i++;
-    QScriptValue part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
-    QScriptValue content=part.property("content");
+    if(i!=-1)
+        this->listviewindex=i;
+    i=this->listviewindex;
+    QScriptValue part=this->currentModel->getModel().property(i).property("*partsregistry.org*");    
+    QScriptValue newcontent=this->currentModel->getEngine()->newArray();
+    QScriptValue content;
+    ui->textEdit_seq->setText(DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText()));
+    //write content accroding to file type
     if(QString(this->currentModel->getCurrentDoc()->metaObject()->className()).toLower()=="fastadoc")
     {
-        QString line=content.property(0).toString();
-        content=this->currentModel->getEngine()->newArray();
+        QString line;
+        if(part.property("newcontent").property("length").toInt32()==0)
+            line=part.property("content").property(0).toString();
+        else
+            line=part.property("newcontent").property(0).toString();
         line=line.replace(part.property("part_name").toString(),ui->partNameEdit->text());
         line=line.replace(part.property("part_descr").toString(),ui->textEdit->toPlainText());
-        content.setProperty(0,line);
+        line=line.replace("len="+part.property("part_length").toString(),"len="+QString::number(ui->textEdit_seq->toPlainText().length()));
+        newcontent.setProperty(0,line);
 
         QString seq=ui->textEdit_seq->toPlainText();
         int  linenum=seq.length()/60;
         for(int j=0;j<linenum;j++)
-            content.setProperty(j+1,seq.mid(j*60,60));
+            newcontent.setProperty(j+1,seq.mid(j*60,60));
         if(linenum*60!=seq.length())
-            content.setProperty(linenum+1,seq.mid(linenum*60,seq.length()-linenum));
-        part.setProperty("content",content);
+            newcontent.setProperty(linenum+1,seq.mid(linenum*60,seq.length()-linenum));
+        part.setProperty("newcontent",newcontent);
+    }
+    if(QString(this->currentModel->getCurrentDoc()->metaObject()->className()).toLower()=="embldoc")
+    {
+        int prenum=0;
+        if(part.property("newcontent").property("length").toInt32()==0)
+            content=part.property("content");
+        else
+            content=part.property("newcontent");
+        for(int j=0;j<content.property("length").toInt32();j++)
+        {
+            QString line=content.property(j).toString();
+            if(line.toLower().startsWith("id")||line.toLower().startsWith("ac")||line.toLower().startsWith("sq"))
+            {
+                line=line.replace(part.property("part_name").toString(),ui->partNameEdit->text());
+                line=line.replace(part.property("part_length").toString()+" BP",QString::number(DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText()).length())+" BP");
+                line=line.replace(part.property("part_length").toString()+" bp",QString::number(DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText()).length())+" bp");
+            }
+            if(line.toLower().startsWith("de"))
+                line=line.replace(part.property("part_descr").toString(),ui->textEdit->toPlainText());
+            if(line.toLower().startsWith("sq"))
+            {
+                prenum=j;
+                newcontent.setProperty(j,line);
+                break;
+            }
+            newcontent.setProperty(j,line);
+        }
+        QString seq=ui->textEdit_seq->toPlainText();
+        int  linenum=seq.length()/60;
+        for(int j=0;j<linenum;j++)
+            newcontent.setProperty(j+prenum+1,seq.mid(j*60,60));
+        if(linenum*60!=seq.length())
+        {
+            newcontent.setProperty(prenum+linenum+1,seq.mid(linenum*60,seq.length()-linenum));
+            linenum++;
+        }
+        newcontent.setProperty(prenum+linenum+1,"//");
+        newcontent.setProperty("length",prenum+linenum+2);
+        part.setProperty("newcontent",newcontent);
+    }
+    if(QString(this->currentModel->getCurrentDoc()->metaObject()->className()).toLower()=="genbankdoc")
+    {
+        int prenum=0;
+        if(part.property("newcontent").property("length").toInt32()==0)
+            content=part.property("content");
+        else
+            content=part.property("newcontent");
+        for(int j=0;j<content.property("length").toInt32();j++)
+        {
+            QString line=content.property(j).toString();
+            if(line.toLower().startsWith("locus")||line.toLower().startsWith("accession")||line.toLower().startsWith("origin"))
+            {
+                line=line.replace(part.property("part_name").toString(),ui->partNameEdit->text());
+                line=line.replace(part.property("part_length").toString()+" BP",QString::number(ui->textEdit_seq->toPlainText().length())+" BP");
+                line=line.replace(part.property("part_length").toString()+" bp",QString::number(ui->textEdit_seq->toPlainText().length())+" bp");
+            }
+            if(line.toLower().startsWith("definition"))
+                line=line.replace(part.property("part_descr").toString(),ui->textEdit->toPlainText());
+            if(line.toLower().startsWith("origin"))
+            {
+                prenum=j;
+                newcontent.setProperty(j,line);
+                break;
+            }
+            newcontent.setProperty(j,line);
+        }
+        QString seq=ui->textEdit_seq->toPlainText();
+        int  linenum=seq.length()/60;
+        for(int j=0;j<linenum;j++)
+            newcontent.setProperty(j+prenum+1,seq.mid(j*60,60));
+        if(linenum*60!=seq.length())
+        {
+            newcontent.setProperty(prenum+linenum+1,seq.mid(linenum*60,seq.length()-linenum));
+            linenum++;
+        }
+        newcontent.setProperty(prenum+linenum+1,"//");
+        newcontent.setProperty("length",prenum+linenum+2);
+        part.setProperty("newcontent",newcontent);
     }
     //ui part refresh
     {
@@ -113,6 +200,7 @@ void PartView::on_pushButton_clicked()
         part=this->currentModel->getModel().property(i);
         QString newsq=DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText());
         part.setProperty("partsequence",newsq);
+        part.property("*partsregistry.org*").setProperty("part_length",QString::number(newsq.length()));
         ui->label_length->setText(QString::number(newsq.length()));
     }
 
