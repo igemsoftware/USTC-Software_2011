@@ -1,4 +1,5 @@
 #include <QtSingleApplication>
+#include <QSettings>
 
 #ifndef DESIGNERAPP_H
 #define DESIGNERAPP_H
@@ -12,8 +13,14 @@ public:
     bool initApplication();
     void sendCommandLineAsMessage();
 
-    void updateConfiguration();
+    QVariant readConfigValue(QString group, QString name, QVariant defaultValue = QVariant());
+    void writeConfigValue(QString group, QString name, QVariant value);
 
+protected:
+    QSettings settings;
+
+public:
+    static DesignerApp* instance(){ return (DesignerApp*)QtSingleApplication::instance();}
 };
 
 #endif // DESIGNERAPP_H

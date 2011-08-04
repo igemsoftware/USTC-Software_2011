@@ -39,7 +39,10 @@ void DesignerExtensionItf::initializeIfNotYet()
                             );
                 msgBox.exec();
             }
-
+            else
+            {
+                loader.unload();
+            }
         }
     }
 }

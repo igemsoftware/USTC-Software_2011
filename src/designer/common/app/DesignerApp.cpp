@@ -9,7 +9,8 @@
 
 
 DesignerApp::DesignerApp(int & argc, char ** argv, bool GUIenabled) :
-    QtSingleApplication(argc, argv, GUIenabled)
+    QtSingleApplication(argc, argv, GUIenabled),
+    settings(QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/.lachesis/lachesis.conf", QSettings::IniFormat)
 {
 
 }
@@ -25,7 +26,8 @@ bool DesignerApp::initApplication()
 
     processEvents();
 
-    updateConfiguration();
+    writeConfigValue("", "apppath", QtSingleApplication::applicationFilePath());
+
     DesignerViewItf::initializeIfNotYet();
     DesignerDocItf::initializeIfNotYet();
     DesignerModelItf::initializeIfNotYet();
@@ -48,15 +50,40 @@ bool DesignerApp::initApplication()
     return true;
 }
 
-void DesignerApp::updateConfiguration()
+QVariant DesignerApp::readConfigValue(QString group, QString name, QVariant defaultValue)
 {
-    QSettings settings(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)
-                                                         + "/.lachesis/lachesis.conf", QSettings::IniFormat);
-    settings.beginGroup("Designer");
-    settings.setValue("AppPath", QtSingleApplication::applicationFilePath());
+    QString fullGroupName = "designer";
+    if(group.length())
+        fullGroupName+=".";
+    fullGroupName+=group;
+
+    QVariant retValue;
+
+    settings.beginGroup(fullGroupName);
+    retValue = settings.value(name);
     settings.endGroup();
-    settings.sync();
+
+    if(!retValue.isValid())
+    {
+        writeConfigValue(group, name, defaultValue);
+        return defaultValue;
+    }
+
+    return retValue;
 }
+
+void DesignerApp::writeConfigValue(QString group, QString name, QVariant value)
+{
+    QString fullGroupName = "designer";
+    if(!group.isNull())
+        fullGroupName+=".";
+    fullGroupName+=group;
+
+    settings.beginGroup(fullGroupName);
+    settings.setValue(name, value);
+    settings.endGroup();
+}
+
 
 void DesignerApp::sendCommandLineAsMessage()
 {

@@ -50,6 +50,8 @@ protected:
 
     QScriptValue  cached;
 
+    int maxPropertyDepth;
+
 public slots:
     void updateTarget(QScriptValue value);
     void refreshTarget();

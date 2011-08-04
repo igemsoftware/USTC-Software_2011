@@ -2,6 +2,7 @@
 #include <QtVariantEditorFactory>
 #include <QtTreePropertyBrowser>
 
+#include "common/app/DesignerApp.h"
 #include "DesignerPropertiesPanelWidget.h"
 
 DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
@@ -25,6 +26,7 @@ DesignerPropertiesPanelWidget::DesignerPropertiesPanelWidget(QWidget *parent) :
 
     gridLayout->addWidget(propertiesWidget, 0, 0, 1, 1);
 
+    maxPropertyDepth = DesignerApp::instance()->readConfigValue("panels.propertiespanel", "maxPropertyDepth", 1).toInt();
 //    updateTarget(QScriptValue(QScriptValue::UndefinedValue));
 }
 
@@ -70,9 +72,6 @@ void DesignerPropertiesPanelWidget::addPropertyItems(QScriptValue value, int max
     QList<QtProperty*> newProperties;
 //    QtProperty *topItem = variantManager->addProperty(QtVariantPropertyManager::groupTypeId(),
 //                QLatin1String(" Group Property"));
-
-
-
 
     switch(valueType)
     {
@@ -254,7 +253,7 @@ void DesignerPropertiesPanelWidget::updateTarget(QScriptValue value)
         {
             variantManager->clear();
             propertiesWidget->clear();
-            addPropertyItems(value, 3, NULL);
+            addPropertyItems(value, maxPropertyDepth, NULL);
         }
 
         invalidWidget->hide();
