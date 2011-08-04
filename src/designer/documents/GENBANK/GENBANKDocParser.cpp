@@ -33,7 +33,7 @@ bool GENBANKDocParser::parse(DesignerModelItf* model, QTextStream& fin)
             newGENBANK.setProperty("part_form",this->readWord(line,t));
         }
         else if(line.startsWith("DEFINITION"))
-            newGENBANK.setProperty("part_descr",line.mid(2,line.length()-2).trimmed());
+            newGENBANK.setProperty("part_descr",line.mid(10,line.length()-10).trimmed());
         else if(!line.startsWith("//")&&issq)
             tsq+=line;
         else if(line.startsWith("//"))
