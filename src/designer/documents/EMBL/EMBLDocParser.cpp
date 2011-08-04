@@ -19,6 +19,11 @@ bool EMBLDocParser::parse(DesignerModelItf* model, QTextStream& fin)
     while(!fin.atEnd())
     {
         QString line=fin.readLine();
+        if(!line.isEmpty())
+        {
+            content.setProperty(c,line);
+            c++;
+        }
         if(line.startsWith("ID"))
         {
             int t=2;
@@ -45,9 +50,7 @@ bool EMBLDocParser::parse(DesignerModelItf* model, QTextStream& fin)
             p++;c=0;tsq="";issq=false;
         }
         else if(line.startsWith("SQ"))
-            issq=true;
-        content.setProperty(c,line);
-        c++;
+            issq=true;        
     }
     if(EMBLs.property("length").toInt32()==0)
         return false;

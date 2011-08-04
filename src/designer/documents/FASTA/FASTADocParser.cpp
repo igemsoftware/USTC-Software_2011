@@ -70,8 +70,11 @@ bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
                     partregisty.setProperty("*partsregistry.org*",newFASTA);
                 }
             }
-            content.setProperty(c,line);
-            c++;
+            if(!line.isEmpty())
+            {
+                content.setProperty(c,line);
+                c++;
+            }
         }
 
 

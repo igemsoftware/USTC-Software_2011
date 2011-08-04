@@ -72,45 +72,44 @@ void PartView::on_listView_clicked(QModelIndex index)
 void PartView::on_pushButton_clicked()
 {
     int i=ui->listView->currentIndex().row();
-    QScriptValue part;
+    if(i==-1)
+        i++;
+    QScriptValue part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
+    QScriptValue content=part.property("content");
+    if(QString(this->currentModel->getCurrentDoc()->metaObject()->className()).toLower()=="fastadoc")
     {
-        if(i==-1)
-            i++;
-        part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
+        QString line=content.property(0).toString();
+        content=this->currentModel->getEngine()->newArray();
+        line=line.replace(part.property("part_name").toString(),ui->partNameEdit->text());
+        line=line.replace(part.property("part_descr").toString(),ui->textEdit->toPlainText());
+        content.setProperty(0,line);
+
+        QString seq=ui->textEdit_seq->toPlainText();
+        int  linenum=seq.length()/60;
+        for(int j=0;j<linenum;j++)
+            content.setProperty(j+1,seq.mid(j*60,60));
+        if(linenum*60!=seq.length())
+            content.setProperty(linenum+1,seq.mid(linenum*60,seq.length()-linenum));
+        part.setProperty("content",content);
+    }
+    //ui part refresh
+    {
         part.setProperty("part_name",ui->partNameEdit->text());
         QStringListModel* slm=dynamic_cast<QStringListModel *>(ui->listView->model());
         QStringList sl=slm->stringList();
         sl[i]=ui->partNameEdit->text();
         slm->setStringList(sl);
         ui->listView->setModel(slm);
-    }
-    {
-        if(i==-1)
-            i++;
+
         QScriptValue parameter=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("part_parameters").property(1);
         if(!parameter.isNull())
-        {
             parameter.setProperty("parameter_value",ui->lineEdit->text());
-        }
-    }
-    {
-        if(i==-1)
-            i++;
-        QScriptValue parameter=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("part_parameters").property(0);
+
+        parameter=this->currentModel->getModel().property(i).property("*partsregistry.org*").property("part_parameters").property(0);
         if(!parameter.isNull())
-        {
             parameter.setProperty("parameter_value",ui->lineEdit_2->text());
-        }
-    }
-    {
-        if(i==-1)
-            i++;
-        part=this->currentModel->getModel().property(i).property("*partsregistry.org*");
         part.setProperty("part_descr",ui->textEdit->toPlainText());
-    }
-    {
-        if(i==-1)
-            i++;
+
         part=this->currentModel->getModel().property(i);
         QString newsq=DesignerPartDocParser::generateSequence(ui->textEdit_seq->toPlainText());
         part.setProperty("partsequence",newsq);
