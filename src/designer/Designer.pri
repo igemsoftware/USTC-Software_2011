@@ -66,7 +66,8 @@ SOURCES +=\
     src/designer/documents/MoDeL_1/MoDeL1Parser.cpp \
     src/designer/documents/MoDeL_1/MoDeL1Doc.cpp \
     src/designer/documents/USML/USMLDoc.cpp \
-    src/designer/documents/USML/USMLParser.cpp
+    src/designer/documents/USML/USMLParser.cpp \
+    src/designer/common/app/DesignerApp.cpp
 
 
 HEADERS  += DesignerMainWnd.h \
@@ -134,7 +135,8 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/MoDeL_1/MoDeL1Parser.h \
     src/designer/documents/MoDeL_1/MoDeL1Doc.h \
     src/designer/documents/USML/USMLParser.h \
-    src/designer/documents/USML/USMLDoc.h
+    src/designer/documents/USML/USMLDoc.h \
+    src/designer/common/app/DesignerApp.h
 
 
 FORMS    += DesignerMainWnd.ui \

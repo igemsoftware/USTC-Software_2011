@@ -1,47 +1,19 @@
-#include <QtSingleApplication>
-#include <QtGui/QApplication>
-#include <QDesktopServices>
-#include <QSplashScreen>
-#include <QTextCodec>
+#include "common/app/DesignerApp.h"
 #include "DesignerMainWnd.h"
-#include "interfaces/DesignerInterface.h"
 
-void writeLachesisConfiguration()
-{
-    QSettings settings(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)
-                                                         + "/.lachesis/lachesis.conf", QSettings::IniFormat);
-    settings.beginGroup("Designer");
-    settings.setValue("AppPath", QtSingleApplication::applicationFilePath());
-    settings.endGroup();
-    settings.sync();
-    }
 
 int main(int argc, char *argv[])
 {
-    QtSingleApplication designer(argc, argv);
+    DesignerApp designer(argc, argv);
+
     if(designer.isRunning())
     {
-        designer.sendMessage("/new");
+        designer.sendCommandLineAsMessage();
         return 0;
     }
 
-    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
-
-    QPixmap pixmap(":/designer/splash.png");
-    QSplashScreen *splash = new QSplashScreen(pixmap, Qt::WindowStaysOnTopHint);
-    splash->show();
-    splash->showMessage("Loading...");
-    designer.processEvents();
-
-    writeLachesisConfiguration();
-    DesignerViewItf::initializeIfNotYet();
-    DesignerDocItf::initializeIfNotYet();
-
-    QTimer::singleShot(1500, splash, SLOT(close()));
-    while(splash->isVisible())
-    {
-        designer.processEvents();
-    }
+    if(!designer.initApplication())
+        return -1;
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
     designer.setActivationWindow(mainWnd);
