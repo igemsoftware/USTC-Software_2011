@@ -3,6 +3,8 @@
 #include <QTextCodec>
 
 #include "common/app/DesignerApp.h"
+#include "common/mainwnd/DesignerMainWnd.h"
+
 #include "interfaces/DesignerInterface.h"
 
 
@@ -17,7 +19,7 @@ bool DesignerApp::initApplication()
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
 
     QPixmap pixmap(":/designer/splash.png");
-    QSplashScreen *splash = new QSplashScreen(pixmap, Qt::WindowStaysOnTopHint);
+    QSplashScreen *splash = new QSplashScreen(pixmap);
     splash->show();
     splash->showMessage(tr("Loading..."));
 
@@ -26,6 +28,16 @@ bool DesignerApp::initApplication()
     updateConfiguration();
     DesignerViewItf::initializeIfNotYet();
     DesignerDocItf::initializeIfNotYet();
+    DesignerModelItf::initializeIfNotYet();
+    DesignerExtensionItf::initializeIfNotYet();
+
+
+    DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
+    setActivationWindow(mainWnd);
+    QObject::connect(this, SIGNAL(messageReceived(const QString&)), mainWnd, SLOT(instanceMessageReceived(const QString&)));
+    splash->setWindowFlags(Qt::WindowStaysOnTopHint);
+    splash->setParent(mainWnd);
+    splash->show();
 
     QTimer::singleShot(1500, splash, SLOT(close()));
     while(splash->isVisible())

@@ -1,7 +1,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 #include "ui_DesignerMainWnd.h"
 
 #include "views/welcomeview/WelcomeView.h"

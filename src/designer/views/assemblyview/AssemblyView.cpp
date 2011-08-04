@@ -1,6 +1,6 @@
 #include "AssemblyView.h"
 
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 #include "interfaces/DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 

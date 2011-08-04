@@ -5,7 +5,7 @@
 #include "NetworkViewGraphicsScene.h"
 
 #include "interfaces/DesignerModelItf.h"
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 
 #include "models/common/ModelSymbol.h"
 

@@ -5,7 +5,6 @@ DEPENDPATH += $$PWD
 QT +=sql
 
 SOURCES +=\
-    DesignerMainWnd.cpp \
     Designer.cpp \
     views/assemblyview/AssemblyItemPlasmid.cpp \
     views/assemblyview/AssemblyItemCompartment.cpp \
@@ -67,10 +66,11 @@ SOURCES +=\
     src/designer/documents/MoDeL_1/MoDeL1Doc.cpp \
     src/designer/documents/USML/USMLDoc.cpp \
     src/designer/documents/USML/USMLParser.cpp \
-    src/designer/common/app/DesignerApp.cpp
+    src/designer/common/app/DesignerApp.cpp \
+    src/designer/common/mainwnd/DesignerMainWnd.cpp
 
 
-HEADERS  += DesignerMainWnd.h \
+HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
     views/assemblyview/AssemblyItemCompartment.h \
     views/assemblyview/AssemblyScene.h \
@@ -136,16 +136,18 @@ HEADERS  += DesignerMainWnd.h \
     src/designer/documents/MoDeL_1/MoDeL1Doc.h \
     src/designer/documents/USML/USMLParser.h \
     src/designer/documents/USML/USMLDoc.h \
-    src/designer/common/app/DesignerApp.h
+    src/designer/common/app/DesignerApp.h \
+    src/designer/common/mainwnd/DesignerMainWnd.h
 
 
-FORMS    += DesignerMainWnd.ui \
+FORMS    += \
     views/welcomeview/WelcomeView.ui \
     views/behaviorview/BehaviorView.ui \
     views/filedescriptionview/FileDescriptionView.ui \
     src/designer/views/partview/PartView.ui \
     src/designer/views/aboutview/AboutView.ui \
-    src/designer/views/clothodbview/ClothoDBView.ui
+    src/designer/views/clothodbview/ClothoDBView.ui \
+    src/designer/common/mainwnd/DesignerMainWnd.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc

@@ -4,7 +4,7 @@
 #include "interfaces/DesignerModelItf.h"
 
 #include "PartView.h"
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 #include "documents/common/designerpartdocparser/DesignerPartDocParser.h"
 
 PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :

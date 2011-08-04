@@ -1,4 +1,4 @@
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 
 #include "ui_AboutView.h"
 #include "AboutView.h"

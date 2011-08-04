@@ -1,6 +1,6 @@
 #include "FileDescriptionView.h"
 #include "ui_FileDescriptionView.h"
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 #include "interfaces/DesignerInterface.h"
 
 FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :

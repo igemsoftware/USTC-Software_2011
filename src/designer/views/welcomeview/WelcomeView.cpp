@@ -1,7 +1,7 @@
 #include "WelcomeView.h"
 #include "ui_WelcomeView.h"
 
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 
 WelcomeView::WelcomeView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),

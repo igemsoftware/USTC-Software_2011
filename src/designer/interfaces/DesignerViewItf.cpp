@@ -1,4 +1,4 @@
-#include "DesignerMainWnd.h"
+#include "common/mainwnd/DesignerMainWnd.h"
 
 #include "common/utils/itemregistry/ItemRegistry.h"
 #include "DesignerViewItf.h"
