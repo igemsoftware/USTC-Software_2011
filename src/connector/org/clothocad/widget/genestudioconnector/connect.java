@@ -46,7 +46,7 @@ public class connect implements ClothoWidget{
     public String prepare() throws Exception{
         f=new File(this.GetPath());
         Ini i=new Ini(f);        
-        return i.get("Designer", "AppPath");
+        return i.get("designer", "apppath");
     }
     
 
