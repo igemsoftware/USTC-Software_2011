@@ -18,7 +18,7 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     setFlag( QGraphicsItem::ItemIsSelectable );
     setFlag( QGraphicsItem::ItemIsMovable );
 
-    displayName = new QGraphicsTextItem( getName() , this );
+    displayName = new QGraphicsTextItem( getId() , this );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
     foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->childrenBoundingRect());
@@ -136,7 +136,7 @@ void AssemblyItemBase::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     if( moving )
     {
         moving = false;
-        dynamic_cast<AssemblyScene*>(scene())->addItem(this);
+        dynamic_cast<AssemblyScene*>(scene())->addItem(this,false);
     }
 }
 

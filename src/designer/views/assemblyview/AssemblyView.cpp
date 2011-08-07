@@ -43,23 +43,23 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     //will be fixed soon
     Compartment sCompartment;
     QScriptValue compartment = Compartment::toScriptValue(engine,sCompartment);
-    compartment.setProperty("name","Compartment");
+    compartment.setProperty("id","Compartment");
     standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , compartment ) );
 
     Species sSpecies;
     QScriptValue species = Species::toScriptValue(engine,sSpecies);
-    species.setProperty("name","Plasmid");
+    species.setProperty("id","Plasmid");
     standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , species ) );
 
     Part sPart;
     QScriptValue part = Part::toScriptValue(engine,sPart);
-    part.setProperty("name","prom");
+    part.setProperty("agent","prom");
     standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPart::MimeFormat , part ) );
 
     recentModule = new QToolBar;
     toolBox->addTab( recentModule , tr("Recent Modules") );
 
-    vLayout->addWidget( mainView = new QGraphicsView( mainScene = new AssemblyScene ) );
+    vLayout->addWidget( mainView = new QGraphicsView( mainScene = new AssemblyScene( dynamic_cast<IGameModel*>( mainWindow->getCurrentModel() ) , this ) ) );
 
     rvLayout->addWidget( searchWidget = new AssemblySearchWidget(engine) );
     rvLayout->addWidget( propertyWidget = new AssemblyPropertyWidget );

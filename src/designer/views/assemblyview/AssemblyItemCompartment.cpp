@@ -10,6 +10,24 @@ AssemblyItemCompartment::AssemblyItemCompartment( QScriptValue & newScriptValue 
     AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
     setResizable(true);
+
+    if( scriptValue.property("contains").isArray() )
+    {
+        QScriptValueList children;
+        qScriptValueToSequence( scriptValue.property("contains") , children );
+        foreach( QScriptValue child , children )
+        {
+            if( child.property("type").toString() == "plasmid" )
+            {
+                AssemblyItemPlasmid * plasmid = new AssemblyItemPlasmid(child);
+                addChild( mapToScene(0,0) , plasmid );
+            }else if( child.property("type").toString() == "protein" || child.property("type").toString() == "molecule" )
+            {
+                AssemblyItemMolecule * molecule = new AssemblyItemMolecule(child);
+                addChild( mapToScene(0,0) , molecule );
+            }
+        }
+    }
 }
 
 AssemblyItemCompartment::~AssemblyItemCompartment()
@@ -21,7 +39,7 @@ AssemblyItemCompartment::~AssemblyItemCompartment()
 
 bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 && child->boundingRect().width()*child->boundingRect().height() < 0.5*boundingRect().width()*boundingRect().height()  ) ) && !childrenMap.contains( child->getId() ) )
+    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || dynamic_cast<AssemblyItemMolecule*>(child) ) && !childrenMap.contains( child->getId() ) )
     {
         if( AssemblyItemBase::addChild( scenePos , child ) )
         {

@@ -7,6 +7,19 @@ const char * AssemblyItemPlasmid::MimeFormat = "lachesis/AssemblyItemPlasmid";
 AssemblyItemPlasmid::AssemblyItemPlasmid( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
     AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/plasmid_normal.png") , QObject::tr(":/designer/assemblyview/plasmid_selected.png") , parent )
 {
+    if( scriptValue.property("structure").isArray() )
+    {
+        QScriptValueList children;
+        qScriptValueToSequence( scriptValue.property("structure") , children );
+        foreach( QScriptValue child , children )
+        {
+            if( child.property("type").toString() == "dna" )
+            {
+                AssemblyItemPart * part = new AssemblyItemPart(child);
+                addChild( mapToScene(0,1000000000) , part );
+            }
+        }
+    }
 }
 
 AssemblyItemPlasmid::~AssemblyItemPlasmid()

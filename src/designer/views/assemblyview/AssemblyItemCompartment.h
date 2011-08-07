@@ -4,6 +4,7 @@
 #include "AssemblyItemBase.h"
 #include "AssemblyLib.h"
 #include "AssemblyItemPlasmid.h"
+#include "AssemblyItemMolecule.h"
 
 class AssemblyItemCompartment : public AssemblyItemBase
 {

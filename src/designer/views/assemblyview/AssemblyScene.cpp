@@ -2,10 +2,61 @@
 #include <QGraphicsView>
 #include <QKeyEvent>
 
-AssemblyScene::AssemblyScene(QObject *parent) :
-    QGraphicsScene(parent)
+AssemblyScene::AssemblyScene( IGameModel * newModel , QObject *parent) :
+    QGraphicsScene(parent) , model(newModel)
 {
     connect( this , SIGNAL(selectionChanged()) , this , SLOT(propagateSelectionChange()) );
+    if( model->getEngine()->globalObject().property("model").isObject() )
+    {
+        QScriptValue root = model->getEngine()->globalObject().property("model");
+        QScriptValue rootCompartment = root.property("rootCompartment");
+
+        if( rootCompartment.property("contains").isArray() )
+        {
+            QScriptValueList children;
+            qScriptValueToSequence( rootCompartment.property("contains") , children );
+            foreach( QScriptValue child , children )
+            {
+                if( child.property("type").toString() == "plasmid" )
+                {
+                    AssemblyItemPlasmid * plasmid = new AssemblyItemPlasmid(child);
+                    QGraphicsScene::addItem( plasmid );
+                    if( !registerItem( plasmid ) )
+                    {
+                        delete plasmid;
+                    }
+                }else if( child.property("type").toString() == "protein" || child.property("type").toString() == "molecule" )
+                {
+                    AssemblyItemMolecule * molecule = new AssemblyItemMolecule(child);
+                    QGraphicsScene::addItem( molecule );
+                    if( !registerItem( molecule ) )
+                    {
+                        delete molecule;
+                    }
+                }
+            }
+        }
+        QScriptValueList childCompartments;
+        qScriptValueToSequence( root.property("childCompartments") , childCompartments );
+        foreach( QScriptValue child , childCompartments )
+        {
+            AssemblyItemCompartment * compartment = new AssemblyItemCompartment( child );
+            QGraphicsScene::addItem( compartment );
+            if( !registerItem( compartment ) )
+            {
+                delete compartment;
+            }
+        }
+    }else{
+        QScriptValue root , rootCompartment;
+        model->getEngine()->globalObject().setProperty("model", root = model->getEngine()->newObject() );
+        root.setProperty( "parameters" , model->getEngine()->newArray() );
+        root.setProperty( "events" , model->getEngine()->newArray() );
+        root.setProperty( "rootCompartment" , rootCompartment = model->getEngine()->newObject() );
+        rootCompartment.setProperty( "id" , "flask" );
+        rootCompartment.setProperty( "type" , "flask" );
+        rootCompartment.setProperty( "contains" , model->getEngine()->newArray() );
+    }
 }
 
 void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -160,13 +211,27 @@ void AssemblyScene::keyPressEvent(QKeyEvent *event)
 
 void AssemblyScene::removeItem( AssemblyItemBase * item )
 {
-    childrenMap.remove( item->getName() );
+    if( !item->getId().isEmpty() ) childrenMap.remove( item->getId() );
     foreach( AssemblyItemBase * child , item->getChildren() ) removeItem(child);
     QGraphicsScene::removeItem(item);
 }
 
+bool AssemblyScene::registerItem(AssemblyItemBase *item)
+{
+    QString id = item->getId();
+    if( id.isEmpty() ) return true;
+    if( !childrenMap.contains(id) )
+    {
+        childrenMap.insert(id,item);
+        foreach( AssemblyItemBase * childItem , item->getChildren() ) registerItem(childItem);
+        return true;
+    }else{
+        QGraphicsScene::removeItem(item);
+        return false;
+    }
+}
 
-bool AssemblyScene::addItem(AssemblyItemBase *item)
+bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
 {
     if( item->scene() != this ) QGraphicsScene::addItem(item);
     QList<QGraphicsItem*> candidates = collidingItems( item );
@@ -174,7 +239,7 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
     {
         if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( item->scenePos() , item ) )
         {
-            if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getId() , item );
+            if( flag ) registerItem( item );
             foreach( QGraphicsItem* item , selectedItems() )
             {
                 if( dynamic_cast<AssemblyItemBase*>(item) )
@@ -186,15 +251,9 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
         }
     }
 
-    if( dynamic_cast<AssemblyItemCompartment*>(item) )
+    if( dynamic_cast<AssemblyItemCompartment*>(item) || dynamic_cast<AssemblyItemMolecule*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) )
     {
-        childrenMap.insert( item->getId() , item );
-        return true;
-    }
-
-    if( dynamic_cast<AssemblyItemMolecule*>(item) )
-    {
-        childrenMap.insert( item->getId() , item );
+        if( flag ) registerItem( item );
         return true;
     }
 

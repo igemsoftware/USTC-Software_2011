@@ -117,7 +117,6 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
         compartmentList.push_back(compartment);
     }
     root.setProperty("childCompartments", convertModelTypeToScriptValue( engine , compartmentList ) );
-
     return true;
 }
 
@@ -192,6 +191,7 @@ bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & p
                     if( rx.indexIn(strPart) > -1 )
                     {
                         QScriptValue part = engine->newObject();
+                        part.setProperty( "type" , "dna" );
                         part.setProperty( "agent", QScriptValue( rx.cap(1) ) );
                         part.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
                         part.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
