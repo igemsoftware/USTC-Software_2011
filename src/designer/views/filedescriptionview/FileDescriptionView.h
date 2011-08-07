@@ -15,7 +15,7 @@ public:
     Q_INVOKABLE explicit FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf* model);
     ~FileDescriptionView();
 
-public:
+public slots:
     void storageUpdated();
 //public slots:
 

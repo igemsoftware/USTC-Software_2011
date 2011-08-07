@@ -36,7 +36,6 @@ private slots:
         emit createDocWithViewType("BehaviorView");
     }
 
-
 private:
     Ui::WelcomeView *ui;
 

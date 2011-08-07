@@ -28,7 +28,6 @@ QStringList ReactionNetworkModel::getSupportedDocumentList() const
     QStringList supportedDocumentList;
     supportedDocumentList.append("USMLDoc");
     supportedDocumentList.append("SBMLDoc");
-    supportedDocumentList.append("MoDeLDoc");
     supportedDocumentList.append("MoDeL1Doc");
     return supportedDocumentList;
 }

@@ -19,6 +19,9 @@ void AssemblyScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     }else if ( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemMolecule::MimeFormat ) )
+    {
+        event->acceptProposedAction();
     }else
     {
         QGraphicsScene::dragEnterEvent(event);
@@ -36,6 +39,9 @@ void AssemblyScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     }else if ( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         event->acceptProposedAction();
+    }else if ( event->mimeData()->hasFormat( AssemblyItemMolecule::MimeFormat ) )
+    {
+        event->acceptProposedAction();
     }else
     {
         QGraphicsScene::dragMoveEvent(event);
@@ -50,31 +56,46 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         QByteArray itemData = event->mimeData()->data( AssemblyItemCompartment::MimeFormat );
         QScriptValue * scriptValue;
         memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
-        QString itemName = scriptValue->property("name").toString();
+        QString itemId = scriptValue->property("id").toString();
         QString stri;
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! childrenMap.contains(itemName+stri) ) break;
+            if( ! childrenMap.contains(itemId+stri) ) break;
         }
-        itemName += stri;
-        scriptValue->setProperty("name", QScriptValue(itemName) );
+        itemId += stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new AssemblyItemCompartment( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemPlasmid::MimeFormat );
         QScriptValue * scriptValue;
         memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
-        QString itemName = scriptValue->property("name").toString();
+        QString itemId = scriptValue->property("id").toString();
         QString stri;
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! childrenMap.contains(itemName+stri) ) break;
+            if( ! childrenMap.contains(itemId+stri) ) break;
         }
-        itemName += stri;
-        scriptValue->setProperty("name", QScriptValue(itemName) );
+        itemId += stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new AssemblyItemPlasmid( *scriptValue );
+    }else if( event->mimeData()->hasFormat( AssemblyItemMolecule::MimeFormat ) )
+    {
+        QByteArray itemData = event->mimeData()->data( AssemblyItemMolecule::MimeFormat );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+        QString itemId = scriptValue->property("id").toString();
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! childrenMap.contains(itemId+stri) ) break;
+        }
+        itemId += stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
+        item = new AssemblyItemMolecule( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
     {
         QByteArray itemData = event->mimeData()->data( AssemblyItemPart::MimeFormat );
@@ -153,7 +174,7 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
     {
         if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( item->scenePos() , item ) )
         {
-            if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
+            if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getId() , item );
             foreach( QGraphicsItem* item , selectedItems() )
             {
                 if( dynamic_cast<AssemblyItemBase*>(item) )
@@ -164,11 +185,19 @@ bool AssemblyScene::addItem(AssemblyItemBase *item)
             return true;
         }
     }
+
     if( dynamic_cast<AssemblyItemCompartment*>(item) )
     {
-        if( !dynamic_cast<AssemblyItemPart*>(item) ) childrenMap.insert( item->getName() , item );
+        childrenMap.insert( item->getId() , item );
         return true;
     }
+
+    if( dynamic_cast<AssemblyItemMolecule*>(item) )
+    {
+        childrenMap.insert( item->getId() , item );
+        return true;
+    }
+
     delete item;
     return false;
 }

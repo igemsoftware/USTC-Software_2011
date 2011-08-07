@@ -20,6 +20,7 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     if( firstInstance )
     {
         firstInstance = false;
+        partTypes.clear();
         partTypes.push_back("prom");
         partTypes.push_back("rbs");
         partTypes.push_back("pcs");

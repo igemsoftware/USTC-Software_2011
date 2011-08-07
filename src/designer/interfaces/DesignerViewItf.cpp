@@ -28,7 +28,7 @@ void DesignerViewItf::initializeIfNotYet()
     {
         initialized = true;
         LACHESIS_DECLARE_VIEW(AboutView, "About", "");
-        LACHESIS_DECLARE_VIEW(AssemblyView, "Assembly View", "ReactionNetworkModel");
+        LACHESIS_DECLARE_VIEW(AssemblyView, "Assembly View", "IGameModel");
         LACHESIS_DECLARE_VIEW(BehaviorView, "Behavior View", "ReactionNetworkModel");
         LACHESIS_DECLARE_VIEW(ClothoDBView, "Clotho Data Source", "");
         LACHESIS_DECLARE_VIEW(FileDescriptionView, "Views", "");

@@ -33,8 +33,12 @@ AssemblyItemBase::~AssemblyItemBase()
     if( scene() ) dynamic_cast<AssemblyScene*>(scene())->removeItem(this);
 }
 
+QString AssemblyItemBase::getId(){ return scriptValue.property("id").toString(); }
+void AssemblyItemBase::setId(QString newId){ scriptValue.setProperty("id",QScriptValue(newId) ); }
+
 QString AssemblyItemBase::getName(){ return scriptValue.property("name").toString(); }
 void AssemblyItemBase::setName(QString newName){ scriptValue.setProperty("name",QScriptValue(newName) ); }
+
 QScriptValue AssemblyItemBase::getScriptValue(){ return scriptValue; }
 void AssemblyItemBase::setScriptValue( QScriptValue & newScriptValue ){ scriptValue = newScriptValue; }
 

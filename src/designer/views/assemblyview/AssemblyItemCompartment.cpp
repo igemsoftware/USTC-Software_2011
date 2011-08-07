@@ -21,11 +21,11 @@ AssemblyItemCompartment::~AssemblyItemCompartment()
 
 bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 && child->boundingRect().width()*child->boundingRect().height() < 0.5*boundingRect().width()*boundingRect().height()  ) ) && !childrenMap.contains( child->getName() ) )
+    if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || ( dynamic_cast<AssemblyItemCompartment*>(child) && parentItem() == 0 && child->boundingRect().width()*child->boundingRect().height() < 0.5*boundingRect().width()*boundingRect().height()  ) ) && !childrenMap.contains( child->getId() ) )
     {
         if( AssemblyItemBase::addChild( scenePos , child ) )
         {
-            childrenMap.insert( child->getName() , child );
+            childrenMap.insert( child->getId() , child );
             refreshScriptValue();
             return true;
         }
@@ -58,12 +58,6 @@ void AssemblyItemCompartment::refreshScriptValue()
     }
     //to be fixed
     scriptValue.setProperty( "contains" , convertModelTypeToScriptValue( scriptValue.engine() , list ) );
-    QScriptValueIterator iter(scriptValue.property("contains"));
-    while( iter.hasNext() )
-    {
-        iter.next();
-        QString temp = iter.value().toString();
-    }
 }
 
 QList<AssemblyItemBase*> AssemblyItemCompartment::getChildren()

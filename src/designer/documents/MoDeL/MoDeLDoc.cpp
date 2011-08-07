@@ -48,7 +48,7 @@ bool MoDeLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"));
+    currentModel = DesignerModelItf::createModel(tr("IGameModel"),this);
     if(!currentModel)
         return false;
 
@@ -67,8 +67,6 @@ QList<QString> MoDeLDoc::getSupportedViewList() const
 {
     QList<QString> supportedViewList;
     supportedViewList.append("AssemblyView");
-    supportedViewList.append("NetworkView");
-    supportedViewList.append("BehaviorView");
     return supportedViewList;
 }
 

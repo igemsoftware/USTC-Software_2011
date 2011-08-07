@@ -8,7 +8,7 @@
 #include "AssemblyItemPart.h"
 #include "AssemblyItemCompartment.h"
 #include "AssemblyItemPlasmid.h"
-
+#include "AssemblyItemMolecule.h"
 
 class AssemblyScene : public QGraphicsScene
 {

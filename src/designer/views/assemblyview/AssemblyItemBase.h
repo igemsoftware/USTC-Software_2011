@@ -15,6 +15,8 @@ public:
     explicit AssemblyItemBase( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent = 0 );
     virtual ~AssemblyItemBase();
 
+    QString getId();
+    void setId( QString newId );
     QString getName();
     void setName( QString newName );
     QScriptValue getScriptValue();

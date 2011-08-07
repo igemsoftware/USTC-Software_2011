@@ -67,7 +67,9 @@ SOURCES +=\
     src/designer/documents/USML/USMLDoc.cpp \
     src/designer/documents/USML/USMLParser.cpp \
     src/designer/common/app/DesignerApp.cpp \
-    src/designer/common/mainwnd/DesignerMainWnd.cpp
+    src/designer/common/mainwnd/DesignerMainWnd.cpp \
+    src/designer/views/assemblyview/AssemblyItemMolecule.cpp \
+    src/designer/models/igamemodel/IGame.cpp
 
 
 HEADERS  += \
@@ -137,7 +139,9 @@ HEADERS  += \
     src/designer/documents/USML/USMLParser.h \
     src/designer/documents/USML/USMLDoc.h \
     src/designer/common/app/DesignerApp.h \
-    src/designer/common/mainwnd/DesignerMainWnd.h
+    src/designer/common/mainwnd/DesignerMainWnd.h \
+    src/designer/views/assemblyview/AssemblyItemMolecule.h \
+    src/designer/models/igamemodel/IGame.h
 
 
 FORMS    += \

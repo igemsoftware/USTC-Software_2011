@@ -5,7 +5,7 @@
 
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
 #include "models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h"
-
+#include "models/igamemodel/IGame.h"
 
 #define LACHESIS_DECLARE_MODEL(className) \
     DesignerModelItf::ModelItfRegistry::ItemRegistryInlineAdd modelreg_##className (QString( #className ), \
@@ -20,6 +20,7 @@ void DesignerModelItf::initializeIfNotYet()
         initialized = true;
         LACHESIS_DECLARE_MODEL(ReactionNetworkModel);
         LACHESIS_DECLARE_MODEL(SyntheticBiologicalPartModel);
+        LACHESIS_DECLARE_MODEL(IGameModel);
     }
 }
 
