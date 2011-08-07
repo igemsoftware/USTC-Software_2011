@@ -36,6 +36,7 @@ public slots:
 private:
     QMap<QString,AssemblyItemBase*> childrenMap;
     IGameModel * model;
+    void refreshScriptValue();
 };
 
 #endif // ASSEMBLYSCENE_H

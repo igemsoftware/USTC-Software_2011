@@ -214,6 +214,7 @@ void AssemblyScene::removeItem( AssemblyItemBase * item )
     if( !item->getId().isEmpty() ) childrenMap.remove( item->getId() );
     foreach( AssemblyItemBase * child , item->getChildren() ) removeItem(child);
     QGraphicsScene::removeItem(item);
+    refreshScriptValue();
 }
 
 bool AssemblyScene::registerItem(AssemblyItemBase *item)
@@ -247,6 +248,7 @@ bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
                     emit setScriptValue(dynamic_cast<AssemblyItemBase*>(item)->getScriptValue());
                 }
             }
+            refreshScriptValue();
             return true;
         }
     }
@@ -254,6 +256,7 @@ bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
     if( dynamic_cast<AssemblyItemCompartment*>(item) || dynamic_cast<AssemblyItemMolecule*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) )
     {
         if( flag ) registerItem( item );
+        refreshScriptValue();
         return true;
     }
 
@@ -276,9 +279,33 @@ void AssemblyScene::propagateSelectionChange()
             emit setScriptValue(dynamic_cast<AssemblyItemBase*>(item)->getScriptValue());
         }
     }
+    if( newSelection.count() == 0 )
+    {
+        emit setScriptValue( model->getEngine()->globalObject().property("model") );
+    }
 }
 
-
+void AssemblyScene::refreshScriptValue()
+{
+    QScriptValueList compartments;
+    QScriptValueList molecules;
+    foreach( QGraphicsItem * item , items() )
+    {
+        if( item->parentItem() == 0 )
+        {
+            if( dynamic_cast<AssemblyItemCompartment*>(item) )
+            {
+                compartments.push_back( dynamic_cast<AssemblyItemBase*>(item)->getScriptValue() );
+            }else if( dynamic_cast<AssemblyItemPlasmid*>(item) || dynamic_cast<AssemblyItemMolecule*>(item) )
+            {
+                molecules.push_back( dynamic_cast<AssemblyItemBase*>(item)->getScriptValue() );
+            }
+        }
+    }
+    model->getEngine()->globalObject().property("model").property("rootCompartment").setProperty( "contains" , convertModelTypeToScriptValue( model->getEngine(),molecules ) );
+    model->getEngine()->globalObject().property("model").setProperty( "childCompartments" , convertModelTypeToScriptValue( model->getEngine() , compartments ));
+    propagateSelectionChange();
+}
 
 
 
