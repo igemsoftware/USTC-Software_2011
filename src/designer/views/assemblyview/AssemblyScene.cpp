@@ -1,16 +1,31 @@
 #include "AssemblyScene.h"
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QTextEdit>
+#include <QLayout>
+#include <QPushButton>
+#include "documents/MoDeL/MoDeLDocParser.h"
+#include "DesignerDebug.h"
 
 AssemblyScene::AssemblyScene( IGameModel * newModel , QObject *parent) :
     QGraphicsScene(parent) , model(newModel)
 {
     connect( this , SIGNAL(selectionChanged()) , this , SLOT(propagateSelectionChange()) );
+    readModel();
+}
+
+void AssemblyScene::readModel()
+{
+    clear();
+    childrenMap.clear();
+    idSpace.clear();
+
     if( model->getEngine()->globalObject().property("model").isObject() )
     {
         QScriptValue root = model->getEngine()->globalObject().property("model");
         QScriptValue rootCompartment = root.property("rootCompartment");
 
+        idSpace.insert(rootCompartment.property("id").toString());
         if( rootCompartment.property("contains").isArray() )
         {
             QScriptValueList children;
@@ -47,6 +62,14 @@ AssemblyScene::AssemblyScene( IGameModel * newModel , QObject *parent) :
                 delete compartment;
             }
         }
+
+        QScriptValueList events,parameters;
+        qScriptValueToSequence( root.property("parameters") , parameters );
+        qScriptValueToSequence( root.property("events") , events );
+        foreach( QScriptValue event , events )
+            idSpace.insert(event.property("id").toString());
+        foreach( QScriptValue parameter , parameters )
+            idSpace.insert(parameter.property("id").toString());
     }else{
         QScriptValue root , rootCompartment;
         model->getEngine()->globalObject().setProperty("model", root = model->getEngine()->newObject() );
@@ -56,6 +79,7 @@ AssemblyScene::AssemblyScene( IGameModel * newModel , QObject *parent) :
         rootCompartment.setProperty( "id" , "flask" );
         rootCompartment.setProperty( "type" , "flask" );
         rootCompartment.setProperty( "contains" , model->getEngine()->newArray() );
+        idSpace.insert("flask");
     }
 }
 
@@ -112,7 +136,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! childrenMap.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+stri) ) break;
         }
         itemId += stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -127,7 +151,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! childrenMap.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+stri) ) break;
         }
         itemId += stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -142,7 +166,7 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! childrenMap.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+stri) ) break;
         }
         itemId += stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -211,7 +235,11 @@ void AssemblyScene::keyPressEvent(QKeyEvent *event)
 
 void AssemblyScene::removeItem( AssemblyItemBase * item )
 {
-    if( !item->getId().isEmpty() ) childrenMap.remove( item->getId() );
+    if( !item->getId().isEmpty() )
+    {
+        childrenMap.remove( item->getId() );
+        idSpace.remove(item->getId());
+    }
     foreach( AssemblyItemBase * child , item->getChildren() ) removeItem(child);
     QGraphicsScene::removeItem(item);
     refreshScriptValue();
@@ -221,13 +249,16 @@ bool AssemblyScene::registerItem(AssemblyItemBase *item)
 {
     QString id = item->getId();
     if( id.isEmpty() ) return true;
-    if( !childrenMap.contains(id) )
+
+    if( !idSpace.contains(id) )
     {
+        idSpace.insert(id);
         childrenMap.insert(id,item);
         foreach( AssemblyItemBase * childItem , item->getChildren() ) registerItem(childItem);
         return true;
     }else{
         QGraphicsScene::removeItem(item);
+        QMessageBox::warning(0,tr("Error"),tr("duplicated id detected while trying to add item %1").arg(id) );
         return false;
     }
 }
@@ -308,11 +339,131 @@ void AssemblyScene::refreshScriptValue()
 }
 
 
+QString AssemblyScene::outputMoDeLText()
+{
+    QString strAns;
+    QTextStream ans(&strAns);
+    QScriptValue root = model->getEngine()->globalObject().property("model");
+    QScriptValueList parameters;
+    QScriptValueList events;
+    QScriptValueList childCompartments;
+    QScriptValue rootCompartment = root.property("rootCompartment");
+
+    qScriptValueToSequence( root.property("parameters") , parameters );
+    qScriptValueToSequence( root.property("events") , events );
+    qScriptValueToSequence( root.property("childCompartments") , childCompartments );
 
 
+    //parameters
+    ans << "<Parameters>\n";
+    foreach( QScriptValue parameter , parameters )
+        ans << parameter.property("id").toString() << "\t\t" << parameter.property("value").toString() << "\n";
+    ans << "<Parameters>\n\n";
+
+    //rootcompartment
+    ans << outputCompartmentText( rootCompartment , tr("RootCompartment") );
+
+    //childcompartment
+    foreach( QScriptValue compartment , childCompartments )
+        ans << outputCompartmentText( compartment , tr("ChildCompartment") );
+
+    ans << "<Events>\n";
+    foreach( QScriptValue event , events )
+        ans << event.property("id").toString() << "\t" << event.property("condition").toString() << "\t" << event.property("variable").toString() << "=" << event.property("value").toString() << "\n";
+    ans << "<Events>\n\n";
 
 
+    return strAns;
+}
 
+QString AssemblyScene::outputCompartmentText( QScriptValue compartment , QString tag )
+{
+    QString strAns;
+    QTextStream ans(&strAns);
+    ans << "<" << tag << " id=\"" << compartment.property("id").toString() << "\"" << " type=\"" << compartment.property("type").toString() << "\"";
+    if( compartment.property("population").isString() )
+        ans << " population=\"" << compartment.property("population").toString() << "\"";
+    ans << ">\n";
+
+    QScriptValueList contains;
+    qScriptValueToSequence( compartment.property("contains") , contains );
+
+    foreach( QScriptValue content , contains )
+    {
+        ans << content.property("id").toString() << "\t";
+        if( content.property("type").toString() == "plasmid" )
+        {
+            ans << "d:";
+            QScriptValueList structure;
+            qScriptValueToSequence( content.property("structure") , structure );
+            for( int i = 0 ; i < structure.count() ; i++ )
+            {
+                QScriptValue agent = structure[i];
+                ans << ( (i>0)?"-":"" ) << agent.property("agent").toString() << ( agent.property("reversed").toBool()?"'":"" ) << "(" << agent.property("sites").toString() << ")";
+            }
+            ans << "\t" << content.property("initConcentration").toString();
+            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
+            ans << "\n";
+        }else if( content.property("type").toString() == "protein" )
+        {
+            ans << "p:" << content.property("agent").toString() << ( content.property("reversed").toBool()?"'":"" ) << "("  << content.property("sites").toString() << ")\t" << content.property("initConcentration").toString();
+            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
+            ans << "\n";
+        }else if( content.property("type").toString() == "molecule" )
+        {
+            ans << "m:" << content.property("agent").toString() << ( content.property("reversed").toBool()?"'":"" ) << "(" << content.property("sites").toString() << ")\t" << content.property("initConcentration").toString();
+            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
+            ans << "\n";
+        }
+
+    }
+
+    ans << "<" << tag << ">\n\n";
+
+    return strAns;
+}
+
+void AssemblyScene::launchTextEditor()
+{
+    QDialog widget;
+    QTextEdit * editor = new QTextEdit;
+    QTextDocument document(outputMoDeLText());
+    QVBoxLayout * vlayout = new QVBoxLayout;
+    QHBoxLayout * hlayout = new QHBoxLayout;
+    QPushButton * ok = new QPushButton("OK");
+    QPushButton * cancel = new QPushButton("CANCEL");
+    editor->setWordWrapMode(QTextOption::NoWrap);
+    ok->setFixedSize(100,30);
+    cancel->setFixedSize(100,30);
+    connect( ok , SIGNAL(clicked()) , &widget , SLOT(accept()) );
+    connect( cancel , SIGNAL(clicked()) , &widget , SLOT(reject()) );
+    hlayout->addWidget(ok);
+    hlayout->addWidget(cancel);
+    vlayout->addWidget(editor);
+    vlayout->addLayout(hlayout);
+    editor->setDocument(&document);
+    widget.setLayout(vlayout);
+    widget.setResult(QDialog::Rejected);
+
+    widget.resize(800,600);
+    int code = widget.exec();
+    if( code == QDialog::Accepted )
+    {
+        MoDeLDocParser parser;
+        QString tmpStr = document.toPlainText();
+        QMessageBox::information(0,"",tmpStr);
+        QTextStream fin(&tmpStr);
+        if( parser.parse(*model,fin) )
+        {
+            clear();
+            fin.setString(&tmpStr);
+            parser.parse(*model,fin);
+            readModel();
+        }else{
+            QMessageBox::information(0,"Error","Can not accept edit due to syntex error!");
+        }
+    }
+}
 
 
 

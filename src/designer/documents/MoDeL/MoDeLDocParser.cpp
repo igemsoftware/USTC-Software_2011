@@ -5,6 +5,7 @@
 #include "models/common/ModelSymbol.h"
 #include "models/igamemodel/IGame.h"
 #include "MoDeLDocParser.h"
+#include "DesignerDebug.h"
 
 
 MoDeLDocParser::MoDeLDocParser()
@@ -117,6 +118,7 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
         compartmentList.push_back(compartment);
     }
     root.setProperty("childCompartments", convertModelTypeToScriptValue( engine , compartmentList ) );
+
     return true;
 }
 
@@ -155,13 +157,12 @@ bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & p
             rx.setPattern("population=\"(\\w+)\"");
             if( rx.indexIn(line) > -1 )
             {
-                if( parameterSet.contains( rx.cap(1) ) ) compartment.setProperty( "population" , QScriptValue( rx.cap(1) ) );
+                if( parameterSet.contains( rx.cap(1) ) )
+                    compartment.setProperty( "population" , QScriptValue( rx.cap(1) ) );
                 else{
                     QMessageBox::critical( 0 , "Syntex Error!" , QString("Undefined parameter used!\n") + rx.cap(1) );
                     return false;
                 }
-            }else{
-                compartment.setProperty( "population" , QScriptValue( 1.0 ) );
             }
         }else{
             QList<QString> tmpList = line.simplified().split(" ");

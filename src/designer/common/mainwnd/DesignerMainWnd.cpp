@@ -331,4 +331,5 @@ void DesignerMainWnd::instanceMessageReceived(const QString& message)
 void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
 {
     ui->tabWidget->removeTab(index);
+    if( ui->tabWidget->count() == 0 ) this->close();
 }

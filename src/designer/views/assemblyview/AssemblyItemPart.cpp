@@ -6,6 +6,7 @@ const char * AssemblyItemPart::MimeFormat = "lachesis/AssemblyItemPart";
 AssemblyItemPart::AssemblyItemPart( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
     AssemblyItemBase( newScriptValue , QObject::tr(":/designer/oops.png") , QObject::tr(":/designer/oops.png") , parent )
 {
+    displayName = new QGraphicsTextItem( scriptValue.property("agent").toString() , this );
     displayName->setTextWidth( pixmap().rect().width() );
     displayName->setPos( ( pixmap().width() - displayName->textWidth() )/2 , pixmap().height() );
 }

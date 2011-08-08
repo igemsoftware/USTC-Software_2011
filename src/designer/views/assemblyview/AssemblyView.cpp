@@ -75,8 +75,15 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
 
+    mainScene->launchTextEditor();
 }
 
 AssemblyView::~AssemblyView()
 {
+    delete mainScene;
+}
+
+QString AssemblyView::outputMoDeLText()
+{
+    return mainScene->outputMoDeLText();
 }

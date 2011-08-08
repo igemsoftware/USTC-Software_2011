@@ -124,6 +124,7 @@
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionHelpAboutApp"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="styleSheet">
@@ -168,7 +169,7 @@
   </action>
   <action name="actionFileNew">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-new.png</normaloff>:/designer/common/toolbar/common/toolbar/file-new.png</iconset>
    </property>
    <property name="text">
@@ -177,7 +178,7 @@
   </action>
   <action name="actionFileSave">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-save.png</normaloff>:/designer/common/toolbar/common/toolbar/file-save.png</iconset>
    </property>
    <property name="text">
@@ -189,7 +190,7 @@
   </action>
   <action name="actionFileSaveAs">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-save-as.png</normaloff>:/designer/common/toolbar/common/toolbar/file-save-as.png</iconset>
    </property>
    <property name="text">
@@ -198,7 +199,7 @@
   </action>
   <action name="actionEditUndo">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/edit-undo.png</normaloff>:/designer/common/toolbar/common/toolbar/edit-undo.png</iconset>
    </property>
    <property name="text">
@@ -207,7 +208,7 @@
   </action>
   <action name="actionEditCut">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/edit-cut.png</normaloff>:/designer/common/toolbar/common/toolbar/edit-cut.png</iconset>
    </property>
    <property name="text">
@@ -216,7 +217,7 @@
   </action>
   <action name="actionEditCopy">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/edit-copy.png</normaloff>:/designer/common/toolbar/common/toolbar/edit-copy.png</iconset>
    </property>
    <property name="text">
@@ -225,7 +226,7 @@
   </action>
   <action name="actionEditPaste">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/edit-paste.png</normaloff>:/designer/common/toolbar/common/toolbar/edit-paste.png</iconset>
    </property>
    <property name="text">
@@ -234,7 +235,7 @@
   </action>
   <action name="actionHelpAboutApp">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/help-about.png</normaloff>:/designer/common/toolbar/common/toolbar/help-about.png</iconset>
    </property>
    <property name="text">
@@ -248,7 +249,7 @@
   </action>
   <action name="actionFileOpen">
    <property name="icon">
-    <iconset resource="resources/DesignerResources.qrc">
+    <iconset resource="../../resources/DesignerResources.qrc">
      <normaloff>:/designer/common/toolbar/common/toolbar/file-open.png</normaloff>:/designer/common/toolbar/common/toolbar/file-open.png</iconset>
    </property>
    <property name="text">
@@ -272,7 +273,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources/DesignerResources.qrc"/>
+  <include location="../../resources/DesignerResources.qrc"/>
  </resources>
  <connections/>
 </ui>

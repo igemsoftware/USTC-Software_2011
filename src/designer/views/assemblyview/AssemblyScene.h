@@ -20,6 +20,9 @@ public:
     void removeItem( AssemblyItemBase *item);
     bool addItem( AssemblyItemBase * item , bool flag = true );
     bool registerItem( AssemblyItemBase * item );
+
+    QString outputMoDeLText();
+
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
@@ -33,10 +36,15 @@ signals:
     void setScriptValue( QScriptValue value );
 public slots:
     void propagateSelectionChange();
+    void launchTextEditor();
 private:
     QMap<QString,AssemblyItemBase*> childrenMap;
+    QSet<QString> idSpace;
     IGameModel * model;
     void refreshScriptValue();
+
+    QString outputCompartmentText( QScriptValue compartment , QString tag );
+    void readModel();
 };
 
 #endif // ASSEMBLYSCENE_H

@@ -25,6 +25,8 @@ public:
     Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~AssemblyView();
 
+    QString outputMoDeLText();
+
 private:
 
     QToolBar * recentModule;
