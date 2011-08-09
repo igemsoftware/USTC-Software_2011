@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include "AssemblyLib.h"
+#include "AssemblyPropertyEditor.h"
 
 class AssemblyItemSizer;
 
@@ -20,7 +21,8 @@ public:
     QString getName();
     void setName( QString newName );
     QScriptValue getScriptValue();
-    void setScriptValue( QScriptValue & newScriptValue );
+
+    virtual void setScriptValue( QScriptValue & newScriptValue );
 
     virtual QList<AssemblyItemBase*> getChildren();
     virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
@@ -33,6 +35,7 @@ public:
 
 
 protected:
+    QString type;
     QScriptValue scriptValue;
     bool resizable;
     QGraphicsTextItem * displayName;
@@ -42,6 +45,7 @@ protected:
 
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 private:
     QPixmap normalImage , originalNormalImage;
     QPixmap selectedImage , originalSelectedImage;

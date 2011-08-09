@@ -23,6 +23,7 @@ public:
 
     QString outputMoDeLText();
 
+    bool reassignId( QString oldId , QString newId );
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);

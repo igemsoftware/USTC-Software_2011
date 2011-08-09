@@ -69,7 +69,8 @@ SOURCES +=\
     src/designer/common/app/DesignerApp.cpp \
     src/designer/common/mainwnd/DesignerMainWnd.cpp \
     src/designer/views/assemblyview/AssemblyItemMolecule.cpp \
-    src/designer/models/igamemodel/IGame.cpp
+    src/designer/models/igamemodel/IGame.cpp \
+    src/designer/views/assemblyview/AssemblyPropertyEditor.cpp
 
 
 HEADERS  += \
@@ -141,7 +142,8 @@ HEADERS  += \
     src/designer/common/app/DesignerApp.h \
     src/designer/common/mainwnd/DesignerMainWnd.h \
     src/designer/views/assemblyview/AssemblyItemMolecule.h \
-    src/designer/models/igamemodel/IGame.h
+    src/designer/models/igamemodel/IGame.h \
+    src/designer/views/assemblyview/AssemblyPropertyEditor.h
 
 
 FORMS    += \

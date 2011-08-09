@@ -13,6 +13,7 @@
 #include <QScriptValue>
 #include "models/common/ModelSymbol.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
+#include "DesignerDebug.h"
 
 namespace AssemblyViewNameSpace
 {

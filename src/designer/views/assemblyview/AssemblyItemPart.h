@@ -15,6 +15,8 @@ public:
     virtual ~AssemblyItemPart();
 
     virtual bool addChild(QPointF scenePos, AssemblyItemBase *child);
+
+    virtual void setScriptValue(QScriptValue &newScriptValue);
 private:
 };
 

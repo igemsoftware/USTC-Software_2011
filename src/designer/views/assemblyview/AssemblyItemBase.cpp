@@ -19,10 +19,8 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     setFlag( QGraphicsItem::ItemIsMovable );
 
     displayName = new QGraphicsTextItem( getId() , this );
-    displayName->adjustSize();
-    QRectF bound = mapRectToScene(boundingRect());
-    foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->childrenBoundingRect());
-    displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
+
+    setScriptValue( newScriptValue );
 }
 
 AssemblyItemBase::~AssemblyItemBase()
@@ -40,8 +38,15 @@ QString AssemblyItemBase::getName(){ return scriptValue.property("name").toStrin
 void AssemblyItemBase::setName(QString newName){ scriptValue.setProperty("name",QScriptValue(newName) ); }
 
 QScriptValue AssemblyItemBase::getScriptValue(){ return scriptValue; }
-void AssemblyItemBase::setScriptValue( QScriptValue & newScriptValue ){ scriptValue = newScriptValue; }
-
+void AssemblyItemBase::setScriptValue( QScriptValue & newScriptValue )
+{
+    scriptValue = newScriptValue;
+    displayName->setPlainText( scriptValue.property("id").toString() );
+    displayName->adjustSize();
+    QRectF bound = mapRectToScene(boundingRect());
+    foreach( AssemblyItemBase* child , getChildren() ) bound |= mapRectToScene(child->childrenBoundingRect());
+    displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
+}
 
 QList<AssemblyItemBase*> AssemblyItemBase::getChildren(){ QList<AssemblyItemBase*> nothing; return nothing; }
 
@@ -141,6 +146,20 @@ void AssemblyItemBase::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 
+void AssemblyItemBase::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    QScriptValueList tmp;
+    tmp.push_back( copyFromScriptValue( getScriptValue().engine() , getScriptValue() ) );
+    AssemblyPropertyEditor dialog(type,tmp);
+    if( dialog.exec() == QDialog::Accepted )
+    {
+        if( dynamic_cast<AssemblyScene*>(scene())->reassignId( scriptValue.property("id").toString() , tmp[0].property("id").toString() ) )
+            setScriptValue( tmp[0] );
+        else
+            QMessageBox::information(0,"Error","Edit denied due to incompatible id specified!");
+    }
+}
+
 AssemblyItemSizer::AssemblyItemSizer(QGraphicsItem *parent) :
     AssemblyItemBase( scriptValue , QObject::tr(":/designer/assemblyview/sizer_normal.png") , QObject::tr(":/designer/assemblyview/sizer_selected.png") , parent )
 {
@@ -171,7 +190,6 @@ void AssemblyItemSizer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QPointF point = mapToParent(mapFromScene( scenePos() + QPointF( pixmap().width()/2 , pixmap().height()/2 ) ) );
     dynamic_cast<AssemblyItemBase*>(parentItem())->resize( point.x() , point.y() );
 }
-
 
 
 

@@ -7,6 +7,7 @@ const char * AssemblyItemPlasmid::MimeFormat = "lachesis/AssemblyItemPlasmid";
 AssemblyItemPlasmid::AssemblyItemPlasmid( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
     AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/plasmid_normal.png") , QObject::tr(":/designer/assemblyview/plasmid_selected.png") , parent )
 {
+    type = "plasmid";
     if( scriptValue.property("structure").isArray() )
     {
         QScriptValueList children;

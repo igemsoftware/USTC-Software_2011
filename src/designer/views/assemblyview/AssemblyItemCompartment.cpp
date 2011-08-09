@@ -9,6 +9,7 @@ const char * AssemblyItemCompartment::MimeFormat = "lachesis/AssemblyItemCompart
 AssemblyItemCompartment::AssemblyItemCompartment( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
     AssemblyItemBase( newScriptValue , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
+    type = "compartment";
     setResizable(true);
 
     if( scriptValue.property("contains").isArray() )
