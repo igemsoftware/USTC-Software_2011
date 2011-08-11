@@ -3,7 +3,6 @@
 #include "BehaviorView.h"
 #include "ui_BehaviorView.h"
 
-
 BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),
     ui(new Ui::BehaviorView)
@@ -149,18 +148,7 @@ void BehaviorView::on_tabWidget_currentChanged(int index)
         ui->comboBox->clear();
     }
 }
-
-void BehaviorView::on_TimeEdit_textChanged(QString )
-{
-    ui->tabWidget->setCurrentIndex(0);
-    this->maxt=ui->TimeEdit->text().toDouble();
-    for(int i=0;i<this->times;i++)
-    {
-        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
-    }
-}
-
-void BehaviorView::on_ConcentrationEdit_textChanged(QString )
+void BehaviorView::on_ConcentrationEdit_editingFinished()
 {
     ui->tabWidget->setCurrentIndex(0);
     this->maxc=ui->ConcentrationEdit->text().toDouble();
@@ -200,7 +188,7 @@ void BehaviorView::on_generatevalueButton_clicked()
     }
 }
 
-void BehaviorView::on_TimeNodesEdit_textChanged(QString )
+void BehaviorView::on_TimeNodesEdit_editingFinished()
 {
     if(ui->TimeNodesEdit->text().toInt()>1)
     {
@@ -215,10 +203,17 @@ void BehaviorView::on_TimeNodesEdit_textChanged(QString )
     }
 }
 
-void BehaviorView::on_tableWidget_value_currentCellChanged(int currentRow, int currentColumn)
+void BehaviorView::on_TimeEdit_editingFinished()
 {
-    if(currentRow==this->nodes)
-        this->addnode();
-    if(currentColumn==this->times+1)
-        this->addtime();
+    ui->tabWidget->setCurrentIndex(0);
+    this->maxt=ui->TimeEdit->text().toDouble();
+    for(int i=0;i<this->times;i++)
+    {
+        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
+    }
+}
+
+void BehaviorView::on_pushButton_Add_clicked()
+{
+    this->addnode();
 }
