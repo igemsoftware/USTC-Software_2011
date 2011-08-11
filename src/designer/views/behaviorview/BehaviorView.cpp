@@ -53,7 +53,7 @@ void BehaviorView::addtime()
         ui->tableWidget_value->setItem(i,this->times+2,new QTableWidgetItem());
     }
     this->times++;
-        ui->TimeNodesEdit->setText(QString::number(this->times));
+        ui->TimeStepEdit->setText(QString::number(this->maxt/(this->times-1)));
 }
 
 void BehaviorView::initiate()
@@ -106,7 +106,8 @@ void BehaviorView::prepareToPlot()
     ui->PlotWidget->times=this->times;
     ui->PlotWidget->maxc=this->maxc;
     ui->PlotWidget->maxt=this->maxt;
-    ui->PlotWidget->deltax=this->maxt/(this->times-1);
+    ui->PlotWidget->deltat=ui->TimeStepEdit->text().toDouble();
+    ui->PlotWidget->draw=ui->pushButton_Draw;
     ui->PlotWidget->cb=ui->comboBox;
     ui->PlotWidget->tab=ui->tableWidget_value;
     ui->PlotWidget->drawable=false;
@@ -177,43 +178,46 @@ void BehaviorView::on_generatevalueButton_clicked()
     {
         ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
     }
-    if(ui->PlotWidget->drawable)
+    int j=int((ui->PlotWidget->vc->value(0).x()-30)*this->maxt/((ui->PlotWidget->size().width()-40)*this->maxt/(this->times-1)));
+    for(int i=0;i<ui->PlotWidget->vc->count();i++)
     {
-        for(int i=0;i<ui->PlotWidget->vc->count();i++)
-        {
-            int j=int((ui->PlotWidget->vc->value(i).x()-30)*this->maxt/((ui->PlotWidget->size().width()-40)*this->maxt/(this->times-1)));
-            ui->tableWidget_value->setItem(ui->comboBox->currentIndex()+1,j+2,new QTableWidgetItem
-            (QString::number(this->maxc-(ui->PlotWidget->vc->value(i).y()-10)*this->maxc/(ui->PlotWidget->size().height()-20))));
-        }
+        ui->tableWidget_value->setItem(ui->comboBox->currentIndex()+1,j+i+3,new QTableWidgetItem
+        (QString::number(this->maxc-(ui->PlotWidget->vc->value(i).y()-10)*this->maxc/(ui->PlotWidget->size().height()-20))));
     }
+    ui->PlotWidget->vc->clear();
 }
 
-void BehaviorView::on_TimeNodesEdit_editingFinished()
+void BehaviorView::on_TimeStepEdit_editingFinished()
 {
-    if(ui->TimeNodesEdit->text().toInt()>1)
+    int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
+    if(timenum<1)
+        return;
+    this->times=timenum;
+    ui->tableWidget_value->setColumnCount(this->times+2);
+    for(int i=0;i<this->times;i++)
     {
-        this->times=ui->TimeNodesEdit->text().toInt();
-        ui->tableWidget_value->setColumnCount(this->times+2);
-        for(int i=0;i<this->times;i++)
-        {
-            ui->tableWidget_value->setHorizontalHeaderItem(i+2,new QTableWidgetItem("Time "+QString::number(i+1)));
-            ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
-        }
-        this->on_ResetButton_clicked();
+        ui->tableWidget_value->setHorizontalHeaderItem(i+2,new QTableWidgetItem("Time "+QString::number(i+1)));
+        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
     }
+    this->on_ResetButton_clicked();
 }
 
 void BehaviorView::on_TimeEdit_editingFinished()
 {
     ui->tabWidget->setCurrentIndex(0);
     this->maxt=ui->TimeEdit->text().toDouble();
-    for(int i=0;i<this->times;i++)
-    {
-        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
-    }
+    this->on_TimeStepEdit_editingFinished();
 }
 
 void BehaviorView::on_pushButton_Add_clicked()
 {
     this->addnode();
+}
+
+void BehaviorView::on_pushButton_Delete_clicked()
+{
+    if(this->nodes==1)
+        return;
+    ui->tableWidget_value->setRowCount(this->nodes);
+    this->nodes--;
 }

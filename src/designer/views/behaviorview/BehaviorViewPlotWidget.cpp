@@ -37,19 +37,23 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    int deltax=int(this->deltax*(this->size().width()-40)/this->maxt);
+    double deltax=this->deltat*(this->size().width()-40)/this->maxt;
     int index=int((this->currentPos.x()-30)/deltax)+1;
-    int i=(event->x()-30)%deltax;
+    if(event->pos().x()<this->currentPos.x())
+    {
+        this->scribbling=false;
+        this->drawable=false;
+        this->draw->setDown(false);
+        if(this->cb->itemText(this->cb->count()-1)!="all")
+        {
+            this->cb->addItem(tr("all"));
+        }
+    }
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
-    if (this->drawable)
+    if (this->drawable && this->scribbling)
     {
-        if(i==0)
-        {
-            vc->append(event->pos());
-            index++;
-        }
-        else if(int((event->pos().x()-30)/deltax)>=index)
+        while(int((event->pos().x()-30)/deltax)>=index)
         {
             int x1=this->currentPos.x(),x2=event->pos().x();
             int y1=this->currentPos.y(),y2=event->pos().y();

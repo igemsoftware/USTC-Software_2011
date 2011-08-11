@@ -14,7 +14,8 @@ public:
     int times;
     double maxc;
     double maxt;
-    double deltax;
+    double deltat;
+    QPushButton *draw;
     QPoint currentPos;
     QVector<QPoint> *vc;
     QColor myPenColor;
