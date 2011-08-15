@@ -10,6 +10,7 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     ui->setupUi(this);
     this->nodes=0;
     this->times=0;
+    this->timeNumLimit=10000;
     this->maxt=ui->TimeEdit->text().toDouble();
     this->maxc=ui->ConcentrationEdit->text().toDouble();
     this->initiated=false;
@@ -192,6 +193,14 @@ void BehaviorView::on_TimeStepEdit_editingFinished()
     int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
     if(timenum<1)
         return;
+    if(timenum>this->timeNumLimit+1)
+    {
+        QMessageBox *qmb=new QMessageBox(this);
+        qmb->setText(tr("The upper limit of time nodes number is 10000"));
+        qmb->exec();
+        ui->TimeStepEdit->setText(QString::number(this->maxt/this->timeNumLimit));
+        timenum=this->timeNumLimit+1;
+    }    
     this->times=timenum;
     ui->tableWidget_value->setColumnCount(this->times+2);
     for(int i=0;i<this->times;i++)
@@ -205,8 +214,26 @@ void BehaviorView::on_TimeStepEdit_editingFinished()
 void BehaviorView::on_TimeEdit_editingFinished()
 {
     ui->tabWidget->setCurrentIndex(0);
+    int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
+    if(timenum<1)
+        return;
+    if(timenum>this->timeNumLimit+1)
+    {
+        QMessageBox *qmb=new QMessageBox(this);
+        qmb->setText(tr("The upper limit of time nodes number is 10000"));
+        qmb->exec();
+        ui->TimeEdit->setText(QString::number(ui->TimeStepEdit->text().toDouble()*10000));
+        timenum=this->timeNumLimit+1;
+    }
+    this->times=timenum;
     this->maxt=ui->TimeEdit->text().toDouble();
-    this->on_TimeStepEdit_editingFinished();
+    ui->tableWidget_value->setColumnCount(this->times+2);
+    for(int i=0;i<this->times;i++)
+    {
+        ui->tableWidget_value->setHorizontalHeaderItem(i+2,new QTableWidgetItem("Time "+QString::number(i+1)));
+        ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
+    }
+    this->on_ResetButton_clicked();
 }
 
 void BehaviorView::on_pushButton_Add_clicked()

@@ -15,6 +15,7 @@ class BehaviorView : public DesignerViewItf
 public:
     int nodes;
     int times;
+    int timeNumLimit;
     double maxc;
     double maxt;
 
