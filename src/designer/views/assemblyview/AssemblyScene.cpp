@@ -70,6 +70,8 @@ void AssemblyScene::readModel()
             idSpace.insert(event.property("id").toString());
         foreach( QScriptValue parameter , parameters )
             idSpace.insert(parameter.property("id").toString());
+        parameterSpaceChanged();
+
     }else{
         QScriptValue root , rootCompartment;
         model->getEngine()->globalObject().setProperty("model", root = model->getEngine()->newObject() );
@@ -451,7 +453,6 @@ void AssemblyScene::launchTextEditor()
     {
         MoDeLDocParser parser;
         QString tmpStr = document.toPlainText();
-        QMessageBox::information(0,"",tmpStr);
         QTextStream fin(&tmpStr);
         if( parser.parse(*model,fin) )
         {
@@ -464,7 +465,6 @@ void AssemblyScene::launchTextEditor()
         }
     }
 }
-
 
 bool AssemblyScene::reassignId(QString oldId, QString newId)
 {
@@ -483,6 +483,57 @@ bool AssemblyScene::reassignId(QString oldId, QString newId)
 }
 
 
+void AssemblyScene::requestEventEdit()
+{
+    QScriptValueList original;
+    qScriptValueToSequence( model->getEngine()->globalObject().property("model").property("events") , original );
 
+    QScriptValueList mock;
+    foreach( QScriptValue value , original )
+        mock.push_back( copyFromScriptValue( model->getEngine() , value ) );
 
+    AssemblyPropertyEditor dialog( "event" , mock , model->getEngine() );
 
+    if( dialog.exec() )
+    {
+        foreach( QScriptValue value , mock )
+            if( idSpace.contains( value.property("id").toString() ) ) goto FAIL;
+        model->getEngine()->globalObject().property("model").setProperty( "events" , convertModelTypeToScriptValue( model->getEngine() , mock ) );
+        return;
+        FAIL:;
+    }
+
+}
+
+void AssemblyScene::requestParameterEdit()
+{
+    QScriptValueList original;
+    qScriptValueToSequence( model->getEngine()->globalObject().property("model").property("parameters") , original );
+
+    QScriptValueList mock;
+    foreach( QScriptValue value , original )
+        mock.push_back( copyFromScriptValue( model->getEngine() , value ) );
+
+    AssemblyPropertyEditor dialog( "parameter" , mock , model->getEngine() );
+
+    if( dialog.exec() )
+    {
+        foreach( QScriptValue value , mock )
+            if( idSpace.contains( value.property("id").toString() ) ) goto FAIL;
+        model->getEngine()->globalObject().property("model").setProperty( "parameters" , convertModelTypeToScriptValue( model->getEngine() , mock ) );
+        parameterSpaceChanged();
+        return;
+        FAIL:;
+    }
+}
+
+void AssemblyScene::parameterSpaceChanged()
+{
+    QScriptValueList original;
+    qScriptValueToSequence( model->getEngine()->globalObject().property("model").property("parameters") , original );
+
+    QList<QScriptValue> * combo = new QList<QScriptValue>;
+    foreach( QScriptValue value , original )
+        combo->push_back(value.property("id"));
+    AssemblyPropertyEditor::setCombo( "parameter" , combo );
+}

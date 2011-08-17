@@ -3,6 +3,7 @@
 #include "common/mainwnd/DesignerMainWnd.h"
 #include "interfaces/DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
+#include "AssemblyDBEditor.h"
 
 namespace AssemblyViewNameSpace
 {
@@ -75,7 +76,8 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
 
-    mainScene->launchTextEditor();
+    AssemblyDBEditor dbeditor;
+    dbeditor.exec();
 }
 
 AssemblyView::~AssemblyView()

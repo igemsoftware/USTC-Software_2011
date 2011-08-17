@@ -150,7 +150,7 @@ void AssemblyItemBase::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     QScriptValueList tmp;
     tmp.push_back( copyFromScriptValue( getScriptValue().engine() , getScriptValue() ) );
-    AssemblyPropertyEditor dialog(type,tmp);
+    AssemblyPropertyEditor dialog(type,tmp,scriptValue.engine());
     if( dialog.exec() == QDialog::Accepted )
     {
         if( dynamic_cast<AssemblyScene*>(scene())->reassignId( scriptValue.property("id").toString() , tmp[0].property("id").toString() ) )

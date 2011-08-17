@@ -10,8 +10,8 @@ QMap<QString,QList<QScriptValue>*> AssemblyPropertyEditor::comboMap;
 QMap<QString,AssemblyPropertyEditor::ScriptTypeSpecifier> AssemblyPropertyEditor::typeMap;
 
 
-AssemblyPropertyEditor::AssemblyPropertyEditor( QString newType , QScriptValueList & newScriptValueList , QWidget *parent ) :
-    QDialog(parent) , type(newType) , valueList(newScriptValueList)
+AssemblyPropertyEditor::AssemblyPropertyEditor( QString newType , QScriptValueList & newScriptValueList , QScriptEngine * newEngine , QWidget *parent ) :
+    QDialog(parent) , type(newType) , valueList(newScriptValueList) , engine(newEngine)
 {
     initializeOnce();
 
@@ -65,14 +65,15 @@ void AssemblyPropertyEditor::setIndex(int newIndex)
 {
     index = newIndex;
     ScriptTypeSpecifier sts = typeMap[type];
+
     for( int i = 0 ; i < sts.properties.count() ; i++ )
     {
         if( sts.properties[i].type == TypeString || sts.properties[i].type == TypeNumber )
         {
-            dynamic_cast<QLineEdit*>(form->itemAt(i,QFormLayout::FieldRole)->widget())->setText( valueList.at(index).property( sts.properties[i].name ).toString() );
+            dynamic_cast<QLineEdit*>(form->itemAt(i,QFormLayout::FieldRole)->widget())->setText( index<valueList.count()?valueList.at(index).property( sts.properties[i].name ).toString():"" );
         }else{
             QComboBox * combo = dynamic_cast<QComboBox*>(form->itemAt(i,QFormLayout::FieldRole)->widget());
-            combo->setCurrentIndex( combo->findText( valueList.at(index).property( sts.properties[i].name ).toString() ) );
+            combo->setCurrentIndex( index<valueList.count()?combo->findText( valueList.at(index).property( sts.properties[i].name ).toString() ):0 );
         }
     }
 }
@@ -80,6 +81,7 @@ void AssemblyPropertyEditor::setIndex(int newIndex)
 void AssemblyPropertyEditor::accept()
 {
     ScriptTypeSpecifier sts = typeMap[type];
+    if( index>=valueList.count() ) valueList.push_back(engine->newObject());
     for( int i = 0 ; i < sts.properties.count() ; i++ )
     {
         if( sts.properties[i].type == TypeString )
@@ -181,4 +183,10 @@ void AssemblyPropertyEditor::initializeOnce()
 
     typeMap.insert("event",event);
 
+}
+
+bool AssemblyPropertyEditor::setCombo(QString name, QList<QScriptValue> *combo)
+{
+    comboMap[name] = combo;
+    return true;
 }

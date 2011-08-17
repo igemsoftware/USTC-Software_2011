@@ -10,7 +10,7 @@ class AssemblyPropertyEditor : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AssemblyPropertyEditor( QString newType , QScriptValueList & newScriptValueList , QWidget *parent = 0);
+    explicit AssemblyPropertyEditor( QString newType , QScriptValueList & newScriptValueList , QScriptEngine * newEngine , QWidget *parent = 0);
 
     static bool setCombo( QString name , QList<QScriptValue> * combo );
 signals:
@@ -59,6 +59,7 @@ private:
     QString type;
     QScriptValueList & valueList;
     QFormLayout * form;
+    QScriptEngine * engine;
 };
 
 #endif // ASSEMBLYPROPERTYEDITOR_H

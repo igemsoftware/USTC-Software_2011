@@ -25,6 +25,8 @@
         <file>partview/icon_signalling.png</file>
         <file>partview/icon_temporary.png</file>
         <file>partview/icon_terminator.png</file>
+        <file>common/button/add.ico</file>
+        <file>common/button/remove.ico</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>

@@ -70,7 +70,8 @@ SOURCES +=\
     src/designer/common/mainwnd/DesignerMainWnd.cpp \
     src/designer/views/assemblyview/AssemblyItemMolecule.cpp \
     src/designer/models/igamemodel/IGame.cpp \
-    src/designer/views/assemblyview/AssemblyPropertyEditor.cpp
+    src/designer/views/assemblyview/AssemblyPropertyEditor.cpp \
+    src/designer/views/assemblyview/AssemblyDBEditor.cpp
 
 
 HEADERS  += \
@@ -143,7 +144,8 @@ HEADERS  += \
     src/designer/common/mainwnd/DesignerMainWnd.h \
     src/designer/views/assemblyview/AssemblyItemMolecule.h \
     src/designer/models/igamemodel/IGame.h \
-    src/designer/views/assemblyview/AssemblyPropertyEditor.h
+    src/designer/views/assemblyview/AssemblyPropertyEditor.h \
+    src/designer/views/assemblyview/AssemblyDBEditor.h
 
 
 FORMS    += \
@@ -153,7 +155,8 @@ FORMS    += \
     src/designer/views/partview/PartView.ui \
     src/designer/views/aboutview/AboutView.ui \
     src/designer/views/clothodbview/ClothoDBView.ui \
-    src/designer/common/mainwnd/DesignerMainWnd.ui
+    src/designer/common/mainwnd/DesignerMainWnd.ui \
+    src/designer/views/assemblyview/AssemblyDBEditor.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc

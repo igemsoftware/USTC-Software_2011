@@ -38,6 +38,10 @@ signals:
 public slots:
     void propagateSelectionChange();
     void launchTextEditor();
+    void requestParameterEdit();
+    void requestEventEdit();
+
+    void parameterSpaceChanged();
 private:
     QMap<QString,AssemblyItemBase*> childrenMap;
     QSet<QString> idSpace;
