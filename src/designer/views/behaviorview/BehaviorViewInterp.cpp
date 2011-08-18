@@ -1,25 +1,5 @@
 #include "BehaviorViewInterp.h"
 
-//BehaviorViewInterp::BehaviorViewInterp(double a, double b, double fa, double fb, double fa1, double fa2 )
-//{
-//    this->a=a;this->b=b;this->fa=fa;this->fb=fb;this->fa1=fa1;this->fa2=fa2;
-//}
-
-//double BehaviorViewInterp::PolySection(double x)
-//{
-//    return fa+fa1*(x-a)+0.5*fa2*pow((x-a),2)+(fb-fa-fa1*(b-a)-0.5*fa2*pow((b-a),2))*pow((x-a),3)/pow((b-a),3);
-//}
-
-//double BehaviorViewInterp::diff1()
-//{
-//    return 3*(fb-fa)/(b-a)-0.5*fa2*(b-a)-2*fa1;
-//}
-
-//double BehaviorViewInterp::diff2()
-//{
-//    return 6*(fb-fa-fa1*(b-a))/pow((b-a),2)-2*fa2;
-//}
-
 BehaviorViewInterp::BehaviorViewInterp(QVector<double> *x, QVector<double> *y, double d0, double dn,int t)
 {
     this->x=x;this->y=y;

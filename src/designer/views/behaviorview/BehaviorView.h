@@ -25,6 +25,7 @@ public:
     void initiate();
     void addnode();
     void addtime();
+    bool eventFilter(QObject *, QEvent *);
 
 private:
     Ui::BehaviorView *ui;

@@ -22,6 +22,19 @@ BehaviorView::~BehaviorView()
 {
     delete ui;
 }
+bool BehaviorView::eventFilter(QObject *obj, QEvent *event)
+{
+    if(ui->PlotWidget->drawable && obj==ui->PlotWidget && (event->type()==QEvent::MouseMove || event->type()==QEvent::MouseButtonRelease))
+    {
+        QMouseEvent * me=dynamic_cast<QMouseEvent *>(event);
+        if(me->pos().x()<ui->PlotWidget->lastPoint.x())
+            return true;
+        else
+            return false;
+    }
+    else
+        return QWidget::eventFilter(obj,event);
+}
 
 void BehaviorView::addnode()
 {
@@ -147,6 +160,7 @@ void BehaviorView::on_tabWidget_currentChanged(int index)
         ui->comboBox->clear();
     }
 }
+
 void BehaviorView::on_ConcentrationEdit_editingFinished()
 {
     ui->tabWidget->setCurrentIndex(0);
