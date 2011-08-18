@@ -10,11 +10,12 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     ui->setupUi(this);
     this->nodes=0;
     this->times=0;
-    this->timeNumLimit=10000;
+    this->timeNumLimit=10000;    
     this->maxt=ui->TimeEdit->text().toDouble();
     this->maxc=ui->ConcentrationEdit->text().toDouble();
     this->initiated=false;
     this->initiate();
+    ui->PlotWidget->installEventFilter(this);
 }
 
 BehaviorView::~BehaviorView()
@@ -60,14 +61,10 @@ void BehaviorView::addtime()
 void BehaviorView::initiate()
 {
         ui->tableWidget_value->setColumnCount(2);
-        ui->tableWidget_value->setRowCount(1);
-        QLabel *label=new QLabel(ui->tableWidget_value);
-        label->setText("name");
-        ui->tableWidget_value->setCellWidget(0,0,label);
-        label=new QLabel(ui->tableWidget_value);
-        label->setText("color");
-        ui->tableWidget_value->setCellWidget(0,1,label);        
-        ui->tableWidget_value->setSelectionMode(QTableView::ContiguousSelection);        
+        ui->tableWidget_value->setRowCount(1);        
+        ui->tableWidget_value->setHorizontalHeaderItem(0,new QTableWidgetItem(tr("Name")));
+        ui->tableWidget_value->setHorizontalHeaderItem(1,new QTableWidgetItem(tr("Color")));
+        ui->tableWidget_value->setSelectionMode(QTableView::ContiguousSelection);
         ui->comboBox->clear();
         this->addnode();
         this->addtime();
@@ -243,8 +240,8 @@ void BehaviorView::on_pushButton_Add_clicked()
 
 void BehaviorView::on_pushButton_Delete_clicked()
 {
-    if(this->nodes==1)
+    if(this->nodes==1||ui->tableWidget_value->currentRow()==0)
         return;
-    ui->tableWidget_value->setRowCount(this->nodes);
+    ui->tableWidget_value->removeRow(ui->tableWidget_value->currentRow());
     this->nodes--;
 }

@@ -2,7 +2,7 @@
 #define BEHAVIORVIEW_H
 
 #include <QWidget>
-#include <interfaces/DesignerViewItf.h>
+#include "interfaces/DesignerViewItf.h"
 
 namespace Ui {
     class BehaviorView;

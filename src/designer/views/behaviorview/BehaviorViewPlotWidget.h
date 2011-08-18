@@ -2,7 +2,7 @@
 #define BEHAVIORVIEWPLOTWIDGET_H
 
 #include <QtGui>
-#include <QVector>
+#include "BehaviorViewInterp.h"
 
 class BehaviorViewPlotWidget : public QWidget
 {
@@ -26,6 +26,7 @@ public:
     void setPenWidth(int newWidth);
     void PlotFromValue();
     void ValueFromPlot();
+    QVector<double> * spline(QVector<double> *t, QVector<double> *c, QVector<double> *newt);
 public slots:
     void clearImage();
 
