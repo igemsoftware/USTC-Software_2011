@@ -71,7 +71,8 @@ SOURCES +=\
     src/designer/views/assemblyview/AssemblyItemMolecule.cpp \
     src/designer/models/igamemodel/IGame.cpp \
     src/designer/views/assemblyview/AssemblyPropertyEditor.cpp \
-    src/designer/views/assemblyview/AssemblyDBEditor.cpp
+    src/designer/views/assemblyview/AssemblyDBEditor.cpp \
+    src/designer/views/behaviorview/BehaviorViewInterp.cpp
 
 
 HEADERS  += \
@@ -145,8 +146,8 @@ HEADERS  += \
     src/designer/views/assemblyview/AssemblyItemMolecule.h \
     src/designer/models/igamemodel/IGame.h \
     src/designer/views/assemblyview/AssemblyPropertyEditor.h \
-    src/designer/views/assemblyview/AssemblyDBEditor.h
-
+    src/designer/views/assemblyview/AssemblyDBEditor.h \
+    src/designer/views/behaviorview/BehaviorViewInterp.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

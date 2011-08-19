@@ -2,7 +2,7 @@
 #define BEHAVIORVIEWPLOTWIDGET_H
 
 #include <QtGui>
-#include <QVector>
+#include "BehaviorViewInterp.h"
 
 class BehaviorViewPlotWidget : public QWidget
 {
@@ -21,11 +21,14 @@ public:
     QColor myPenColor;
     QTableWidget *tab;
     QComboBox *cb;
+    QPoint lastPoint;
 
     void setPenColor(const QColor &newColor);
     void setPenWidth(int newWidth);
     void PlotFromValue();
     void ValueFromPlot();
+    QVector<double> * spline(QVector<double> *t, QVector<double> *c, QVector<double> *newt);
+
 public slots:
     void clearImage();
 
@@ -44,8 +47,6 @@ private:
     bool scribbling;
     int myPenWidth;
     QImage image;
-    QPoint lastPoint;
-
 };
 
 #endif // BEHAVIORVIEWPLOTWIDGET_H

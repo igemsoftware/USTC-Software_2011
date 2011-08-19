@@ -143,28 +143,62 @@ void BehaviorViewPlotWidget::PlotFromValue()
     for(int i=0;i<this->nodes;i++)
     {
         if(this->cb->currentIndex()==i||this->cb->currentIndex()==(this->cb->count()-1))
-        {
-            int count=0;
+        {            
+            int height=this->size().height()-20;
+            int width=this->size().width()-40;
             QComboBox *comboBox=(QComboBox *)this->tab->cellWidget(i+1,1);
             this->myPenColor=comboBox->itemData(comboBox->currentIndex(), Qt::UserRole).value<QColor>();
+            QVector<double> * t=new QVector<double>();
+            QVector<double> * c=new QVector<double>();
+            QVector<double> * newt=new QVector<double>();
+            QVector<double> * newc=new QVector<double>();
             for(int j=0;j<this->times;j++)
-            {                
-                int height=this->size().height()-20;
-                int width=this->size().width()-40;
-                double value;
+            {
                 if(this->tab->item(i+1,j+2)!=NULL && !this->tab->item(i+1,j+2)->text().isEmpty())
                 {
-                    value=this->tab->item(i+1,j+2)->text().toDouble();
-                    QPoint *pt=new QPoint(int(30+this->tab->item(0,j+2)->text().toDouble()*width/this->maxt),int(10+(this->maxc-value)*height/this->maxc));
-                    if(count==0)
-                    {
-                        this->lastPoint=*pt;
-                        count++;
-                    }
-                    this->drawLineTo(*pt);
+                    t->append(this->tab->item(0,j+2)->text().toDouble());
+                    c->append(this->tab->item(i+1,j+2)->text().toDouble());
+                }                
+            }
+
+            if(t->size()<100&&t->size()>1)
+            {
+                double delta=(t->at(t->size()-1)-t->at(0))/200;
+                for(int n=0;n<=200;n++)
+                {
+                    newt->append(t->at(0)+n*delta);
                 }
+                newc=this->spline(t,c,newt);
+            }
+            else
+            {
+                newt=t;
+                newc=c;
+            }            
+            for(int m=0;m<newc->size();m++)
+            {
+                QPoint *pt=new QPoint(int(30+newt->at(m)*width/this->maxt),int(10+(this->maxc-newc->at(m))*height/this->maxc));
+                if(m==0)
+                   this->lastPoint=*pt;
+                this->drawLineTo(*pt);
             }
         }
     }
+}
+
+QVector<double> * BehaviorViewPlotWidget::spline(QVector<double> *t, QVector<double> *c, QVector<double> *newt)
+{
+    int i=0;
+    QVector<double>* newc=new QVector<double>();
+    BehaviorViewInterp * bvi=new BehaviorViewInterp(t,c,0,0,2);
+    for(int j=0;j<t->size()-1;j++)
+    {        
+        while(i<newt->size()&&newt->at(i)<=t->at(j+1))
+        {
+            newc->append(bvi->value(newt->at(i),j));
+            i++;
+        }
+    }
+    return newc;
 }
 
