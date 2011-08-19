@@ -5,6 +5,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
+
 
 namespace Ui {
     class AssemblyDBEditor;
@@ -22,6 +24,13 @@ public slots:
     void refresh();
     void addSet();
     void removeSet();
+    void selectCompartment( QString compartment );
+
+    void addRule();
+    void removeRule();
+
+    void addAgent();
+    void removeAgent();
 private:
     Ui::AssemblyDBEditor *ui;
 
