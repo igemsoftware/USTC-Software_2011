@@ -166,6 +166,7 @@ void AssemblyDBEditor::addRule()
 
 void AssemblyDBEditor::removeRule()
 {
+    ruleModel->removeRows( ui->ruleView->currentIndex().row() , 1 );
 }
 
 void AssemblyDBEditor::addAgent()
@@ -175,5 +176,5 @@ void AssemblyDBEditor::addAgent()
 
 void AssemblyDBEditor::removeAgent()
 {
-
+    agentModel->removeRows( ui->agentView->currentIndex().row() , 1 );
 }

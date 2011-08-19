@@ -75,6 +75,9 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
 
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , propertyWidget , SLOT(changeScriptValue(QScriptValue)) );
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
+
+    AssemblyDBEditor db;
+    db.exec();
 }
 
 AssemblyView::~AssemblyView()
