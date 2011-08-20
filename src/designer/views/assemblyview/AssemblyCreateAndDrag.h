@@ -3,12 +3,12 @@
 
 #include <QMessageBox>
 
-#include <QToolButton>
+#include <QPushButton>
 #include <QDrag>
 #include <QMimeData>
 #include <QScriptEngine>
 
-class AssemblyCreateAndDrag : public QToolButton
+class AssemblyCreateAndDrag : public QPushButton
 {
     Q_OBJECT
 public:

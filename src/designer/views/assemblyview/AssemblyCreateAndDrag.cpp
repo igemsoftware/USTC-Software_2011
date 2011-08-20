@@ -3,13 +3,13 @@
 #include <QScriptValueIterator>
 
 AssemblyCreateAndDrag::AssemblyCreateAndDrag( QString newType , QScriptValue newScriptValue , QPixmap newIcon , QWidget *parent) :
-    QToolButton(parent)
+    QPushButton(parent)
 {
     scriptValue = newScriptValue;
     type = newType;
     icon = newIcon;
-    setText( scriptValue.property("name").toString() );
     setIcon( icon );
+    setFlat(true);
     connect( this , SIGNAL(pressed()) , this , SLOT(createAndDrag()) );
 }
 

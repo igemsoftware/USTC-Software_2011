@@ -10,12 +10,7 @@ AssemblyDBEditor::AssemblyDBEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setDatabaseName("igame");
-    db.setHostName("localhost");
-    db.setUserName("root");
-    db.setPassword("lovewin");
-    qDebug() << db.open();
+    db = QSqlDatabase::database("igame");
 
     ui->addSet->setIcon( QIcon(":/designer/common/button/add.ico") );
     ui->removeSet->setIcon( QIcon(":/designer/common/button/remove.ico") );
@@ -45,7 +40,6 @@ AssemblyDBEditor::AssemblyDBEditor(QWidget *parent) :
 
 AssemblyDBEditor::~AssemblyDBEditor()
 {
-    db.close();
     delete ui;
 }
 
@@ -132,6 +126,7 @@ void AssemblyDBEditor::addSet()
                            "id  CHAR(20) NOT NULL,"
                            "rate   VARCHAR(255) NULL,"
                            "defautl_site CHAR(255) NULL,"
+                           "note CHAR(512) NULL,"
                            "primary key(id) )" ).arg(text->text()) );
             query.exec( tr("CREATE TABLE %1_rule( "
                            "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"
@@ -140,6 +135,7 @@ void AssemblyDBEditor::addSet()
                            "reversible ENUM('Y','N') NULL default 'Y',"
                            "rate_on  VARCHAR(255) NOT NULL,"
                            "rate_off VARCHAR(255) NOT NULL,"
+                           "note CHAR(512) NULL,"
                            "PRIMARY KEY (id) )" ).arg(text->text()) );
             refresh();
         }

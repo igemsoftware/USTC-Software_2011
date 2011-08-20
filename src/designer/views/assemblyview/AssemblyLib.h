@@ -18,7 +18,6 @@
 namespace AssemblyViewNameSpace
 {
     extern bool firstInstance;
-    extern QList<QString> partTypes;
 }
 
 #include <views/assemblyview/AssemblyCreateAndDrag.h>

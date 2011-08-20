@@ -28,7 +28,7 @@ public:
     QString outputMoDeLText();
 
 private:
-
+    QSqlDatabase db;
     QToolBar * recentModule;
     QTabWidget * toolBox;
     QGraphicsView * mainView;

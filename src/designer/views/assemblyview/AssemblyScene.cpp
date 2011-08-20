@@ -468,6 +468,7 @@ void AssemblyScene::launchTextEditor()
 
 bool AssemblyScene::reassignId(QString oldId, QString newId)
 {
+    if( oldId == newId ) return true;
     if( !idSpace.contains(newId) && idSpace.contains(oldId) )
     {
         idSpace.remove(oldId);
@@ -476,6 +477,7 @@ bool AssemblyScene::reassignId(QString oldId, QString newId)
         {
             AssemblyItemBase * item = childrenMap[oldId];
             childrenMap.insert( newId , item );
+            childrenMap.remove(oldId);
         }
         return true;
     }

@@ -9,6 +9,8 @@
 #include <QScriptEngine>
 #include <QMouseEvent>
 #include <QScriptValueIterator>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
 class AssemblySearchWidget : public QWidget
 {
@@ -21,19 +23,14 @@ signals:
 public slots:
     void inputChanges(QString);
     void startDrag( QModelIndex index );
-
+    void reload();
 private:
+    QSqlDatabase db;
+    QSqlQuery * query;
     QScriptEngine * engine;
     QTableWidget * tableWidget;
     QLineEdit * lineEdit;
-    QComboBox * comboBox;
-
-    QMap<QString,int> propertyColumn;
-
-    QScriptValueList partList;
-
-
-    QScriptValueList query( QString type , QString name );
+    QComboBox * typeCombo , * compartmentCombo;
 };
 
 #endif // ASSEMBLYSEARCHWIDGET_H
