@@ -10,12 +10,12 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     ui->setupUi(this);
     this->nodes=0;
     this->times=0;
-    this->timeNumLimit=10000;    
+    this->timeNumLimit=10000;
     this->maxt=ui->TimeEdit->text().toDouble();
     this->maxc=ui->ConcentrationEdit->text().toDouble();
     this->initiated=false;
     this->initiate();
-    ui->PlotWidget->installEventFilter(this);
+    ui->PlotWidget->installEventFilter(this);    
 }
 
 BehaviorView::~BehaviorView()
@@ -151,8 +151,7 @@ void BehaviorView::on_tabWidget_currentChanged(int index)
     if(index==1)
     {
         this->initiated=true;
-        this->prepareToPlot();        
-        ui->PlotWidget->PlotFromValue();
+        this->prepareToPlot();
     }
     if(index==0)
     {
@@ -202,16 +201,8 @@ void BehaviorView::on_generatevalueButton_clicked()
 void BehaviorView::on_TimeStepEdit_editingFinished()
 {
     int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
-    if(timenum<1)
-        return;
-    if(timenum>this->timeNumLimit+1)
-    {
-        QMessageBox *qmb=new QMessageBox(this);
-        qmb->setText(tr("The upper limit of time nodes number is 10000"));
-        qmb->exec();
-        ui->TimeStepEdit->setText(QString::number(this->maxt/this->timeNumLimit));
-        timenum=this->timeNumLimit+1;
-    }    
+    if(timenum<1 || timenum==this->times)
+        return;    
     this->times=timenum;
     ui->tableWidget_value->setColumnCount(this->times+2);
     for(int i=0;i<this->times;i++)
@@ -222,20 +213,19 @@ void BehaviorView::on_TimeStepEdit_editingFinished()
     this->on_ResetButton_clicked();
 }
 
+void BehaviorView::on_TimeStepEdit_textChanged(QString )
+{
+    int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
+    if(timenum>this->timeNumLimit+1)
+        ui->TimeStepEdit->setText(QString::number(this->maxt/this->timeNumLimit));
+}
+
 void BehaviorView::on_TimeEdit_editingFinished()
 {
     ui->tabWidget->setCurrentIndex(0);
     int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
-    if(timenum<1)
+    if(timenum<1 || ui->TimeEdit->text().toDouble()==this->maxt)
         return;
-    if(timenum>this->timeNumLimit+1)
-    {
-        QMessageBox *qmb=new QMessageBox(this);
-        qmb->setText(tr("The upper limit of time nodes number is 10000"));
-        qmb->exec();
-        ui->TimeEdit->setText(QString::number(ui->TimeStepEdit->text().toDouble()*10000));
-        timenum=this->timeNumLimit+1;
-    }
     this->times=timenum;
     this->maxt=ui->TimeEdit->text().toDouble();
     ui->tableWidget_value->setColumnCount(this->times+2);
@@ -247,6 +237,12 @@ void BehaviorView::on_TimeEdit_editingFinished()
     this->on_ResetButton_clicked();
 }
 
+void BehaviorView::on_TimeEdit_textChanged(QString )
+{
+    int timenum=int(ui->TimeEdit->text().toDouble()/ui->TimeStepEdit->text().toDouble())+1;
+    if(timenum>this->timeNumLimit+1)
+        ui->TimeEdit->setText(QString::number(ui->TimeStepEdit->text().toDouble()*this->timeNumLimit));
+}
 void BehaviorView::on_pushButton_Add_clicked()
 {
     this->addnode();
@@ -258,4 +254,12 @@ void BehaviorView::on_pushButton_Delete_clicked()
         return;
     ui->tableWidget_value->removeRow(ui->tableWidget_value->currentRow());
     this->nodes--;
+}
+
+void BehaviorView::keyPressEvent(QKeyEvent *key)
+{
+    if(key->key()==Qt::Key_Delete)
+        this->on_pushButton_Delete_clicked();
+    else if(key->key()==Qt::Key_Insert)
+        this->addnode();
 }

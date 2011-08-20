@@ -17,7 +17,7 @@ public:
     int times;
     int timeNumLimit;
     double maxc;
-    double maxt;
+    double maxt;   
 
     Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~BehaviorView();
@@ -25,6 +25,7 @@ public:
     void initiate();
     void addnode();
     void addtime();
+    void keyPressEvent(QKeyEvent *key);
     bool eventFilter(QObject *, QEvent *);
 
 private:
@@ -32,6 +33,8 @@ private:
     bool initiated;
 
 private slots:    
+    void on_TimeStepEdit_textChanged(QString );
+    void on_TimeEdit_textChanged(QString );
     void on_pushButton_Delete_clicked();
     void on_pushButton_Add_clicked();
     void on_TimeEdit_editingFinished();
