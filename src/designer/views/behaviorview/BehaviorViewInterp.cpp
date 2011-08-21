@@ -40,13 +40,13 @@ void BehaviorViewInterp::cal_m(int n)
 {
     QVector<double> *B=new QVector<double>();
     B->append(c->at(0)/2);
-    for(int i = 1; i <n; i++)
+    for(int i = 1; i<n; i++)
         B->append(c->at(i)/(2-a->at(i)*B->at(i-1)));
     fxym->replace(0,fxym->at(0)/2);
-    for(int i = 1; i <x->size(); i++)
-            fxym->replace(i,(fxym->at(i) - a->at(i)*fxym->at(i-1)) / (2 - a->at(i)*B->at(i-1)));
-        for(int i=n-1; i>=0; i--)
-            fxym->replace(i, fxym->at(i) - B->at(i)*fxym->at(i+1));
+    for(int i=1;i<x->size();i++)
+            fxym->replace(i,(fxym->at(i)-a->at(i)*fxym->at(i-1))/(2-a->at(i)*B->at(i-1)));
+        for(int i=n-1;i>=0;i--)
+            fxym->replace(i,fxym->at(i)-B->at(i)*fxym->at(i+1));
 }
 
 double BehaviorViewInterp::f(int x1, int x2, int x3)
