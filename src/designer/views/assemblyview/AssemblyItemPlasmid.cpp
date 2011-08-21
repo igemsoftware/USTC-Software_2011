@@ -37,7 +37,16 @@ QList<AssemblyItemBase*> AssemblyItemPlasmid::getChildren()
 
 bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
-    if( ! dynamic_cast<AssemblyItemPart*>(child) || ! AssemblyItemBase::addChild( scenePos , child ) ) return false;
+    if( ! dynamic_cast<AssemblyItemPart*>(child) ) return false;
+    if( parentItem() )
+    {
+        if( dynamic_cast<AssemblyItemCompartment*>(parentItem())->getScriptValue().property("type").toString() != child->getScriptValue().property("compartment").toString() )
+            return false;
+    }else{
+        if( child->getScriptValue().property("compartment").toString() != "flask" )
+            return false;
+    }
+    if( ! AssemblyItemBase::addChild( scenePos , child ) ) return false;
 
     scenePos = mapFromScene(scenePos);
     qreal len = scenePos.x() + ASSEMBLY_ITEM_BRICK_WIDTH/2;

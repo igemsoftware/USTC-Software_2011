@@ -17,6 +17,9 @@ public:
     virtual bool addChild(QPointF scenePos, AssemblyItemBase *child);
 
     virtual void setScriptValue(QScriptValue &newScriptValue);
+
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 private:
 };
 

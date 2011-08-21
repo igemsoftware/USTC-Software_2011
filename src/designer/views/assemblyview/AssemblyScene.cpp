@@ -1,4 +1,6 @@
 #include "AssemblyScene.h"
+#include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include <QTextEdit>
@@ -138,9 +140,9 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+"_"+stri) ) break;
         }
-        itemId += stri;
+        itemId += "_"+stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new AssemblyItemCompartment( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPlasmid::MimeFormat ) )
@@ -153,9 +155,9 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+"_"+stri) ) break;
         }
-        itemId += stri;
+        itemId += "_"+stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new AssemblyItemPlasmid( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemMolecule::MimeFormat ) )
@@ -168,9 +170,9 @@ void AssemblyScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace.contains(itemId+"_"+stri) ) break;
         }
-        itemId += stri;
+        itemId += "_"+stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new AssemblyItemMolecule( *scriptValue );
     }else if( event->mimeData()->hasFormat( AssemblyItemPart::MimeFormat ) )
@@ -204,6 +206,7 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
             {
                 view->scale( 1.1 , 1.1 );
             }
+            event->accept();
             return;
         }else
         {
@@ -211,6 +214,7 @@ void AssemblyScene::wheelEvent(QGraphicsSceneWheelEvent *event)
             {
                 view->scale( 1/1.1 , 1/1.1 );
             }
+            event->accept();
             return;
         }
     }
@@ -291,6 +295,30 @@ bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
         if( flag ) registerItem( item );
         refreshScriptValue();
         return true;
+    }
+
+    if( dynamic_cast<AssemblyItemPart*>(item) && dynamic_cast<AssemblyItemPart*>(item)->getScriptValue().property("category").toString() == "pcs" )
+    {
+        QString itemId = "Protein";
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! idSpace.contains(itemId+"_"+stri) ) break;
+        }
+        itemId += "_"+stri;
+        QScriptValue scriptValue = item->getScriptValue().engine()->newObject();
+        scriptValue.setProperty( "id", QScriptValue(itemId) );
+        scriptValue.setProperty( "type" , "protein" );
+        scriptValue.setProperty( "agent" , item->getScriptValue().property("agent") );
+        scriptValue.setProperty( "reversed" , item->getScriptValue().property("reversed") );
+        scriptValue.setProperty( "sites" , item->getScriptValue().property("sites") );
+
+        QPointF pos = item->pos();
+        delete item;
+        item = new AssemblyItemMolecule( scriptValue );
+        item->setPos(pos);
+        return addItem( item );
     }
 
     delete item;
@@ -538,4 +566,8 @@ void AssemblyScene::parameterSpaceChanged()
     foreach( QScriptValue value , original )
         combo->push_back(value.property("id"));
     AssemblyPropertyEditor::setCombo( "parameter" , combo );
+}
+
+void AssemblyScene::igameDBRefresh()
+{
 }

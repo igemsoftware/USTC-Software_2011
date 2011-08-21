@@ -27,8 +27,10 @@ public:
 
     QString outputMoDeLText();
 
+public slots:
+    void igameDBRefresh();
+
 private:
-    QSqlDatabase db;
     QToolBar * recentModule;
     QTabWidget * toolBox;
     QGraphicsView * mainView;

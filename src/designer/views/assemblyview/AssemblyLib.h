@@ -15,14 +15,11 @@
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 #include "DesignerDebug.h"
 
-namespace AssemblyViewNameSpace
-{
-    extern bool firstInstance;
-}
+
 
 #include <views/assemblyview/AssemblyCreateAndDrag.h>
 
-#define ASSEMBLY_ITEM_BRICK_HEIGHT 40
-#define ASSEMBLY_ITEM_BRICK_WIDTH 40
+#define ASSEMBLY_ITEM_BRICK_HEIGHT 48
+#define ASSEMBLY_ITEM_BRICK_WIDTH 48
 
 #endif // ASSEMBLYLIB_H

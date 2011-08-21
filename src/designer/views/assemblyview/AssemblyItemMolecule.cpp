@@ -3,7 +3,7 @@
 const char * AssemblyItemMolecule::MimeFormat = "lachesis/AssemblyItemMolecule";
 
 AssemblyItemMolecule::AssemblyItemMolecule( QScriptValue & newScriptValue , QGraphicsItem *parent ) :
-    AssemblyItemBase( newScriptValue , QObject::tr(":/designer/oops.png") , QObject::tr(":/designer/oops.png") , parent )
+    AssemblyItemBase( newScriptValue , newScriptValue.property("type").toString() == "molecule"?QObject::tr(":/designer/assemblyview/icon_mol.png"):QObject::tr(":/designer/assemblyview/icon_protein.png") , newScriptValue.property("type").toString() == "molecule"?QObject::tr(":/designer/assemblyview/icon_mol.png"):QObject::tr(":/designer/assemblyview/icon_protein.png") , parent )
 {
     type = "molecule";
     displayName->setTextWidth( pixmap().rect().width() );

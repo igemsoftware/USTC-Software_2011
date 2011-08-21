@@ -11,7 +11,7 @@ class AssemblyPropertyEditor : public QDialog
     Q_OBJECT
 public:
     explicit AssemblyPropertyEditor( QString newType , QScriptValueList & newScriptValueList , QScriptEngine * newEngine , QWidget *parent = 0);
-
+    static void initializeOnce();
     static bool setCombo( QString name , QList<QScriptValue> * combo );
 signals:
 
@@ -53,7 +53,6 @@ private:
     };
     static QMap<QString,QList<QScriptValue>*> comboMap;
     static QMap<QString,ScriptTypeSpecifier> typeMap;
-    static void initializeOnce();
 
     int index;
     QString type;

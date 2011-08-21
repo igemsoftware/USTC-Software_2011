@@ -1,4 +1,5 @@
 #include <QtSingleApplication>
+#include <QSqlDatabase>
 #include <QSettings>
 
 #ifndef DESIGNERAPP_H
@@ -18,7 +19,7 @@ public:
 
 protected:
     QSettings settings;
-
+    QSqlDatabase dbIgame;
 public:
     static DesignerApp* instance(){ return (DesignerApp*)QtSingleApplication::instance();}
 };

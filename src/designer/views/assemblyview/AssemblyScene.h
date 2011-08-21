@@ -42,6 +42,8 @@ public slots:
     void requestEventEdit();
 
     void parameterSpaceChanged();
+
+    void igameDBRefresh();
 private:
     QMap<QString,AssemblyItemBase*> childrenMap;
     QSet<QString> idSpace;

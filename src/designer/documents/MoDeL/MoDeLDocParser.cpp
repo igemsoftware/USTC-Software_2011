@@ -2,6 +2,8 @@
 #include <QString>
 #include <QStringList>
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 #include "models/common/ModelSymbol.h"
 #include "models/igamemodel/IGame.h"
 #include "MoDeLDocParser.h"
@@ -125,11 +127,16 @@ bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
 bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & parameterSet , QScriptValue & compartment , QString & strCompartment, QString tag )
 {
     QRegExp rx;
+    QSqlDatabase db = QSqlDatabase::database("igame");
+    QSqlQuery query(db);
+    QString compartmentType;
+
+
     compartment = engine->newObject();
     QScriptValueList speciesList;
     if( strCompartment.isEmpty() )
     {
-        QMessageBox::critical( 0 , "Syntex Error!" , "RootCompartment is not defined!" );
+        QMessageBox::critical( 0 , "Syntex Error!" , "Compartment is not defined!" );
         return false;
     }
     foreach( QString line , strCompartment.split("\n",QString::SkipEmptyParts) )
@@ -145,10 +152,19 @@ bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & p
                 return false;
             }
 
+
             rx.setPattern("type=\"(\\w+)\"");
             if( rx.indexIn(line) > -1 )
             {
                 compartment.setProperty( "type" , QScriptValue( rx.cap(1) ) );
+                query.exec( QString("SELECT COUNT(id) FROM compartment WHERE id = \'%1\'").arg(rx.cap(1)) );
+                query.next();
+                if( !query.value(0).toInt() )
+                {
+                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Compartment Type %1 does not exist!\n").arg(rx.cap(1)) + line );
+                    return false;
+                }
+                compartmentType = rx.cap(1);
             }else{
                 QMessageBox::critical( 0 , "Syntex Error!" , QString("Compartment Type not specified!\n") + line );
                 return false;
@@ -193,6 +209,16 @@ bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & p
                     {
                         QScriptValue part = engine->newObject();
                         part.setProperty( "type" , "dna" );
+
+                        query.exec( QString("SELECT type FROM %1_agent WHERE id = \'%2\'").arg(compartmentType).arg(rx.cap(1)) );
+                        if( query.numRowsAffected() < 1 || (query.next(),query.value(0).toString().isEmpty() ) )
+                        {
+                            part.setProperty( "category" , "other" );
+                        }else{
+                            part.setProperty( "category" , query.value(0).toString() );
+                        }
+
+                        part.setProperty( "compartment" , strCompartment );
                         part.setProperty( "agent", QScriptValue( rx.cap(1) ) );
                         part.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
                         part.setProperty( "sites" , QScriptValue( rx.cap(3) ) );

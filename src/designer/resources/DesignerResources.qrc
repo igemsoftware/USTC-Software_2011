@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/designer">
-        <file>oops.png</file>
         <file>assemblyview/sizer_normal.png</file>
         <file>assemblyview/sizer_selected.png</file>
         <file>assemblyview/compartment_normal.png</file>
@@ -28,6 +27,16 @@
         <file>common/button/add.ico</file>
         <file>common/button/remove.ico</file>
         <file>common/button/save.ico</file>
+        <file>oops.png</file>
+        <file>assemblyview/icon_other.png</file>
+        <file>assemblyview/icon_compartment.png</file>
+        <file>assemblyview/icon_mol.png</file>
+        <file>assemblyview/icon_pcs.png</file>
+        <file>assemblyview/icon_plasmid.png</file>
+        <file>assemblyview/icon_prom.png</file>
+        <file>assemblyview/icon_rbs.png</file>
+        <file>assemblyview/icon_term.png</file>
+        <file>assemblyview/icon_protein.png</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>

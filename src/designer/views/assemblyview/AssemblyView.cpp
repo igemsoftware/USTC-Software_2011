@@ -5,27 +5,14 @@
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 #include "AssemblyDBEditor.h"
 
-namespace AssemblyViewNameSpace
-{
-    bool firstInstance = true;
-}
-using namespace AssemblyViewNameSpace;
+
 using namespace ReactionNetworkDataTypes;
 
 
 AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model)
 {
-    if( firstInstance )
-    {
-        firstInstance = false;
-        db = QSqlDatabase::addDatabase("QMYSQL","igame");
-        db.setDatabaseName("igame");
-        db.setHostName("localhost");
-        db.setUserName("root");
-        db.setPassword("lovewin");
-        db.open();
-    }
+
 
     engine = mainWindow->getCurrentModel()->getEngine();
 /*
@@ -80,17 +67,28 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     QVBoxLayout * vlayout = new QVBoxLayout;
     vlayout->setContentsMargins(1,1,1,1);
 
+    QSize size;
+    size.setWidth(48);
+    size.setHeight(48);
+
     Compartment sCompartment;
     QScriptValue compartment = Compartment::toScriptValue(engine,sCompartment);
     compartment.setProperty("id","Compartment");
     compartment.setProperty( "type" , "flask" );
-    vlayout->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , compartment ) );
+    AssemblyCreateAndDrag * compButton = new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , compartment , QPixmap(":designer/assemblyview/icon_compartment.png") );
+    compButton->setFixedSize( 50 , 50 );
+    compButton->setIconSize( size );
+    vlayout->addWidget( compButton );
 
     Species sSpecies;
     QScriptValue species = Species::toScriptValue(engine,sSpecies);
     species.setProperty( "id" , "Plasmid" );
     species.setProperty( "type" , "plasmid" );
-    vlayout->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , species ) );
+    species.setProperty( "constConcentration" , QScriptValue(false) );
+    AssemblyCreateAndDrag * plasButton = new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , species , QPixmap(":designer/assemblyview/icon_plasmid.png") ) ;
+    plasButton->setFixedSize( 50 , 50 );
+    plasButton->setIconSize( size );
+    vlayout->addWidget( plasButton );
 
     QHBoxLayout * hlayout = new QHBoxLayout;
     hlayout->setContentsMargins(0,0,0,0);
@@ -117,9 +115,13 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
 
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
 
+    AssemblyPropertyEditor::initializeOnce();
+
 
     AssemblyDBEditor dialog;
     dialog.exec();
+
+    igameDBRefresh();
 }
 
 AssemblyView::~AssemblyView()
@@ -130,4 +132,18 @@ AssemblyView::~AssemblyView()
 QString AssemblyView::outputMoDeLText()
 {
     return mainScene->outputMoDeLText();
+}
+
+void AssemblyView::igameDBRefresh()
+{
+    QSqlDatabase db = QSqlDatabase::database("igame");
+    QSqlQuery query(db);
+    query.exec("SELECT id FROM compartment");
+    QList<QScriptValue> * combo = new QList<QScriptValue>;
+    while( query.next() )
+        combo->push_back( QScriptValue( query.value(0).toString() ) );
+    AssemblyPropertyEditor::setCombo( "compartmentType" , combo );
+
+    mainScene->igameDBRefresh();
+    searchWidget->reload();
 }

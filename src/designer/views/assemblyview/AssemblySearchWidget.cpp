@@ -4,7 +4,6 @@
 #include "AssemblyItemMolecule.h"
 #include <QSqlRecord>
 
-using namespace AssemblyViewNameSpace;
 using namespace ReactionNetworkDataTypes;
 
 AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget *parent) :
@@ -49,6 +48,7 @@ AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget 
 
 void AssemblySearchWidget::reload()
 {
+    compartmentCombo->clear();
     QSqlQuery query(db);
     query.exec( "SELECT id FROM compartment" );
     while( query.next() )
@@ -62,23 +62,26 @@ void AssemblySearchWidget::startDrag(QModelIndex index)
 
     query->seek( index.row() );
     copy->setProperty( "reversed" , QScriptValue(false) );
-    copy->setProperty( "sites" , query->value( query->record().indexOf("sites") ).toString() );
+    copy->setProperty( "sites" , query->value( query->record().indexOf("default_site") ).toString() );
 
     QDrag * drag = new QDrag(this);
     memcpy( itemData.data() , &copy , sizeof(QScriptValue*) );
     QMimeData * mimeData = new QMimeData;
 
+    copy->setProperty( "agent" , query->value( query->record().indexOf("id") ).toString() );
     if( query->value( query->record().indexOf("type") ).toString().isEmpty()|| query->value( query->record().indexOf("type") ).toString() == "mol" )
     {
-        copy->setProperty( "id" , query->value( query->record().indexOf("id") ).toString() );
+        copy->setProperty( "id" , "Molecule" );
         copy->setProperty( "type" , "molecule" );
+        copy->setProperty( "constConcentration" , QScriptValue(false) );
         mimeData->setData( AssemblyItemMolecule::MimeFormat , itemData );
-        drag->setPixmap( QPixmap(tr(":/designer/oops.png") ) );
+        drag->setPixmap( QPixmap(tr(":/designer/assemblyview/icon_mol.png") ) );
     }else{
-        copy->setProperty( "agent" , query->value( query->record().indexOf("id") ).toString() );
-        copy->setProperty( "type" , "protein" );
+        copy->setProperty( "type" , "dna" );
+        copy->setProperty( "category" , query->value( query->record().indexOf("type") ).toString() );
+
         mimeData->setData( AssemblyItemPart::MimeFormat , itemData );
-        drag->setPixmap( QPixmap(tr(":/designer/oops.png") ) );
+        drag->setPixmap( QPixmap(tr(":/designer/assemblyview/icon_%1.png").arg(copy->property("category").toString()) ) );
     }
 
     drag->setMimeData( mimeData );

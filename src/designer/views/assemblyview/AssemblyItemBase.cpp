@@ -9,6 +9,7 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     moving = false;
     sizer = 0;
     scriptValue = newScriptValue;
+    qDebug() << normalImagePath;
     normalImage.load( normalImagePath );
     originalNormalImage.load(normalImagePath);
     selectedImage.load( selectedImagePath );

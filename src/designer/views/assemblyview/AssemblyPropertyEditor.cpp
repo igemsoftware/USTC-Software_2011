@@ -1,4 +1,5 @@
 #include "AssemblyPropertyEditor.h"
+#include "models/common/ModelSymbol.h"
 #include <QComboBox>
 #include <QScriptValue>
 #include <QLabel>
@@ -92,11 +93,11 @@ void AssemblyPropertyEditor::accept()
             valueList[index].setProperty( sts.properties[i].name , dynamic_cast<QLineEdit*>(form->itemAt(i,QFormLayout::FieldRole)->widget())->text().toDouble() );
         }else if( sts.properties[i].type == TypeCombo ){
             QComboBox * combo = dynamic_cast<QComboBox*>(form->itemAt(i,QFormLayout::FieldRole)->widget());
-            valueList[index].setProperty( sts.properties[i].name , combo->itemData( combo->currentIndex() ).toString() );
+            valueList[index].setProperty( sts.properties[i].name , combo->itemData( combo->currentIndex() ).value<QScriptValue>() );
         }else if( sts.properties[i].type == TypeBool )
         {
             QComboBox * combo = dynamic_cast<QComboBox*>(form->itemAt(i,QFormLayout::FieldRole)->widget());
-            valueList[index].setProperty( sts.properties[i].name , combo->itemData( combo->currentIndex() ).toBool() );
+            valueList[index].setProperty( sts.properties[i].name , combo->itemData( combo->currentIndex() ).value<QScriptValue>() );
         }
     }
     QDialog::accept();
@@ -150,7 +151,6 @@ void AssemblyPropertyEditor::initializeOnce()
     molecule.type = "molecule";
     molecule.enableAdd = false;
     molecule.properties.push_back( PropertySpecifier("id","Molecule Id",TypeString) );
-    molecule.properties.push_back( PropertySpecifier("agent","Agent Id",TypeString) );
     molecule.properties.push_back( PropertySpecifier("initConcentration","Initial Concentration",TypeCombo,"parameter") );
     molecule.properties.push_back( PropertySpecifier("constConcentration","Constant Concentration",TypeBool) );
 
@@ -159,7 +159,6 @@ void AssemblyPropertyEditor::initializeOnce()
     ScriptTypeSpecifier part;
     part.type = "part";
     part.enableAdd = false;
-    part.properties.push_back( PropertySpecifier("agent","Part Id",TypeString) );
     part.properties.push_back( PropertySpecifier("sites","Sites",TypeString) );
     part.properties.push_back( PropertySpecifier("reversed","Reversed",TypeBool) );
 
@@ -187,6 +186,7 @@ void AssemblyPropertyEditor::initializeOnce()
 
 bool AssemblyPropertyEditor::setCombo(QString name, QList<QScriptValue> *combo)
 {
+    if( comboMap.contains(name) ) delete comboMap[name];
     comboMap[name] = combo;
     return true;
 }

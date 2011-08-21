@@ -28,6 +28,13 @@ bool DesignerApp::initApplication()
 
     writeConfigValue("", "apppath", QtSingleApplication::applicationFilePath());
 
+    dbIgame = QSqlDatabase::addDatabase("QMYSQL","igame");
+    dbIgame.setDatabaseName("igame");
+    dbIgame.setHostName("localhost");
+    dbIgame.setUserName("root");
+    dbIgame.setPassword("lovewin");
+    dbIgame.open();
+
     DesignerViewItf::initializeIfNotYet();
     DesignerDocItf::initializeIfNotYet();
     DesignerModelItf::initializeIfNotYet();
