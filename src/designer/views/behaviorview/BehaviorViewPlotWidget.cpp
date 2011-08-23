@@ -3,8 +3,7 @@
 BehaviorViewPlotWidget::BehaviorViewPlotWidget(QWidget *parent) :
     QWidget(parent)
 {
-    this->drawable=false;
-    this->maxc=0;
+    this->drawable=false;    
     this->myPenWidth=1;
     this->myPenColor=Qt::red;
     this->vc=new QVector<QPoint>();
@@ -31,6 +30,7 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton && this->drawable && event->x()>30 && event->y()<(this->size().height()-10)) {
         lastPoint = event->pos();
         scribbling = true;
+        this->vc->clear();
         this->currentPos=event->pos();
     }
 }
@@ -38,17 +38,7 @@ void BehaviorViewPlotWidget::mousePressEvent(QMouseEvent *event)
 void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
 {
     double deltax=this->deltat*(this->size().width()-40)/this->maxt;
-    int index=int((this->currentPos.x()-30)/deltax)+1;
-    if(event->pos().x()<this->currentPos.x())
-    {
-        this->scribbling=false;
-        this->drawable=false;
-        this->draw->setDown(false);
-        if(this->cb->itemText(this->cb->count()-1)!="all")
-        {
-            this->cb->addItem(tr("all"));
-        }
-    }
+    int index=int((this->currentPos.x()-30)/deltax)+1;    
     if ((event->buttons() & Qt::LeftButton) && scribbling && this->drawable && event->x()>30 && event->y()<(this->size().height()-10))
         drawLineTo(event->pos());
     if (this->drawable && this->scribbling)

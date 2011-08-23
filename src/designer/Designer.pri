@@ -72,7 +72,9 @@ SOURCES +=\
     src/designer/models/igamemodel/IGame.cpp \
     src/designer/views/assemblyview/AssemblyPropertyEditor.cpp \
     src/designer/views/assemblyview/AssemblyDBEditor.cpp \
-    src/designer/views/behaviorview/BehaviorViewInterp.cpp
+    src/designer/views/behaviorview/BehaviorViewInterp.cpp \
+    src/designer/common/drawwnd/DesignerDrawWnd.cpp \
+    src/designer/common/drawwnd/DesignerDrawWidget.cpp
 
 
 HEADERS  += \
@@ -147,7 +149,9 @@ HEADERS  += \
     src/designer/models/igamemodel/IGame.h \
     src/designer/views/assemblyview/AssemblyPropertyEditor.h \
     src/designer/views/assemblyview/AssemblyDBEditor.h \
-    src/designer/views/behaviorview/BehaviorViewInterp.h
+    src/designer/views/behaviorview/BehaviorViewInterp.h \
+    src/designer/common/drawwnd/DesignerDrawWnd.h \
+    src/designer/common/drawwnd/DesignerDrawWidget.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

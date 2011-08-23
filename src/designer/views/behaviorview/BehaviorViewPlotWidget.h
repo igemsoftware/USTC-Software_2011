@@ -25,8 +25,7 @@ public:
 
     void setPenColor(const QColor &newColor);
     void setPenWidth(int newWidth);
-    void PlotFromValue();
-    void ValueFromPlot();
+    void PlotFromValue();    
     QVector<double> * spline(QVector<double> *t, QVector<double> *c, QVector<double> *newt);
 
 public slots:

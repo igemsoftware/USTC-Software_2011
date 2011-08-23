@@ -3,6 +3,8 @@
 #include "BehaviorView.h"
 #include "ui_BehaviorView.h"
 
+#include "common/drawwnd/DesignerDrawWnd.h"
+
 BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),
     ui(new Ui::BehaviorView)
@@ -15,7 +17,10 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     this->maxc=ui->ConcentrationEdit->text().toDouble();
     this->initiated=false;
     this->initiate();
-    ui->PlotWidget->installEventFilter(this);    
+    ui->PlotWidget->installEventFilter(this);
+
+    DesignerDrawWnd window;
+    window.exec();
 }
 
 BehaviorView::~BehaviorView()
