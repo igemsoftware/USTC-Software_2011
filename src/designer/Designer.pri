@@ -74,7 +74,10 @@ SOURCES +=\
     src/designer/views/assemblyview/AssemblyDBEditor.cpp \
     src/designer/views/behaviorview/BehaviorViewInterp.cpp \
     src/designer/common/drawwnd/DesignerDrawWnd.cpp \
-    src/designer/common/drawwnd/DesignerDrawWidget.cpp
+    src/designer/common/drawwnd/DesignerDrawWidget.cpp \
+    src/designer/views/networkview/Layouter/main.cpp \
+    src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
+    src/designer/views/networkview/Layouter/lagraphlayouter.cpp
 
 
 HEADERS  += \
@@ -151,7 +154,9 @@ HEADERS  += \
     src/designer/views/assemblyview/AssemblyDBEditor.h \
     src/designer/views/behaviorview/BehaviorViewInterp.h \
     src/designer/common/drawwnd/DesignerDrawWnd.h \
-    src/designer/common/drawwnd/DesignerDrawWidget.h
+    src/designer/common/drawwnd/DesignerDrawWidget.h \
+    src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
+    src/designer/views/networkview/Layouter/lagraphlayouter.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

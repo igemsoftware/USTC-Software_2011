@@ -7,8 +7,7 @@
 class NetworkViewGraphicsSceneEdge;
 class NetworkViewGraphicsSceneLabel;
 
-class NetworkViewGraphicsSceneNode : public QGraphicsEllipseItem,
-        public NetworkViewGraphicsItem
+class NetworkViewGraphicsSceneNode : public NetworkViewGraphicsItem
 {
 public:
     enum
@@ -20,11 +19,11 @@ public:
 
     enum
     {
-        radius = 12
+        radius = 24
     };
 
     QList<NetworkViewGraphicsSceneEdge*> edgeList;
-    NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value, bool isParentContainer = false);
+    NetworkViewGraphicsSceneNode(QGraphicsItem *parent , QScriptValue value , QString normalImagePath , QString selectedImagePath , bool isParentContainer = false);
     void setLabel(QString label);
     void registerEdge(NetworkViewGraphicsSceneEdge* edge);
     void updatePos();

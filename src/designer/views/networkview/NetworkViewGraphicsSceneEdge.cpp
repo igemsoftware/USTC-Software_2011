@@ -46,27 +46,27 @@ void NetworkViewGraphicsSceneEdge::updatePos(void)
         qreal sv2a = sin(a+a2), cv2a = cos(a+a2);
         qreal sv2b = sin(a-a2), cv2b = cos(a-a2);
 
-        setLine(x1 + cv*r, y1 + sv*r, x2 - cv*r, y2 - sv*r);
+        setLine(x1 + cv*r+24, y1 + sv*r+24, x2 - cv*r+24, y2 - sv*r+24);
 
         if(edgeType==BidirectedEdge)
         {
-            arrowLines[0].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2a, y1 + sv*r + r2*sv2a);
-            arrowLines[1].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r + r2*cv2b, y1 + sv*r + r2*sv2b);
+            arrowLines[0].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r + r2*cv2a+24, y1 + sv*r + r2*sv2a+24);
+            arrowLines[1].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r + r2*cv2b+24, y1 + sv*r + r2*sv2b+24);
         }
         else
         {
-            arrowLines[0].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r, y1 + sv*r);
-            arrowLines[1].setLine(x1 + cv*r, y1 + sv*r,  x1 + cv*r, y1 + sv*r);
+            arrowLines[0].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r+24, y1 + sv*r+24);
+            arrowLines[1].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r+24, y1 + sv*r+24);
         }
         if(edgeType==BidirectedEdge||edgeType==DirectedEdge)
         {
-            arrowLines[2].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2a, y2 - sv*r - r2*sv2a);
-            arrowLines[3].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r - r2*cv2b, y2 - sv*r - r2*sv2b);
+            arrowLines[2].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r - r2*cv2a+24, y2 - sv*r - r2*sv2a+24);
+            arrowLines[3].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r - r2*cv2b+24, y2 - sv*r - r2*sv2b+24);
         }
         else
         {
-            arrowLines[2].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r, y2 - sv*r);
-            arrowLines[3].setLine(x2 - cv*r, y2 - sv*r,  x2 - cv*r, y2 - sv*r);
+            arrowLines[2].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r+24, y2 - sv*r+24);
+            arrowLines[3].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r+24, y2 - sv*r+24);
         }
     }
 }

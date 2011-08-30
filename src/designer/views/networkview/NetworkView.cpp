@@ -12,6 +12,7 @@
 #include "DesignerDebug.h"
 
 #include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
+#include "Layouter/lagraphlayouterthread.h"
 
 NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model)
@@ -27,8 +28,7 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(graphicsView);
     scene->clearScene();
 
-    scene->loadFromModel(model);
-
+    scene->loadFromModel(model);   
     graphicsView->setScene(scene);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));

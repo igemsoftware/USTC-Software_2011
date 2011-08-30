@@ -6,7 +6,7 @@
 
 class NetworkViewGraphicsSceneLabel;
 
-class NetworkViewGraphicsSceneContainer : public QGraphicsEllipseItem, public NetworkViewGraphicsItem
+class NetworkViewGraphicsSceneContainer : public NetworkViewGraphicsItem//,public QGraphicsEllipseItem
 {
 public:
     enum

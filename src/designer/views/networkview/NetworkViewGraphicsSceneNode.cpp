@@ -3,9 +3,8 @@
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneLabel.h"
 
-NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value, bool isParentContainer)
-    : QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent),
-      NetworkViewGraphicsItem(value)
+NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value ,QString normalImagePath , QString selectedImagePath , bool isParentContainer)
+    : NetworkViewGraphicsItem( value , normalImagePath , selectedImagePath , parent )
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
@@ -35,7 +34,7 @@ QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, con
     if (change == ItemPositionHasChanged && scene()) {
         updatePos();
     }
-    return QGraphicsEllipseItem::itemChange(change, value);
+    return NetworkViewGraphicsItem::itemChange(change, value);
 }
 
 void NetworkViewGraphicsSceneNode::setLabel(QString label)

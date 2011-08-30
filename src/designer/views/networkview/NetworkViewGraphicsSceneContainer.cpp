@@ -2,9 +2,9 @@
 #include "NetworkViewGraphicsSceneLabel.h"
 
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value) :
-    QGraphicsEllipseItem(-radius, -radius, radius*2, radius*2, parent),
-    NetworkViewGraphicsItem(value)
+    NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
+    type = "container";
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
     labelObject->setPos(0, radius);
@@ -29,7 +29,7 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
     if (change == ItemPositionHasChanged && scene()) {
         updatePos();
     }
-    return QGraphicsEllipseItem::itemChange(change, value);
+    return NetworkViewGraphicsItem::itemChange(change, value);
 }
 
 void NetworkViewGraphicsSceneContainer::setLabel(QString label)

@@ -55,12 +55,12 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel(), speciesArray.property(i));
             addItem(newNode);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(container, speciesArray.property(i), true);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
         newNode->setLabel(speciesArray.property(i).property("id").toString());
 
@@ -124,14 +124,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
             newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
             addItem(newNode);
             newNode->setLabel(reactionArray.property(i).property("id").toString());
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500,((double)rand()/RAND_MAX-0.5)*500);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
             newNode->setLabel(reactionArray.property(i).property("id").toString());
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2,((double)rand()/RAND_MAX-0.5)*container->radius*2);
+            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
         //reactants
