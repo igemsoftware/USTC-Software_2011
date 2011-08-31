@@ -112,7 +112,7 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
         moving = true;
         QPointF tempPos = scenePos();
-        if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem()) ) dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
+        if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem())) dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
         setPos(tempPos);
     }
     QGraphicsPixmapItem::mouseMoveEvent(event);

@@ -19,6 +19,7 @@ public:
 
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
+    void keyPressEvent(QKeyEvent *event);
     void loadFromModel(DesignerModelItf* model);
 
 signals:

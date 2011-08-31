@@ -8,6 +8,8 @@
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneNodeReaction.h"
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
+#include "QKeyEvent"
+#include <QList>
 
 NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -36,7 +38,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         NetworkViewGraphicsSceneContainer* newContainer =
                 new NetworkViewGraphicsSceneContainer(activePanel(),compartmentsArray.property(i));
         addItem(newContainer);
-        newContainer->setLabel(compartmentsArray.property(i).property("id").toString());
+        //newContainer->setLabel(compartmentsArray.property(i).property("id").toString());
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
 
@@ -62,7 +64,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
             newNode = new NetworkViewGraphicsSceneNodeSubstance(container, speciesArray.property(i), true);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
-        newNode->setLabel(speciesArray.property(i).property("id").toString());
+        //newNode->setLabel(speciesArray.property(i).property("id").toString());
 
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
     }
@@ -123,14 +125,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
             addItem(newNode);
-            newNode->setLabel(reactionArray.property(i).property("id").toString());
+            //newNode->setLabel(reactionArray.property(i).property("id").toString());
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
-            newNode->setLabel(reactionArray.property(i).property("id").toString());
+            //newNode->setLabel(reactionArray.property(i).property("id").toString());
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
@@ -164,4 +166,26 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 
     }
 
+}
+
+void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Delete:
+        foreach( QGraphicsItem * item , selectedItems() )
+        {
+            if(dynamic_cast<NetworkViewGraphicsSceneContainer*>(item))
+               dynamic_cast<NetworkViewGraphicsSceneContainer*>(item)->deleteNodes();
+            if(dynamic_cast<NetworkViewGraphicsSceneNode*>(item))
+               dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->deleteEdge();
+            if( dynamic_cast<NetworkViewGraphicsItem*>(item) )
+                delete item;
+        }
+        break;
+    default:
+        QGraphicsScene::keyPressEvent(event);
+        return;
+    }
+    event->accept();
 }

@@ -6,12 +6,12 @@
 
 class NetworkViewGraphicsSceneLabel;
 
-class NetworkViewGraphicsSceneContainer : public NetworkViewGraphicsItem//,public QGraphicsEllipseItem
+class NetworkViewGraphicsSceneContainer : public NetworkViewGraphicsItem
 {
 public:
     enum
     {
-        radius = 150
+        radius = 200
     };
 
     QList<NetworkViewGraphicsSceneNode*> nodeList;
@@ -21,7 +21,7 @@ public:
     void registerNode(NetworkViewGraphicsSceneNode* node);
     void setLabel(QString label);
     void updatePos();
-
+    void deleteNodes();
 private:
     NetworkViewGraphicsSceneLabel* labelObject;
 
