@@ -46,27 +46,27 @@ void NetworkViewGraphicsSceneEdge::updatePos(void)
         qreal sv2a = sin(a+a2), cv2a = cos(a+a2);
         qreal sv2b = sin(a-a2), cv2b = cos(a-a2);
 
-        setLine(x1 + cv*r+24, y1 + sv*r+24, x2 - cv*r+24, y2 - sv*r+24);
+        setLine(x1 + cv*r+r, y1 + sv*r+r, x2 - cv*r+r, y2 - sv*r+r);
 
         if(edgeType==BidirectedEdge)
         {
-            arrowLines[0].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r + r2*cv2a+24, y1 + sv*r + r2*sv2a+24);
-            arrowLines[1].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r + r2*cv2b+24, y1 + sv*r + r2*sv2b+24);
+            arrowLines[0].setLine(x1 + cv*r+r, y1 + sv*r+r,  x1 + cv*r + r2*cv2a+r, y1 + sv*r + r2*sv2a+r);
+            arrowLines[1].setLine(x1 + cv*r+r, y1 + sv*r+r,  x1 + cv*r + r2*cv2b+r, y1 + sv*r + r2*sv2b+r);
         }
         else
         {
-            arrowLines[0].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r+24, y1 + sv*r+24);
-            arrowLines[1].setLine(x1 + cv*r+24, y1 + sv*r+24,  x1 + cv*r+24, y1 + sv*r+24);
+            arrowLines[0].setLine(x1 + cv*r+r, y1 + sv*r+r,  x1 + cv*r+r, y1 + sv*r+r);
+            arrowLines[1].setLine(x1 + cv*r+r, y1 + sv*r+r,  x1 + cv*r+r, y1 + sv*r+r);
         }
         if(edgeType==BidirectedEdge||edgeType==DirectedEdge)
         {
-            arrowLines[2].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r - r2*cv2a+24, y2 - sv*r - r2*sv2a+24);
-            arrowLines[3].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r - r2*cv2b+24, y2 - sv*r - r2*sv2b+24);
+            arrowLines[2].setLine(x2 - cv*r+r, y2 - sv*r+r,  x2 - cv*r - r2*cv2a+r, y2 - sv*r - r2*sv2a+r);
+            arrowLines[3].setLine(x2 - cv*r+r, y2 - sv*r+r,  x2 - cv*r - r2*cv2b+r, y2 - sv*r - r2*sv2b+r);
         }
         else
         {
-            arrowLines[2].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r+24, y2 - sv*r+24);
-            arrowLines[3].setLine(x2 - cv*r+24, y2 - sv*r+24,  x2 - cv*r+24, y2 - sv*r+24);
+            arrowLines[2].setLine(x2 - cv*r+r, y2 - sv*r+r,  x2 - cv*r+r, y2 - sv*r+r);
+            arrowLines[3].setLine(x2 - cv*r+r, y2 - sv*r+r,  x2 - cv*r+r, y2 - sv*r+r);
         }
     }
 }

@@ -41,3 +41,9 @@ void NetworkViewGraphicsSceneNode::setLabel(QString label)
 {
     labelObject->setPlainText(label);
 }
+
+void NetworkViewGraphicsSceneNode::deleteEdge()
+{
+    for(int i=0;i<this->edgeList.count();i++)
+        delete this->edgeList[i];
+}

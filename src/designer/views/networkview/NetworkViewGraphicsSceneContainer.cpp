@@ -4,7 +4,7 @@
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
-    type = "container";
+    Type = "container";
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
     labelObject->setPos(0, radius);
@@ -35,4 +35,13 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
 void NetworkViewGraphicsSceneContainer::setLabel(QString label)
 {
     labelObject->setPlainText(label);
+}
+
+void NetworkViewGraphicsSceneContainer::deleteNodes()
+{
+    for(int i=0;i<this->nodeList.count();i++)
+    {
+        this->nodeList[i]->deleteEdge();
+        delete this->nodeList[i];
+    }
 }

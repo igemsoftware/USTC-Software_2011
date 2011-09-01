@@ -19,7 +19,6 @@ public:
     void setName( QString newName );
     QScriptValue itemObject;
     QScriptValue getScriptValue();
-
     virtual void setScriptValue( QScriptValue & newScriptValue );
 
     virtual QList<NetworkViewGraphicsItem*> getChildren();
@@ -31,8 +30,8 @@ public:
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
 
 protected:
-    QString type;
     bool resizable;
+    QString Type;
     QGraphicsTextItem * displayName;
 
     void setResizable( bool newResizable );

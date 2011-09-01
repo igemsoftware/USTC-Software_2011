@@ -197,7 +197,7 @@ void BehaviorView::on_generatevalueButton_clicked()
     int j=int((ui->PlotWidget->vc->value(0).x()-30)*this->maxt/((ui->PlotWidget->size().width()-40)*this->maxt/(this->times-1)));
     for(int i=0;i<ui->PlotWidget->vc->count();i++)
     {
-        ui->tableWidget_value->setItem(ui->comboBox->currentIndex()+1,j+i+3,new QTableWidgetItem
+        ui->tableWidget_value->setItem(ui->comboBox->currentIndex()+1,j+i+2,new QTableWidgetItem
         (QString::number(this->maxc-(ui->PlotWidget->vc->value(i).y()-10)*this->maxc/(ui->PlotWidget->size().height()-20))));
     }
     ui->PlotWidget->vc->clear();
