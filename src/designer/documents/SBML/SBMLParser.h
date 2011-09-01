@@ -6,7 +6,7 @@
 class SBMLParser : public DesignerXMLDocParser
 {
 public:
-    QDomDocument* parse(DesignerModelItf* model);
+    bool parse(DesignerModelItf* model, QDomDocument& doc);
 
 };
 

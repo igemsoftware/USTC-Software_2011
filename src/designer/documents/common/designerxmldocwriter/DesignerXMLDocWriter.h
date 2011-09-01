@@ -14,9 +14,7 @@ public:
     QDomDocument *write( DesignerModelItf *model);
 
 private:
-    enum M
-
-    QMap<QString,QString> path_map;
+    QDomDocument rule_xml;
     bool disabled;
 };
 

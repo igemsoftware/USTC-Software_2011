@@ -1,22 +1,29 @@
 #include "DesignerXMLDocWriter.h"
+#include <QscriptEngine>
 
-DesignerXMLDocWriter::DesignerXMLDocWriter(QString prototype_file_name)
+
+DesignerXMLDocWriter::DesignerXMLDocWriter(QString rule_file_name) :
+    rule_xml("rule_xml")
 {
     disabled = false;
-
-    QFile prototype_file(prototype_file_name);
-    if( !prototype_file.open(QIODevice::ReadOnly) )
+    QFile fin(rule_file_name);
+    if( !fin.open(QIODevice::ReadOnly) )
     {
         disabled = true;
         return;
     }
-
-    QTextStream prototype_stream(prototype_file);
-    while( !prototype_stream.atEnd() )
+    if( !rule_xml.setContent(&fin) )
     {
-        QString line = prototype_stream.readLine();
-        QString xml = line.split("=>").at(0).simplified();
-        QString model = line.split("=>").at(0).simplified();
-
+        disabled = true;
+        fin.close();
+        return;
     }
+    fin.close();
+    return;
+}
+
+
+QDomDocument *DesignerXMLDocWriter::write(DesignerModelItf *model)
+{
+    model->getEngine()->globalObject()
 }

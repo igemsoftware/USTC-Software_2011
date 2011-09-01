@@ -1,0 +1,11 @@
+<sbml>
+	<model>
+		<listOfUnitDefinitions array="true">
+			<unitDefinition property="id=id">
+				<listOfUnits>
+					<unit property="kind=kind,exponent=exponent,scale=scale,multiplier=multiplier"/>
+				</listOfUnits>
+			</unitDefinition>
+		</listOfUnitDefinitions>
+	</model>
+</sbml>
