@@ -16,6 +16,11 @@ public:
 private:
     QDomDocument rule_xml;
     bool disabled;
+
+    QDomDocument *TravelRules(QDomElement rule_elem, QScriptValue value, QVector<int> &args);
+    QDomDocument *MergeDocs(QDomDocument *doc_1, QDomDocument *doc_2);
+    QDomElement   CreateDocByTarget(QString target, QVector<int> args, QDomDocument *&doc);
+    void          MergeElements(QDomDocument *doc);
 };
 
 #endif // DESIGNERXMLDOCWRITER_H

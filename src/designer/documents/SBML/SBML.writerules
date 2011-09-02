@@ -1,11 +1,7 @@
-<sbml>
-	<model>
-		<listOfUnitDefinitions array="true">
-			<unitDefinition property="id=id">
-				<listOfUnits>
-					<unit property="kind=kind,exponent=exponent,scale=scale,multiplier=multiplier"/>
-				</listOfUnits>
-			</unitDefinition>
-		</listOfUnitDefinitions>
-	</model>
-</sbml>
+<?xml version="1.0" encoding="UTF-8"?>
+<obect path="model">
+	<array path="units" target="sbml/model/listOfUnitDefinitions">
+		<object path="" target="sbml/model/listOfUnitDefinitions/unit$1">
+		</object>
+	</array>
+</object>
