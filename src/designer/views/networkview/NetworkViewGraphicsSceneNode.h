@@ -22,12 +22,13 @@ public:
         radius = 24
     };
 
-    QList<NetworkViewGraphicsSceneEdge*> edgeList;
-    NetworkViewGraphicsSceneNode(QGraphicsItem *parent , QScriptValue value , QString normalImagePath , QString selectedImagePath , bool isParentContainer = false);    
+    QList<NetworkViewGraphicsSceneEdge*> edgeList;    
+    NetworkViewGraphicsSceneNode(QGraphicsItem *parent , QScriptValue value , QString normalImagePath , QString selectedImagePath , bool isParentContainer = false);
     void setLabel(QString label);
     void registerEdge(NetworkViewGraphicsSceneEdge* edge);
     void updatePos();
-    void deleteEdge();
+    void deleteEdges();
+    void deleteEdge(NetworkViewGraphicsSceneEdge * edge);
     virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + NodeAbstract;}
 
 private:

@@ -2,17 +2,15 @@
 #include "NetworkViewGraphicsSceneNode.h"
 #include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneLabel.h"
+#include <QMessageBox>
 
 NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value ,QString normalImagePath , QString selectedImagePath , bool isParentContainer)
     : NetworkViewGraphicsItem( value , normalImagePath , selectedImagePath , parent )
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
+    if(dynamic_cast<NetworkViewGraphicsItem*>(parent))dynamic_cast<NetworkViewGraphicsItem*>(parent)->addChild(this->scenePos(),this);
 
-    if(isParentContainer)
-    {
-        dynamic_cast<NetworkViewGraphicsSceneContainer*>(parent)->registerNode(this);
-    }
 }
 
 
@@ -32,7 +30,7 @@ void NetworkViewGraphicsSceneNode::updatePos()
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     if (change == ItemPositionHasChanged && scene()) {
-        updatePos();
+        updatePos();//this->setParentItem(0);
     }
     return NetworkViewGraphicsItem::itemChange(change, value);
 }
@@ -42,8 +40,21 @@ void NetworkViewGraphicsSceneNode::setLabel(QString label)
     labelObject->setPlainText(label);
 }
 
-void NetworkViewGraphicsSceneNode::deleteEdge()
+void NetworkViewGraphicsSceneNode::deleteEdges()
+{
+    while(this->edgeList.count()!=0)
+    {
+        delete edgeList[0];
+    }
+    this->edgeList.clear();
+}
+
+void NetworkViewGraphicsSceneNode::deleteEdge(NetworkViewGraphicsSceneEdge *edge)
 {
     for(int i=0;i<this->edgeList.count();i++)
-        delete this->edgeList[i];
+    {
+        if(edge==edgeList[i]){
+        this->edgeList.removeAt(i);
+        }
+    }
 }

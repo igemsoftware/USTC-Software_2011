@@ -70,3 +70,9 @@ void NetworkViewGraphicsSceneEdge::updatePos(void)
         }
     }
 }
+
+NetworkViewGraphicsSceneEdge::~NetworkViewGraphicsSceneEdge()
+{
+    if(this->edgeNode2)this->edgeNode2->deleteEdge(this);
+    if(this->edgeNode1)this->edgeNode1->deleteEdge(this);
+}

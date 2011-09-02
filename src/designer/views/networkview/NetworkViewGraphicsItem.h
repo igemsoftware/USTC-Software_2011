@@ -20,8 +20,8 @@ public:
     QScriptValue itemObject;
     QScriptValue getScriptValue();
     virtual void setScriptValue( QScriptValue & newScriptValue );
+    QList<NetworkViewGraphicsItem *> children ;
 
-    virtual QList<NetworkViewGraphicsItem*> getChildren();
     virtual bool addChild( QPointF scenePos , NetworkViewGraphicsItem * child );
     virtual void removeChild( NetworkViewGraphicsItem * child );
     virtual void refreshScriptValue();

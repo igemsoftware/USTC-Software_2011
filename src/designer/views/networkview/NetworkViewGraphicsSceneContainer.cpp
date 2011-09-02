@@ -1,26 +1,28 @@
 #include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneLabel.h"
+#include <QMessageBox>
 
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
     Type = "container";
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
-    labelObject = new NetworkViewGraphicsSceneLabel(this);
-    labelObject->setPos(0, radius);
+//    labelObject = new NetworkViewGraphicsSceneLabel(this);
+//    labelObject->setPos(0, radius);
 }
 
 
-void NetworkViewGraphicsSceneContainer::registerNode(NetworkViewGraphicsSceneNode* node)
-{
-    if(node && nodeList.indexOf(node)==-1) nodeList.append(node);
-}
+//void NetworkViewGraphicsSceneContainer::registerNode(NetworkViewGraphicsSceneNode* node)
+//{
+//    if(node && nodeList.indexOf(node)==-1) nodeList.append(node);
+//}
 
 void NetworkViewGraphicsSceneContainer::updatePos()
 {
-    for(size_t i = nodeList.count(); i > 0; i--)
+
+    foreach(NetworkViewGraphicsItem *child,children)
     {
-        nodeList[i-1]->updatePos();
+        dynamic_cast<NetworkViewGraphicsSceneNode *>(child)->updatePos();
     }
 }
 
@@ -39,9 +41,23 @@ void NetworkViewGraphicsSceneContainer::setLabel(QString label)
 
 void NetworkViewGraphicsSceneContainer::deleteNodes()
 {
-    for(int i=0;i<this->nodeList.count();i++)
+    while(children.count()!=0)
     {
-        this->nodeList[i]->deleteEdge();
-        delete this->nodeList[i];
+        QMessageBox *qmb=new QMessageBox();
+        qmb->setText(QString::number(children.count()));
+        qmb->exec();
+        if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0]))
+            dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0])->deleteEdges();
+        delete this->children[0];
     }
+    this->children.clear();
 }
+
+//void NetworkViewGraphicsSceneContainer::deleteNode(NetworkViewGraphicsSceneNode *node)
+//{
+//    for(int i=0;i<this->nodeList.count();i++)
+//    {
+//        if(node==nodeList[i])
+//            nodeList.removeAt(i);
+//    }
+//}

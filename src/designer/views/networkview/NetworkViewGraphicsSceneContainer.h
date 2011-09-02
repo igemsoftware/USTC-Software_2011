@@ -12,9 +12,7 @@ public:
     enum
     {
         radius = 200
-    };
-
-    QList<NetworkViewGraphicsSceneNode*> nodeList;
+    };    
 
     explicit NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value);
     int getRadius() {return radius;}
@@ -22,6 +20,7 @@ public:
     void setLabel(QString label);
     void updatePos();
     void deleteNodes();
+    void deleteNode(NetworkViewGraphicsSceneNode *node);
 private:
     NetworkViewGraphicsSceneLabel* labelObject;
 

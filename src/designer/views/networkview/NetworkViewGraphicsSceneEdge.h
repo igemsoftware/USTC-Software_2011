@@ -30,6 +30,7 @@ public:
                                  NetworkViewGraphicsSceneNode* node2,
                                   EdgeType type);
     virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + 16;}
+    virtual ~NetworkViewGraphicsSceneEdge();
 
 private:
     NetworkViewGraphicsSceneLabel* labelObject;

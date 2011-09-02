@@ -18,8 +18,7 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
     setFlag( QGraphicsItem::ItemIsSelectable );
     setFlag( QGraphicsItem::ItemIsMovable );
 
-    displayName = new QGraphicsTextItem( getId() , this );
-
+    displayName = new QGraphicsTextItem( getId() , this );    
     setScriptValue( newScriptValue );
 }
 
@@ -43,23 +42,27 @@ void NetworkViewGraphicsItem::setScriptValue( QScriptValue & newScriptValue )
     displayName->setPlainText( itemObject.property("id").toString() );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
-    foreach( NetworkViewGraphicsItem* child , getChildren() ) bound |= mapRectToScene(child->childrenBoundingRect());
+    foreach( NetworkViewGraphicsItem* child , children ) bound |= mapRectToScene(child->childrenBoundingRect());
     displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
 }
-
-QList<NetworkViewGraphicsItem*> NetworkViewGraphicsItem::getChildren(){ QList<NetworkViewGraphicsItem*> nothing; return nothing; }
 
 bool NetworkViewGraphicsItem::addChild( QPointF scenePos , NetworkViewGraphicsItem * child )
 {
     if( child->isAncestorOf(this) ) return false;
     child->setParentItem(this);
     child->setPos( mapFromScene(scenePos) );
+    children.append(child);
     return true;
 }
 
 void NetworkViewGraphicsItem::removeChild( NetworkViewGraphicsItem *child )
 {
     child->setParentItem(0);
+    for(int i=0;i<children.count();i++)
+    {
+        if(children[i]==child)
+            children.removeAt(i);
+    }
 }
 
 void NetworkViewGraphicsItem::refreshScriptValue()

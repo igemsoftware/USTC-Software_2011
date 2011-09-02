@@ -27,8 +27,7 @@ SOURCES +=\
     views/welcomeview/WelcomeView.cpp \
     views/assemblyview/AssemblyView.cpp \
     views/sbmleditorview/SBMLEditorView.cpp \
-    views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
-    views/networkview/NetworkView.cpp \
+    views/sbmleditorview/SBMLEditorViewHighlighter.cpp \    
     views/behaviorview/BehaviorView.cpp \
     documents/MoDeL/MoDeLDocParser.cpp \
     documents/MoDeL/MoDeLDoc.cpp \
@@ -77,7 +76,8 @@ SOURCES +=\
     src/designer/common/drawwnd/DesignerDrawWidget.cpp \
     src/designer/views/networkview/Layouter/main.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
-    src/designer/views/networkview/Layouter/lagraphlayouter.cpp
+    src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
+    src/designer/views/networkview/NetworkView.cpp
 
 
 HEADERS  += \
@@ -105,8 +105,7 @@ HEADERS  += \
     views/welcomeview/WelcomeView.h \
     views/assemblyview/AssemblyView.h \
     views/sbmleditorview/SBMLEditorView.h \
-    views/sbmleditorview/SBMLEditorViewHighlighter.h \
-    views/networkview/NetworkView.h \
+    views/sbmleditorview/SBMLEditorViewHighlighter.h \    
     views/behaviorview/BehaviorView.h \
     documents/MoDeL/MoDeLDocParser.h \
     documents/MoDeL/MoDeLDoc.h \
@@ -156,7 +155,8 @@ HEADERS  += \
     src/designer/common/drawwnd/DesignerDrawWnd.h \
     src/designer/common/drawwnd/DesignerDrawWidget.h \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
-    src/designer/views/networkview/Layouter/lagraphlayouter.h
+    src/designer/views/networkview/Layouter/lagraphlayouter.h \
+    src/designer/views/networkview/NetworkView.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \
@@ -166,7 +166,8 @@ FORMS    += \
     src/designer/views/aboutview/AboutView.ui \
     src/designer/views/clothodbview/ClothoDBView.ui \
     src/designer/common/mainwnd/DesignerMainWnd.ui \
-    src/designer/views/assemblyview/AssemblyDBEditor.ui
+    src/designer/views/assemblyview/AssemblyDBEditor.ui \
+    src/designer/views/networkview/NetworkView.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc
