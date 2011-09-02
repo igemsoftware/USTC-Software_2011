@@ -5,6 +5,7 @@
 
 #include "SBMLDoc.h"
 #include "SBMLParser.h"
+#include "documents/common/designerxmldocwriter/DesignerXMLDocWriter.h"
 
 
 SBMLDoc::SBMLDoc() :
@@ -81,7 +82,14 @@ bool SBMLDoc::loadFromFile(QFile& file)
 
 bool SBMLDoc::saveToFile(QFile& file)
 {
-    return false;
+    DesignerXMLDocWriter writer("D:\\iGame\\GIT\\lachesis\\src\\designer\\documents\\SBML\\SBML.writerules");
+    QDomDocument * doc = writer.WriteDoc(getCurrentModel());
+    file.open(QIODevice::ReadWrite);
+    QTextStream stream(&file);
+    qDebug() << doc->toString(4);
+    stream << doc->toString(4);
+    stream.flush();
+    return true;
 }
 
 SBMLDoc::extentValue SBMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)

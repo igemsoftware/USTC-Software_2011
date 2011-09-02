@@ -20,7 +20,7 @@ void DesignerDocItf::initializeIfNotYet()
     if(!initialized)
     {
         initialized = true;
-        LACHESIS_DECLARE_DOCUMENT(SBMLDoc,      false, "SBML File",     "*.xml *.sbml");
+        LACHESIS_DECLARE_DOCUMENT(SBMLDoc,      true, "SBML File",     "*.xml *.sbml");
         LACHESIS_DECLARE_DOCUMENT(MoDeLDoc,     false, "MoDeL File",    "*.model");
         LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc,    false, "RSBPML File",   "*.xml *.rsbpml");
         LACHESIS_DECLARE_DOCUMENT(SBOLDoc,      false, "SBOL File",     "*.xml");

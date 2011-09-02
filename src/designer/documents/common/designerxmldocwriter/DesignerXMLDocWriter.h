@@ -11,16 +11,18 @@ class DesignerXMLDocWriter
 {
 public:
     DesignerXMLDocWriter(QString prototype_file_nae);
-    QDomDocument *write( DesignerModelItf *model);
+    QDomDocument *WriteDoc( DesignerModelItf *model);
 
 private:
     QDomDocument rule_xml;
     bool disabled;
+    QDomDocument *doc;
 
-    QDomDocument *TravelRules(QDomElement rule_elem, QScriptValue value, QVector<int> &args);
-    QDomDocument *MergeDocs(QDomDocument *doc_1, QDomDocument *doc_2);
-    QDomElement   CreateDocByTarget(QString target, QVector<int> args, QDomDocument *&doc);
-    void          MergeElements(QDomDocument *doc);
+    void TravelRules(QDomElement rule_elem, QScriptValue script_value, QVector<int> &args);
+    QDomElement   CreateElemByTarget(QString target, QVector<int> args);
+    void TrimTagName(QDomElement elem);
+    void ConvertTextToElemAndInsert(QString text, QDomElement root);
+    void PrependTagName(QDomElement elem);
 };
 
 #endif // DESIGNERXMLDOCWRITER_H
