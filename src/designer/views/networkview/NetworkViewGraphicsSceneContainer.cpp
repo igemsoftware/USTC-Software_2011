@@ -26,7 +26,7 @@ void NetworkViewGraphicsSceneContainer::updatePos()
 
 QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if (change == ItemPositionHasChanged && scene()) {
+    if (change == ItemPositionHasChanged && scene()) {        
         updatePos();
     }
     return NetworkViewGraphicsItem::itemChange(change, value);
@@ -50,12 +50,3 @@ void NetworkViewGraphicsSceneContainer::deleteNodes()
     }
     this->children.clear();
 }
-
-//void NetworkViewGraphicsSceneContainer::deleteNode(NetworkViewGraphicsSceneNode *node)
-//{
-//    for(int i=0;i<this->nodeList.count();i++)
-//    {
-//        if(node==nodeList[i])
-//            nodeList.removeAt(i);
-//    }
-//}

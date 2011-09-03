@@ -1,8 +1,12 @@
 #include <QtGui>
-#include "NetworkView.h"
+#include <QScriptValue>
 
+#include "NetworkView.h"
+#include "ui_NetworkView.h"
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
+#include "NetworkViewButton.h"
+#include "NetworkViewGraphicsSceneEdge.h"
 
 #include "interfaces/DesignerModelItf.h"
 #include "common/mainwnd/DesignerMainWnd.h"
@@ -10,12 +14,9 @@
 #include "models/common/ModelSymbol.h"
 
 #include "DesignerDebug.h"
-#include "ui_NetworkView.h"
 #include "common/panels/propertypanel/DesignerPropertiesPanelWidget.h"
 #include "Layouter/lagraphlayouterthread.h"
-#include <QScriptValue>
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
-#include "NetworkViewButton.h"
 
 using namespace ReactionNetworkDataTypes;
 
@@ -32,6 +33,8 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     gridLayout->addWidget(buttons,0,1,2,2);*/
     ui->setupUi(this);
     engine = mainWindow->getCurrentModel()->getEngine();
+    this->selectState="NoNeed";
+
     QHBoxLayout * hlayout = new QHBoxLayout;
     hlayout->setAlignment(Qt::AlignLeft);
     hlayout->setContentsMargins(0,0,0,0);
@@ -58,6 +61,13 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     NetworkViewButton *reabutton=new NetworkViewButton("reaction", reaction , QPixmap(":designer/assemblyview/icon_mol.png"));
     hlayout->addWidget(reabutton);
 
+    linebutton=new QPushButton();
+    linebutton->setFixedSize(50,50);
+    hlayout->addWidget(linebutton);
+    linebutton->setFlat(true);
+    linebutton->setIcon(*(new QIcon(":/designer/assemblyview/icon_pcs.png")));
+    connect(this->linebutton,SIGNAL(clicked()),this,SLOT(on_lineButtonClicked()));
+
     ui->buttons->setLayout(hlayout);
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
     scene->clearScene();    
@@ -77,6 +87,37 @@ NetworkView::~NetworkView()
 void NetworkView::on_sceneSelectionChanged()
 {
     QList<QGraphicsItem*> selectedItem = ui->graphicsView->scene()->selectedItems();
+
+    if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first()))
+    {
+        if(this->selectState=="Nothing")
+        {
+            this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
+            this->selectState="SubstanceReady";
+        }
+        else if(this->selectState=="ReactionReady")
+        {
+            this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
+            ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->reaction,this->substance,NetworkViewGraphicsSceneEdge::DirectedEdge));
+            this->selectState="NoNeed";
+        }
+    }
+    else if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first()))
+    {
+        if(this->selectState=="Nothing")
+        {
+            this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
+            this->selectState="ReactionReady";
+        }
+        else if(this->selectState=="SubstanceReady")
+        {
+            this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
+            ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->substance,this->reaction,NetworkViewGraphicsSceneEdge::DirectedEdge));
+            this->selectState="NoNeed";
+        }
+    }
+    if(selectedItem.count()==0)
+        this->selectState="NoNeed";
     if(selectedItem.count()==1)
     {
         NetworkViewGraphicsItem* item = dynamic_cast<NetworkViewGraphicsItem*>(selectedItem.first());
@@ -87,4 +128,11 @@ void NetworkView::on_sceneSelectionChanged()
         }
     }
     emit updateSelectedItem(mainWindow->getCurrentModel()->getModel());
+}
+
+void NetworkView::on_lineButtonClicked()
+{
+    linebutton->setDown(true);
+    ui->graphicsView->scene()->clearSelection();
+    this->selectState="Nothing";
 }

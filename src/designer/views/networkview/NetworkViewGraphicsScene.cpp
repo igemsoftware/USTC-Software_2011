@@ -177,8 +177,8 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
             if(dynamic_cast<NetworkViewGraphicsSceneNode*>(item))
             {
                 dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->deleteEdges();
-                if(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem()!=0&&dynamic_cast<NetworkViewGraphicsSceneContainer*>(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem()))
-                    dynamic_cast<NetworkViewGraphicsSceneContainer*>(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem())->removeChild(dynamic_cast<NetworkViewGraphicsItem*>(item));
+                if(item->parentItem()!=0&&dynamic_cast<NetworkViewGraphicsSceneContainer*>(item->parentItem()))
+                    dynamic_cast<NetworkViewGraphicsSceneContainer*>(item->parentItem())->removeChild(dynamic_cast<NetworkViewGraphicsItem*>(item));
             }
             if( dynamic_cast<NetworkViewGraphicsItem*>(item) )
                 delete item;

@@ -11,7 +11,7 @@ class NetworkViewGraphicsSceneContainer : public NetworkViewGraphicsItem
 public:
     enum
     {
-        radius = 200
+        radius = 150
     };    
 
     explicit NetworkViewGraphicsSceneContainer(QScriptValue value,QGraphicsItem *parent=0);

@@ -1,6 +1,7 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
 #include <QGraphicsSceneMouseEvent>
+#include <QtGui>
 
 NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
     QGraphicsPixmapItem( parent )
@@ -57,7 +58,7 @@ bool NetworkViewGraphicsItem::addChild( QPointF scenePos , NetworkViewGraphicsIt
 
 void NetworkViewGraphicsItem::removeChild( NetworkViewGraphicsItem *child )
 {
-    child->setParentItem(0);
+    child->setParentItem(0);    
     for(int i=0;i<children.count();i++)
     {
         if(children[i]==child)

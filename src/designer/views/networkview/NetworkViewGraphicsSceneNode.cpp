@@ -9,8 +9,8 @@ NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent
 {
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     labelObject = new NetworkViewGraphicsSceneLabel(this);
-    if(dynamic_cast<NetworkViewGraphicsItem*>(parent))dynamic_cast<NetworkViewGraphicsItem*>(parent)->addChild(this->scenePos(),this);
-
+    if(dynamic_cast<NetworkViewGraphicsItem*>(parent))dynamic_cast<NetworkViewGraphicsItem*>(parent)->addChild(scenePos(),this);
+    setZValue(1);
 }
 
 
@@ -30,7 +30,30 @@ void NetworkViewGraphicsSceneNode::updatePos()
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     if (change == ItemPositionHasChanged && scene()) {
-        updatePos();//this->setParentItem(0);
+//        QList<QGraphicsItem *> colliding=scene()->collidingItems(this);
+//        bool haspartent=false;
+//        if(this->parentItem()&&dynamic_cast<NetworkViewGraphicsItem *>(this->parentItem()))
+//            dynamic_cast<NetworkViewGraphicsItem *>(this->parentItem())->removeChild(this);
+//        foreach(QGraphicsItem * item,colliding)
+//        {
+//            if(dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+//            {
+//                QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
+//                QMessageBox *qmb=new QMessageBox();
+//                qmb->setText(QString::number(children.count()));
+//                qmb->exec();
+
+//                if(children.indexOf(this)==-1)
+//                    dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
+
+//                haspartent=true;
+//                break;
+//            }
+//        }
+//        if(!haspartent)
+//            setParentItem(0);
+        //this->setParentItem(0);
+        updatePos();
     }
     return NetworkViewGraphicsItem::itemChange(change, value);
 }
@@ -53,8 +76,7 @@ void NetworkViewGraphicsSceneNode::deleteEdge(NetworkViewGraphicsSceneEdge *edge
 {
     for(int i=0;i<this->edgeList.count();i++)
     {
-        if(edge==edgeList[i]){
-        this->edgeList.removeAt(i);
-        }
+        if(edge==edgeList[i])
+           this->edgeList.removeAt(i);
     }
 }
