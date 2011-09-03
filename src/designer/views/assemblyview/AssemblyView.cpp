@@ -104,7 +104,7 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     splitter->setCollapsible(1,false);
 
     QVBoxLayout * layout = new QVBoxLayout;
-    layout->setContentsMargins( 0 , 0 , 0 , 0 );
+    layout->setContentsMargins(0,0,0,0);
     layout->addWidget(splitter);
     setLayout(layout);
 

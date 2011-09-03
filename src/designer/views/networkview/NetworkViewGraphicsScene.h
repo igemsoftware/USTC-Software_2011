@@ -21,6 +21,9 @@ public:
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
     void loadFromModel(DesignerModelItf* model);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 signals:
 

@@ -18,6 +18,7 @@ public:
 signals:
 private:
     Ui::NetworkView *ui;
+    QScriptEngine * engine;
 public slots:
     void on_sceneSelectionChanged();
 };

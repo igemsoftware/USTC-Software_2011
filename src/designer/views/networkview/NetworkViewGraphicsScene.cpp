@@ -10,7 +10,8 @@
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
 #include "QKeyEvent"
 #include <QList>
-#include <QMessageBox>
+#include <QtGui>
+
 NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
 {
@@ -36,9 +37,8 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     for(int i=0;i<compartmentsCount;i++)
     {
         NetworkViewGraphicsSceneContainer* newContainer =
-                new NetworkViewGraphicsSceneContainer(activePanel(),compartmentsArray.property(i));
-        addItem(newContainer);
-        //newContainer->setLabel(compartmentsArray.property(i).property("id").toString());
+                new NetworkViewGraphicsSceneContainer(compartmentsArray.property(i),activePanel());
+        addItem(newContainer);        
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
 
@@ -55,16 +55,15 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         NetworkViewGraphicsSceneContainer* container;
         if(parentCompartment.isNull()||!(container = containerMap[parentCompartment.toString()]))
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(activePanel(), speciesArray.property(i));
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),activePanel());
             addItem(newNode);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(container, speciesArray.property(i), true);
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),container,true);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
-        }
-        //newNode->setLabel(speciesArray.property(i).property("id").toString());
+        }        
 
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
     }
@@ -123,16 +122,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 
         if(!sameCompartment)
         {
-            newNode = new NetworkViewGraphicsSceneNodeReaction(activePanel(), reactionArray.property(i));
-            addItem(newNode);
-            //newNode->setLabel(reactionArray.property(i).property("id").toString());
+            newNode = new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),activePanel());
+            addItem(newNode);            
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             container=containerMap[sameCompartmentName];
-            newNode= new NetworkViewGraphicsSceneNodeReaction(container, reactionArray.property(i));
-            //newNode->setLabel(reactionArray.property(i).property("id").toString());
+            newNode= new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),container);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
@@ -182,9 +179,6 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
                 dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->deleteEdges();
                 if(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem()!=0&&dynamic_cast<NetworkViewGraphicsSceneContainer*>(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem()))
                     dynamic_cast<NetworkViewGraphicsSceneContainer*>(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parentItem())->removeChild(dynamic_cast<NetworkViewGraphicsItem*>(item));
-//                QMessageBox *qmb=new QMessageBox();
-//                qmb->setText(QString::number(dynamic_cast<NetworkViewGraphicsSceneContainer*>(dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->parent)->nodeList.count()));
-//                qmb->exec();
             }
             if( dynamic_cast<NetworkViewGraphicsItem*>(item) )
                 delete item;
@@ -195,4 +189,75 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
         return;
     }
     event->accept();
+}
+
+void NetworkViewGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    NetworkViewGraphicsItem * item = 0;
+    if( event->mimeData()->hasFormat("compartment") )
+    {
+        QByteArray itemData = event->mimeData()->data( "compartment" );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+//        QString itemId = scriptValue->property("id").toString();
+//        QString stri;
+//        for( int i = 1 ; ; i++ )
+//        {
+//            stri.setNum(i);
+//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
+//        }
+//        itemId += "_"+stri;
+//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        item = new NetworkViewGraphicsSceneContainer( *scriptValue );
+    }else if( event->mimeData()->hasFormat( "reaction" ) )
+    {
+        QByteArray itemData = event->mimeData()->data( "reaction" );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+//        QString itemId = scriptValue->property("id").toString();
+//        QString stri;
+//        for( int i = 1 ; ; i++ )
+//        {
+//            stri.setNum(i);
+//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
+//        }
+//        itemId += "_"+stri;
+//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        item = new NetworkViewGraphicsSceneNodeReaction( *scriptValue );
+    }else if( event->mimeData()->hasFormat( "substance" ) )
+    {
+        QByteArray itemData = event->mimeData()->data( "substance" );
+        QScriptValue * scriptValue;
+        memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
+//        QString itemId = scriptValue->property("id").toString();
+//        QString stri;
+//        for( int i = 1 ; ; i++ )
+//        {
+//            stri.setNum(i);
+//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
+//        }
+//        itemId += "_"+stri;
+//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        item = new NetworkViewGraphicsSceneNodeSubstance( *scriptValue );
+    }
+    else{
+        QGraphicsScene::dropEvent(event);
+        return;
+    }
+    item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
+
+    this->addItem(item);
+    event->accept();
+
+    return;
+}
+
+void NetworkViewGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->acceptProposedAction();
 }

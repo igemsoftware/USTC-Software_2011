@@ -15,17 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <widget class="QWidget" name="buttons" native="true">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <widget class="QWidget" name="buttons" native="true"/>
    </item>
    <item row="1" column="0">
     <widget class="QGraphicsView" name="graphicsView"/>

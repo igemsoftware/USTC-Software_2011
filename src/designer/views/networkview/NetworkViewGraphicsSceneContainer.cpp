@@ -2,13 +2,11 @@
 #include "NetworkViewGraphicsSceneLabel.h"
 #include <QMessageBox>
 
-NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QGraphicsItem *parent, QScriptValue value) :
+NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValue value, QGraphicsItem *parent) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
     Type = "container";
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
-//    labelObject = new NetworkViewGraphicsSceneLabel(this);
-//    labelObject->setPos(0, radius);
 }
 
 
@@ -43,9 +41,9 @@ void NetworkViewGraphicsSceneContainer::deleteNodes()
 {
     while(children.count()!=0)
     {
-        QMessageBox *qmb=new QMessageBox();
-        qmb->setText(QString::number(children.count()));
-        qmb->exec();
+//        QMessageBox *qmb=new QMessageBox();
+//        qmb->setText(QString::number(children.count()));
+//        qmb->exec();
         if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0]))
             dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0])->deleteEdges();
         delete this->children[0];

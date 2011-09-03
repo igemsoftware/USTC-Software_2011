@@ -77,7 +77,8 @@ SOURCES +=\
     src/designer/views/networkview/Layouter/main.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
-    src/designer/views/networkview/NetworkView.cpp
+    src/designer/views/networkview/NetworkView.cpp \
+    src/designer/views/networkview/NetworkViewButton.cpp
 
 
 HEADERS  += \
@@ -156,7 +157,8 @@ HEADERS  += \
     src/designer/common/drawwnd/DesignerDrawWidget.h \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
     src/designer/views/networkview/Layouter/lagraphlayouter.h \
-    src/designer/views/networkview/NetworkView.h
+    src/designer/views/networkview/NetworkView.h \
+    src/designer/views/networkview/NetworkViewButton.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \
