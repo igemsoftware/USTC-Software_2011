@@ -1,5 +1,6 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
+#include "NetworkViewGraphicsSceneContainer.h"
 #include <QtGui>
 
 NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
@@ -59,7 +60,7 @@ bool NetworkViewGraphicsItem::addChild( QPointF scenePos , NetworkViewGraphicsIt
 
 void NetworkViewGraphicsItem::removeChild( NetworkViewGraphicsItem *child )
 {
-    child->setParentItem(0);    
+    //child->setParentItem(0);
     for(int i=0;i<children.count();i++)
     {
         if(children[i]==child)
@@ -120,9 +121,10 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if( !moving )
     {
         moving = true;
-        QPointF tempPos = scenePos();
-        if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem())) dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
-        setPos(tempPos);
+//        if( dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem()))
+//            dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem())->removeChild(this);
+//        QPointF tempPos = scenePos();
+//        setPos(tempPos);
     }
     QGraphicsPixmapItem::mouseMoveEvent(event);
 }
@@ -131,11 +133,8 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsPixmapItem::mouseReleaseEvent(event);
-    if( moving )
-    {
-        moving = false;
-        dynamic_cast<NetworkViewGraphicsScene*>(scene())->addItem(this);
-    }
+    if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
+        detectEdge();
 }
 
 void NetworkViewGraphicsItem::setResizable(bool newResizable)
@@ -150,6 +149,30 @@ void NetworkViewGraphicsItem::setResizable(bool newResizable)
             delete sizer;
         }
         resizable = newResizable;
+    }
+}
+
+void NetworkViewGraphicsItem::detectEdge()
+{
+    QList<QGraphicsItem *> colliding;
+    colliding=scene()->collidingItems(this);
+    foreach(QGraphicsItem * item,colliding)
+    {
+        if(dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+        {
+        QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
+        if(children.indexOf(this)==-1)
+        dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
+        return;
+        }
+    }
+
+    if( dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem()))
+    {
+        dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem())->removeChild(this);
+        QPointF tempPos=scenePos();
+        setParentItem(0);
+        setPos(tempPos);
     }
 }
 

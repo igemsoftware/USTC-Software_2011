@@ -250,10 +250,9 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         return;
     }
     item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
-
     this->addItem(item);
+    item->detectEdge();
     event->accept();
-
     return;
 }
 

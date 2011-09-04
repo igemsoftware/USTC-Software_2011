@@ -14,15 +14,13 @@ NetworkViewGraphicsItemSizer::NetworkViewGraphicsItemSizer(QGraphicsItem *parent
 void NetworkViewGraphicsItemSizer::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
-    this->setSelected(true);
-    //NetworkViewGraphicsItem::getSelection();
+    this->setSelected(true); 
 }
 
 void NetworkViewGraphicsItemSizer::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
     this->setSelected(false);
-    //dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->loseSelection(scene()->selectedItems());
 }
 
 void NetworkViewGraphicsItemSizer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

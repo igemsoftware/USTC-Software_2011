@@ -30,29 +30,6 @@ void NetworkViewGraphicsSceneNode::updatePos()
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)
 {
     if (change == ItemPositionHasChanged && scene()) {
-//        QList<QGraphicsItem *> colliding=scene()->collidingItems(this);
-//        bool haspartent=false;
-//        if(this->parentItem()&&dynamic_cast<NetworkViewGraphicsItem *>(this->parentItem()))
-//            dynamic_cast<NetworkViewGraphicsItem *>(this->parentItem())->removeChild(this);
-//        foreach(QGraphicsItem * item,colliding)
-//        {
-//            if(dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
-//            {
-//                QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
-//                QMessageBox *qmb=new QMessageBox();
-//                qmb->setText(QString::number(children.count()));
-//                qmb->exec();
-
-//                if(children.indexOf(this)==-1)
-//                    dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
-
-//                haspartent=true;
-//                break;
-//            }
-//        }
-//        if(!haspartent)
-//            setParentItem(0);
-        //this->setParentItem(0);
         updatePos();
     }
     return NetworkViewGraphicsItem::itemChange(change, value);

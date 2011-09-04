@@ -105,12 +105,14 @@ void NetworkView::on_sceneSelectionChanged()
         {
             this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
             this->selectState="SubstanceReady";
+            this->linebutton->setDown(true);
         }
         else if(this->selectState=="ReactionReady")
         {
             this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->reaction,this->substance,NetworkViewGraphicsSceneEdge::DirectedEdge));
             this->selectState="NoNeed";
+            this->linebutton->setDown(false);
         }
     }
     else if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first()))
@@ -119,12 +121,14 @@ void NetworkView::on_sceneSelectionChanged()
         {
             this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
             this->selectState="ReactionReady";
+            this->linebutton->setDown(true);
         }
         else if(this->selectState=="SubstanceReady")
         {
             this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->substance,this->reaction,NetworkViewGraphicsSceneEdge::DirectedEdge));
             this->selectState="NoNeed";
+            this->linebutton->setDown(false);
         }
     }
     if(selectedItem.count()==0)

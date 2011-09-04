@@ -42,9 +42,6 @@ void NetworkViewGraphicsSceneContainer::deleteNodes()
 {
     while(children.count()!=0)
     {
-//        QMessageBox *qmb=new QMessageBox();
-//        qmb->setText(QString::number(children.count()));
-//        qmb->exec();
         if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0]))
             dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0])->deleteEdges();
         delete this->children[0];

@@ -31,6 +31,8 @@ public:
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
     void resize( qreal newWidth , qreal newHeight );
     void setResizable( bool newResizable );
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void detectEdge();
 
 protected:
     bool resizable;
@@ -38,8 +40,7 @@ protected:
     QGraphicsTextItem * displayName;
     NetworkViewGraphicsItemSizer * sizer;
 
-    void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);    
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
