@@ -78,7 +78,8 @@ SOURCES +=\
     src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
     src/designer/views/networkview/NetworkView.cpp \
-    src/designer/views/networkview/NetworkViewButton.cpp
+    src/designer/views/networkview/NetworkViewButton.cpp \
+    src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp
 
 
 HEADERS  += \
@@ -158,7 +159,8 @@ HEADERS  += \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
     src/designer/views/networkview/Layouter/lagraphlayouter.h \
     src/designer/views/networkview/NetworkView.h \
-    src/designer/views/networkview/NetworkViewButton.h
+    src/designer/views/networkview/NetworkViewButton.h \
+    src/designer/views/networkview/NetworkViewGraphicsItemSizer.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

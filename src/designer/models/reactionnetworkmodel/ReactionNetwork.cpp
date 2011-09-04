@@ -9,8 +9,7 @@ ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
 
 QStringList ReactionNetworkModel::getSupportedViewList() const
 {
-    QStringList supportedViewList;
-    supportedViewList.append("AssemblyView");
+    QStringList supportedViewList;    
     supportedViewList.append("NetworkView");
     supportedViewList.append("BehaviorView");
     supportedViewList.append("SBMLEditorView");

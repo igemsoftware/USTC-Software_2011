@@ -86,7 +86,18 @@ NetworkView::~NetworkView()
 
 void NetworkView::on_sceneSelectionChanged()
 {
-    QList<QGraphicsItem*> selectedItem = ui->graphicsView->scene()->selectedItems();
+    QList<QGraphicsItem*> selectedItem = ui->graphicsView->scene()->selectedItems();    
+    foreach( QGraphicsItem* item , ui->graphicsView->scene()->items() )
+    {
+        if( dynamic_cast<NetworkViewGraphicsItem*>(item) ) dynamic_cast<NetworkViewGraphicsItem*>(item)->loseSelection(selectedItem);
+    }
+    foreach( QGraphicsItem* item , selectedItem )
+    {
+        if( dynamic_cast<NetworkViewGraphicsItem*>(item) )
+        {
+            dynamic_cast<NetworkViewGraphicsItem*>(item)->getSelection();
+        }
+    }
 
     if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first()))
     {

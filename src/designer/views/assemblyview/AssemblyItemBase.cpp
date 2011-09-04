@@ -79,7 +79,7 @@ void AssemblyItemBase::loseSelection( QList<QGraphicsItem*> newSelectedItems )
 {
     selected = false;
     setPixmap(normalImage);
-    //if( resizable && !newSelectedItems.contains(sizer) ) sizer->hide();
+    if( resizable && !newSelectedItems.contains(sizer) ) sizer->hide();
 }
 
 void AssemblyItemBase::resize( qreal newWidth , qreal newHeight )
@@ -191,21 +191,3 @@ void AssemblyItemSizer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QPointF point = mapToParent(mapFromScene( scenePos() + QPointF( pixmap().width()/2 , pixmap().height()/2 ) ) );
     dynamic_cast<AssemblyItemBase*>(parentItem())->resize( point.x() , point.y() );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

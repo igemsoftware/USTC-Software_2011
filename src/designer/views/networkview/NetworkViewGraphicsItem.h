@@ -7,6 +7,7 @@
 #include <QGraphicsTextItem>
 #include <QPixmap>
 #include <QGraphicsScene>
+#include "NetworkViewGraphicsItemSizer.h"
 
 class NetworkViewGraphicsItem : public QGraphicsPixmapItem
 {
@@ -28,22 +29,24 @@ public:
 
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
+    void resize( qreal newWidth , qreal newHeight );
+    void setResizable( bool newResizable );
 
 protected:
     bool resizable;
     QString Type;
     QGraphicsTextItem * displayName;
+    NetworkViewGraphicsItemSizer * sizer;
 
-    void setResizable( bool newResizable );
-    void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);
-
+    void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);    
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+
     //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QPixmap normalImage , originalNormalImage;
-    QPixmap selectedImage , originalSelectedImage;
+    QPixmap selectedImage , originalSelectedImage;    
     bool moving;
     bool selected;
 };

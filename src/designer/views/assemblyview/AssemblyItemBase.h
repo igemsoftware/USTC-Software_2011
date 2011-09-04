@@ -55,7 +55,7 @@ private:
 
 };
 
-class AssemblyItemSizer : public AssemblyItemBase
+class AssemblyItemSizer: public AssemblyItemBase
 {
 public:
     explicit AssemblyItemSizer( QGraphicsItem * parent = 0 );

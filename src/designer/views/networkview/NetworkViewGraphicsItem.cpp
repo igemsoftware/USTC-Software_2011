@@ -1,6 +1,5 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
-#include <QGraphicsSceneMouseEvent>
 #include <QtGui>
 
 NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
@@ -8,6 +7,7 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
 {
     resizable = false;
     moving = false;
+    sizer = 0;
     itemObject = newScriptValue;
     qDebug() << normalImagePath;
     normalImage.load( normalImagePath );
@@ -20,11 +20,12 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
     setFlag( QGraphicsItem::ItemIsMovable );
 
     displayName = new QGraphicsTextItem( getId() , this );    
-    setScriptValue( newScriptValue );
+    setScriptValue( newScriptValue );    
 }
 
 NetworkViewGraphicsItem::~NetworkViewGraphicsItem()
 {
+    if( resizable ) delete sizer;
     delete displayName;
     if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem()) ) dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
     if( scene() ) dynamic_cast<NetworkViewGraphicsScene*>(scene())->removeItem(this);
@@ -74,34 +75,38 @@ void NetworkViewGraphicsItem::getSelection()
 {
     selected = true;
     setPixmap(selectedImage);
+    if( resizable )
+    {
+        sizer->show();
+    }
 }
 
 void NetworkViewGraphicsItem::loseSelection( QList<QGraphicsItem*> newSelectedItems )
 {
     selected = false;
     setPixmap(normalImage);
-    //if( resizable && !newSelectedItems.contains(sizer) ) sizer->hide();
+    if( resizable && !newSelectedItems.contains(sizer) ) sizer->hide();
 }
 
-//void NetworkViewGraphicsItem::resize( qreal newWidth , qreal newHeight )
-//{
-//    if( newWidth < originalNormalImage.width()*0.1 || newHeight < originalNormalImage.width()*0.1 )
-//    {
-//        if( scene() ) scene()->clearSelection();
-//        if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
-//        return;
-//    }
-//    normalImage = originalNormalImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
-//    selectedImage = originalSelectedImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
-//    if( selected )
-//        setPixmap(selectedImage);
-//    else
-//        setPixmap(normalImage);
-//    if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
-//    QRectF bound = mapRectToScene(boundingRect());
-//    foreach( NetworkViewGraphicsItem* child , getChildren() ) bound |= mapRectToScene(child->boundingRect());
-//    displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
-//}
+void NetworkViewGraphicsItem::resize( qreal newWidth , qreal newHeight )
+{
+    if( newWidth < originalNormalImage.width()*0.1 || newHeight < originalNormalImage.width()*0.1 )
+    {
+        if( scene() ) scene()->clearSelection();
+        if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
+        return;
+    }
+    normalImage = originalNormalImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
+    selectedImage = originalSelectedImage.scaled( newWidth , newHeight , Qt::IgnoreAspectRatio , Qt::SmoothTransformation );
+    if( selected )
+        setPixmap(selectedImage);
+    else
+        setPixmap(normalImage);
+    if( resizable ) sizer->setPos( boundingRect().width() - sizer->pixmap().width()/2 , boundingRect().height() - sizer->pixmap().height()/2 );
+    QRectF bound = mapRectToScene(boundingRect());
+    foreach( NetworkViewGraphicsItem* child , children ) bound |= mapRectToScene(child->boundingRect());
+    displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
+}
 
 void NetworkViewGraphicsItem::setImage(QPixmap newNormalImage, QPixmap newSelectedImage)
 {
@@ -133,6 +138,20 @@ void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+void NetworkViewGraphicsItem::setResizable(bool newResizable)
+{
+    if( newResizable != resizable )
+    {
+        if( newResizable )
+        {
+            sizer = new NetworkViewGraphicsItemSizer(this);
+        }else
+        {
+            delete sizer;
+        }
+        resizable = newResizable;
+    }
+}
 
 //void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 //{
@@ -146,35 +165,4 @@ void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 //        else
 //            QMessageBox::information(0,"Error","Edit denied due to incompatible id specified!");
 //    }
-//}
-
-//AssemblyItemSizer::AssemblyItemSizer(QGraphicsItem *parent) :
-//    NetworkViewGraphicsItem( scriptValue , QObject::tr(":/designer/assemblyview/sizer_normal.png") , QObject::tr(":/designer/assemblyview/sizer_selected.png") , parent )
-//{
-//    setFlag(QGraphicsItem::ItemIsSelectable);
-//    hide();
-//    setPos( dynamic_cast<NetworkViewGraphicsItem*>( parentItem() )->pixmap().width() - pixmap().width()/2 , dynamic_cast<NetworkViewGraphicsItem*>( parentItem() )->pixmap().height() - pixmap().height()/2 );
-//}
-
-//void AssemblyItemSizer::mousePressEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    QGraphicsItem::mousePressEvent(event);
-//    NetworkViewGraphicsItem::getSelection();
-//}
-
-//void AssemblyItemSizer::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    QGraphicsItem::mouseReleaseEvent(event);
-//    QList<QGraphicsItem*> nothing;
-//    NetworkViewGraphicsItem::loseSelection(nothing);
-//}
-
-//void AssemblyItemSizer::getSelection(){}
-//void AssemblyItemSizer::loseSelection(QList<QGraphicsItem *> newSelectedItems){  }
-
-//void AssemblyItemSizer::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    QGraphicsPixmapItem::mouseMoveEvent(event);
-//    QPointF point = mapToParent(mapFromScene( scenePos() + QPointF( pixmap().width()/2 , pixmap().height()/2 ) ) );
-//    dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->resize( point.x() , point.y() );
 //}

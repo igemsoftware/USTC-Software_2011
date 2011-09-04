@@ -1,11 +1,12 @@
 #include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneLabel.h"
-#include <QMessageBox>
+#include <QtGui>
 
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValue value, QGraphicsItem *parent) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
 {
-    Type = "container";
+    Type = "container";    
+    setResizable(true);
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
 }
 
