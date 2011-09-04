@@ -1,0 +1,104 @@
+	Example use of the SBML_odeSolver as a library
+	
+1 Compilation of example programs:
+
+After compiling the odeSolver source code (see INSTALL file
+in main directory), change to the examples directory, and type
+`make'. The configure process has constructed a `Makefile', that 
+should include all necessary paths to header and library files.
+
+The example .c files are extensively documented and include a variety
+of the available interface functions.
+
+
+2 Usage of example programs:
+
+  See extra documentation for ParameterScanner and Sense applications
+  online at
+  http://www.tbi.univie.ac.at/~raim/odeSolver/doc/app.html
+
+  
+./integrate MAPK.xml 1000 10
+
+will integrate the SBML model ../Test/MAPK.xml from time 0 to time
+1000 in 100 steps, and will print out the time course of species
+concentrations (and other variable parameters or compartments, if a model
+includes such), and reaction fluxes in 100 time steps (producing 101 time
+points, including the initial conditions).
+
+./batchIntegrate MAPK.xml 1000 2 0 1 5 V2 J1
+
+will do the same integration as above, with 2 time steps to time 1000,
+but in 6 different integration runs, varying the initial
+concentration of the paramer with Id `V2' in reaction with Id `J1' 
+from 0 to 1 in 5 steps. 
+It will then print out one timecourse after the other. 
+Parameter variation can be done for species, compartments, global and local
+parameters, where for the latter the reaction Id must be given as in the 
+example above.
+
+
+./defSeries MAPK.xml
+
+exemplifies how to define specific time points for integration.
+
+
+./ASTIndexTest
+
+just tests SOSlib's extension to libSBML's ASTNode, by an index in the
+AST_NAME type of ASTNode. This index is used to retrieve current values
+of variables and parameters during formula evaluation.
+
+
+./printODEs
+
+exemplifies how to interface the internal ODE model that is constructed
+from an input SBML model (basic-model1-forward-l2.xml from the SBML
+semantic test suite).
+
+
+./simpleIntInst
+
+exemplifies how to set up integration options and run the integration
+with two different settings.
+
+
+./changeIntInst
+
+exemplifies how to use one internal ODE model structure with two different
+integrator instances, and how the integrator interface functions can be
+used to change values during an integration run, in this case depending on
+values in the other integrator instance.
+
+
+./analyzeJacobian
+
+exemplifies how to construct the jacobian matrix of a derived ODE system
+and how to interface evaluate the ODE model and its jacobian.
+
+
+./analyzeSens
+
+exemplifies how to construct and interface the parametric matrix 
+for sensitivity analysis
+
+
+./Sense MAPK.xml 200 7.5 p Ki MKKK_P MAPK_PP > sense.gnuplot
+
+creates a plot of the sensitivity of species MKKK_P and MAPK_PP to the
+values of the parameter Ki for the timecourse of 200 timesteps of 7.5 time
+units. To display the plot type the command:
+Linux: 	gnuplot -persist sense.gnuplot &
+Windows:	wgnuplot -persist sense.gnuplot &
+
+
+
+./ParameterScanner MAPK.xml 200 7.5 Ki 0 15 0.15 MAPK_PP > pscan.gnuplot
+
+creates plot data of a parameter scan in MAPK.xml of parameter Ki from
+0 through 15 in steps of 0.15. The surface plotted is the concentration of
+MAPK_PP in 200 timesteps of 7.5 time units.
+To display the plot type the command:
+
+Linux: 	gnuplot -persist pscan.gnuplot &
+Windows:	wgnuplot -persist pscan.gnuplot &

@@ -1,0 +1,93 @@
+Subject: SOSlib todo (fwd)
+
+Also see our `roadmap' at
+http://www.tbi.univie.ac.at/~raim/odeSolver/roadmap/index.html
+
+DOKU:
+
+optimize usage of Doxygen, esp. for odeSolver command-line application
+and its man pages!
+
+start SOSlib/methods Wiki
+
+CODE:
+
+1.6.1: Performance Optimization
+
+Problem:  no reference for performance
+Solution: create SOSlib Benchmarking Test Suite, with defined settings
+          and scripts
+	  
+Problem:  BDF/Adams-Moulton, Newton/Functional iteration
+          behaviour differences not exactly known
+Solution: Use a bench marking test suite to systematically compare
+	  
+
+Problem:  kineticLaw parameters are replaced and can't be used for
+          sensitivity analysis
+Solution: globalize it! pass optional listOfParameters to be filled with
+          globalized kL parameters, and add to ode model
+
+Problem:  each kinetic law appears as the same formula in many ODEs,
+          while it could also be evaluated only once per function f
+          calls
+Solution: pass optional listOfRules/listOfParameters to odeFromReactions
+          and convert kineticLaws to parameter and rule!
+          Then add the new rules/parameters to the ode model
+
+Problem:  Constant Parameters need to stay in the formulae, for later
+          setting with IntegratorInstance_setVariable, as well as for
+          arbitrary sensitivity analysis
+Solution: pass a OptimizeFlag to odeConstruct, which causes replacment
+          of all constant parameters and sets a
+          `NoSensitivityAnalysisPossible' flag for the integratorInstance
+
+
+Problem:  each IntegratorInstance_setVariableValue frees and creates
+          solver structures, if a ODE variable is set
+Solution: use CvodeReInit in integrateOneStep, when a flag sets
+	  the solverstructures invalid, this flag can be set e.g. by
+	  IntegratorInstance_setVariableValue (by Andrew)
+			      
+Problem:  sensitivity analysis behaviour should be interfaced in more
+          detail      
+Solution: SENS errors control: separate error values,
+          TRUE/FALSE error control
+	  set good pbar values
+
+
+1.6.1: New Features
+
+drawSensitivity: better way? combine with jacobian?
+
+external data function:
+- incorporate interpolation function
+- write example
+(- differentiation for sens.analysis?
+not possible/needed because not constant?)
+
+output: print default SBML units if not given;
+
+more output options: amount/concentration/relative/total, sensitivities,
+                     selected species/parameters
+
+sensitivity analysis for selected params
+
+odeSolver: print sensitivities to XMGrace 
+
+
+
+1.6.2: New Features
+
+adjoint sensitivities
+
+IDA/IDAS, analog to CVODES
+
+exact event detection
+
+
+1.6.3: New Features
+
+simple stochastic solver
+
+parameter identification

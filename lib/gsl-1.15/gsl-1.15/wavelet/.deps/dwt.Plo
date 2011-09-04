@@ -1,0 +1,46 @@
+dwt.lo: dwt.c ../config.h ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_types.h ../gsl/gsl_wavelet.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ ../gsl/gsl_wavelet2d.h ../gsl/gsl_vector_double.h ../gsl/gsl_inline.h \
+ ../gsl/gsl_check_range.h ../gsl/gsl_block_double.h \
+ ../gsl/gsl_matrix_double.h
+
+../config.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_wavelet.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+../gsl/gsl_wavelet2d.h:
+
+../gsl/gsl_vector_double.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_check_range.h:
+
+../gsl/gsl_block_double.h:
+
+../gsl/gsl_matrix_double.h:

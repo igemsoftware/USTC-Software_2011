@@ -86,8 +86,7 @@ bool SBMLDoc::saveToFile(QFile& file)
     QDomDocument * doc = writer.WriteDoc(getCurrentModel());
     file.open(QIODevice::ReadWrite);
     QTextStream stream(&file);
-    qDebug() << doc->toString(4);
-    stream << doc->toString(4);
+    stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" << doc->toString();
     stream.flush();
     return true;
 }

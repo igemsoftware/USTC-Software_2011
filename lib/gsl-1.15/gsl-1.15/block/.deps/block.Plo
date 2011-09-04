@@ -1,0 +1,73 @@
+block.lo: block.c ../config.h ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_types.h ../gsl/gsl_block.h \
+ ../gsl/gsl_block_complex_long_double.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ ../gsl/gsl_block_complex_double.h ../gsl/gsl_block_complex_float.h \
+ ../gsl/gsl_block_long_double.h ../gsl/gsl_block_double.h \
+ ../gsl/gsl_block_float.h ../gsl/gsl_block_ulong.h \
+ ../gsl/gsl_block_long.h ../gsl/gsl_block_uint.h ../gsl/gsl_block_int.h \
+ ../gsl/gsl_block_ushort.h ../gsl/gsl_block_short.h \
+ ../gsl/gsl_block_uchar.h ../gsl/gsl_block_char.h ../templates_on.h \
+ block_source.c ../templates_off.h
+
+../config.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_block.h:
+
+../gsl/gsl_block_complex_long_double.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+../gsl/gsl_block_complex_double.h:
+
+../gsl/gsl_block_complex_float.h:
+
+../gsl/gsl_block_long_double.h:
+
+../gsl/gsl_block_double.h:
+
+../gsl/gsl_block_float.h:
+
+../gsl/gsl_block_ulong.h:
+
+../gsl/gsl_block_long.h:
+
+../gsl/gsl_block_uint.h:
+
+../gsl/gsl_block_int.h:
+
+../gsl/gsl_block_ushort.h:
+
+../gsl/gsl_block_short.h:
+
+../gsl/gsl_block_uchar.h:
+
+../gsl/gsl_block_char.h:
+
+../templates_on.h:
+
+block_source.c:
+
+../templates_off.h:

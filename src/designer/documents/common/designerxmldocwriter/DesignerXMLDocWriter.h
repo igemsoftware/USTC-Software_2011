@@ -18,10 +18,10 @@ private:
     bool disabled;
     QDomDocument *doc;
 
-    void TravelRules(QDomElement rule_elem, QScriptValue script_value, QVector<int> &args);
-    QDomElement   CreateElemByTarget(QString target, QVector<int> args);
+    void TravelRules(const QDomElement &rule_elem, const QScriptValue &script_value, QVector<int> &args);
+    QDomElement   CreateElemByTarget(const QString &target, QVector<int> args);
     void TrimTagName(QDomElement elem);
-    void ConvertTextToElemAndInsert(QString text, QDomElement root);
+    void ConvertTextToElemAndInsert(const QString &text, QDomElement root);
     void PrependTagName(QDomElement elem);
 };
 

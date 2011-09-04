@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<obect path="model">
+	<array path="units" target="sbml/model/listOfUnitDefinitions">
+		<object path="" target="sbml/model/listOfUnitDefinitions/unit($1)" attribute="id=id">
+		</object>
+	</array>
+</object>

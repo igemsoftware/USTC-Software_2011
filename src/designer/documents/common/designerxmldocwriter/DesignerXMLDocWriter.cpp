@@ -24,9 +24,9 @@ DesignerXMLDocWriter::DesignerXMLDocWriter(QString rule_file_name) :
     return;
 }
 
-void DesignerXMLDocWriter::TravelRules(QDomElement rule_elem, QScriptValue script_value, QVector<int> &args)
+void DesignerXMLDocWriter::TravelRules(const QDomElement &rule_elem, const QScriptValue &script_value, QVector<int> &args)
 {
-    qDebug() << script_value;
+    qDebug() << rule_elem.tagName();
     QScriptValue sub_script_value = script_value;
     if( rule_elem.hasAttribute("path") && !rule_elem.attribute("path").isEmpty() )
     {
@@ -49,7 +49,7 @@ void DesignerXMLDocWriter::TravelRules(QDomElement rule_elem, QScriptValue scrip
     QDomElement cur_elem;
     if( rule_elem.hasAttribute("target") )
     {
-        qDebug() << "target:" << rule_elem.hasAttribute("target");
+        qDebug() << "target:" << rule_elem.attribute("target");
         cur_elem = CreateElemByTarget(rule_elem.attribute("target"), args);
         if( rule_elem.hasAttribute("attribute") )
         {
@@ -57,6 +57,7 @@ void DesignerXMLDocWriter::TravelRules(QDomElement rule_elem, QScriptValue scrip
             {
                 QString attribute_name = attribute.split("=").at(0);
                 QString property_name = attribute.split("=").at(1);
+                if( !sub_script_value.property(property_name).isValid() ) continue;
                 if( attribute_name == "$CHILD" )
                 {
                     ConvertTextToElemAndInsert(sub_script_value.property(property_name).toString(), cur_elem);
@@ -92,26 +93,41 @@ void DesignerXMLDocWriter::TravelRules(QDomElement rule_elem, QScriptValue scrip
     return;
 }
 
-QDomElement DesignerXMLDocWriter::CreateElemByTarget(QString target, QVector<int> args)
+QDomElement DesignerXMLDocWriter::CreateElemByTarget(const QString &target, QVector<int> args)
 {
-    QRegExp rx("^(\\w+)\\(([^\\)]+)\\)$");
-    QDomElement elem = doc->documentElement();
+    QRegExp rx("^(\\w+)(\\(([^\\)]+)\\))?$");
+    QDomElement elem;
+    int depth = 0;
     foreach( QString tag_name, target.simplified().remove(" ").split("/") )
     {
-        rx.indexIn(tag_name);
+        depth++;
+
+        qDebug() << rx.indexIn(tag_name);
+        qDebug() << rx.cap(1) << "\n" << rx.cap(3);
         tag_name = "";
         int i = 0;
-        foreach( QString arg, rx.cap(2).split("$", QString::SkipEmptyParts) )
+        foreach( QString arg, rx.cap(3).split("$", QString::SkipEmptyParts) )
         {
             i++;
-            tag_name += QObject::tr("_") + args.at(arg.toInt()) + "_";
+            tag_name += QObject::tr("_") + args.at(arg.toInt()-1) + "_";
         }
         tag_name = QString("_%1_").arg(i) + tag_name + rx.cap(1);
-        if( elem.firstChildElement(tag_name).isNull() )
+        if( depth == 1 )
         {
-            elem.appendChild( doc->createElement(tag_name) );
+            elem = doc->documentElement();
+            if( elem.isNull() || elem.tagName() != tag_name )
+            {
+                doc->appendChild( doc->createElement(tag_name) );
+                elem = doc->documentElement();
+            }
+        }else{
+            if( elem.firstChildElement(tag_name).isNull() )
+            {
+                elem.appendChild( doc->createElement(tag_name) );
+            }
+            elem = elem.firstChildElement(tag_name);
         }
-        elem = elem.firstChildElement(tag_name);
+
     }
     return elem;
 }
@@ -133,15 +149,14 @@ void DesignerXMLDocWriter::TrimTagName(QDomElement elem)
     }
 }
 
-void DesignerXMLDocWriter::ConvertTextToElemAndInsert(QString text, QDomElement root)
+void DesignerXMLDocWriter::ConvertTextToElemAndInsert(const QString &text, QDomElement root)
 {
     QDomDocument tmp_doc;
     tmp_doc.setContent(text);
-    for( QDomElement child = tmp_doc.documentElement().firstChildElement() ; !child.isNull() ; child = child.nextSiblingElement() )
-    {
-        PrependTagName(child);
-        root.appendChild(child);
-    }
+    QDomElement child = tmp_doc.documentElement();
+    PrependTagName(child);
+    root.appendChild( doc->importNode(child,true) );
+    return;
 }
 
 void DesignerXMLDocWriter::PrependTagName(QDomElement elem)
@@ -160,14 +175,19 @@ void DesignerXMLDocWriter::PrependTagName(QDomElement elem)
 
 QDomDocument *DesignerXMLDocWriter::WriteDoc(DesignerModelItf *model)
 {
+    if( disabled )
+    {
+        qDebug() << "Writer Disabled";
+        return 0;
+    }
     QScriptValue root = model->getEngine()->globalObject();
     doc = new QDomDocument;
 
     QVector<int> args;
-    for( QDomElement rule_elem = rule_xml.documentElement().firstChildElement() ; !rule_elem.isNull() ; rule_elem = rule_elem.nextSiblingElement() )
-    {
-        TravelRules(rule_elem, root, args);
-    }
+
+    qDebug() << rule_xml.documentElement().tagName();
+    TravelRules(rule_xml.documentElement(), root, args);
+
     TrimTagName(doc->documentElement());
     return doc;
 }

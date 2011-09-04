@@ -1,0 +1,23 @@
+zsolve_quadratic.lo: zsolve_quadratic.c ../config.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ ../gsl/gsl_complex.h ../gsl/gsl_poly.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ ../gsl/gsl_inline.h
+
+../config.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+../gsl/gsl_complex.h:
+
+../gsl/gsl_poly.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+../gsl/gsl_inline.h:

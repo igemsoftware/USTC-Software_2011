@@ -1,0 +1,414 @@
+ASTIndexNameNode.o: ASTIndexNameNode.cpp sbmlsolver/ASTIndexNameNode.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/ASTNode.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/extern.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-namespace.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/sbmlfwd.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-config.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-config-common.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-version.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaTokenizer.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaFormatter.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/StringBuffer.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaParser.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/Stack.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLAttributes.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLExtern.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/operationReturnValues.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/string \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++config.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/os_defines.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/cpu_defines.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stringfwd.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/char_traits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_algobase.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cstddef \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/stddef.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/functexcept.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/exception_defines.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/cpp_type_traits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/type_traits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/numeric_traits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_pair.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/move.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/concept_check.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator_base_types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator_base_funcs.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/debug/debug.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/postypes.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cwchar \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/wchar.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/wctype.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdint.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/allocator.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++allocator.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/new_allocator.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/new \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/exception \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/localefwd.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++locale.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/clocale \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/locale.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iosfwd \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cctype \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/ctype.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ostream_insert.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cxxabi-forced.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_function.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/backward/binders.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_string.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/atomicity.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/gthr.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/gthr-default.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/atomic_word.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/initializer_list \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_string.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/vector \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_construct.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_uninitialized.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_vector.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_bvector.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/vector.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/stdexcept \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLTriple.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SyntaxChecker.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBase.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBMLTypeCodes.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/RDFAnnotation.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/ModelHistory.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/List.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/string.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLNode.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLToken.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLNamespaces.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLOutputStream.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iostream \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ostream \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ios \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ios_base.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_classes.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_classes.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/streambuf \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/streambuf.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_ios.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cwctype \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/ctype_base.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/streambuf_iterator.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/ctype_inline.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_ios.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ostream.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/istream \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/istream.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/limits \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/locale \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets_nonio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ctime \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/time.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/time_members.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/messages_members.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/codecvt.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets_nonio.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cstdlib \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iomanip \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/sstream \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/sstream.tcc \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/CVTerm.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBMLNamespaces.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/common.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/memory.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/util.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/algorithm \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/utility \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_relops.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_algo.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/algorithmfwd.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_heap.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_tempbuf.h \
+ sbmlsolver/exportdefs.h
+
+sbmlsolver/ASTIndexNameNode.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/ASTNode.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/extern.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-namespace.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/sbmlfwd.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-config.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-config-common.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/libsbml-version.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaTokenizer.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaFormatter.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/StringBuffer.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/math/FormulaParser.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/Stack.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLAttributes.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLExtern.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/operationReturnValues.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/string:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++config.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/os_defines.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/cpu_defines.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stringfwd.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/char_traits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_algobase.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cstddef:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/stddef.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/functexcept.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/exception_defines.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/cpp_type_traits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/type_traits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/numeric_traits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_pair.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/move.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/concept_check.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator_base_types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator_base_funcs.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_iterator.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/debug/debug.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/postypes.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cwchar:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/wchar.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/wctype.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdint.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/allocator.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++allocator.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/new_allocator.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/new:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/exception:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/localefwd.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/c++locale.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/clocale:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/locale.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iosfwd:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cctype:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/ctype.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ostream_insert.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cxxabi-forced.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_function.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/backward/binders.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_string.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ext/atomicity.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/gthr.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/gthr-default.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/atomic_word.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/initializer_list:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_string.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/vector:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_construct.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_uninitialized.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_vector.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_bvector.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/vector.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/stdexcept:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLTriple.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SyntaxChecker.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBase.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBMLTypeCodes.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/RDFAnnotation.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/ModelHistory.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/List.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/string.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLNode.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLToken.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLNamespaces.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/xml/XMLOutputStream.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iostream:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ostream:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ios:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ios_base.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_classes.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_classes.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/streambuf:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/streambuf.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_ios.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cwctype:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/ctype_base.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/streambuf_iterator.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/ctype_inline.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/basic_ios.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/ostream.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/istream:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/istream.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/limits:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/locale:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets_nonio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/ctime:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/time.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/time_members.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/mingw32/bits/messages_members.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/codecvt.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/locale_facets_nonio.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/cstdlib:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/iomanip:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/sstream:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/sstream.tcc:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/annotation/CVTerm.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/SBMLNamespaces.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/common/common.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/memory.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/../../../../include/sbml/util/util.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/algorithm:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/utility:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_relops.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_algo.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/algorithmfwd.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_heap.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.5.2/include/c++/bits/stl_tempbuf.h:
+
+sbmlsolver/exportdefs.h:
