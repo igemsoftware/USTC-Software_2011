@@ -30,7 +30,6 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     labelObject = new NetworkViewGraphicsSceneLabel(this, "");
 }
 
-
 void NetworkViewGraphicsSceneEdge::updatePos(void)
 {
     if(edgeNode1&&edgeNode2)

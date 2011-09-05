@@ -59,8 +59,7 @@ bool NetworkViewGraphicsItem::addChild( QPointF scenePos , NetworkViewGraphicsIt
 }
 
 void NetworkViewGraphicsItem::removeChild( NetworkViewGraphicsItem *child )
-{
-    //child->setParentItem(0);
+{    
     for(int i=0;i<children.count();i++)
     {
         if(children[i]==child)
@@ -119,13 +118,7 @@ void NetworkViewGraphicsItem::setImage(QPixmap newNormalImage, QPixmap newSelect
 void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if( !moving )
-    {
         moving = true;
-//        if( dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem()))
-//            dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem())->removeChild(this);
-//        QPointF tempPos = scenePos();
-//        setPos(tempPos);
-    }
     QGraphicsPixmapItem::mouseMoveEvent(event);
 }
 
@@ -134,7 +127,8 @@ void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsPixmapItem::mouseReleaseEvent(event);
     if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
-        detectEdge();
+        if(!detectEdge())
+            delete this;
 }
 
 void NetworkViewGraphicsItem::setResizable(bool newResizable)
@@ -152,7 +146,7 @@ void NetworkViewGraphicsItem::setResizable(bool newResizable)
     }
 }
 
-void NetworkViewGraphicsItem::detectEdge()
+bool NetworkViewGraphicsItem::detectEdge()
 {
     QList<QGraphicsItem *> colliding;
     colliding=scene()->collidingItems(this);
@@ -160,13 +154,13 @@ void NetworkViewGraphicsItem::detectEdge()
     {
         if(dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
         {
-        QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
-        if(children.indexOf(this)==-1)
-        dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
-        return;
+            QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
+            if(children.indexOf(this)==-1)
+            dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
+            return true;
         }
     }
-
+    return false;
     if( dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem()))
     {
         dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem())->removeChild(this);

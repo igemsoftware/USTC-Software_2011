@@ -24,6 +24,7 @@ public:
 
     QList<NetworkViewGraphicsSceneEdge*> edgeList;    
     NetworkViewGraphicsSceneNode(QGraphicsItem *parent , QScriptValue value , QString normalImagePath , QString selectedImagePath , bool isParentContainer = false);
+    virtual ~NetworkViewGraphicsSceneNode();
     void setLabel(QString label);
     void registerEdge(NetworkViewGraphicsSceneEdge* edge);
     void updatePos();

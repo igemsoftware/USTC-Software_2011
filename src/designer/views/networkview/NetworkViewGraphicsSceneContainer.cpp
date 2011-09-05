@@ -10,12 +10,6 @@ NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValu
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
 }
 
-
-//void NetworkViewGraphicsSceneContainer::registerNode(NetworkViewGraphicsSceneNode* node)
-//{
-//    if(node && nodeList.indexOf(node)==-1) nodeList.append(node);
-//}
-
 void NetworkViewGraphicsSceneContainer::updatePos()
 {
 
@@ -36,15 +30,4 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
 void NetworkViewGraphicsSceneContainer::setLabel(QString label)
 {
     labelObject->setPlainText(label);
-}
-
-void NetworkViewGraphicsSceneContainer::deleteNodes()
-{
-    while(children.count()!=0)
-    {
-        if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0]))
-            dynamic_cast<NetworkViewGraphicsSceneNode *>(this->children[0])->deleteEdges();
-        delete this->children[0];
-    }
-    this->children.clear();
 }

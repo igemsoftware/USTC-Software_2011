@@ -4,6 +4,7 @@
 #include <QtScript>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include "NetworkViewGraphicsItem.h"
 
 class DesignerModelItf;
 
@@ -25,6 +26,7 @@ public:
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
     void addItem(QGraphicsItem *item);
+    void removeItem(NetworkViewGraphicsItem *item);
 
 signals:
 

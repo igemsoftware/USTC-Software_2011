@@ -30,12 +30,24 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
 {
     if(dynamic_cast<NetworkViewGraphicsItem *>(item))
     {
-        if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->itemObject.property("id").isNull())
+        if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->getId().isEmpty())
         {
-            idSpace.insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->itemObject.property("id").toString());
+            idSpace.insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->getId());
         }
     }
-    QGraphicsScene::addItem(item);
+    if(!item->parentItem())
+        QGraphicsScene::addItem(item);
+}
+
+void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
+{
+    if( !item->getId().isEmpty() )
+    {
+        idSpace.remove(item->getId());
+    }
+    foreach( NetworkViewGraphicsItem * child , item->children) delete child;
+    QGraphicsScene::removeItem(item);
+    //refreshScriptValue();
 }
 
 void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
@@ -73,7 +85,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         else
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),container,true);
-            idSpace.insert(speciesArray.property(i).property("id").toString());
+            this->addItem(newNode);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }        
 
@@ -142,7 +154,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),container);
-            idSpace.insert(reactionArray.property(i).property("id").toString());
+            this->addItem(newNode);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
@@ -157,7 +169,6 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
                 NetworkViewGraphicsSceneEdge* newEdge = new NetworkViewGraphicsSceneEdge(
                             activePanel(),existingNode, newNode, NetworkViewGraphicsSceneEdge::DirectedEdge);
                 addItem(newEdge);
-
             }
         }
 
@@ -185,15 +196,7 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Delete:
         foreach( QGraphicsItem * item , selectedItems() )
         {
-            if(dynamic_cast<NetworkViewGraphicsSceneContainer*>(item))
-               dynamic_cast<NetworkViewGraphicsSceneContainer*>(item)->deleteNodes();
-            if(dynamic_cast<NetworkViewGraphicsSceneNode*>(item))
-            {
-                dynamic_cast<NetworkViewGraphicsSceneNode*>(item)->deleteEdges();
-                if(item->parentItem()!=0&&dynamic_cast<NetworkViewGraphicsSceneContainer*>(item->parentItem()))
-                    dynamic_cast<NetworkViewGraphicsSceneContainer*>(item->parentItem())->removeChild(dynamic_cast<NetworkViewGraphicsItem*>(item));
-            }
-            if( dynamic_cast<NetworkViewGraphicsItem*>(item) )
+            if( dynamic_cast<NetworkViewGraphicsItem*>(item))
                 delete item;
         }
         break;
@@ -264,7 +267,12 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     }
     item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
     this->addItem(item);
-    item->detectEdge();
+    if(dynamic_cast<NetworkViewGraphicsSceneNode *>(item))
+        if(!item->detectEdge())
+        {
+            delete item;
+            return;
+        }
     event->accept();
     return;
 }

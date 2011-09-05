@@ -32,7 +32,7 @@ public:
     void resize( qreal newWidth , qreal newHeight );
     void setResizable( bool newResizable );
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void detectEdge();
+    bool detectEdge();
 
 protected:
     bool resizable;

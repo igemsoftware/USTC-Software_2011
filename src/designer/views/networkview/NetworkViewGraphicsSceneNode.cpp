@@ -13,6 +13,10 @@ NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent
     setZValue(1);
 }
 
+NetworkViewGraphicsSceneNode::~NetworkViewGraphicsSceneNode()
+{
+    this->deleteEdges();
+}
 
 void NetworkViewGraphicsSceneNode::registerEdge(NetworkViewGraphicsSceneEdge* edge)
 {
