@@ -15,7 +15,6 @@
 NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
 {
-
 }
 
 void NetworkViewGraphicsScene::clearScene()
@@ -27,9 +26,24 @@ void NetworkViewGraphicsScene::clearScene()
     }
 }
 
+void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
+{
+    if(dynamic_cast<NetworkViewGraphicsItem *>(item))
+    {
+        if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->itemObject.property("id").isNull())
+        {
+            idSpace.insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->itemObject.property("id").toString());
+        }
+    }
+    QGraphicsScene::addItem(item);
+}
+
 void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
 //    qDebug()<<model->getModel();
+    this->clearScene();
+    this->idSpace.clear();
+
     QScriptValue compartmentsArray = model->getModel().property("compartments");
     int compartmentsCount = compartmentsArray.property("length").toInt32();
     QMap<QString, NetworkViewGraphicsSceneContainer*> containerMap;
@@ -37,13 +51,10 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
     for(int i=0;i<compartmentsCount;i++)
     {
         NetworkViewGraphicsSceneContainer* newContainer =
-                new NetworkViewGraphicsSceneContainer(compartmentsArray.property(i),activePanel());
+                new NetworkViewGraphicsSceneContainer(compartmentsArray.property(i),activePanel());       
         addItem(newContainer);        
         containerMap[compartmentsArray.property(i).property("id").toString()]=newContainer;
     }
-
-
-
 
     QScriptValue speciesArray = model->getModel().property("species");
     int speciesCount = speciesArray.property("length").toInt32();
@@ -55,13 +66,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         NetworkViewGraphicsSceneContainer* container;
         if(parentCompartment.isNull()||!(container = containerMap[parentCompartment.toString()]))
         {
-            newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),activePanel());
+            newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),activePanel());           
             addItem(newNode);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),container,true);
+            idSpace.insert(speciesArray.property(i).property("id").toString());
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }        
 
@@ -123,13 +135,14 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         if(!sameCompartment)
         {
             newNode = new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),activePanel());
-            addItem(newNode);            
+            addItem(newNode);
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),container);
+            idSpace.insert(reactionArray.property(i).property("id").toString());
             newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
@@ -204,45 +217,45 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         QByteArray itemData = event->mimeData()->data( "compartment" );
         QScriptValue * scriptValue;
         memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
-//        QString itemId = scriptValue->property("id").toString();
-//        QString stri;
-//        for( int i = 1 ; ; i++ )
-//        {
-//            stri.setNum(i);
-//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
-//        }
-//        itemId += "_"+stri;
-//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        QString itemId = scriptValue->property("id").toString();
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! idSpace.contains(itemId+stri) ) break;
+        }
+        itemId +=stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneContainer( *scriptValue );
     }else if( event->mimeData()->hasFormat( "reaction" ) )
     {
         QByteArray itemData = event->mimeData()->data( "reaction" );
         QScriptValue * scriptValue;
         memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
-//        QString itemId = scriptValue->property("id").toString();
-//        QString stri;
-//        for( int i = 1 ; ; i++ )
-//        {
-//            stri.setNum(i);
-//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
-//        }
-//        itemId += "_"+stri;
-//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        QString itemId = scriptValue->property("id").toString();
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! idSpace.contains(itemId+stri) ) break;
+        }
+        itemId +=stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneNodeReaction( *scriptValue );
     }else if( event->mimeData()->hasFormat( "substance" ) )
     {
         QByteArray itemData = event->mimeData()->data( "substance" );
         QScriptValue * scriptValue;
         memcpy( &scriptValue , itemData.data() , sizeof(scriptValue) );
-//        QString itemId = scriptValue->property("id").toString();
-//        QString stri;
-//        for( int i = 1 ; ; i++ )
-//        {
-//            stri.setNum(i);
-//            if( ! idSpace.contains(itemId+"_"+stri) ) break;
-//        }
-//        itemId += "_"+stri;
-//        scriptValue->setProperty("id", QScriptValue(itemId) );
+        QString itemId = scriptValue->property("id").toString();
+        QString stri;
+        for( int i = 1 ; ; i++ )
+        {
+            stri.setNum(i);
+            if( ! idSpace.contains(itemId+stri) ) break;
+        }
+        itemId +=stri;
+        scriptValue->setProperty("id", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneNodeSubstance( *scriptValue );
     }
     else{

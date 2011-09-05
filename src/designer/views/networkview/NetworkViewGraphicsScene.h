@@ -16,7 +16,7 @@ public:
     {
         NetworkViewGraphicsItemStartIndex = QGraphicsItem::UserType + 100
     };
-
+    QSet<QString> idSpace;
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
@@ -24,6 +24,7 @@ public:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void addItem(QGraphicsItem *item);
 
 signals:
 

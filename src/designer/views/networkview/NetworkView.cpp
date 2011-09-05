@@ -24,13 +24,6 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     DesignerViewItf(mainWnd, model),
     ui(new Ui::NetworkView)
 {
-    /*QGridLayout* gridLayout = new QGridLayout(this);
-    gridLayout->setContentsMargins(0, 0, 0, 0);
-
-    ui->graphicsView = new QGraphicsView(this);
-    ui->graphicsView->setStyleSheet("QGraphicsView { border-style: none; }");
-    gridLayout->addWidget(graphicsView,1,0,1,1);
-    gridLayout->addWidget(buttons,0,1,2,2);*/
     ui->setupUi(this);
     engine = mainWindow->getCurrentModel()->getEngine();
     this->selectState="NoNeed";
@@ -132,7 +125,10 @@ void NetworkView::on_sceneSelectionChanged()
         }
     }
     if(selectedItem.count()==0)
+    {
         this->selectState="NoNeed";
+        this->linebutton->setDown(false);
+    }
     if(selectedItem.count()==1)
     {
         NetworkViewGraphicsItem* item = dynamic_cast<NetworkViewGraphicsItem*>(selectedItem.first());
