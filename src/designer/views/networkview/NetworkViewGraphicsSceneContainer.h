@@ -4,8 +4,6 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsSceneNode.h"
 
-class NetworkViewGraphicsSceneLabel;
-
 class NetworkViewGraphicsSceneContainer : public NetworkViewGraphicsItem
 {
 public:
@@ -16,11 +14,8 @@ public:
 
     explicit NetworkViewGraphicsSceneContainer(QScriptValue value,QGraphicsItem *parent=0);
     int getRadius() {return radius;}
-    void setLabel(QString label);
     void updatePos();
-
-private:
-    NetworkViewGraphicsSceneLabel* labelObject;
+    virtual ~NetworkViewGraphicsSceneContainer();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);

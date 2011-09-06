@@ -2,11 +2,7 @@
 #define NETWORKVIEWGRAPHICSITEM_H
 
 #include <QtScript>
-
-#include <QGraphicsPixmapItem>
-#include <QGraphicsTextItem>
-#include <QPixmap>
-#include <QGraphicsScene>
+#include <QtGui>
 #include "NetworkViewGraphicsItemSizer.h"
 
 class NetworkViewGraphicsItem : public QGraphicsPixmapItem
@@ -15,6 +11,7 @@ public:
     explicit NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent = 0 );
     virtual ~NetworkViewGraphicsItem();
     QString getId();
+    QString Type;
     void setId( QString newId );
     QString getName();
     void setName( QString newName );
@@ -26,17 +23,17 @@ public:
     virtual bool addChild( QPointF scenePos , NetworkViewGraphicsItem * child );
     virtual void removeChild( NetworkViewGraphicsItem * child );
     virtual void refreshScriptValue();
-
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
+    virtual void registPos();
+
     void resize( qreal newWidth , qreal newHeight );
     void setResizable( bool newResizable );
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     bool detectEdge();
 
 protected:
-    bool resizable;
-    QString Type;
+    bool resizable;    
     QGraphicsTextItem * displayName;
     NetworkViewGraphicsItemSizer * sizer;
 

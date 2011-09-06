@@ -19,8 +19,8 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     this->initiate();
     ui->PlotWidget->installEventFilter(this);
 
-    DesignerDrawWnd window;
-    window.exec();
+//    DesignerDrawWnd window;
+//    window.exec();
 }
 
 BehaviorView::~BehaviorView()

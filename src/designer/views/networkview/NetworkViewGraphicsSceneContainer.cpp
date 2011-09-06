@@ -1,6 +1,4 @@
 #include "NetworkViewGraphicsSceneContainer.h"
-#include "NetworkViewGraphicsSceneLabel.h"
-#include <QtGui>
 
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValue value, QGraphicsItem *parent) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
@@ -10,13 +8,17 @@ NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValu
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
 }
 
+NetworkViewGraphicsSceneContainer::~NetworkViewGraphicsSceneContainer()
+{
+}
+
 void NetworkViewGraphicsSceneContainer::updatePos()
 {
-
     foreach(NetworkViewGraphicsItem *child,children)
     {
         dynamic_cast<NetworkViewGraphicsSceneNode *>(child)->updatePos();
     }
+    this->registPos();
 }
 
 QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -25,9 +27,4 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
         updatePos();
     }
     return NetworkViewGraphicsItem::itemChange(change, value);
-}
-
-void NetworkViewGraphicsSceneContainer::setLabel(QString label)
-{
-    labelObject->setPlainText(label);
 }

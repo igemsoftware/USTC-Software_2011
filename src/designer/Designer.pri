@@ -16,7 +16,6 @@ SOURCES +=\
     views/networkview/NetworkViewGraphicsSceneNode.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.cpp \
-    views/networkview/NetworkViewGraphicsSceneLabel.cpp \
     views/assemblyview/AssemblyItemBase.cpp \
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
@@ -94,7 +93,6 @@ HEADERS  += \
     views/networkview/NetworkViewGraphicsSceneNode.h \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.h \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.h \
-    views/networkview/NetworkViewGraphicsSceneLabel.h \
     views/assemblyview/AssemblyItemBase.h\
     models/reactionnetworkmodel/ReactionNetworkDataTypes.h \
     models/reactionnetworkmodel/ReactionNetwork.h \

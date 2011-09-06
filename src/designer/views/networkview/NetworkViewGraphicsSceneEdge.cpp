@@ -1,7 +1,5 @@
 #include <cmath>
 #include "NetworkViewGraphicsSceneEdge.h"
-#include "NetworkViewGraphicsSceneNode.h"
-#include "NetworkViewGraphicsSceneLabel.h"
 
 const qreal NetworkViewGraphicsSceneEdge::arrowLength = 12.0;
 const qreal NetworkViewGraphicsSceneEdge::arrowAngle  = 0.15;
@@ -25,9 +23,7 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     }
     for(size_t i = 0; i < 4; i++)
         arrowLines[i].setParentItem(this);
-    updatePos();
-
-    labelObject = new NetworkViewGraphicsSceneLabel(this, "");
+    updatePos();    
 }
 
 void NetworkViewGraphicsSceneEdge::updatePos(void)

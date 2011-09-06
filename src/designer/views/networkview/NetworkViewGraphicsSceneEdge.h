@@ -1,8 +1,9 @@
 #ifndef NETWORKVIEWGRAPHICSSCENEEDGE_H
 #define NETWORKVIEWGRAPHICSSCENEEDGE_H
-
-#include "NetworkViewGraphicsScene.h"
 #include "NetworkViewGraphicsSceneNode.h"
+#include <QGraphicsLineItem>
+
+class NetworkViewGraphicsSceneNode;
 
 class NetworkViewGraphicsSceneEdge : public QGraphicsLineItem
 {
@@ -23,18 +24,13 @@ public:
     static const qreal arrowLength;
     static const qreal arrowAngle;
 
-    void setLabel(QString label);
     void updatePos(void);
     NetworkViewGraphicsSceneEdge(QGraphicsItem *parent,
                                  NetworkViewGraphicsSceneNode* node1,
                                  NetworkViewGraphicsSceneNode* node2,
                                   EdgeType type);
-    virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + 16;}
+//    virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + 16;}
     virtual ~NetworkViewGraphicsSceneEdge();
-
-private:
-    NetworkViewGraphicsSceneLabel* labelObject;
-
 };
 
 #endif // NETWORKVIEWGRAPHICSSCENEEDGE_H

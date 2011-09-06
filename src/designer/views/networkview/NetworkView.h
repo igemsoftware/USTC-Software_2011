@@ -5,6 +5,7 @@
 #include "interfaces/DesignerViewItf.h"
 #include "NetworkViewGraphicsSceneNodeReaction.h"
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
+#include "models/reactionnetworkmodel/ReactionNetwork.h"
 
 namespace Ui {
     class NetworkView;

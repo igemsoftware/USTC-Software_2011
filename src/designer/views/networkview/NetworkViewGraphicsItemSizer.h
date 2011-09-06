@@ -7,8 +7,7 @@ class NetworkViewGraphicsItemSizer : public QGraphicsPixmapItem
 {
 public:
     explicit NetworkViewGraphicsItemSizer( QGraphicsItem * parent);
-//    virtual void getSelection();
-//    virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
+
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

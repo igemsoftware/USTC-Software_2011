@@ -1,16 +1,9 @@
-#include <QtScript>
-
-#include "DesignerDebug.h"
-#include "interfaces/DesignerModelItf.h"
-
 #include "NetworkViewGraphicsScene.h"
-#include "NetworkViewGraphicsSceneContainer.h"
-#include "NetworkViewGraphicsSceneEdge.h"
 #include "NetworkViewGraphicsSceneNodeReaction.h"
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
-#include "QKeyEvent"
-#include <QList>
-#include <QtGui>
+#include "documents/MoDeL/MoDeLDocParser.h"
+#include "models/common/ModelSymbol.h"
+#include "DesignerDebug.h"
 
 NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
@@ -28,15 +21,29 @@ void NetworkViewGraphicsScene::clearScene()
 
 void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
 {
+    bool accept=true;
     if(dynamic_cast<NetworkViewGraphicsItem *>(item))
     {
         if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->getId().isEmpty())
         {
             idSpace.insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->getId());
         }
+        dynamic_cast<NetworkViewGraphicsItem *>(item)->registPos();
     }
-    if(!item->parentItem())
+    if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+    {
+        foreach(QGraphicsItem *item_,items())
+        {
+            if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item_))
+            {
+                accept=false;
+                break;
+            }
+        }
+    }
+    if(!item->parentItem()&&accept)
         QGraphicsScene::addItem(item);
+//    refreshScriptValue();
 }
 
 void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
@@ -46,8 +53,9 @@ void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
         idSpace.remove(item->getId());
     }
     foreach( NetworkViewGraphicsItem * child , item->children) delete child;
+
     QGraphicsScene::removeItem(item);
-    //refreshScriptValue();
+    refreshScriptValue();
 }
 
 void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
@@ -280,4 +288,30 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 void NetworkViewGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     event->acceptProposedAction();
+}
+
+void NetworkViewGraphicsScene::refreshScriptValue()
+{
+    QScriptValueList containers;
+    QScriptValueList reactions;
+    QScriptValueList substances;
+    foreach( QGraphicsItem * item , items() )
+    {
+
+        if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+        {
+            qDebug()<<"hello"<<this->items().count();
+            containers.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }else if( dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item))
+        {
+            reactions.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }
+        else if(dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(item))
+        {
+            substances.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }
+    }
+    model->getModel().setProperty( "reactions" , convertModelTypeToScriptValue(model->getEngine(),reactions));
+    model->getModel().setProperty( "compartments" , convertModelTypeToScriptValue(model->getEngine(),containers));
+    model->getModel().setProperty("species", convertModelTypeToScriptValue(model->getEngine(),substances));
 }

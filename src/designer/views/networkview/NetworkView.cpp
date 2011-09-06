@@ -63,12 +63,11 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
 
     ui->buttons->setLayout(hlayout);
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
-    scene->clearScene();    
+    scene->model=model;
     scene->loadFromModel(model);
     ui->graphicsView->setScene(scene);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));
-
     emit on_sceneSelectionChanged();
 }
 

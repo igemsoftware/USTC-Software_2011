@@ -1,7 +1,7 @@
 #include "NetworkViewGraphicsItem.h"
 #include "NetworkViewGraphicsScene.h"
 #include "NetworkViewGraphicsSceneContainer.h"
-#include <QtGui>
+#include "NetworkViewGraphicsSceneNode.h"
 
 NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
     QGraphicsPixmapItem( parent )
@@ -21,14 +21,14 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
     setFlag( QGraphicsItem::ItemIsMovable );
 
     displayName = new QGraphicsTextItem( getId() , this );    
-    setScriptValue( newScriptValue );    
+    setScriptValue( newScriptValue );
 }
 
 NetworkViewGraphicsItem::~NetworkViewGraphicsItem()
 {
     if( resizable ) delete sizer;
-    delete displayName;
-    if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem()) ) dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
+    if( dynamic_cast<NetworkViewGraphicsItem*>(parentItem()) )
+        dynamic_cast<NetworkViewGraphicsItem*>(parentItem())->removeChild(this);
     if( scene() ) dynamic_cast<NetworkViewGraphicsScene*>(scene())->removeItem(this);
 }
 
@@ -161,13 +161,14 @@ bool NetworkViewGraphicsItem::detectEdge()
         }
     }
     return false;
-    if( dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem()))
-    {
-        dynamic_cast<NetworkViewGraphicsSceneContainer*>(parentItem())->removeChild(this);
-        QPointF tempPos=scenePos();
-        setParentItem(0);
-        setPos(tempPos);
-    }
+}
+
+void NetworkViewGraphicsItem::registPos()
+{
+    QScriptValue scriptValue=this->itemObject.engine()->newObject();
+    scriptValue.setProperty("x",this->scenePos().x());
+    scriptValue.setProperty("y",this->scenePos().y());
+    this->itemObject.setProperty("scenePos",scriptValue);
 }
 
 //void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

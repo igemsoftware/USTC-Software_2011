@@ -2,22 +2,28 @@
 #define NETWORKVIEWGRAPHICSSCENE_H
 
 #include <QtScript>
-#include <QGraphicsScene>
-#include <QGraphicsItem>
-#include "NetworkViewGraphicsItem.h"
+#include "DesignerDebug.h"
+#include "interfaces/DesignerModelItf.h"
+
+#include "NetworkViewGraphicsSceneEdge.h"
+#include "QKeyEvent"
+#include <QList>
+#include <QtGui>
+#include "interfaces/DesignerModelItf.h"
+#include "NetworkViewGraphicsSceneContainer.h"
 
 class DesignerModelItf;
+class NetworkViewGraphicsItem;
 
 class NetworkViewGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
-    enum
-    {
-        NetworkViewGraphicsItemStartIndex = QGraphicsItem::UserType + 100
-    };
+
     QSet<QString> idSpace;
+    DesignerModelItf * model;
+
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
@@ -27,6 +33,7 @@ public:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
     void addItem(QGraphicsItem *item);
     void removeItem(NetworkViewGraphicsItem *item);
+    void refreshScriptValue();
 
 signals:
 
