@@ -21,9 +21,9 @@ class NetworkViewGraphicsScene : public QGraphicsScene
 
 public:
 
-    QSet<QString> idSpace;
+    bool loaded;
+    QSet<QString> *idSpace;
     DesignerModelItf * model;
-
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
@@ -34,6 +34,7 @@ public:
     void addItem(QGraphicsItem *item);
     void removeItem(NetworkViewGraphicsItem *item);
     void refreshScriptValue();
+    void emitsignal();
 
 signals:
 

@@ -65,6 +65,7 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
     scene->model=model;
     scene->loadFromModel(model);
+    scene->loaded=true;
     ui->graphicsView->setScene(scene);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));

@@ -6,6 +6,8 @@ class NetworkViewGraphicsSceneNodeSubstance : public NetworkViewGraphicsSceneNod
 {
 public:
     NetworkViewGraphicsSceneNodeSubstance(QScriptValue value,QGraphicsItem *parent=0,bool isParentContainer = false);
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // NETWORKVIEWGRAPHICSSCENENODESUBSTANCE_H

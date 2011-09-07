@@ -15,11 +15,11 @@ public:
     explicit NetworkViewGraphicsSceneContainer(QScriptValue value,QGraphicsItem *parent=0);
     int getRadius() {return radius;}
     void updatePos();
-    virtual ~NetworkViewGraphicsSceneContainer();
+    virtual bool addChild( QPointF scenePos , NetworkViewGraphicsItem * child );
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);
-
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // NETWORKVIEWGRAPHICSSCENECONTAINER_H

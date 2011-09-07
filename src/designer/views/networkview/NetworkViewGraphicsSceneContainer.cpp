@@ -1,4 +1,5 @@
 #include "NetworkViewGraphicsSceneContainer.h"
+#include "NetworkViewContainerEditor.h"
 
 NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValue value, QGraphicsItem *parent) :
     NetworkViewGraphicsItem( value , QObject::tr(":/designer/assemblyview/compartment_normal.png") , QObject::tr(":/designer/assemblyview/compartment_selected.png") , parent )
@@ -8,8 +9,10 @@ NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValu
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
 }
 
-NetworkViewGraphicsSceneContainer::~NetworkViewGraphicsSceneContainer()
+bool NetworkViewGraphicsSceneContainer::addChild(QPointF scenePos, NetworkViewGraphicsItem *child)
 {
+    child->itemObject.setProperty("compartment",this->itemObject.property("id"));
+    return NetworkViewGraphicsItem::addChild(scenePos,child);
 }
 
 void NetworkViewGraphicsSceneContainer::updatePos()
@@ -27,4 +30,13 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
         updatePos();
     }
     return NetworkViewGraphicsItem::itemChange(change, value);
+}
+
+void NetworkViewGraphicsSceneContainer::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    NetworkViewContainerEditor dialog(itemObject,dynamic_cast<NetworkViewGraphicsScene *>(scene())->idSpace);
+    dialog.exec();
+    this->displayName->setPlainText(this->itemObject.property("name").toString());
+    this->displayName->adjustSize();
+    NetworkViewGraphicsItem::mouseDoubleClickEvent(event);
 }

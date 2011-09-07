@@ -30,6 +30,7 @@ public:
     void resize( qreal newWidth , qreal newHeight );
     void setResizable( bool newResizable );
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     bool detectEdge();
 
 protected:
@@ -38,9 +39,7 @@ protected:
     NetworkViewGraphicsItemSizer * sizer;
 
     void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-
-    //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);    
 
 private:
     QPixmap normalImage , originalNormalImage;

@@ -78,7 +78,10 @@ SOURCES +=\
     src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
     src/designer/views/networkview/NetworkView.cpp \
     src/designer/views/networkview/NetworkViewButton.cpp \
-    src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp
+    src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp \
+    src/designer/views/networkview/NetworkViewContainerEditor.cpp \
+    src/designer/views/networkview/NetworkViewReactionEditor.cpp \
+    src/designer/views/networkview/NetworkViewSubstanceEditor.cpp
 
 
 HEADERS  += \
@@ -158,7 +161,10 @@ HEADERS  += \
     src/designer/views/networkview/Layouter/lagraphlayouter.h \
     src/designer/views/networkview/NetworkView.h \
     src/designer/views/networkview/NetworkViewButton.h \
-    src/designer/views/networkview/NetworkViewGraphicsItemSizer.h
+    src/designer/views/networkview/NetworkViewGraphicsItemSizer.h \
+    src/designer/views/networkview/NetworkViewContainerEditor.h \
+    src/designer/views/networkview/NetworkViewReactionEditor.h \
+    src/designer/views/networkview/NetworkViewSubstanceEditor.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \
@@ -169,7 +175,10 @@ FORMS    += \
     src/designer/views/clothodbview/ClothoDBView.ui \
     src/designer/common/mainwnd/DesignerMainWnd.ui \
     src/designer/views/assemblyview/AssemblyDBEditor.ui \
-    src/designer/views/networkview/NetworkView.ui
+    src/designer/views/networkview/NetworkView.ui \
+    src/designer/views/networkview/NetworkViewContainerEditor.ui \
+    src/designer/views/networkview/NetworkViewReactionEditor.ui \
+    src/designer/views/networkview/NetworkViewSubstanceEditor.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc

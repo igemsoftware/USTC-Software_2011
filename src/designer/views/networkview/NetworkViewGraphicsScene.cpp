@@ -8,6 +8,8 @@
 NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
 {
+    this->loaded=false;
+    this->idSpace=new QSet<QString>();
 }
 
 void NetworkViewGraphicsScene::clearScene()
@@ -26,7 +28,7 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
     {
         if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->getId().isEmpty())
         {
-            idSpace.insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->getId());
+            idSpace->insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->getId());
         }
         dynamic_cast<NetworkViewGraphicsItem *>(item)->registPos();
     }
@@ -43,14 +45,14 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
     }
     if(!item->parentItem()&&accept)
         QGraphicsScene::addItem(item);
-//    refreshScriptValue();
+    refreshScriptValue();
 }
 
 void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
 {
     if( !item->getId().isEmpty() )
     {
-        idSpace.remove(item->getId());
+        idSpace->remove(item->getId());
     }
     foreach( NetworkViewGraphicsItem * child , item->children) delete child;
 
@@ -62,7 +64,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
 {
 //    qDebug()<<model->getModel();
     this->clearScene();
-    this->idSpace.clear();
+    this->idSpace->clear();
 
     QScriptValue compartmentsArray = model->getModel().property("compartments");
     int compartmentsCount = compartmentsArray.property("length").toInt32();
@@ -192,9 +194,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
                 addItem(newEdge);
             }
         }
-
     }
-
 }
 
 void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
@@ -233,7 +233,7 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace->contains(itemId+stri) ) break;
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -248,7 +248,7 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace->contains(itemId+stri) ) break;
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -263,7 +263,7 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         for( int i = 1 ; ; i++ )
         {
             stri.setNum(i);
-            if( ! idSpace.contains(itemId+stri) ) break;
+            if( ! idSpace->contains(itemId+stri) ) break;
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
@@ -292,6 +292,8 @@ void NetworkViewGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 
 void NetworkViewGraphicsScene::refreshScriptValue()
 {
+    if(!this->loaded)
+        return;
     QScriptValueList containers;
     QScriptValueList reactions;
     QScriptValueList substances;
@@ -300,10 +302,10 @@ void NetworkViewGraphicsScene::refreshScriptValue()
 
         if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
         {
-            qDebug()<<"hello"<<this->items().count();
             containers.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
         }else if( dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item))
         {
+            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item)->refreshScriptValue();
             reactions.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
         }
         else if(dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(item))
@@ -314,4 +316,9 @@ void NetworkViewGraphicsScene::refreshScriptValue()
     model->getModel().setProperty( "reactions" , convertModelTypeToScriptValue(model->getEngine(),reactions));
     model->getModel().setProperty( "compartments" , convertModelTypeToScriptValue(model->getEngine(),containers));
     model->getModel().setProperty("species", convertModelTypeToScriptValue(model->getEngine(),substances));
+}
+
+void NetworkViewGraphicsScene::emitsignal()
+{
+    emit this->selectionChanged();
 }

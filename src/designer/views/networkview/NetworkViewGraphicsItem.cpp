@@ -156,7 +156,7 @@ bool NetworkViewGraphicsItem::detectEdge()
         {
             QList<NetworkViewGraphicsItem *> children=dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->children;
             if(children.indexOf(this)==-1)
-            dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
+                dynamic_cast<NetworkViewGraphicsSceneContainer *>(item)->addChild(scenePos(),this);
             return true;
         }
     }
@@ -171,16 +171,8 @@ void NetworkViewGraphicsItem::registPos()
     this->itemObject.setProperty("scenePos",scriptValue);
 }
 
-//void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    QScriptValueList tmp;
-//    tmp.push_back( copyFromScriptValue( getScriptValue().engine() , getScriptValue() ) );
-//    AssemblyPropertyEditor dialog(type,tmp,scriptValue.engine());
-//    if( dialog.exec() == QDialog::Accepted )
-//    {
-//        if( dynamic_cast<AssemblyScene*>(scene())->reassignId( scriptValue.property("id").toString() , tmp[0].property("id").toString() ) )
-//            setScriptValue( tmp[0] );
-//        else
-//            QMessageBox::information(0,"Error","Edit denied due to incompatible id specified!");
-//    }
-//}
+void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(dynamic_cast<NetworkViewGraphicsScene *>(scene()))
+        dynamic_cast<NetworkViewGraphicsScene *>(scene())->emitsignal();
+}
