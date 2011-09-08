@@ -15,6 +15,7 @@ class NetworkView : public DesignerViewItf
     Q_OBJECT
 public:
     QPushButton *linebutton;
+    QPushButton *modbutton;
     Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
     ~NetworkView();
 //protected:
@@ -30,6 +31,7 @@ private:
 public slots:
     void on_sceneSelectionChanged();
     void on_lineButtonClicked();
+    void on_modButtonClicked();
 };
 
 #endif // NETWORKVIEW_H

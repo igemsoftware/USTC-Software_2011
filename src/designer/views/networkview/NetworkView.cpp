@@ -61,6 +61,13 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
     linebutton->setIcon(*(new QIcon(":/designer/assemblyview/icon_pcs.png")));
     connect(this->linebutton,SIGNAL(clicked()),this,SLOT(on_lineButtonClicked()));
 
+    modbutton=new QPushButton();
+    modbutton->setFixedSize(50,50);
+    hlayout->addWidget(modbutton);
+    modbutton->setFlat(true);
+    modbutton->setIcon(*(new QIcon(":/designer/assemblyview/icon_pcs.png")));
+    connect(this->modbutton,SIGNAL(clicked()),this,SLOT(on_modButtonClicked()));
+
     ui->buttons->setLayout(hlayout);
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
     scene->model=model;
@@ -94,13 +101,13 @@ void NetworkView::on_sceneSelectionChanged()
 
     if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first()))
     {
-        if(this->selectState=="Nothing")
+        if(this->selectState=="NothingE")
         {
             this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
-            this->selectState="SubstanceReady";
+            this->selectState="SubstanceReadyE";
             this->linebutton->setDown(true);
         }
-        else if(this->selectState=="ReactionReady")
+        else if(this->selectState=="ReactionReadyE")
         {
             this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->reaction,this->substance,NetworkViewGraphicsSceneEdge::DirectedEdge));
@@ -108,16 +115,22 @@ void NetworkView::on_sceneSelectionChanged()
             this->selectState="NoNeed";
             this->linebutton->setDown(false);
         }
+        else if(this->selectState=="NothingM")
+        {
+            this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
+            this->selectState="SubstanceReadyM";
+            this->modbutton->setDown(true);
+        }
     }
     else if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first()))
     {
-        if(this->selectState=="Nothing")
+        if(this->selectState=="NothingE")
         {
             this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
-            this->selectState="ReactionReady";
+            this->selectState="ReactionReadyE";
             this->linebutton->setDown(true);
         }
-        else if(this->selectState=="SubstanceReady")
+        else if(this->selectState=="SubstanceReadyE")
         {
             this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());            
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->substance,this->reaction,NetworkViewGraphicsSceneEdge::DirectedEdge));
@@ -125,12 +138,22 @@ void NetworkView::on_sceneSelectionChanged()
             this->selectState="NoNeed";
             this->linebutton->setDown(false);
         }
+        else if(this->selectState=="SubstanceReadyM")
+        {
+            this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
+            ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneModification(ui->graphicsView->scene()->activePanel(),this->substance,this->reaction));
+            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first())->refreshScriptValue();
+            this->selectState="NoNeed";
+            this->modbutton->setDown(false);
+        }
     }
-    if(selectedItem.count()==0)
+    else
     {
         this->selectState="NoNeed";
         this->linebutton->setDown(false);
+        this->modbutton->setDown(false);
     }
+
     if(selectedItem.count()==1)
     {
         NetworkViewGraphicsItem* item = dynamic_cast<NetworkViewGraphicsItem*>(selectedItem.first());
@@ -147,5 +170,12 @@ void NetworkView::on_lineButtonClicked()
 {
     linebutton->setDown(true);
     ui->graphicsView->scene()->clearSelection();
-    this->selectState="Nothing";
+    this->selectState="NothingE";
+}
+
+void NetworkView::on_modButtonClicked()
+{
+    modbutton->setDown(true);
+    ui->graphicsView->scene()->clearSelection();
+    this->selectState="NothingM";
 }
