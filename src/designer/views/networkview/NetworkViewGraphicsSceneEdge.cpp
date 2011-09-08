@@ -11,7 +11,7 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     : QGraphicsLineItem(parent),
       edgeNode1 (node1), edgeNode2 (node2), edgeType (type)
 {
-    setFlags( QGraphicsItem::ItemIsFocusable );
+    setFlags( QGraphicsItem::ItemIsFocusable);
 
     if(edgeNode1)
     {
@@ -68,6 +68,6 @@ void NetworkViewGraphicsSceneEdge::updatePos(void)
 
 NetworkViewGraphicsSceneEdge::~NetworkViewGraphicsSceneEdge()
 {
-    if(this->edgeNode2)this->edgeNode2->deleteEdge(this);
-    if(this->edgeNode1)this->edgeNode1->deleteEdge(this);
+    if(edgeNode2)edgeNode2->deleteEdge(this);
+    if(edgeNode1)edgeNode1->deleteEdge(this);
 }

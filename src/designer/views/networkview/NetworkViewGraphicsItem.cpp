@@ -17,8 +17,7 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
     originalSelectedImage.load( selectedImagePath );
     setPixmap( normalImage );
 
-    setFlag( QGraphicsItem::ItemIsSelectable );
-    setFlag( QGraphicsItem::ItemIsMovable );
+    setFlags( QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable );
 
     displayName = new QGraphicsTextItem( getId() , this );    
     setScriptValue( newScriptValue );
@@ -42,7 +41,7 @@ QScriptValue NetworkViewGraphicsItem::getScriptValue(){ return itemObject; }
 void NetworkViewGraphicsItem::setScriptValue( QScriptValue & newScriptValue )
 {
     itemObject = newScriptValue;
-    displayName->setPlainText( itemObject.property("id").toString() );
+    displayName->setPlainText( itemObject.property("name").toString() );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
     foreach( NetworkViewGraphicsItem* child , children ) bound |= mapRectToScene(child->childrenBoundingRect());
@@ -126,6 +125,9 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsPixmapItem::mouseReleaseEvent(event);
+    this->registPos();
+    if(dynamic_cast<NetworkViewGraphicsScene *>(scene()))
+        dynamic_cast<NetworkViewGraphicsScene *>(scene())->emitsignal();
     if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
         if(!detectEdge())
             delete this;
@@ -175,4 +177,18 @@ void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 {
     if(dynamic_cast<NetworkViewGraphicsScene *>(scene()))
         dynamic_cast<NetworkViewGraphicsScene *>(scene())->emitsignal();
+    setScriptValue(itemObject);
+}
+
+void NetworkViewGraphicsItem::setPositon()
+{
+    if(this->itemObject.property("scenePos").isValid())
+    {
+        qreal x=itemObject.property("scenePos").property("x").toNumber();
+        qreal y=itemObject.property("scenePos").property("y").toNumber();
+        QPointF point=this->mapFromScene(x,y);
+        this->setPos(point);
+    }
+    else
+        this->setPos(((double)rand()/RAND_MAX-0.5)*300+400,((double)rand()/RAND_MAX-0.5)*300+200);
 }

@@ -81,7 +81,8 @@ SOURCES +=\
     src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp \
     src/designer/views/networkview/NetworkViewContainerEditor.cpp \
     src/designer/views/networkview/NetworkViewReactionEditor.cpp \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.cpp
+    src/designer/views/networkview/NetworkViewSubstanceEditor.cpp \
+    src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp
 
 
 HEADERS  += \
@@ -164,7 +165,8 @@ HEADERS  += \
     src/designer/views/networkview/NetworkViewGraphicsItemSizer.h \
     src/designer/views/networkview/NetworkViewContainerEditor.h \
     src/designer/views/networkview/NetworkViewReactionEditor.h \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.h
+    src/designer/views/networkview/NetworkViewSubstanceEditor.h \
+    src/designer/views/networkview/NetworkViewGraphicsSceneModification.h
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

@@ -10,8 +10,6 @@ NetworkViewGraphicsSceneNodeSubstance::NetworkViewGraphicsSceneNodeSubstance(QSc
 void NetworkViewGraphicsSceneNodeSubstance::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     NetworkViewSubstanceEditor dialog(itemObject,dynamic_cast<NetworkViewGraphicsScene *>(scene())->idSpace);
-    dialog.exec();
-    this->displayName->setPlainText(this->itemObject.property("name").toString());
-    this->displayName->adjustSize();
+    dialog.exec();    
     NetworkViewGraphicsItem::mouseDoubleClickEvent(event);
 }

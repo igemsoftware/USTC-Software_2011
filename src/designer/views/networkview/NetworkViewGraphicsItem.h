@@ -26,6 +26,7 @@ public:
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
     virtual void registPos();
+    virtual void setPositon();
 
     void resize( qreal newWidth , qreal newHeight );
     void setResizable( bool newResizable );

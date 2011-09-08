@@ -11,8 +11,9 @@ NetworkViewGraphicsSceneNodeReaction::NetworkViewGraphicsSceneNodeReaction(QScri
 void NetworkViewGraphicsSceneNodeReaction::refreshScriptValue()
 {
     QScriptValueList reactants;
-    QScriptEngine *engine;
     QScriptValueList products;
+    QScriptValueList modifiers;
+    QScriptEngine *engine;
     QScriptValue newvalue;
 
     engine=dynamic_cast<NetworkViewGraphicsScene *>(scene())->model->getEngine();
@@ -31,15 +32,22 @@ void NetworkViewGraphicsSceneNodeReaction::refreshScriptValue()
             reactants.push_back(newvalue);
         }
     }
+    foreach(NetworkViewGraphicsSceneModification *mod,modList)
+    {
+        newvalue=engine->newObject();
+        newvalue.setProperty("*tag*","modiifierSpeciesReference");
+        newvalue.setProperty("species",mod->edgeNode1->itemObject.property("id"));
+        modifiers.push_back(newvalue);
+    }
+
     this->itemObject.setProperty( "reactants" , convertModelTypeToScriptValue(engine,reactants));
     this->itemObject.setProperty( "products" , convertModelTypeToScriptValue(engine,products));
+    this->itemObject.setProperty("modifiers" , convertModelTypeToScriptValue(engine,modifiers));
 }
 
 void NetworkViewGraphicsSceneNodeReaction::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     NetworkViewReactionEditor dialog(itemObject,dynamic_cast<NetworkViewGraphicsScene *>(scene())->idSpace);
-    dialog.exec();
-    this->displayName->setPlainText(this->itemObject.property("name").toString());
-    this->displayName->adjustSize();
+    dialog.exec();    
     NetworkViewGraphicsItem::mouseDoubleClickEvent(event);
 }

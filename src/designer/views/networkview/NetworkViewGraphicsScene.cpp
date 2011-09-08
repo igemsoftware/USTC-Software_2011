@@ -29,7 +29,8 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
         if(!dynamic_cast<NetworkViewGraphicsItem *>(item)->getId().isEmpty())
         {
             idSpace->insert(dynamic_cast<NetworkViewGraphicsItem *>(item)->getId());
-        }
+        }       
+        dynamic_cast<NetworkViewGraphicsItem *>(item)->setPositon();
         dynamic_cast<NetworkViewGraphicsItem *>(item)->registPos();
     }
     if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
@@ -90,13 +91,11 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),activePanel());           
             addItem(newNode);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             newNode = new NetworkViewGraphicsSceneNodeSubstance(speciesArray.property(i),container,true);
             this->addItem(newNode);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }        
 
         substanceMap.insert(speciesArray.property(i).property("id").toString(), newNode);
@@ -110,7 +109,7 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         //  judge if the reaction belongs to a certain compartment
         int reactantsCount = reactionArray.property(i).property("reactants").property("length").toInt32();
         int productsCount = reactionArray.property(i).property("products").property("length").toInt32();
-
+        int modifiersCount = reactionArray.property(i).property("modifiers").property("length").toInt32();
 
         bool sameCompartment=true;
         QString sameCompartmentName;
@@ -158,14 +157,12 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
         {
             newNode = new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),activePanel());
             addItem(newNode);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*500+400,((double)rand()/RAND_MAX-0.5)*500+200);
         }
         else
         {
             container=containerMap[sameCompartmentName];
             newNode= new NetworkViewGraphicsSceneNodeReaction(reactionArray.property(i),container);
             this->addItem(newNode);
-            newNode->setPos(((double)rand()/RAND_MAX-0.5)*container->radius*2+400,((double)rand()/RAND_MAX-0.5)*container->radius*2+200);
         }
 
         //reactants
@@ -191,6 +188,19 @@ void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
             {
                 NetworkViewGraphicsSceneEdge* newEdge = new NetworkViewGraphicsSceneEdge(
                             activePanel(),newNode, existingNode, NetworkViewGraphicsSceneEdge::DirectedEdge);
+                addItem(newEdge);
+            }
+        }
+
+        //modifiers
+        for(int j=0;j<modifiersCount;j++)
+        {
+            NetworkViewGraphicsSceneNodeSubstance* existingNode =
+                    substanceMap[reactionArray.property(i).property("modifiers").property(j).property("species").toString()];
+            if(existingNode)
+            {
+                NetworkViewGraphicsSceneModification* newEdge = new NetworkViewGraphicsSceneModification(
+                            activePanel(),existingNode, newNode);
                 addItem(newEdge);
             }
         }
@@ -237,6 +247,7 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
+        scriptValue->setProperty("name", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneContainer( *scriptValue );
     }else if( event->mimeData()->hasFormat( "reaction" ) )
     {
@@ -252,6 +263,7 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
+        scriptValue->setProperty("name", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneNodeReaction( *scriptValue );
     }else if( event->mimeData()->hasFormat( "substance" ) )
     {
@@ -267,14 +279,15 @@ void NetworkViewGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
         }
         itemId +=stri;
         scriptValue->setProperty("id", QScriptValue(itemId) );
+        scriptValue->setProperty("name", QScriptValue(itemId) );
         item = new NetworkViewGraphicsSceneNodeSubstance( *scriptValue );
     }
     else{
         QGraphicsScene::dropEvent(event);
         return;
-    }
-    item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
+    }    
     this->addItem(item);
+    item->setPos( event->scenePos().x() - item->pixmap().width()/2 , event->scenePos().y() - item->pixmap().height()/2 );
     if(dynamic_cast<NetworkViewGraphicsSceneNode *>(item))
         if(!item->detectEdge())
         {

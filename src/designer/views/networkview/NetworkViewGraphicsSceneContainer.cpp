@@ -20,8 +20,7 @@ void NetworkViewGraphicsSceneContainer::updatePos()
     foreach(NetworkViewGraphicsItem *child,children)
     {
         dynamic_cast<NetworkViewGraphicsSceneNode *>(child)->updatePos();
-    }
-    this->registPos();
+    }     
 }
 
 QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -35,8 +34,6 @@ QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change
 void NetworkViewGraphicsSceneContainer::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     NetworkViewContainerEditor dialog(itemObject,dynamic_cast<NetworkViewGraphicsScene *>(scene())->idSpace);
-    dialog.exec();
-    this->displayName->setPlainText(this->itemObject.property("name").toString());
-    this->displayName->adjustSize();
+    dialog.exec();    
     NetworkViewGraphicsItem::mouseDoubleClickEvent(event);
 }

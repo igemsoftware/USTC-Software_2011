@@ -104,6 +104,7 @@ void NetworkView::on_sceneSelectionChanged()
         {
             this->substance=dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first());
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->reaction,this->substance,NetworkViewGraphicsSceneEdge::DirectedEdge));
+            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(this->reaction)->refreshScriptValue();
             this->selectState="NoNeed";
             this->linebutton->setDown(false);
         }
@@ -118,8 +119,9 @@ void NetworkView::on_sceneSelectionChanged()
         }
         else if(this->selectState=="SubstanceReady")
         {
-            this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());
+            this->reaction=dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first());            
             ui->graphicsView->scene()->addItem(new NetworkViewGraphicsSceneEdge(ui->graphicsView->scene()->activePanel(),this->substance,this->reaction,NetworkViewGraphicsSceneEdge::DirectedEdge));
+            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first())->refreshScriptValue();
             this->selectState="NoNeed";
             this->linebutton->setDown(false);
         }

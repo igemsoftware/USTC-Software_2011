@@ -29,7 +29,6 @@ public:
                                  NetworkViewGraphicsSceneNode* node1,
                                  NetworkViewGraphicsSceneNode* node2,
                                   EdgeType type);
-//    virtual int type() { return NetworkViewGraphicsScene::NetworkViewGraphicsItemStartIndex + 16;}
     virtual ~NetworkViewGraphicsSceneEdge();
 };
 

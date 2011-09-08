@@ -10,12 +10,17 @@ NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent
 
 NetworkViewGraphicsSceneNode::~NetworkViewGraphicsSceneNode()
 {
-    this->deleteEdges();
+    this->deleteEdgesAndMods();
 }
 
 void NetworkViewGraphicsSceneNode::registerEdge(NetworkViewGraphicsSceneEdge* edge)
 {
     if(edge && edgeList.indexOf(edge)==-1) edgeList.append(edge);
+}
+
+void NetworkViewGraphicsSceneNode::registerMod(NetworkViewGraphicsSceneModification *mod)
+{
+    if(mod && modList.indexOf(mod)==-1) modList.append(mod);
 }
 
 void NetworkViewGraphicsSceneNode::updatePos()
@@ -24,7 +29,10 @@ void NetworkViewGraphicsSceneNode::updatePos()
     {
         edgeList[i-1]->updatePos();
     }
-    this->registPos();
+    for(size_t i = modList.count(); i > 0; i--)
+    {
+        modList[i-1]->updatePos();
+    }
 }
 
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -35,13 +43,14 @@ QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, con
     return NetworkViewGraphicsItem::itemChange(change, value);
 }
 
-void NetworkViewGraphicsSceneNode::deleteEdges()
+void NetworkViewGraphicsSceneNode::deleteEdgesAndMods()
 {
     while(this->edgeList.count()!=0)
-    {
         delete edgeList[0];
-    }
+    while(this->modList.count()!=0)
+        delete modList[0];
     this->edgeList.clear();
+    this->modList.clear();
 }
 
 void NetworkViewGraphicsSceneNode::deleteEdge(NetworkViewGraphicsSceneEdge *edge)
@@ -50,5 +59,14 @@ void NetworkViewGraphicsSceneNode::deleteEdge(NetworkViewGraphicsSceneEdge *edge
     {
         if(edge==edgeList[i])
            this->edgeList.removeAt(i);
+    }
+}
+
+void NetworkViewGraphicsSceneNode::deleteMod(NetworkViewGraphicsSceneModification *mod)
+{
+    for(int i=0;i<this->modList.count();i++)
+    {
+        if(mod==modList[i])
+           this->modList.removeAt(i);
     }
 }
