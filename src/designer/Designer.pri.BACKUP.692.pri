@@ -76,6 +76,8 @@ SOURCES +=\
     src/designer/views/networkview/Layouter/main.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
+<<<<<<< HEAD
+<<<<<<< HEAD
     src/designer/views/networkview/NetworkView.cpp \
     src/designer/views/networkview/NetworkViewButton.cpp \
     src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp \
@@ -83,7 +85,13 @@ SOURCES +=\
     src/designer/views/networkview/NetworkViewReactionEditor.cpp \
     src/designer/views/networkview/NetworkViewSubstanceEditor.cpp \
     src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp
+=======
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp
+>>>>>>> 6403ca62240d43cc923654240ba6df3346e3d0e1
+=======
+    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp
+>>>>>>> 6403ca62240d43cc923654240ba6df3346e3d0e1
+
 
 HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -160,6 +168,8 @@ HEADERS  += \
     src/designer/common/drawwnd/DesignerDrawWidget.h \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
     src/designer/views/networkview/Layouter/lagraphlayouter.h \
+<<<<<<< HEAD
+<<<<<<< HEAD
     src/designer/views/networkview/NetworkView.h \
     src/designer/views/networkview/NetworkViewButton.h \
     src/designer/views/networkview/NetworkViewGraphicsItemSizer.h \
@@ -167,8 +177,12 @@ HEADERS  += \
     src/designer/views/networkview/NetworkViewReactionEditor.h \
     src/designer/views/networkview/NetworkViewSubstanceEditor.h \
     src/designer/views/networkview/NetworkViewGraphicsSceneModification.h
+=======
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h
-
+>>>>>>> 6403ca62240d43cc923654240ba6df3346e3d0e1
+=======
+    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h
+>>>>>>> 6403ca62240d43cc923654240ba6df3346e3d0e1
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \

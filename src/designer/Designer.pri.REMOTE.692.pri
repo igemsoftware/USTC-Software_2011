@@ -16,6 +16,7 @@ SOURCES +=\
     views/networkview/NetworkViewGraphicsSceneNode.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.cpp \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.cpp \
+    views/networkview/NetworkViewGraphicsSceneLabel.cpp \
     views/assemblyview/AssemblyItemBase.cpp \
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
@@ -26,7 +27,8 @@ SOURCES +=\
     views/welcomeview/WelcomeView.cpp \
     views/assemblyview/AssemblyView.cpp \
     views/sbmleditorview/SBMLEditorView.cpp \
-    views/sbmleditorview/SBMLEditorViewHighlighter.cpp \    
+    views/sbmleditorview/SBMLEditorViewHighlighter.cpp \
+    views/networkview/NetworkView.cpp \
     views/behaviorview/BehaviorView.cpp \
     documents/MoDeL/MoDeLDocParser.cpp \
     documents/MoDeL/MoDeLDoc.cpp \
@@ -76,14 +78,8 @@ SOURCES +=\
     src/designer/views/networkview/Layouter/main.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.cpp \
     src/designer/views/networkview/Layouter/lagraphlayouter.cpp \
-    src/designer/views/networkview/NetworkView.cpp \
-    src/designer/views/networkview/NetworkViewButton.cpp \
-    src/designer/views/networkview/NetworkViewGraphicsItemSizer.cpp \
-    src/designer/views/networkview/NetworkViewContainerEditor.cpp \
-    src/designer/views/networkview/NetworkViewReactionEditor.cpp \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.cpp \
-    src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp
+
 
 HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -97,6 +93,7 @@ HEADERS  += \
     views/networkview/NetworkViewGraphicsSceneNode.h \
     views/networkview/NetworkViewGraphicsSceneNodeSubstance.h \
     views/networkview/NetworkViewGraphicsSceneNodeReaction.h \
+    views/networkview/NetworkViewGraphicsSceneLabel.h \
     views/assemblyview/AssemblyItemBase.h\
     models/reactionnetworkmodel/ReactionNetworkDataTypes.h \
     models/reactionnetworkmodel/ReactionNetwork.h \
@@ -109,7 +106,8 @@ HEADERS  += \
     views/welcomeview/WelcomeView.h \
     views/assemblyview/AssemblyView.h \
     views/sbmleditorview/SBMLEditorView.h \
-    views/sbmleditorview/SBMLEditorViewHighlighter.h \    
+    views/sbmleditorview/SBMLEditorViewHighlighter.h \
+    views/networkview/NetworkView.h \
     views/behaviorview/BehaviorView.h \
     documents/MoDeL/MoDeLDocParser.h \
     documents/MoDeL/MoDeLDoc.h \
@@ -160,15 +158,7 @@ HEADERS  += \
     src/designer/common/drawwnd/DesignerDrawWidget.h \
     src/designer/views/networkview/Layouter/lagraphlayouterthread.h \
     src/designer/views/networkview/Layouter/lagraphlayouter.h \
-    src/designer/views/networkview/NetworkView.h \
-    src/designer/views/networkview/NetworkViewButton.h \
-    src/designer/views/networkview/NetworkViewGraphicsItemSizer.h \
-    src/designer/views/networkview/NetworkViewContainerEditor.h \
-    src/designer/views/networkview/NetworkViewReactionEditor.h \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.h \
-    src/designer/views/networkview/NetworkViewGraphicsSceneModification.h
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h
-
 
 FORMS    += \
     views/welcomeview/WelcomeView.ui \
@@ -178,11 +168,7 @@ FORMS    += \
     src/designer/views/aboutview/AboutView.ui \
     src/designer/views/clothodbview/ClothoDBView.ui \
     src/designer/common/mainwnd/DesignerMainWnd.ui \
-    src/designer/views/assemblyview/AssemblyDBEditor.ui \
-    src/designer/views/networkview/NetworkView.ui \
-    src/designer/views/networkview/NetworkViewContainerEditor.ui \
-    src/designer/views/networkview/NetworkViewReactionEditor.ui \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.ui
+    src/designer/views/assemblyview/AssemblyDBEditor.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc
