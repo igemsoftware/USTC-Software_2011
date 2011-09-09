@@ -1,0 +1,57 @@
+siman.lo: siman.c ../config.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/string.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/assert.h \
+ ../gsl/gsl_machine.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h \
+ ../gsl/gsl_rng.h ../gsl/gsl_types.h ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_inline.h ../gsl/gsl_siman.h
+
+../config.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/string.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/assert.h:
+
+../gsl/gsl_machine.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h:
+
+../gsl/gsl_rng.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_siman.h:

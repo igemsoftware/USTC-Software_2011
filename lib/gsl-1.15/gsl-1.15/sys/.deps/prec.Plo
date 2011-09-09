@@ -1,0 +1,29 @@
+prec.lo: prec.c ../config.h ../gsl/gsl_machine.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h ../build.h \
+ ../gsl/gsl_precision.h ../gsl/gsl_types.h ../gsl/gsl_mode.h \
+ ../gsl/gsl_inline.h
+
+../config.h:
+
+../gsl/gsl_machine.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h:
+
+../build.h:
+
+../gsl/gsl_precision.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_mode.h:
+
+../gsl/gsl_inline.h:

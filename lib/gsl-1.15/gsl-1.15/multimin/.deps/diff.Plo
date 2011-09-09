@@ -1,0 +1,182 @@
+diff.lo: diff.c ../config.h ../gsl/gsl_multimin.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ ../gsl/gsl_types.h ../gsl/gsl_math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h \
+ ../gsl/gsl_sys.h ../gsl/gsl_inline.h ../gsl/gsl_machine.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h \
+ ../gsl/gsl_precision.h ../gsl/gsl_nan.h ../gsl/gsl_pow_int.h \
+ ../gsl/gsl_minmax.h ../gsl/gsl_vector.h \
+ ../gsl/gsl_vector_complex_long_double.h ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_complex.h ../gsl/gsl_check_range.h \
+ ../gsl/gsl_vector_long_double.h ../gsl/gsl_block_long_double.h \
+ ../gsl/gsl_vector_complex.h ../gsl/gsl_block_complex_long_double.h \
+ ../gsl/gsl_vector_complex_double.h ../gsl/gsl_vector_double.h \
+ ../gsl/gsl_block_double.h ../gsl/gsl_block_complex_double.h \
+ ../gsl/gsl_vector_complex_float.h ../gsl/gsl_vector_float.h \
+ ../gsl/gsl_block_float.h ../gsl/gsl_block_complex_float.h \
+ ../gsl/gsl_vector_ulong.h ../gsl/gsl_block_ulong.h \
+ ../gsl/gsl_vector_long.h ../gsl/gsl_block_long.h \
+ ../gsl/gsl_vector_uint.h ../gsl/gsl_block_uint.h ../gsl/gsl_vector_int.h \
+ ../gsl/gsl_block_int.h ../gsl/gsl_vector_ushort.h \
+ ../gsl/gsl_block_ushort.h ../gsl/gsl_vector_short.h \
+ ../gsl/gsl_block_short.h ../gsl/gsl_vector_uchar.h \
+ ../gsl/gsl_block_uchar.h ../gsl/gsl_vector_char.h \
+ ../gsl/gsl_block_char.h ../gsl/gsl_matrix.h \
+ ../gsl/gsl_matrix_complex_long_double.h \
+ ../gsl/gsl_matrix_complex_double.h ../gsl/gsl_matrix_complex_float.h \
+ ../gsl/gsl_matrix_long_double.h ../gsl/gsl_matrix_double.h \
+ ../gsl/gsl_matrix_float.h ../gsl/gsl_matrix_ulong.h \
+ ../gsl/gsl_matrix_long.h ../gsl/gsl_matrix_uint.h \
+ ../gsl/gsl_matrix_int.h ../gsl/gsl_matrix_ushort.h \
+ ../gsl/gsl_matrix_short.h ../gsl/gsl_matrix_uchar.h \
+ ../gsl/gsl_matrix_char.h ../gsl/gsl_min.h
+
+../config.h:
+
+../gsl/gsl_multimin.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h:
+
+../gsl/gsl_sys.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_machine.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h:
+
+../gsl/gsl_precision.h:
+
+../gsl/gsl_nan.h:
+
+../gsl/gsl_pow_int.h:
+
+../gsl/gsl_minmax.h:
+
+../gsl/gsl_vector.h:
+
+../gsl/gsl_vector_complex_long_double.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_complex.h:
+
+../gsl/gsl_check_range.h:
+
+../gsl/gsl_vector_long_double.h:
+
+../gsl/gsl_block_long_double.h:
+
+../gsl/gsl_vector_complex.h:
+
+../gsl/gsl_block_complex_long_double.h:
+
+../gsl/gsl_vector_complex_double.h:
+
+../gsl/gsl_vector_double.h:
+
+../gsl/gsl_block_double.h:
+
+../gsl/gsl_block_complex_double.h:
+
+../gsl/gsl_vector_complex_float.h:
+
+../gsl/gsl_vector_float.h:
+
+../gsl/gsl_block_float.h:
+
+../gsl/gsl_block_complex_float.h:
+
+../gsl/gsl_vector_ulong.h:
+
+../gsl/gsl_block_ulong.h:
+
+../gsl/gsl_vector_long.h:
+
+../gsl/gsl_block_long.h:
+
+../gsl/gsl_vector_uint.h:
+
+../gsl/gsl_block_uint.h:
+
+../gsl/gsl_vector_int.h:
+
+../gsl/gsl_block_int.h:
+
+../gsl/gsl_vector_ushort.h:
+
+../gsl/gsl_block_ushort.h:
+
+../gsl/gsl_vector_short.h:
+
+../gsl/gsl_block_short.h:
+
+../gsl/gsl_vector_uchar.h:
+
+../gsl/gsl_block_uchar.h:
+
+../gsl/gsl_vector_char.h:
+
+../gsl/gsl_block_char.h:
+
+../gsl/gsl_matrix.h:
+
+../gsl/gsl_matrix_complex_long_double.h:
+
+../gsl/gsl_matrix_complex_double.h:
+
+../gsl/gsl_matrix_complex_float.h:
+
+../gsl/gsl_matrix_long_double.h:
+
+../gsl/gsl_matrix_double.h:
+
+../gsl/gsl_matrix_float.h:
+
+../gsl/gsl_matrix_ulong.h:
+
+../gsl/gsl_matrix_long.h:
+
+../gsl/gsl_matrix_uint.h:
+
+../gsl/gsl_matrix_int.h:
+
+../gsl/gsl_matrix_ushort.h:
+
+../gsl/gsl_matrix_short.h:
+
+../gsl/gsl_matrix_uchar.h:
+
+../gsl/gsl_matrix_char.h:
+
+../gsl/gsl_min.h:

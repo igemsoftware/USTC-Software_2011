@@ -1,0 +1,43 @@
+* cross-check AST processing with MathML definitions
+  at http://www.w3.org/TR/MathML2/appendixc.html
+
+* example for UsrDefFnct: 
+	* interpolation from external data file
+	* callBack Fnct
+
+* general accuracy / performance: see file OUTLOOK
+        * generate SOSlib Benchmarking Test Suite
+        * adapt printout accuracy to CVODE errors
+	* check usage of double, float, long float etc.
+	* choose CVODE error tolerances automatically for each ODE??
+	* choose other solvers from the CVODE package
+
+* Function Definition Replacement:
+	* implement in evaluate/differentiateAST
+
+* SUNDIALS interface
+        * use more/better options!
+	* use of parallel capabilities
+	* KINSOL for steady state detection
+	* daeSolver IDA
+
+* eventDetector:
+	* integrate from last to current timestep, until trigger < CVODE ERROR
+	* use combination of interpolation and exact integration
+	  to event trigger
+
+* online communication
+	* use callback and user-defined-functions
+	  for communication with other tools/solver 
+	  (e.g. stochastic)
+
+* compilation:
+	* use TCC runtime compilation of CVODE code
+
+* SBW: write interface function
+
+* BioUML: explore interface possibility
+
+* command-line and interactive usage
+	* change visualization to GNUPLOT (3D!)
+	* bioLog_resultVisualizer: ...

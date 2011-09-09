@@ -1,0 +1,11 @@
+prefix=/mingw
+exec_prefix=/mingw
+libdir=/mingw/lib
+includedir=/mingw/include
+GSL_CBLAS_LIB=-lgslcblas
+
+Name: GSL
+Description: GNU Scientific Library
+Version: 1.15
+Libs: -L/mingw/lib -lgsl ${GSL_CBLAS_LIB} -lm -lm 
+Cflags: -I/mingw/include

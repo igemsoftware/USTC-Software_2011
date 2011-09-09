@@ -1,0 +1,51 @@
+strsm.lo: strsm.c ../gsl/gsl_math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ ../gsl/gsl_sys.h ../gsl/gsl_inline.h ../gsl/gsl_machine.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h \
+ ../gsl/gsl_precision.h ../gsl/gsl_types.h ../gsl/gsl_nan.h \
+ ../gsl/gsl_pow_int.h ../gsl/gsl_minmax.h ../gsl/gsl_cblas.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h cblas.h \
+ error_cblas_l3.h error_cblas.h source_trsm_r.h
+
+../gsl/gsl_math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/math.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+../gsl/gsl_sys.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_machine.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/limits.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/float.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/float.h:
+
+../gsl/gsl_precision.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_nan.h:
+
+../gsl/gsl_pow_int.h:
+
+../gsl/gsl_minmax.h:
+
+../gsl/gsl_cblas.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+cblas.h:
+
+error_cblas_l3.h:
+
+error_cblas.h:
+
+source_trsm_r.h:

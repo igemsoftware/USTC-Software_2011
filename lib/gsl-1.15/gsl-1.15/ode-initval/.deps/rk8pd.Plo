@@ -1,0 +1,37 @@
+rk8pd.lo: rk8pd.c ../config.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/string.h \
+ ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_types.h ../gsl/gsl_odeiv.h odeiv_util.h
+
+../config.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/string.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_odeiv.h:
+
+odeiv_util.h:

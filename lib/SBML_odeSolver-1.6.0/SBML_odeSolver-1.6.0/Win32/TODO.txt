@@ -1,0 +1,11 @@
+Work remaining on SBML_odeSolver for Microsoft Visual C++ 7.1
+=============================================================
+
+Find a way to avoid including the CVODE code within the project.
+Its included at the moment because its patched to export functions to
+SBML_odeSolver.
+
+Create a proper installer 
+
+Clean up headers so that its possible to create a useable library release rather than
+just an .exe release.

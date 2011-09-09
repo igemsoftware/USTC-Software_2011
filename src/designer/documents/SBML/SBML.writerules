@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object path="model">
+	<object path="*sbml*" target="sbml" attribute="xmlns=xmlns,metaid=metaid,level=level,version=version"/>
+	<object path="*sbml*" target="sbml/model" attribute="id=model_id,name=model_name,substanceUnits=model_unit_substance,timeUnits=model_unit_time,volumeUnits=model_unit_volume,areaUnits=model_unit_area,lengthUnits=model_unit_length,extentUnits=model_unit_extent,conversionFactor=model_conversion_factor,$CHILD=model_notes,$CHILD=model_annotation"/>
+	<array path="functions" target="sbml/model/listOfFunctionDefinitions">
+		<object path="" target="sbml/model/listOfFunctionDefinitions/functionDefinition($1)" attribute="id=id,$CHILD=math"/>
+	</array>
+	<array path="units" target="sbml/model/listOfUnitDefinitions">
+		<object path="" target="sbml/model/listOfUnitDefinitions/unitDefinition($1)" attribute="id=id">
+			<array path="unitlist" target="sbml/model/listOfUnitDefinitions/unitDefinition($1)/listOfUnits">
+				<object path="" target="sbml/model/listOfUnitDefinitions/unitDefinition($1)/listOfUnits/unit($2)" attribute="kind=kind,exponent=exponent,scale=scale,multiplier=multiplier"/>
+			</array>
+		</object>
+	</array>
+</object>

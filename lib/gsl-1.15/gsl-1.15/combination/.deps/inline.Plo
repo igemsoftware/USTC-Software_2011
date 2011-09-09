@@ -1,0 +1,36 @@
+inline.lo: inline.c ../build.h ../gsl/gsl_combination.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h \
+ ../gsl/gsl_errno.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h \
+ d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h \
+ ../gsl/gsl_types.h ../gsl/gsl_inline.h ../gsl/gsl_check_range.h
+
+../build.h:
+
+../gsl/gsl_combination.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdlib.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/_mingw.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stddef.h:
+
+../gsl/gsl_errno.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/stdio.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/include/stdarg.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/sys/types.h:
+
+d:\qt\mingw\bin\../lib/gcc/mingw32/4.4.0/../../../../include/errno.h:
+
+../gsl/gsl_types.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_check_range.h:
