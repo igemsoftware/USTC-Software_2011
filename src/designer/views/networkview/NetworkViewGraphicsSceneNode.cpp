@@ -3,6 +3,7 @@
 NetworkViewGraphicsSceneNode::NetworkViewGraphicsSceneNode(QGraphicsItem *parent, QScriptValue value ,QString normalImagePath , QString selectedImagePath , bool isParentContainer)
     : NetworkViewGraphicsItem( value , normalImagePath , selectedImagePath , parent )
 {
+    setResizable(true);
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
     if(dynamic_cast<NetworkViewGraphicsItem*>(parent))dynamic_cast<NetworkViewGraphicsItem*>(parent)->addChild(scenePos(),this);
     setZValue(1);

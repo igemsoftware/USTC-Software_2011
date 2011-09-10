@@ -32,6 +32,7 @@ public slots:
     void on_sceneSelectionChanged();
     void on_lineButtonClicked();
     void on_modButtonClicked();
+    void refreshWidget();
 };
 
 #endif // NETWORKVIEW_H

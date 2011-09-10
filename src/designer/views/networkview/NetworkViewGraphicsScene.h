@@ -9,10 +9,10 @@
 #include "QKeyEvent"
 #include <QList>
 #include <QtGui>
-#include "interfaces/DesignerModelItf.h"
 #include "NetworkViewGraphicsSceneContainer.h"
+#include "models/reactionnetworkmodel/ReactionNetwork.h"
 
-class DesignerModelComponent;
+class ReactionNetworkModel;
 class NetworkViewGraphicsItem;
 
 class NetworkViewGraphicsScene : public QGraphicsScene
@@ -22,8 +22,9 @@ class NetworkViewGraphicsScene : public QGraphicsScene
 public:
 
     bool loaded;
+    bool locked;
     QSet<QString> *idSpace;
-    DesignerModelComponent * model;
+    ReactionNetworkModel * model;
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);

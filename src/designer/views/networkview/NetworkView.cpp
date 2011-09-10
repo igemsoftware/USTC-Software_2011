@@ -58,24 +58,25 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelComponent *model
     linebutton->setFixedSize(50,50);
     hlayout->addWidget(linebutton);
     linebutton->setFlat(true);
-    linebutton->setIcon(*(new QIcon(":/designer/assemblyview/icon_pcs.png")));
+    linebutton->setIcon(*(new QIcon(":/designer/networkview/generate.png")));
     connect(this->linebutton,SIGNAL(clicked()),this,SLOT(on_lineButtonClicked()));
 
     modbutton=new QPushButton();
     modbutton->setFixedSize(50,50);
     hlayout->addWidget(modbutton);
     modbutton->setFlat(true);
-    modbutton->setIcon(*(new QIcon(":/designer/assemblyview/icon_pcs.png")));
+    modbutton->setIcon(*(new QIcon(":/designer/networkview/modify.png")));
     connect(this->modbutton,SIGNAL(clicked()),this,SLOT(on_modButtonClicked()));
 
     ui->buttons->setLayout(hlayout);
     NetworkViewGraphicsScene *scene = new NetworkViewGraphicsScene(ui->graphicsView);
-    scene->model=model;
+    scene->model=dynamic_cast<ReactionNetworkModel*>( mainWindow->getCurrentModel());
     scene->loadFromModel(model);
     scene->loaded=true;
     ui->graphicsView->setScene(scene);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));
+    connect(scene,SIGNAL(setScriptValue()),this,SLOT(refreshWidget()));
     emit on_sceneSelectionChanged();
 }
 
@@ -86,6 +87,8 @@ NetworkView::~NetworkView()
 
 void NetworkView::on_sceneSelectionChanged()
 {
+    if(dynamic_cast<NetworkViewGraphicsScene *>(ui->graphicsView->scene())->locked || !dynamic_cast<NetworkViewGraphicsScene *>(ui->graphicsView->scene())->loaded)
+        return;
     QList<QGraphicsItem*> selectedItem = ui->graphicsView->scene()->selectedItems();    
     foreach( QGraphicsItem* item , ui->graphicsView->scene()->items() )
     {
@@ -98,8 +101,7 @@ void NetworkView::on_sceneSelectionChanged()
             dynamic_cast<NetworkViewGraphicsItem*>(item)->getSelection();
         }
     }
-
-    if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first()))
+    if(selectedItem.count()>0&&dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(selectedItem.first()))
     {
         if(this->selectState=="NothingE")
         {
@@ -122,7 +124,7 @@ void NetworkView::on_sceneSelectionChanged()
             this->modbutton->setDown(true);
         }
     }
-    else if(selectedItem.count()==1&&dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first()))
+    else if(selectedItem.count()>0&&dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(selectedItem.first()))
     {
         if(this->selectState=="NothingE")
         {
@@ -154,7 +156,7 @@ void NetworkView::on_sceneSelectionChanged()
         this->modbutton->setDown(false);
     }
 
-    if(selectedItem.count()==1)
+    if(selectedItem.count()>0)
     {
         NetworkViewGraphicsItem* item = dynamic_cast<NetworkViewGraphicsItem*>(selectedItem.first());
         if(item)
@@ -178,4 +180,9 @@ void NetworkView::on_modButtonClicked()
     modbutton->setDown(true);
     ui->graphicsView->scene()->clearSelection();
     this->selectState="NothingM";
+}
+
+void NetworkView::refreshWidget()
+{
+    emit updateSelectedItem(mainWindow->getCurrentModel()->getModel());
 }
