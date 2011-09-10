@@ -3,7 +3,7 @@
 
 #include "interfaces/DesignerDocItf.h"
 
-class SBOLDoc : public DesignerDocItf
+class SBOLDoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

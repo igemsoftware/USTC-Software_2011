@@ -1,28 +1,28 @@
 //! \file DesignerModelItf.h
 //! Lachesis Designer Model Common Interface
 
-#ifndef DESIGNERMODELITF_H
-#define DESIGNERMODELITF_H
+#ifndef DesignerMODELComponent_H
+#define DesignerMODELComponent_H
 
 #include <QtCore>
 #include <QtScript>
 #include "common/utils/itemregistry/ItemRegistry.h"
 
-class DesignerDocItf;
+class DesignerDocComponent;
 
-class DesignerModelItf : public QObject
+class DesignerModelComponent : public QObject
 {
     Q_OBJECT
 
     //constructor
 protected:
     //! Constructor for initialization, should be called by children class constructors.
-    explicit DesignerModelItf(DesignerDocItf *currentDoc);
+    explicit DesignerModelComponent(DesignerDocComponent *currentDoc);
 public:
     //! Call this method to create a model object
     //! \param modelName The name of the model, which should be the class name
     //! \param currentDoc Set the document object at the same time. Useful when loading the model from a file.
-    static DesignerModelItf* createModel(QString modelName, DesignerDocItf *currentDoc = 0);
+    static DesignerModelComponent* createModel(QString modelName, DesignerDocComponent *currentDoc = 0);
 
     //internal data
 protected:
@@ -39,10 +39,10 @@ public:
 public:
     //! When this is a submodel of another model, parentModel will be the pointer
     //! to that model.
-    DesignerModelItf* parentModel;
+    DesignerModelComponent* parentModel;
 
     //! The list of submodels of this model.
-    QList<DesignerModelItf*> subModels;
+    QList<DesignerModelComponent*> subModels;
 
     //display support
 public:
@@ -56,12 +56,12 @@ public:
     //serialization support
 private:
     //! \internal Pointer to the document object.
-    DesignerDocItf *currentDoc;
+    DesignerDocComponent *currentDoc;
 public:
     //! Retrieve the pointer to the document object.
     //! NULL is the model is never saved yet.
-    DesignerDocItf *getCurrentDoc() { return currentDoc; }
-    void setCurrentDoc(DesignerDocItf* newDoc) {currentDoc = newDoc;}
+    DesignerDocComponent *getCurrentDoc() { return currentDoc; }
+    void setCurrentDoc(DesignerDocComponent* newDoc) {currentDoc = newDoc;}
 
     // modified flag
 public:
@@ -136,17 +136,17 @@ public:
 
 };
 
-Q_DECLARE_INTERFACE(DesignerModelItf, "com.ustcsoftware.Lachesis.ModelInterface/1.0")
+Q_DECLARE_INTERFACE(DesignerModelComponent, "com.ustcsoftware.Lachesis.ModelInterface/1.0")
 
 
 class DesignerModelFormatProxyItf : public QObject
 {
     Q_OBJECT
 private:
-    DesignerModelItf* modelItf;
+    DesignerModelComponent* modelItf;
 public:
-    DesignerModelFormatProxyItf(DesignerModelItf* itf) : modelItf(itf){}
-    DesignerModelItf* getModel() {return modelItf;}
+    DesignerModelFormatProxyItf(DesignerModelComponent* itf) : modelItf(itf){}
+    DesignerModelComponent* getModel() {return modelItf;}
 public:
     typedef size_t modelObjectIndex;
 
@@ -156,4 +156,4 @@ public:
     virtual void removeModelObject(modelObjectIndex index) = 0;
 };
 
-#endif // DESIGNERMODELITF_H
+#endif // DesignerMODELComponent_H

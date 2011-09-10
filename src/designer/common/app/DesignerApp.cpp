@@ -47,9 +47,9 @@ bool DesignerApp::initApplication()
     DesignerExtensionMgr::initializeIfNotYet();
 
 
-    DesignerViewItf::initializeIfNotYet();
-    DesignerDocItf::initializeIfNotYet();
-    DesignerModelItf::initializeIfNotYet();
+    DesignerViewComponent::initializeIfNotYet();
+    DesignerDocComponent::initializeIfNotYet();
+    DesignerModelComponent::initializeIfNotYet();
 
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();

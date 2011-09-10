@@ -12,7 +12,7 @@
 #include "interfaces/DesignerModelItf.h"
 #include "NetworkViewGraphicsSceneContainer.h"
 
-class DesignerModelItf;
+class DesignerModelComponent;
 class NetworkViewGraphicsItem;
 
 class NetworkViewGraphicsScene : public QGraphicsScene
@@ -23,11 +23,11 @@ public:
 
     bool loaded;
     QSet<QString> *idSpace;
-    DesignerModelItf * model;
+    DesignerModelComponent * model;
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
-    void loadFromModel(DesignerModelItf* model);
+    void loadFromModel(DesignerModelComponent* model);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);

@@ -3,7 +3,7 @@
 EMBLDocParser::EMBLDocParser()
 {    
 }
-bool EMBLDocParser::parse(DesignerModelItf* model, QTextStream& fin)
+bool EMBLDocParser::parse(DesignerModelComponent* model, QTextStream& fin)
 {
     QScriptValue EMBLs=model->getEngine()->newArray();
     model->getEngine()->globalObject().setProperty("model",EMBLs);

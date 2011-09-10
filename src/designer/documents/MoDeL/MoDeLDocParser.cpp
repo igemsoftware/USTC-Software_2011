@@ -14,7 +14,7 @@ MoDeLDocParser::MoDeLDocParser()
 {
 }
 
-bool MoDeLDocParser::parse(DesignerModelItf& modelItf, QTextStream& fin )
+bool MoDeLDocParser::parse(DesignerModelComponent& modelItf, QTextStream& fin )
 {
     IGameModel& model = dynamic_cast<IGameModel&>(modelItf);
     QScriptEngine * engine = model.getEngine();

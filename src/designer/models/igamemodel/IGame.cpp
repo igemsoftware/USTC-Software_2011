@@ -1,7 +1,7 @@
 #include "IGame.h"
 
-IGameModel::IGameModel(DesignerDocItf *newDoc) :
-    DesignerModelItf(newDoc)
+IGameModel::IGameModel(DesignerDocComponent *newDoc) :
+    DesignerModelComponent(newDoc)
 {
 }
 

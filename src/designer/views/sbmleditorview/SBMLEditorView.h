@@ -4,11 +4,11 @@
 #include "interfaces/DesignerViewItf.h"
 #include "SBMLEditorViewHighlighter.h"
 
-class SBMLEditorView : public DesignerViewItf
+class SBMLEditorView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit SBMLEditorView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit SBMLEditorView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
 
 private:
     SBMLEditorViewHighlighter *sbmlHighlighter;

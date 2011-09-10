@@ -4,7 +4,7 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class EMBLDoc : public DesignerDocItf
+class EMBLDoc : public DesignerDocComponent
 {
 
     Q_OBJECT

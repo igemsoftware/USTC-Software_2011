@@ -7,7 +7,7 @@
 #include "SBOLParser.h"
 
 SBOLDoc::SBOLDoc() :
-    DesignerDocItf()
+    DesignerDocComponent()
 {
 }
 
@@ -17,7 +17,7 @@ SBOLDoc::~SBOLDoc()
 
 }
 
-DesignerDocItf::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& file)
+DesignerDocComponent::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& file)
 {
     QDomDocument domdoc("sboldoc");
     if(!file.open(QFile::ReadOnly))
@@ -34,7 +34,7 @@ DesignerDocItf::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& file)
     {
         if(domDocElem.attribute("xmlns").endsWith("/sbol.owl#"))
             return EXACTLY;
-        return DesignerDocItf::INSUFFICIENTLY;
+        return DesignerDocComponent::INSUFFICIENTLY;
     }
     return NOTACCEPTABLE;
 }
@@ -57,7 +57,7 @@ bool SBOLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelComponent::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
 
@@ -75,7 +75,7 @@ bool SBOLDoc::loadFromFile(QFile& file)
     qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
     return retValue;
 }

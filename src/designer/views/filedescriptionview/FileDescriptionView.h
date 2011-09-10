@@ -7,12 +7,12 @@ namespace Ui {
     class FileDescriptionView;
 }
 
-class FileDescriptionView : public DesignerViewItf
+class FileDescriptionView : public DesignerViewComponent
 {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelComponent* model);
     ~FileDescriptionView();
 
 public slots:

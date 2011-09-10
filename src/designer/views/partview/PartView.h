@@ -8,13 +8,13 @@ namespace Ui {
     class PartView;
 }
 
-class PartView : public DesignerViewItf
+class PartView : public DesignerViewComponent
 {
     Q_OBJECT
 
 public:
     int listviewindex;
-    Q_INVOKABLE explicit PartView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit PartView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~PartView();
 
 private:

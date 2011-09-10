@@ -2,8 +2,8 @@
 #include <QXmlStreamWriter>
 #include "SBMLEditorView.h"
 
-SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model)
+SBMLEditorView::SBMLEditorView(DesignerMainWnd* mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model)
 {
     QGridLayout* gridLayout = new QGridLayout(this);
     gridLayout->setContentsMargins(0, 0, 0, 0);

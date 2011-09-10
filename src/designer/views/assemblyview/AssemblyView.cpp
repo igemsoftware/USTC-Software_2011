@@ -9,8 +9,8 @@
 using namespace ReactionNetworkDataTypes;
 
 
-AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model)
+AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model)
 {
 
 

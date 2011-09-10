@@ -7,11 +7,11 @@ namespace Ui {
     class AboutView;
 }
 
-class AboutView : public DesignerViewItf
+class AboutView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit AboutView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit AboutView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~AboutView();
 
 signals:

@@ -5,7 +5,7 @@
 
 #include "MoDeL1Parser.h"
 
-bool MoDeL1Parser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool MoDeL1Parser::parse(DesignerModelComponent* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));

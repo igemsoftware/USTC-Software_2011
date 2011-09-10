@@ -7,7 +7,7 @@
 #include "RSBPMLParser.h"
 
 RSBPMLDoc::RSBPMLDoc() :
-    DesignerDocItf()
+    DesignerDocComponent()
 {
 }
 
@@ -16,7 +16,7 @@ RSBPMLDoc::~RSBPMLDoc()
 
 }
 
-DesignerDocItf::extentValue RSBPMLDoc::checkIfFileFitsDocumentType(QFile& file)
+DesignerDocComponent::extentValue RSBPMLDoc::checkIfFileFitsDocumentType(QFile& file)
 {
     QDomDocument domdoc("rsbpmldoc");
     if(!file.open(QFile::ReadOnly))
@@ -52,7 +52,7 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelComponent::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
 
@@ -70,7 +70,7 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
     qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
     return retValue;
 }

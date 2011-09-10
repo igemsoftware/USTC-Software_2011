@@ -17,11 +17,11 @@
 #include "views/webpageview/WebPageView.h"
 
 #define LACHESIS_DECLARE_VIEW(className, titleString, modelName) \
-    DesignerViewItf::ViewItfRegistry::ItemRegistryInlineAdd viewreg_##className (QString( #className ), \
-    DesignerViewItf::ViewItfRegistryItem(& className ::staticMetaObject, QObject::tr(titleString), modelName))
+    DesignerViewComponent::ViewItfRegistry::ItemRegistryInlineAdd viewreg_##className (QString( #className ), \
+    DesignerViewComponent::ViewItfRegistryItem(& className ::staticMetaObject, QObject::tr(titleString), modelName))
 
 
-void DesignerViewItf::initializeIfNotYet()
+void DesignerViewComponent::initializeIfNotYet()
 {
     static bool initialized = false;
     if(!initialized)
@@ -42,7 +42,7 @@ void DesignerViewItf::initializeIfNotYet()
     }
 }
 
-DesignerViewItf::DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model)
+DesignerViewComponent::DesignerViewComponent(DesignerMainWnd* mainWnd, DesignerModelComponent* model)
     :mainWindow(mainWnd), currentModel(model)
 {
     connect(this, SIGNAL(updateSelectedItem(QScriptValue)),  mainWindow->getPanelWidget("PropertiesPanel"), SLOT(updateTarget(QScriptValue)));
@@ -50,20 +50,20 @@ DesignerViewItf::DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* mod
 
 
 
-DesignerViewItf* DesignerViewItf::createView
-        (QString viewName, DesignerMainWnd* mainWnd, DesignerModelItf* model)
+DesignerViewComponent* DesignerViewComponent::createView
+        (QString viewName, DesignerMainWnd* mainWnd, DesignerModelComponent* model)
 {
     initializeIfNotYet();
     ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
     if(metaObj.metaObject)
-        return dynamic_cast<DesignerViewItf*>
+        return dynamic_cast<DesignerViewComponent*>
                 (metaObj.metaObject->newInstance(Q_ARG(DesignerMainWnd*, mainWnd),
-                                                Q_ARG(DesignerModelItf*, model)));
+                                                Q_ARG(DesignerModelComponent*, model)));
 
     return NULL;
 }
 
-QString DesignerViewItf::getViewTitleByName(QString viewName)
+QString DesignerViewComponent::getViewTitleByName(QString viewName)
 {
 
     ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
@@ -73,12 +73,12 @@ QString DesignerViewItf::getViewTitleByName(QString viewName)
     return viewName;
 }
 
-QString DesignerViewItf::getViewDefaultModelByName(QString viewName)
+QString DesignerViewComponent::getViewDefaultModelByName(QString viewName)
 {
     return ViewItfRegistry::find(viewName).defaultModelName;
 }
 
-QMetaObject DesignerViewItf::getViewMetaObjectByName(QString viewName)
+QMetaObject DesignerViewComponent::getViewMetaObjectByName(QString viewName)
 {
     return *ViewItfRegistry::find(viewName).metaObject;
 }

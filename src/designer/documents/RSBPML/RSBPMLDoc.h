@@ -3,7 +3,7 @@
 
 #include "interfaces/DesignerDocItf.h"
 
-class RSBPMLDoc : public DesignerDocItf
+class RSBPMLDoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

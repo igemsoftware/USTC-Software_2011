@@ -1,7 +1,7 @@
 #include "SyntheticBiologicalPart.h"
 
-SyntheticBiologicalPartModel::SyntheticBiologicalPartModel(DesignerDocItf *newDoc) :
-    DesignerModelItf(newDoc)
+SyntheticBiologicalPartModel::SyntheticBiologicalPartModel(DesignerDocComponent *newDoc) :
+    DesignerModelComponent(newDoc)
 {
 
 }

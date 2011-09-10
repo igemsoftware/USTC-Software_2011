@@ -73,14 +73,14 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected)
     createView(viewName, isProtected, currentModel);
 }
 
-void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerModelItf* model)
+void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerModelComponent* model)
 {
-    DesignerViewItf *view =
-            DesignerViewItf::createView(viewName, this, model);
+    DesignerViewComponent *view =
+            DesignerViewComponent::createView(viewName, this, model);
 
     if(view)
     {
-        int tabIndex = ui->tabWidget->addTab(view, DesignerViewItf::getViewTitleByName(viewName));
+        int tabIndex = ui->tabWidget->addTab(view, DesignerViewComponent::getViewTitleByName(viewName));
         if(isProtected) ui->tabWidget->protectTab(tabIndex);
         ui->tabWidget->setCurrentIndex(tabIndex);
     }
@@ -94,15 +94,15 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerMod
 
 void DesignerMainWnd::createModelWithView(QString viewName)
 {
-    QString modelName = DesignerViewItf::getViewDefaultModelByName(viewName);
-    currentModel = DesignerModelItf::createModel(modelName);
+    QString modelName = DesignerViewComponent::getViewDefaultModelByName(viewName);
+    currentModel = DesignerModelComponent::createModel(modelName);
     createView(viewName);
 }
 
 void DesignerMainWnd::openFile(QString& fileName)
 {
     const QMetaObject* metaObject =
-            DesignerDocItf::getBestFitDocumentTypeForFile(fileName);
+            DesignerDocComponent::getBestFitDocumentTypeForFile(fileName);
     if(!metaObject)
     {
         QMessageBox msgBox(QMessageBox::Critical,
@@ -115,7 +115,7 @@ void DesignerMainWnd::openFile(QString& fileName)
     }
 
     DesignerMainWnd* pFrame = (currentModel ? globalCreateNewMainWnd() : this);
-    DesignerDocItf*  pDoc   = (DesignerDocItf*)metaObject->newInstance();
+    DesignerDocComponent*  pDoc   = (DesignerDocComponent*)metaObject->newInstance();
     if(!pDoc)
     {
         QMessageBox msgBox(QMessageBox::Critical,
@@ -184,11 +184,11 @@ void DesignerMainWnd::closeEvent(QCloseEvent *event)
 
 void DesignerMainWnd::saveFile(QString& fileName, QString docTypeName)
 {
-    DesignerDocItf* newDoc =
-            DesignerDocItf::createEmptyDoc(docTypeName, getCurrentModel());
+    DesignerDocComponent* newDoc =
+            DesignerDocComponent::createEmptyDoc(docTypeName, getCurrentModel());
     if(newDoc)
     {
-        DesignerDocItf* oldDoc = currentModel->getCurrentDoc();
+        DesignerDocComponent* oldDoc = currentModel->getCurrentDoc();
         currentModel->setCurrentDoc(newDoc);
         if(newDoc->saveToDiskFile(fileName))
         {
@@ -229,7 +229,7 @@ void DesignerMainWnd::globalUnregisterMainWnd(DesignerMainWnd* pFrame)
     }
 }
 
-DesignerDocItf * DesignerMainWnd::getCurrentDoc(QString defaultDocType)
+DesignerDocComponent * DesignerMainWnd::getCurrentDoc(QString defaultDocType)
 {
     return currentModel->getCurrentDoc();
 }
@@ -243,12 +243,12 @@ void DesignerMainWnd::on_actionFileNew_triggered()
 void DesignerMainWnd::on_actionFileOpen_triggered()
 {
     QFileDialog dlg(this, tr("Open File"));
-    QStringList doclist = DesignerDocItf::getDocTypeList();
+    QStringList doclist = DesignerDocComponent::getDocTypeList();
     QStringList filterlist;
     filterlist<< "All Files (*.*)";
     for(int i=0;i<doclist.count();i++)
     {
-        filterlist << DesignerDocItf::getDocTypeFilter(doclist[i]);
+        filterlist << DesignerDocComponent::getDocTypeFilter(doclist[i]);
     }
     dlg.setFileMode(QFileDialog::ExistingFile);
     dlg.setNameFilters(filterlist);
@@ -264,7 +264,7 @@ void DesignerMainWnd::on_actionFileSave_triggered()
     if(!getCurrentModel()) return;
     if(!getCurrentModel()->getCurrentDoc()||
             getCurrentModel()->getCurrentDoc()->isReadOnly()||
-            !DesignerDocItf::isDocTypeSaveSupported(getCurrentModel()->getCurrentDoc()->metaObject()->className())
+            !DesignerDocComponent::isDocTypeSaveSupported(getCurrentModel()->getCurrentDoc()->metaObject()->className())
             )
     {
         on_actionFileSaveAs_triggered();
@@ -286,14 +286,14 @@ void DesignerMainWnd::on_actionFileSaveAs_triggered()
     QStringList filters;
     for(int i=0;i<doclist.count();i++)
     {
-        if(!DesignerDocItf::isDocTypeSaveSupported(doclist[i]))
+        if(!DesignerDocComponent::isDocTypeSaveSupported(doclist[i]))
         {
             doclist.removeAt(i);
             i--;
         }
         else
         {
-            filters << DesignerDocItf::getDocTypeFilter(doclist[i]);
+            filters << DesignerDocComponent::getDocTypeFilter(doclist[i]);
         }
     }
 

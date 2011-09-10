@@ -8,11 +8,11 @@
 #include "models/igamemodel/IGame.h"
 
 #define LACHESIS_DECLARE_MODEL(className) \
-    DesignerModelItf::ModelItfRegistry::ItemRegistryInlineAdd modelreg_##className (QString( #className ), \
-    DesignerModelItf::ModelItfRegistryItem(& className ::staticMetaObject))
+    DesignerModelComponent::ModelItfRegistry::ItemRegistryInlineAdd modelreg_##className (QString( #className ), \
+    DesignerModelComponent::ModelItfRegistryItem(& className ::staticMetaObject))
 
 
-void DesignerModelItf::initializeIfNotYet()
+void DesignerModelComponent::initializeIfNotYet()
 {
     static bool initialized = false;
     if(!initialized)
@@ -24,41 +24,41 @@ void DesignerModelItf::initializeIfNotYet()
     }
 }
 
-DesignerModelItf::DesignerModelItf(DesignerDocItf *newDoc) :
+DesignerModelComponent::DesignerModelComponent(DesignerDocComponent *newDoc) :
     currentDoc(newDoc),
     modified(false)
 {
 }
 
-DesignerModelItf* DesignerModelItf::createModel
-        (QString modelName, DesignerDocItf *newDoc)
+DesignerModelComponent* DesignerModelComponent::createModel
+        (QString modelName, DesignerDocComponent *newDoc)
 {
     initializeIfNotYet();
 
     ModelItfRegistryItem metaObj = ModelItfRegistry::find(modelName);
     if(metaObj.metaObject)
-        return dynamic_cast<DesignerModelItf*>
-                (metaObj.metaObject->newInstance(Q_ARG(DesignerDocItf*, newDoc)));
+        return dynamic_cast<DesignerModelComponent*>
+                (metaObj.metaObject->newInstance(Q_ARG(DesignerDocComponent*, newDoc)));
 
     return NULL;
 }
 
-DesignerModelItf::modelObjectIndex
-DesignerModelItf::createModelObject(modelObjectIndex parent, void* data)
+DesignerModelComponent::modelObjectIndex
+DesignerModelComponent::createModelObject(modelObjectIndex parent, void* data)
 {
     return 1;
 }
 
-void DesignerModelItf::removeModelObject(modelObjectIndex index)
+void DesignerModelComponent::removeModelObject(modelObjectIndex index)
 {
 
 }
 
-void DesignerModelItf::setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value)
+void DesignerModelComponent::setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value)
 {
 }
 
-QString DesignerModelItf::getModelObjectProperty(modelObjectIndex index, QString propertyName)
+QString DesignerModelComponent::getModelObjectProperty(modelObjectIndex index, QString propertyName)
 {
     return "";
 }

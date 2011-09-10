@@ -3,8 +3,8 @@
 #include "ui_AboutView.h"
 #include "AboutView.h"
 
-AboutView::AboutView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+AboutView::AboutView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::AboutView)
 {
     ui->setupUi(this);

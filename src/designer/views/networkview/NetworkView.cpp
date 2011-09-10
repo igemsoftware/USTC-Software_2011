@@ -20,8 +20,8 @@
 
 using namespace ReactionNetworkDataTypes;
 
-NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::NetworkView)
 {
     ui->setupUi(this);

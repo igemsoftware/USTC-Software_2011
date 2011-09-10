@@ -3,7 +3,7 @@
 GENBANKDocParser::GENBANKDocParser()
 {
 }
-bool GENBANKDocParser::parse(DesignerModelItf* model, QTextStream& fin)
+bool GENBANKDocParser::parse(DesignerModelComponent* model, QTextStream& fin)
 {
     QScriptValue GENBANKs=model->getEngine()->newArray();
     model->getEngine()->globalObject().setProperty("model",GENBANKs);

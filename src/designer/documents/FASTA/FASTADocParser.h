@@ -9,7 +9,7 @@ class FASTADocParser
 {
 public:
     FASTADocParser();
-    bool parse(DesignerModelItf* model, QTextStream& fin);    
+    bool parse(DesignerModelComponent* model, QTextStream& fin);    
     QString readWord(QString &s,int &index);
 };
 

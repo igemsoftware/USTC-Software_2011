@@ -9,7 +9,7 @@
 
 
 SBMLDoc::SBMLDoc() :
-    DesignerDocItf()
+    DesignerDocComponent()
 {
 
 }
@@ -58,7 +58,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelComponent::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 
@@ -75,7 +75,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     bool retValue = parser.parse(currentModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
     return retValue;
 }

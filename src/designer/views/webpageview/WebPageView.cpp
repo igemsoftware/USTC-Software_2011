@@ -6,8 +6,8 @@
 #include "WebPageView.h"
 #include "interfaces/DesignerModelItf.h"
 
-WebPageView::WebPageView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model)
+WebPageView::WebPageView(DesignerMainWnd* mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model)
 {
     QGridLayout* gridLayout = new QGridLayout(this);
     gridLayout->setContentsMargins(0, 0, 0, 0);

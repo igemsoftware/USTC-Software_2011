@@ -3,7 +3,7 @@
 FASTADocParser::FASTADocParser()
 {
 }
-bool FASTADocParser::parse(DesignerModelItf* model, QTextStream& fin)
+bool FASTADocParser::parse(DesignerModelComponent* model, QTextStream& fin)
 {
     QScriptValue FASTAs=model->getEngine()->newArray();
     model->getEngine()->globalObject().setProperty("model",FASTAs);

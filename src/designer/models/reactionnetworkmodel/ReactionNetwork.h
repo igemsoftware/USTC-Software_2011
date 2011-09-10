@@ -3,11 +3,11 @@
 
 #include "interfaces/DesignerModelItf.h"
 
-class ReactionNetworkModel : public DesignerModelItf
+class ReactionNetworkModel : public DesignerModelComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit ReactionNetworkModel(DesignerDocItf *newDoc);
+    Q_INVOKABLE explicit ReactionNetworkModel(DesignerDocComponent *newDoc);
 
     virtual QStringList getSupportedViewList() const;
     virtual QStringList getSupportedDocumentList() const;

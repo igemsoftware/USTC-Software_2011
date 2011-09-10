@@ -15,7 +15,7 @@ namespace Ui {
     class ClothoDBView;
 }
 
-class ClothoDBView : public DesignerViewItf
+class ClothoDBView : public DesignerViewComponent
 {
     Q_OBJECT
     QDomDocument doc;
@@ -26,7 +26,7 @@ public:
     void initiate();
     void connect();
 
-    Q_INVOKABLE explicit ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~ClothoDBView();
 
 private:

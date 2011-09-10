@@ -5,7 +5,7 @@
 
 #include "USMLParser.h"
 
-bool USMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool USMLParser::parse(DesignerModelComponent* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));

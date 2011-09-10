@@ -5,8 +5,8 @@
 
 #include "common/drawwnd/DesignerDrawWnd.h"
 
-BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::BehaviorView)
 {
     ui->setupUi(this);

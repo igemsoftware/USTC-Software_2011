@@ -1,31 +1,31 @@
 //! \file DesignerDocItf.h
 //! Lachesis Designer Document Common Interface
 
-#ifndef DESIGNERDOCITF_H
-#define DESIGNERDOCITF_H
+#ifndef DesignerDOCComponent_H
+#define DesignerDOCComponent_H
 
 #include <QtCore>
 #include "common/utils/itemregistry/ItemRegistry.h"
 #include "DesignerDebug.h"
 
 class DesignerMainWnd;
-class DesignerModelItf;
+class DesignerModelComponent;
 
-class DesignerDocItf : public QObject
+class DesignerDocComponent : public QObject
 {
     Q_OBJECT
 
     //constructor
 protected:
     //! Constructor. Called by subclasses constructors only.
-    explicit DesignerDocItf();
+    explicit DesignerDocComponent();
 
     // data store
 protected:
-    DesignerModelItf * currentModel;
+    DesignerModelComponent * currentModel;
 public:
     //! Retrieve the model object associated with this document.
-    DesignerModelItf * getCurrentModel(QString defaultModel = "");
+    DesignerModelComponent * getCurrentModel(QString defaultModel = "");
 
     // readonly flag
 public:
@@ -86,7 +86,7 @@ public:
     static void initializeIfNotYet();
 
 public:
-    static DesignerDocItf* createEmptyDoc(QString docName, DesignerModelItf* model = NULL);
+    static DesignerDocComponent* createEmptyDoc(QString docName, DesignerModelComponent* model = NULL);
     static bool isDocTypeSaveSupported(QString docName);
     static QString getDocTypeTitle(QString docName);
     static QString getDocTypeFilter(QString docName);
@@ -110,6 +110,6 @@ public slots:
 
 };
 
-Q_DECLARE_INTERFACE(DesignerDocItf, "com.ustcsoftware.Lachesis.DocumentInterface/1.0")
+Q_DECLARE_INTERFACE(DesignerDocComponent, "com.ustcsoftware.Lachesis.DocumentInterface/1.0")
 
-#endif // DESIGNERDOCITF_H
+#endif // DesignerDOCComponent_H

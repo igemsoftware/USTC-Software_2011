@@ -6,7 +6,7 @@
 
 
 USMLDoc::USMLDoc() :
-    DesignerDocItf()
+    DesignerDocComponent()
 {
 
 }
@@ -63,7 +63,7 @@ bool USMLDoc::loadFromFile(QFile& file)
         return false;
     }
 
-    currentModel = DesignerModelItf::createModel(domDocElem.attribute("model"), this);
+    currentModel = DesignerModelComponent::createModel(domDocElem.attribute("model"), this);
     if(!currentModel)
         return false;
 
@@ -72,7 +72,7 @@ bool USMLDoc::loadFromFile(QFile& file)
     bool retValue = parser.parse(currentModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
     return retValue;
 }

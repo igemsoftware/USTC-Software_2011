@@ -10,12 +10,12 @@ namespace Ui {
 
 class DesignerMainWnd;
 
-class WelcomeView : public DesignerViewItf
+class WelcomeView : public DesignerViewComponent
 {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE explicit WelcomeView(DesignerMainWnd* mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit WelcomeView(DesignerMainWnd* mainWnd, DesignerModelComponent* model);
     ~WelcomeView();
 signals:
     void createDocWithViewType(QString);

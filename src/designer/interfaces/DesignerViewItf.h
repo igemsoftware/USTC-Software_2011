@@ -1,26 +1,26 @@
 //! \file DesignerViewItf.h
 //! Lachesis Designer View Common Interface
 
-#ifndef DESIGNERVIEWITF_H
-#define DESIGNERVIEWITF_H
+#ifndef DesignerVIEWComponent_H
+#define DesignerVIEWComponent_H
 
 #include <QtCore>
 #include <QtGui>
 #include <QtScript>
 #include "common/utils/itemregistry/ItemRegistry.h"
 
-class DesignerModelItf;
+class DesignerModelComponent;
 class DesignerMainWnd;
 
 //! The abstract view class
-class DesignerViewItf : public QWidget
+class DesignerViewComponent : public QWidget
 {
     Q_OBJECT
 
     //constructor
 protected:
     //! Constructor for initialization, should be called by children class constructors.
-    DesignerViewItf(DesignerMainWnd* mainWnd, DesignerModelItf* model);
+    DesignerViewComponent(DesignerMainWnd* mainWnd, DesignerModelComponent* model);
 
     //frame
 public:
@@ -30,7 +30,7 @@ public:
     //model
 public:
     //! Pointer to the document this view presents.
-    DesignerModelItf* currentModel;
+    DesignerModelComponent* currentModel;
 
     //signals
 
@@ -63,7 +63,7 @@ public:
 public:
 
     //! Create a view.
-    static DesignerViewItf* createView(QString viewName, DesignerMainWnd* mainWnd, DesignerModelItf* model);
+    static DesignerViewComponent* createView(QString viewName, DesignerMainWnd* mainWnd, DesignerModelComponent* model);
     //! Retrieve the attributes of a view
     static QString getViewTitleByName(QString viewName);
     //! Retrieve the attributes of a view
@@ -72,6 +72,6 @@ public:
     static QMetaObject getViewMetaObjectByName(QString name);
 };
 
-Q_DECLARE_INTERFACE(DesignerViewItf, "com.ustcsoftware.Lachesis.ViewInterface/1.0")
+Q_DECLARE_INTERFACE(DesignerViewComponent, "com.ustcsoftware.Lachesis.ViewInterface/1.0")
 
-#endif // DESIGNERVIEWITF_H
+#endif // DesignerVIEWComponent_H

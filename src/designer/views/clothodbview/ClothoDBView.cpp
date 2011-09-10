@@ -2,8 +2,8 @@
 #include "ui_ClothoDBView.h"
 
 
-ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+ClothoDBView::ClothoDBView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::ClothoDBView)
 {
     ui->setupUi(this);

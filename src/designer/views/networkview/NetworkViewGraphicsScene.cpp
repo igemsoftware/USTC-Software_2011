@@ -61,7 +61,7 @@ void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
     refreshScriptValue();
 }
 
-void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
+void NetworkViewGraphicsScene::loadFromModel(DesignerModelComponent* model)
 {
 //    qDebug()<<model->getModel();
     this->clearScene();

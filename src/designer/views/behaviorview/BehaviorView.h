@@ -8,7 +8,7 @@ namespace Ui {
     class BehaviorView;
 }
 
-class BehaviorView : public DesignerViewItf
+class BehaviorView : public DesignerViewComponent
 {
     Q_OBJECT
 
@@ -19,7 +19,7 @@ public:
     double maxc;
     double maxt;   
 
-    Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~BehaviorView();
     void prepareToPlot();
     void initiate();
