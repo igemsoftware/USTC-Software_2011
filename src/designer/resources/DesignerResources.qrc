@@ -37,6 +37,8 @@
         <file>assemblyview/icon_rbs.png</file>
         <file>assemblyview/icon_term.png</file>
         <file>assemblyview/icon_protein.png</file>
+        <file>networkview/generate.png</file>
+        <file>networkview/modify.png</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>
