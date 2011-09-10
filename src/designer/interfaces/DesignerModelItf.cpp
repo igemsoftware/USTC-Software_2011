@@ -43,24 +43,3 @@ DesignerModelComponent* DesignerModelComponent::createModel
     return NULL;
 }
 
-DesignerModelComponent::modelObjectIndex
-DesignerModelComponent::createModelObject(modelObjectIndex parent, void* data)
-{
-    return 1;
-}
-
-void DesignerModelComponent::removeModelObject(modelObjectIndex index)
-{
-
-}
-
-void DesignerModelComponent::setModelObjectProperty(modelObjectIndex index, QString propertyName, QString value)
-{
-}
-
-QString DesignerModelComponent::getModelObjectProperty(modelObjectIndex index, QString propertyName)
-{
-    return "";
-}
-
-
