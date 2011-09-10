@@ -43,7 +43,6 @@ SOURCES +=\
     src/designer/views/clothodbview/ClothoDBView.cpp \
     src/designer/interfaces/DesignerViewItf.cpp \
     src/designer/interfaces/DesignerModelItf.cpp \
-    src/designer/interfaces/DesignerExtensionItf.cpp \
     src/designer/interfaces/DesignerDocItf.cpp \
     src/designer/views/webpageview/WebPageView.cpp \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp \
@@ -83,7 +82,12 @@ SOURCES +=\
     src/designer/views/networkview/NetworkViewReactionEditor.cpp \
     src/designer/views/networkview/NetworkViewSubstanceEditor.cpp \
     src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp \
-    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp
+    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp \
+    src/designer/common/componentmgr/DesignerViewMgr.cpp \
+    src/designer/common/componentmgr/DesignerModelMgr.cpp \
+    src/designer/common/componentmgr/DesignerDocMgr.cpp \
+    src/designer/common/componentmgr/DesignerExtensionMgr.cpp \
+    src/designer/interfaces/DesignerExtensionItf.cpp
 
 HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -126,7 +130,6 @@ HEADERS  += \
     src/designer/models/common/ModelFunction.h \
     src/designer/interfaces/DesignerViewItf.h \
     src/designer/interfaces/DesignerModelItf.h \
-    src/designer/interfaces/DesignerExtensionItf.h \
     src/designer/interfaces/DesignerDocItf.h \
     src/designer/common/utils/itemregistry/ItemRegistry.h \
     src/designer/interfaces/DesignerInterface.h \
@@ -167,7 +170,12 @@ HEADERS  += \
     src/designer/views/networkview/NetworkViewReactionEditor.h \
     src/designer/views/networkview/NetworkViewSubstanceEditor.h \
     src/designer/views/networkview/NetworkViewGraphicsSceneModification.h \
-    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h
+    src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h \
+    src/designer/common/componentmgr/DesignerViewMgr.h \
+    src/designer/common/componentmgr/DesignerModelMgr.h \
+    src/designer/common/componentmgr/DesignerExtensionMgr.h \
+    src/designer/common/componentmgr/DesignerDocMgr.h \
+    src/designer/interfaces/DesignerExtensionItf.h
 
 
 FORMS    += \

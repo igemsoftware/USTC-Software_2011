@@ -4,6 +4,5 @@
 #include "DesignerDocItf.h"
 #include "DesignerModelItf.h"
 #include "DesignerViewItf.h"
-#include "DesignerExtensionItf.h"
 
 #endif // DESIGNERINTERFACE_H
