@@ -176,6 +176,6 @@ DesignerModelComponent * DesignerDocComponent::getCurrentModel(QString modelName
 {
     if(currentModel)
         return currentModel;
-    return DesignerModelComponent::createModel(modelName, this);
+    return DesignerModelMgr::createModel(modelName, this);
 }
 

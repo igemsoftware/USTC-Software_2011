@@ -7,7 +7,6 @@
 #include "SBMLParser.h"
 #include "documents/common/designerxmldocwriter/DesignerXMLDocWriter.h"
 
-
 SBMLDoc::SBMLDoc() :
     DesignerDocComponent()
 {
@@ -58,7 +57,7 @@ bool SBMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelComponent::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 

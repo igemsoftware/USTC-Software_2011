@@ -49,7 +49,6 @@ bool DesignerApp::initApplication()
 
     DesignerViewComponent::initializeIfNotYet();
     DesignerDocComponent::initializeIfNotYet();
-    DesignerModelComponent::initializeIfNotYet();
 
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();

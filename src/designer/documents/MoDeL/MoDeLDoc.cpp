@@ -48,7 +48,7 @@ bool MoDeLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelComponent::createModel(tr("IGameModel"),this);
+    currentModel = DesignerModelMgr::createModel(tr("IGameModel"),this);
     if(!currentModel)
         return false;
 

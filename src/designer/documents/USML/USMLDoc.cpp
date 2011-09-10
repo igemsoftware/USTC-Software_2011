@@ -63,7 +63,7 @@ bool USMLDoc::loadFromFile(QFile& file)
         return false;
     }
 
-    currentModel = DesignerModelComponent::createModel(domDocElem.attribute("model"), this);
+    currentModel = DesignerModelMgr::createModel(domDocElem.attribute("model"), this);
     if(!currentModel)
         return false;
 

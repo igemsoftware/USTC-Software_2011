@@ -95,7 +95,7 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerMod
 void DesignerMainWnd::createModelWithView(QString viewName)
 {
     QString modelName = DesignerViewComponent::getViewDefaultModelByName(viewName);
-    currentModel = DesignerModelComponent::createModel(modelName);
+    currentModel = DesignerModelMgr::createModel(modelName);
     createView(viewName);
 }
 

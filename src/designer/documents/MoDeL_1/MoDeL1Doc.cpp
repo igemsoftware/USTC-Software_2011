@@ -57,7 +57,7 @@ bool MoDeL1Doc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelComponent::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 

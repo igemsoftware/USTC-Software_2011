@@ -52,7 +52,7 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelComponent::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
 

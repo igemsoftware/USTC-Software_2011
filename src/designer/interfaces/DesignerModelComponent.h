@@ -3,6 +3,8 @@
 
 #include "DesignerModelItf.h"
 
+#include "common/componentmgr/DesignerModelMgr.h"
+
 class DesignerModelComponent : public QObject,
                                 public DesignerModelItf
 {
@@ -13,11 +15,6 @@ class DesignerModelComponent : public QObject,
 protected:
     //! Constructor for initialization, should be called by children class constructors.
     explicit DesignerModelComponent(DesignerDocComponent *currentDoc);
-public:
-    //! Call this method to create a model object
-    //! \param modelName The name of the model, which should be the class name
-    //! \param currentDoc Set the document object at the same time. Useful when loading the model from a file.
-    static DesignerModelComponent* createModel(QString modelName, DesignerDocComponent *currentDoc = 0);
 
     //internal data
 protected:
@@ -88,24 +85,6 @@ public:
     {
         return modelEngine.evaluate(sourceCode, tr("lachesis_script.tmp"));
     }
-
-public:
-    struct ModelItfRegistryItem
-    {
-        const QMetaObject* metaObject;
-
-        ModelItfRegistryItem(const QMetaObject* m = 0)
-            : metaObject(m){}
-     };
-
-    //! The archive for model dynamic loading
-    typedef ItemRegistry<QString, ModelItfRegistryItem> ModelItfRegistry;
-
-public:
-    //! Initialization(dynamic loading).
-    static void initializeIfNotYet();
-
-
 };
 
 
