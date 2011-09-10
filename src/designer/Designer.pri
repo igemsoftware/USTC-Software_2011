@@ -82,7 +82,7 @@ SOURCES +=\
     src/designer/views/networkview/NetworkViewContainerEditor.cpp \
     src/designer/views/networkview/NetworkViewReactionEditor.cpp \
     src/designer/views/networkview/NetworkViewSubstanceEditor.cpp \
-    src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp
+    src/designer/views/networkview/NetworkViewGraphicsSceneModification.cpp \
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.cpp
 
 HEADERS  += \
@@ -166,7 +166,7 @@ HEADERS  += \
     src/designer/views/networkview/NetworkViewContainerEditor.h \
     src/designer/views/networkview/NetworkViewReactionEditor.h \
     src/designer/views/networkview/NetworkViewSubstanceEditor.h \
-    src/designer/views/networkview/NetworkViewGraphicsSceneModification.h
+    src/designer/views/networkview/NetworkViewGraphicsSceneModification.h \
     src/designer/documents/common/designerxmldocwriter/DesignerXMLDocWriter.h
 
 
