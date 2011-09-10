@@ -5,6 +5,11 @@
 #include "common/app/DesignerApp.h"
 #include "common/mainwnd/DesignerMainWnd.h"
 
+#include "common/componentmgr/DesignerDocMgr.h"
+#include "common/componentmgr/DesignerViewMgr.h"
+#include "common/componentmgr/DesignerModelMgr.h"
+#include "common/componentmgr/DesignerExtensionMgr.h"
+
 #include "interfaces/DesignerInterface.h"
 
 
@@ -35,10 +40,16 @@ bool DesignerApp::initApplication()
     dbIgame.setPassword("lovewin");
     dbIgame.open();
 
+    DesignerViewMgr::initializeIfNotYet();
+    DesignerDocMgr::initializeIfNotYet();
+    DesignerModelMgr::initializeIfNotYet();
+
+    DesignerExtensionMgr::initializeIfNotYet();
+
+
     DesignerViewItf::initializeIfNotYet();
     DesignerDocItf::initializeIfNotYet();
     DesignerModelItf::initializeIfNotYet();
-    DesignerExtensionItf::initializeIfNotYet();
 
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
