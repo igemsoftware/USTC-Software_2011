@@ -18,11 +18,11 @@
 #include "AssemblyPropertyWidget.h"
 #include "AssemblySearchWidget.h"
 
-class AssemblyView : public DesignerViewItf
+class AssemblyView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit AssemblyView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~AssemblyView();
 
     QString outputMoDeLText();

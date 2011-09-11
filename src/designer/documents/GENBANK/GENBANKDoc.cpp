@@ -1,6 +1,6 @@
 #include "GENBANKDocParser.h"
 GENBANKDoc::GENBANKDoc():
-        DesignerDocItf()
+        DesignerDocComponent()
 {
 
 }
@@ -22,7 +22,7 @@ bool GENBANKDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
     GENBANKDocParser parser;

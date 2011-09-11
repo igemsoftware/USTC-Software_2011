@@ -175,7 +175,10 @@ HEADERS  += \
     src/designer/common/componentmgr/DesignerModelMgr.h \
     src/designer/common/componentmgr/DesignerExtensionMgr.h \
     src/designer/common/componentmgr/DesignerDocMgr.h \
-    src/designer/interfaces/DesignerExtensionItf.h
+    src/designer/interfaces/DesignerExtensionItf.h \
+    src/designer/interfaces/DesignerDocComponent.h \
+    src/designer/interfaces/DesignerModelComponent.h \
+    src/designer/interfaces/DesignerViewComponent.h
 
 
 FORMS    += \

@@ -26,14 +26,14 @@ public slots:
     void createModelWithView(QString viewName);
 
 
-    DesignerDocItf * getCurrentDoc(QString defaultDocType = QString());
+    DesignerDocComponent * getCurrentDoc(QString defaultDocType = QString());
 
 public:
     QWidget* getPanelWidget(QString panelName);
 
 public:
     void createView(QString viewName, bool isProtected = false);
-    void createView(QString viewName, bool isProtected, DesignerModelItf* model);
+    void createView(QString viewName, bool isProtected, DesignerModelComponent* model);
 
 protected:
     virtual void resizeEvent ( QResizeEvent * event );
@@ -45,9 +45,9 @@ public:
     void removeTabWithClass(QString className);
 
 private:
-    DesignerModelItf* currentModel;
+    DesignerModelComponent* currentModel;
 public:
-    DesignerModelItf* getCurrentModel() { return currentModel; }
+    DesignerModelComponent* getCurrentModel() { return currentModel; }
 private:
     Ui::DesignerMainWnd *ui;
 

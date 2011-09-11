@@ -26,7 +26,7 @@ public:
     static void initializeIfNotYet();
 
 public:
-    static DesignerDocItf* createEmptyDoc(QString docName, DesignerModelItf* model = NULL);
+    static DesignerDocComponent* createEmptyDoc(QString docName, DesignerModelComponent* model = NULL);
     static bool isDocTypeSaveSupported(QString docName);
     static QString getDocTypeTitle(QString docName);
     static QString getDocTypeFilter(QString docName);

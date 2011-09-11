@@ -11,7 +11,7 @@ class DesignerXMLDocWriter
 {
 public:
     DesignerXMLDocWriter(QString prototype_file_nae);
-    QDomDocument *WriteDoc( DesignerModelItf *model);
+    QDomDocument *WriteDoc( DesignerModelComponent *model);
 
 private:
     QDomDocument rule_xml;

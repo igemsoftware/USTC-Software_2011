@@ -11,10 +11,10 @@
 #include "documents/USML/USMLDoc.h"
 
 #define LACHESIS_DECLARE_DOCUMENT(className, supportSave, titleText, filterText) \
-    DesignerDocItf::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
-    DesignerDocItf::DocItfRegistryItem(& className ::staticMetaObject, supportSave, titleText, filterText))
+    DesignerDocComponent::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
+    DesignerDocComponent::DocItfRegistryItem(& className ::staticMetaObject, supportSave, titleText, filterText))
 
-void DesignerDocItf::initializeIfNotYet()
+void DesignerDocComponent::initializeIfNotYet()
 {
     static bool initialized = false;
     if(!initialized)
@@ -32,7 +32,7 @@ void DesignerDocItf::initializeIfNotYet()
     }
 }
 
-DesignerDocItf::DesignerDocItf() :
+DesignerDocComponent::DesignerDocComponent() :
     QObject(NULL) ,
     currentModel(NULL)
 {
@@ -40,7 +40,7 @@ DesignerDocItf::DesignerDocItf() :
 }
 
 
-bool DesignerDocItf::loadFromDiskFile(QString fileName)
+bool DesignerDocComponent::loadFromDiskFile(QString fileName)
 {
     QFile file(fileName);
     bool isReadOnly = false;
@@ -58,13 +58,13 @@ bool DesignerDocItf::loadFromDiskFile(QString fileName)
         this->documentFileInfo = QFileInfo(file);
         this->readOnly = isReadOnly;
         getCurrentModel()->setModified(false);
-        getCurrentModel()->requestUpdate(DesignerModelItf::updateByStorage);
+        getCurrentModel()->requestUpdate(DesignerModelComponent::updateByStorage);
     }
 
     return retValue;
 }
 
-bool DesignerDocItf::saveToDiskFile(QString fileName)
+bool DesignerDocComponent::saveToDiskFile(QString fileName)
 {
     QFile file(fileName);
     if(file.exists()&&!file.remove()) return false;
@@ -75,18 +75,18 @@ bool DesignerDocItf::saveToDiskFile(QString fileName)
         this->documentFileInfo = QFileInfo(file);
         this->readOnly = false;
         getCurrentModel()->setModified(false);
-        getCurrentModel()->requestUpdate(DesignerModelItf::updateByStorage);
+        getCurrentModel()->requestUpdate(DesignerModelComponent::updateByStorage);
     }
 
     return retValue;
 }
 
-bool DesignerDocItf::updateFile()
+bool DesignerDocComponent::updateFile()
 {
     return saveToDiskFile(documentFileInfo.absoluteFilePath());
 }
 
-const QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathName)
+const QMetaObject* DesignerDocComponent::getBestFitDocumentTypeForFile(QString pathName)
 {
     const size_t arraySize = DocItfRegistry::count();
     struct fitStatusStucture
@@ -97,7 +97,7 @@ const QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathNam
     size_t bestFit = arraySize;
     for(size_t i=0;i<arraySize;i++)
     {
-        DesignerDocItf* newDocument = (DesignerDocItf*)DocItfRegistry::item(i).metaObject->newInstance();
+        DesignerDocComponent* newDocument = (DesignerDocComponent*)DocItfRegistry::item(i).metaObject->newInstance();
         QFile file(pathName);
         retValues[i].extent = newDocument->checkIfFileFitsDocumentType(file);
 
@@ -117,12 +117,12 @@ const QMetaObject* DesignerDocItf::getBestFitDocumentTypeForFile(QString pathNam
     return retValues[bestFit].metaObject;
 }
 
-DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName, DesignerModelItf* model)
+DesignerDocComponent* DesignerDocComponent::createEmptyDoc(QString docName, DesignerModelComponent* model)
 {
     DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
     if(metaObj.metaObject)
     {
-        DesignerDocItf* newDoc = dynamic_cast<DesignerDocItf*>
+        DesignerDocComponent* newDoc = dynamic_cast<DesignerDocComponent*>
                 (metaObj.metaObject->newInstance());
         if(newDoc)
             newDoc->currentModel=model;
@@ -132,7 +132,7 @@ DesignerDocItf* DesignerDocItf::createEmptyDoc(QString docName, DesignerModelItf
     return NULL;
 }
 
-bool DesignerDocItf::isDocTypeSaveSupported(QString docName)
+bool DesignerDocComponent::isDocTypeSaveSupported(QString docName)
 {
     DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
     if(metaObj.metaObject)
@@ -141,7 +141,7 @@ bool DesignerDocItf::isDocTypeSaveSupported(QString docName)
     return false;
 }
 
-QString DesignerDocItf::getDocTypeTitle(QString docName)
+QString DesignerDocComponent::getDocTypeTitle(QString docName)
 {
     DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
     if(metaObj.metaObject)
@@ -150,7 +150,7 @@ QString DesignerDocItf::getDocTypeTitle(QString docName)
     return QString();
 }
 
-QString DesignerDocItf::getDocTypeFilter(QString docName)
+QString DesignerDocComponent::getDocTypeFilter(QString docName)
 {
     DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
     if(metaObj.metaObject)
@@ -159,7 +159,7 @@ QString DesignerDocItf::getDocTypeFilter(QString docName)
     return QString();
 }
 
-QStringList DesignerDocItf::getDocTypeList()
+QStringList DesignerDocComponent::getDocTypeList()
 {
     QStringList docTypeList;
     for(int i = 0; i < DocItfRegistry::count(); i++)
@@ -172,10 +172,10 @@ QStringList DesignerDocItf::getDocTypeList()
     return docTypeList;
 }
 
-DesignerModelItf * DesignerDocItf::getCurrentModel(QString modelName)
+DesignerModelComponent * DesignerDocComponent::getCurrentModel(QString modelName)
 {
     if(currentModel)
         return currentModel;
-    return DesignerModelItf::createModel(modelName, this);
+    return DesignerModelMgr::createModel(modelName, this);
 }
 

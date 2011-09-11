@@ -173,7 +173,7 @@ void DesignerXMLDocWriter::PrependTagName(QDomElement elem)
     }
 }
 
-QDomDocument *DesignerXMLDocWriter::WriteDoc(DesignerModelItf *model)
+QDomDocument *DesignerXMLDocWriter::WriteDoc(DesignerModelComponent *model)
 {
     if( disabled )
     {

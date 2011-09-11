@@ -1,8 +1,8 @@
 #include "ReactionNetwork.h"
 #include "ReactionNetworkDataTypes.h"
 
-ReactionNetworkModel::ReactionNetworkModel(DesignerDocItf *newDoc) :
-    DesignerModelItf(newDoc)
+ReactionNetworkModel::ReactionNetworkModel(DesignerDocComponent *newDoc) :
+    DesignerModelComponent(newDoc)
 {
 }
 

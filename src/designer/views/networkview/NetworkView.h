@@ -10,13 +10,13 @@
 namespace Ui {
     class NetworkView;
 }
-class NetworkView : public DesignerViewItf
+class NetworkView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
     QPushButton *linebutton;
     QPushButton *modbutton;
-    Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~NetworkView();
 //protected:
 //    QGraphicsView* graphicsView;

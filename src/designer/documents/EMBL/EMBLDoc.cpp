@@ -1,6 +1,6 @@
 #include "EMBLDocParser.h"
 EMBLDoc::EMBLDoc():
-        DesignerDocItf()
+        DesignerDocComponent()
 {
 
 }
@@ -22,7 +22,7 @@ bool EMBLDoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
     EMBLDocParser parser;

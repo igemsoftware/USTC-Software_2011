@@ -6,7 +6,7 @@
 class MoDeL1Parser : public DesignerXMLDocParser
 {
 public:
-    bool parse(DesignerModelItf* model, QDomDocument& elem);
+    bool parse(DesignerModelComponent* model, QDomDocument& elem);
 
 };
 

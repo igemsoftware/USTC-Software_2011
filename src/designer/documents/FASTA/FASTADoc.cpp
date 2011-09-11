@@ -2,7 +2,7 @@
 #include "FASTADocParser.h"
 
 FASTADoc::FASTADoc():
-        DesignerDocItf()
+        DesignerDocComponent()
 {
 }
 FASTADoc::~FASTADoc()
@@ -23,7 +23,7 @@ bool FASTADoc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("SyntheticBiologicalPartModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
     if(!currentModel)
         return false;
     FASTADocParser parser;

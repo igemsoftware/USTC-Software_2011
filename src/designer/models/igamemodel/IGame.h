@@ -3,11 +3,11 @@
 
 #include "interfaces/DesignerModelItf.h"
 
-class IGameModel : public DesignerModelItf
+class IGameModel : public DesignerModelComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit IGameModel(DesignerDocItf *newDoc);
+    Q_INVOKABLE explicit IGameModel(DesignerDocComponent *newDoc);
 
     virtual QStringList getSupportedViewList() const;
     virtual QStringList getSupportedDocumentList() const;

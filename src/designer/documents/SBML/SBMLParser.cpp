@@ -5,7 +5,7 @@
 
 #include "SBMLParser.h"
 
-bool SBMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool SBMLParser::parse(DesignerModelComponent* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));

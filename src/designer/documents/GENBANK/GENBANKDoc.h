@@ -4,7 +4,7 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class GENBANKDoc : public DesignerDocItf
+class GENBANKDoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

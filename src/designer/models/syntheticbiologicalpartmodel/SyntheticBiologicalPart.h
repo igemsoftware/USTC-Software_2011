@@ -3,11 +3,11 @@
 
 #include "interfaces/DesignerModelItf.h"
 
-class SyntheticBiologicalPartModel : public DesignerModelItf
+class SyntheticBiologicalPartModel : public DesignerModelComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit SyntheticBiologicalPartModel(DesignerDocItf *newDoc);
+    Q_INVOKABLE explicit SyntheticBiologicalPartModel(DesignerDocComponent *newDoc);
 
     virtual QStringList getSupportedViewList() const;
     virtual QStringList getSupportedDocumentList() const;

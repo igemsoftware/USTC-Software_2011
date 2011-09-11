@@ -65,8 +65,8 @@ Plot::Plot(QWidget* parent)
 }
 
 
-Plot3DView::Plot3DView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model)
+Plot3DView::Plot3DView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model)
 {
     plot = new Plot(this);
     plot->move(0, 0);

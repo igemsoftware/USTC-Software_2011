@@ -3,8 +3,8 @@
 
 #include "common/mainwnd/DesignerMainWnd.h"
 
-WelcomeView::WelcomeView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+WelcomeView::WelcomeView(DesignerMainWnd* mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::WelcomeView)
 {
     ui->setupUi(this);

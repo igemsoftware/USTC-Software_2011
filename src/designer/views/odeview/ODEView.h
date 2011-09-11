@@ -5,11 +5,11 @@
 
 class QtMmlWidget;
 
-class ODEView : public DesignerViewItf
+class ODEView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit ODEView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit ODEView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
 
     void resizeEvent ( QResizeEvent * event );
 

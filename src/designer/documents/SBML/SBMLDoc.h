@@ -5,7 +5,7 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class SBMLDoc : public DesignerDocItf
+class SBMLDoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

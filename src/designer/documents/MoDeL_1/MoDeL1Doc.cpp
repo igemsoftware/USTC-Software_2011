@@ -8,7 +8,7 @@
 
 
 MoDeL1Doc::MoDeL1Doc() :
-    DesignerDocItf()
+    DesignerDocComponent()
 {
 
 }
@@ -57,7 +57,7 @@ bool MoDeL1Doc::loadFromFile(QFile& file)
     {
         currentModel->deleteLater();
     }
-    currentModel = DesignerModelItf::createModel(tr("ReactionNetworkModel"), this);
+    currentModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), this);
     if(!currentModel)
         return false;
 
@@ -74,7 +74,7 @@ bool MoDeL1Doc::loadFromFile(QFile& file)
     bool retValue = parser.parse(currentModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelItf::updateByData | DesignerModelItf::updateByStorage);
+        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
     return retValue;
 }

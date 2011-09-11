@@ -5,7 +5,7 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class USMLDoc : public DesignerDocItf
+class USMLDoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

@@ -70,7 +70,7 @@ void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
         emit this->selectionChanged();
 }
 
-void NetworkViewGraphicsScene::loadFromModel(DesignerModelItf* model)
+void NetworkViewGraphicsScene::loadFromModel(DesignerModelComponent* model)
 {
 //    qDebug()<<model->getModel();
     this->clearScene();

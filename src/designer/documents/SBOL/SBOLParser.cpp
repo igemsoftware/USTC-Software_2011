@@ -5,7 +5,7 @@
 
 #include "SBOLParser.h"
 
-bool SBOLParser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool SBOLParser::parse(DesignerModelComponent* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));

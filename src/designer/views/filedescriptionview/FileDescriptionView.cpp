@@ -3,8 +3,8 @@
 #include "common/mainwnd/DesignerMainWnd.h"
 #include "interfaces/DesignerInterface.h"
 
-FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::FileDescriptionView)
 {
     ui->setupUi(this);
@@ -12,7 +12,7 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
     QStringList viewList = mainWnd->getCurrentModel()->getSupportedViewList();
     for(int i=0;i<viewList.count();i++)
     {
-        QListWidgetItem *newItem = new QListWidgetItem(DesignerViewItf::getViewTitleByName(viewList[i]));
+        QListWidgetItem *newItem = new QListWidgetItem(DesignerViewComponent::getViewTitleByName(viewList[i]));
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }    
@@ -49,7 +49,7 @@ void FileDescriptionView::storageUpdated()
 	ui->labelLastModified->setText(tr("<Not saved>"));
 	ui->labelLastRead->setText(tr("<Not saved>"));
     }
-    ui->labelFileType->setText(DesignerDocItf::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
+    ui->labelFileType->setText(DesignerDocComponent::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
 }
 
 void FileDescriptionView::on_listViews_itemClicked(QListWidgetItem *item)

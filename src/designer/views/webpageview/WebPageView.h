@@ -4,11 +4,11 @@
 #include "interfaces/DesignerViewItf.h"
 
 
-class WebPageView : public DesignerViewItf
+class WebPageView : public DesignerViewComponent
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE explicit WebPageView(DesignerMainWnd *mainWnd, DesignerModelItf* model);
+    Q_INVOKABLE explicit WebPageView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
 
 signals:
 

@@ -4,11 +4,11 @@
 #include <QtCore>
 #include "common/utils/itemregistry/ItemRegistry.h"
 
+class DesignerDocComponent;
+class DesignerModelComponent;
+
 class DesignerModelMgr
 {
-public:
-    DesignerModelMgr();
-
 public:
     struct ModelItfRegistryItem
     {
@@ -24,6 +24,11 @@ public:
 public:
     //! Initialization(dynamic loading).
     static void initializeIfNotYet();
+public:
+    //! Call this method to create a model object
+    //! \param modelName The name of the model, which should be the class name
+    //! \param currentDoc Set the document object at the same time. Useful when loading the model from a file.
+    static DesignerModelComponent* createModel(QString modelName, DesignerDocComponent *currentDoc = 0);
 
 };
 

@@ -5,7 +5,7 @@
 
 #include "RSBPMLParser.h"
 
-bool RSBPMLParser::parse(DesignerModelItf* model, QDomDocument& doc)
+bool RSBPMLParser::parse(DesignerModelComponent* model, QDomDocument& doc)
 {
 	QList<parseTask> taskList;
 	taskList.push_back(parseTask(QDomElement(), model->getEngine()->globalObject(), 0));

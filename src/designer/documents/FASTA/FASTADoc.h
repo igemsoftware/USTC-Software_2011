@@ -4,7 +4,7 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class FASTADoc : public DesignerDocItf
+class FASTADoc : public DesignerDocComponent
 {
     Q_OBJECT
 public:

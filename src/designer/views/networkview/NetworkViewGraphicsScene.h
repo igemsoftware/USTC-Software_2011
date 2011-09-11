@@ -28,7 +28,7 @@ public:
     explicit NetworkViewGraphicsScene(QObject *parent = 0);
     void clearScene();
     void keyPressEvent(QKeyEvent *event);
-    void loadFromModel(DesignerModelItf* model);
+    void loadFromModel(DesignerModelComponent* model);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);

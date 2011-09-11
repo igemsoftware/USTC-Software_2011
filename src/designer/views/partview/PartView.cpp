@@ -7,8 +7,8 @@
 #include "common/mainwnd/DesignerMainWnd.h"
 #include "documents/common/designerpartdocparser/DesignerPartDocParser.h"
 
-PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
-    DesignerViewItf(mainWnd, model),
+PartView::PartView(DesignerMainWnd *mainWnd, DesignerModelComponent *model) :
+    DesignerViewComponent(mainWnd, model),
     ui(new Ui::PartView)
 {
     ui->setupUi(this);

@@ -6,7 +6,7 @@
 class USMLParser : public DesignerXMLDocParser
 {
 public:
-    bool parse(DesignerModelItf* model, QDomDocument& elem);
+    bool parse(DesignerModelComponent* model, QDomDocument& elem);
 
 };
 
