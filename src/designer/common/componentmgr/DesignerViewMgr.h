@@ -5,12 +5,10 @@
 #include "interfaces/DesignerViewItf.h"
 #include "common/utils/itemregistry/ItemRegistry.h"
 
+class DesignerViewComponent;
+
 class DesignerViewMgr
 {
-public:
-    DesignerViewMgr();
-
-
 public:
     struct ViewItfRegistryItem
     {
@@ -27,6 +25,17 @@ public:
 public:
     //! Initialization(dynamic loading).
     static void initializeIfNotYet();
+
+public:
+
+    //! Create a view.
+    static DesignerViewComponent* createView(QString viewName, DesignerMainWnd* mainWnd, DesignerModelComponent* model);
+    //! Retrieve the attributes of a view
+    static QString getViewTitleByName(QString viewName);
+    //! Retrieve the attributes of a view
+    static QString getViewDefaultModelByName(QString viewName);
+    //! Retrieve the attributes of a view
+    static QMetaObject getViewMetaObjectByName(QString name);
 
 };
 

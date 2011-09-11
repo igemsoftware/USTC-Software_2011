@@ -76,11 +76,11 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected)
 void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerModelComponent* model)
 {
     DesignerViewComponent *view =
-            DesignerViewComponent::createView(viewName, this, model);
+            DesignerViewMgr::createView(viewName, this, model);
 
     if(view)
     {
-        int tabIndex = ui->tabWidget->addTab(view, DesignerViewComponent::getViewTitleByName(viewName));
+        int tabIndex = ui->tabWidget->addTab(view, DesignerViewMgr::getViewTitleByName(viewName));
         if(isProtected) ui->tabWidget->protectTab(tabIndex);
         ui->tabWidget->setCurrentIndex(tabIndex);
     }
@@ -94,7 +94,7 @@ void DesignerMainWnd::createView(QString viewName, bool isProtected, DesignerMod
 
 void DesignerMainWnd::createModelWithView(QString viewName)
 {
-    QString modelName = DesignerViewComponent::getViewDefaultModelByName(viewName);
+    QString modelName = DesignerViewMgr::getViewDefaultModelByName(viewName);
     currentModel = DesignerModelMgr::createModel(modelName);
     createView(viewName);
 }

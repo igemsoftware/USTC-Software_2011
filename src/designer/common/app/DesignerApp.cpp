@@ -46,10 +46,6 @@ bool DesignerApp::initApplication()
 
     DesignerExtensionMgr::initializeIfNotYet();
 
-
-    DesignerViewComponent::initializeIfNotYet();
-
-
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();
     setActivationWindow(mainWnd);
     QObject::connect(this, SIGNAL(messageReceived(const QString&)), mainWnd, SLOT(instanceMessageReceived(const QString&)));

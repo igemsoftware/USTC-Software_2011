@@ -12,7 +12,7 @@ FileDescriptionView::FileDescriptionView(DesignerMainWnd* mainWnd, DesignerModel
     QStringList viewList = mainWnd->getCurrentModel()->getSupportedViewList();
     for(int i=0;i<viewList.count();i++)
     {
-        QListWidgetItem *newItem = new QListWidgetItem(DesignerViewComponent::getViewTitleByName(viewList[i]));
+        QListWidgetItem *newItem = new QListWidgetItem(DesignerViewMgr::getViewTitleByName(viewList[i]));
         newItem->setData(1, (QVariant)viewList[i]);
         ui->listViews->addItem(newItem);
     }    

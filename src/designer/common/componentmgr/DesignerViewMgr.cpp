@@ -40,7 +40,35 @@ void DesignerViewMgr::initializeIfNotYet()
     }
 }
 
-
-DesignerViewMgr::DesignerViewMgr()
+DesignerViewComponent* DesignerViewMgr::createView
+        (QString viewName, DesignerMainWnd* mainWnd, DesignerModelComponent* model)
 {
+    initializeIfNotYet();
+    ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
+    if(metaObj.metaObject)
+        return dynamic_cast<DesignerViewComponent*>
+                (metaObj.metaObject->newInstance(Q_ARG(DesignerMainWnd*, mainWnd),
+                                                Q_ARG(DesignerModelComponent*, model)));
+
+    return NULL;
 }
+
+QString DesignerViewMgr::getViewTitleByName(QString viewName)
+{
+
+    ViewItfRegistryItem metaObj = ViewItfRegistry::find(viewName);
+    if(metaObj.metaObject->className()==viewName)
+        return metaObj.viewTitle;
+
+    return viewName;
+}
+
+QString DesignerViewMgr::getViewDefaultModelByName(QString viewName)
+{
+    return ViewItfRegistry::find(viewName).defaultModelName;
+}
+QMetaObject DesignerViewMgr::getViewMetaObjectByName(QString viewName)
+{
+    return *ViewItfRegistry::find(viewName).metaObject;
+}
+
