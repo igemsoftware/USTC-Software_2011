@@ -126,6 +126,17 @@
    <addaction name="actionHelpAboutApp"/>
    <addaction name="separator"/>
   </widget>
+  <widget class="QToolBar" name="featureToolBar">
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(220, 235, 246, 255));</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="styleSheet">
     <string notr="true">background-color: rgb(172, 172, 172);</string>

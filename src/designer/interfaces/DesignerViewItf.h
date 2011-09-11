@@ -17,6 +17,9 @@ class DesignerViewItf
 public:
     virtual void dataUpdated() = 0;
     virtual void storageUpdated() = 0;
+
+public:
+    virtual void updateFeatureToolbar(QToolBar*) = 0;
 };
 
 QT_BEGIN_NAMESPACE

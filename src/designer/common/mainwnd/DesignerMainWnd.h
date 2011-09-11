@@ -67,6 +67,7 @@ public:
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_actionFileSaveAs_triggered();
+    void on_tabWidget_currentChanged(QWidget *arg1);
 };
 
 #endif // DESIGNERMAINWND_H

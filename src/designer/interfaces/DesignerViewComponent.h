@@ -36,6 +36,9 @@ signals:
 public slots:
     virtual void dataUpdated(){}
     virtual void storageUpdated(){}
+
+public:
+    virtual void updateFeatureToolbar(QToolBar*){}
 };
 
 #endif // DESIGNERVIEWCOMPONENT_H

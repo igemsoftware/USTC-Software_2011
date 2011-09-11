@@ -333,3 +333,13 @@ void DesignerMainWnd::on_tabWidget_tabCloseRequested(int index)
     ui->tabWidget->removeTab(index);
     if( ui->tabWidget->count() == 0 ) this->close();
 }
+
+void DesignerMainWnd::on_tabWidget_currentChanged(QWidget *arg1)
+{
+    ui->featureToolBar->actions().clear();
+    DesignerViewItf *viewItf;
+    if(arg1 && (viewItf = qobject_cast<DesignerViewItf*>(arg1)))
+    {
+        viewItf->updateFeatureToolbar(ui->featureToolBar);
+    }
+}
