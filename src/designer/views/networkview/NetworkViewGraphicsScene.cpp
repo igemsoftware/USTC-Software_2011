@@ -343,6 +343,31 @@ void NetworkViewGraphicsScene::refreshScriptValue()
     model->getModel().setProperty("species", convertModelTypeToScriptValue(model->getEngine(),substances));
 }
 
+void NetworkViewGraphicsScene::wheelEvent(QGraphicsSceneWheelEvent *event)
+{
+    if( event->modifiers() == Qt::ControlModifier )
+    {
+        if( event->delta() > 0 )
+        {
+            foreach( QGraphicsView * view , views() )
+            {
+                view->scale( 1.1 , 1.1 );
+            }
+            event->accept();
+            return;
+        }else
+        {
+            foreach( QGraphicsView * view , views() )
+            {
+                view->scale( 1/1.1 , 1/1.1 );
+            }
+            event->accept();
+            return;
+        }
+    }
+    QGraphicsScene::wheelEvent(event);
+}
+
 void NetworkViewGraphicsScene::emitsignal()
 {
     emit selectionChanged();

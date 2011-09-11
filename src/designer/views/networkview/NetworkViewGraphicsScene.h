@@ -36,6 +36,7 @@ public:
     void removeItem(NetworkViewGraphicsItem *item);
     void refreshScriptValue();
     void emitsignal();
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
 
 signals:
 

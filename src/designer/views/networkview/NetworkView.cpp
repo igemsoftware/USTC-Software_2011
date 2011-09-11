@@ -77,7 +77,6 @@ NetworkView::NetworkView(DesignerMainWnd *mainWnd, DesignerModelItf *model) :
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(on_sceneSelectionChanged()));
     connect(scene,SIGNAL(setScriptValue()),this,SLOT(refreshWidget()));
-    emit on_sceneSelectionChanged();
 }
 
 NetworkView::~NetworkView()
