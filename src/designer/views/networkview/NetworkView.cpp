@@ -8,6 +8,8 @@
 #include "NetworkViewButton.h"
 #include "NetworkViewGraphicsSceneEdge.h"
 
+#include "common/app/DesignerApp.h"
+
 #include "interfaces/DesignerModelItf.h"
 #include "common/mainwnd/DesignerMainWnd.h"
 
@@ -184,4 +186,27 @@ void NetworkView::on_modButtonClicked()
 void NetworkView::refreshWidget()
 {
     emit updateSelectedItem(mainWindow->getCurrentModel()->getModel());
+}
+
+void NetworkView::updateFeatureToolbar(QToolBar *toolBar)
+{
+    QString copasiPath = DesignerApp::instance()->readConfigValue("externalapps", "CopasiPath", "").toString();
+    if(copasiPath.length())
+    {
+        QAction *actionInvokeCopasi;
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/designer/common/toolbar/common/applications/copasi.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        actionInvokeCopasi = toolBar->addAction(icon, "Copasi");
+        connect(actionInvokeCopasi, SIGNAL(triggered()), SLOT(on_invokeCopasi()));
+    }
+
+}
+
+void NetworkView::on_invokeCopasi()
+{
+    //Actually you should generate an sbml in temporary folder
+    //And invoke CopasiUI.exe with -i <filename>.
+    QString copasiPath = DesignerApp::instance()->readConfigValue("externalapps", "CopasiPath", "").toString();
+    QMessageBox(QMessageBox::NoIcon, "", copasiPath+"/bin/CopasiUI.exe").exec();
+    QProcess::execute(copasiPath+"/bin/CopasiUI.exe", QStringList());
 }

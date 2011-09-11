@@ -87,7 +87,7 @@ QVariant DesignerApp::readConfigValue(QString group, QString name, QVariant defa
 void DesignerApp::writeConfigValue(QString group, QString name, QVariant value)
 {
     QString fullGroupName = "designer";
-    if(!group.isNull())
+    if(group.length())
         fullGroupName+=".";
     fullGroupName+=group;
 

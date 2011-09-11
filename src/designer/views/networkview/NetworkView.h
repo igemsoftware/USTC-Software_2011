@@ -33,6 +33,11 @@ public slots:
     void on_lineButtonClicked();
     void on_modButtonClicked();
     void refreshWidget();
+
+    void on_invokeCopasi();
+
+public:
+    virtual void updateFeatureToolbar(QToolBar *toolBar);
 };
 
 #endif // NETWORKVIEW_H
