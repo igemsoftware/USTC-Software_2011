@@ -5,6 +5,8 @@
 #include "interfaces/DesignerDocItf.h"
 #include "common/utils/itemregistry/ItemRegistry.h"
 
+class DesignerDocComponent;
+
 class DesignerDocMgr
 {
 public:

@@ -102,7 +102,7 @@ void DesignerMainWnd::createModelWithView(QString viewName)
 void DesignerMainWnd::openFile(QString& fileName)
 {
     const QMetaObject* metaObject =
-            DesignerDocComponent::getBestFitDocumentTypeForFile(fileName);
+            DesignerDocMgr::getBestFitDocumentTypeForFile(fileName);
     if(!metaObject)
     {
         QMessageBox msgBox(QMessageBox::Critical,
@@ -185,7 +185,7 @@ void DesignerMainWnd::closeEvent(QCloseEvent *event)
 void DesignerMainWnd::saveFile(QString& fileName, QString docTypeName)
 {
     DesignerDocComponent* newDoc =
-            DesignerDocComponent::createEmptyDoc(docTypeName, getCurrentModel());
+            DesignerDocMgr::createEmptyDoc(docTypeName, getCurrentModel());
     if(newDoc)
     {
         DesignerDocComponent* oldDoc = currentModel->getCurrentDoc();
@@ -243,12 +243,12 @@ void DesignerMainWnd::on_actionFileNew_triggered()
 void DesignerMainWnd::on_actionFileOpen_triggered()
 {
     QFileDialog dlg(this, tr("Open File"));
-    QStringList doclist = DesignerDocComponent::getDocTypeList();
+    QStringList doclist = DesignerDocMgr::getDocTypeList();
     QStringList filterlist;
     filterlist<< "All Files (*.*)";
     for(int i=0;i<doclist.count();i++)
     {
-        filterlist << DesignerDocComponent::getDocTypeFilter(doclist[i]);
+        filterlist << DesignerDocMgr::getDocTypeFilter(doclist[i]);
     }
     dlg.setFileMode(QFileDialog::ExistingFile);
     dlg.setNameFilters(filterlist);
@@ -264,7 +264,7 @@ void DesignerMainWnd::on_actionFileSave_triggered()
     if(!getCurrentModel()) return;
     if(!getCurrentModel()->getCurrentDoc()||
             getCurrentModel()->getCurrentDoc()->isReadOnly()||
-            !DesignerDocComponent::isDocTypeSaveSupported(getCurrentModel()->getCurrentDoc()->metaObject()->className())
+            !DesignerDocMgr::isDocTypeSaveSupported(getCurrentModel()->getCurrentDoc()->metaObject()->className())
             )
     {
         on_actionFileSaveAs_triggered();
@@ -286,14 +286,14 @@ void DesignerMainWnd::on_actionFileSaveAs_triggered()
     QStringList filters;
     for(int i=0;i<doclist.count();i++)
     {
-        if(!DesignerDocComponent::isDocTypeSaveSupported(doclist[i]))
+        if(!DesignerDocMgr::isDocTypeSaveSupported(doclist[i]))
         {
             doclist.removeAt(i);
             i--;
         }
         else
         {
-            filters << DesignerDocComponent::getDocTypeFilter(doclist[i]);
+            filters << DesignerDocMgr::getDocTypeFilter(doclist[i]);
         }
     }
 

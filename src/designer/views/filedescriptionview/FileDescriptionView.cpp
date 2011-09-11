@@ -49,7 +49,7 @@ void FileDescriptionView::storageUpdated()
 	ui->labelLastModified->setText(tr("<Not saved>"));
 	ui->labelLastRead->setText(tr("<Not saved>"));
     }
-    ui->labelFileType->setText(DesignerDocComponent::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
+    ui->labelFileType->setText(DesignerDocMgr::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
 }
 
 void FileDescriptionView::on_listViews_itemClicked(QListWidgetItem *item)

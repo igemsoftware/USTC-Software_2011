@@ -3,6 +3,8 @@
 
 #include "DesignerDocItf.h"
 
+#include "common/componentmgr/DesignerDocMgr.h"
+
 class DesignerDocComponent : public QObject,
                              public DesignerDocItf
 {
@@ -42,11 +44,6 @@ public:
     //! \bug this should be moved to Model.
     // virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject) = 0;
 
-protected:
-    //! Retrieve data from this file. (implemented by subclasses)
-    virtual bool loadFromFile(QFile& file) = 0;
-    //! Dump data to this file. (implemented by subclasses)
-    virtual bool saveToFile(QFile& file) = 0;
 public:
     //! Retrieve data from file on disk.
     bool loadFromDiskFile(QString fileName);
@@ -56,34 +53,6 @@ public:
     bool updateFile();
 
 public:
-    struct DocItfRegistryItem
-    {
-        const QMetaObject*  metaObject;
-        bool  supportSave;
-        QString titleText;
-        QString filterText;
-
-        DocItfRegistryItem(const QMetaObject* m = 0, bool s = false, QString t = QString(), QString f = QString())
-            : metaObject(m), supportSave(s), titleText(t), filterText(f){}
-     };
-
-    //! The archive for document dynamic loading
-    typedef ItemRegistry<QString, DocItfRegistryItem> DocItfRegistry;
-public:
-    //! Initialization(dynamic loading).
-    static void initializeIfNotYet();
-
-public:
-    static DesignerDocComponent* createEmptyDoc(QString docName, DesignerModelComponent* model = NULL);
-    static bool isDocTypeSaveSupported(QString docName);
-    static QString getDocTypeTitle(QString docName);
-    static QString getDocTypeFilter(QString docName);
-    static QStringList getDocTypeList();
-
-    static const QMetaObject* getBestFitDocumentTypeForFile(QString pathName);
-
-
-private:
     static bool fitIsBetterThan(extentValue a, extentValue b)
     {
         if(a!=NOTACCEPTABLE && b==NOTACCEPTABLE) return TRUE;
@@ -93,7 +62,7 @@ private:
     }
 
 
-
+    friend class DesignerDocMgr;
 public slots:
 
 };

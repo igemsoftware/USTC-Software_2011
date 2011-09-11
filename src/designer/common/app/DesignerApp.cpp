@@ -48,7 +48,6 @@ bool DesignerApp::initApplication()
 
 
     DesignerViewComponent::initializeIfNotYet();
-    DesignerDocComponent::initializeIfNotYet();
 
 
     DesignerMainWnd* mainWnd = DesignerMainWnd::globalCreateNewMainWnd();

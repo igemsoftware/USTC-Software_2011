@@ -32,3 +32,90 @@ void DesignerDocMgr::initializeIfNotYet()
         LACHESIS_DECLARE_DOCUMENT(USMLDoc,      true , "USML File",     "*.xml *.usml");
     }
 }
+
+
+const QMetaObject* DesignerDocMgr::getBestFitDocumentTypeForFile(QString pathName)
+{
+    const size_t arraySize = DocItfRegistry::count();
+    struct fitStatusStucture
+    {
+        DesignerDocComponent::extentValue extent;
+        const QMetaObject* metaObject;
+    } retValues[arraySize];
+    size_t bestFit = arraySize;
+    for(size_t i=0;i<arraySize;i++)
+    {
+        DesignerDocComponent* newDocument = (DesignerDocComponent*)DocItfRegistry::item(i).metaObject->newInstance();
+        QFile file(pathName);
+        retValues[i].extent = newDocument->checkIfFileFitsDocumentType(file);
+
+        retValues[i].metaObject = DocItfRegistry::item(i).metaObject;
+
+        if((retValues[i].extent!=DesignerDocItf::NOTACCEPTABLE) &&
+                ( bestFit==arraySize ||
+                  DesignerDocComponent::fitIsBetterThan(retValues[i].extent, retValues[bestFit].extent)))
+        {
+            bestFit = i;
+        }
+    }
+    if(bestFit==arraySize)
+    {
+        return NULL;
+    }
+    return retValues[bestFit].metaObject;
+}
+
+DesignerDocComponent* DesignerDocMgr::createEmptyDoc(QString docName, DesignerModelComponent* model)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+    {
+        DesignerDocComponent* newDoc = dynamic_cast<DesignerDocComponent*>
+                (metaObj.metaObject->newInstance());
+        if(newDoc)
+            newDoc->currentModel=model;
+        return newDoc;
+    }
+
+    return NULL;
+}
+
+bool DesignerDocMgr::isDocTypeSaveSupported(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return metaObj.supportSave;
+
+    return false;
+}
+
+QString DesignerDocMgr::getDocTypeTitle(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return metaObj.titleText;
+
+    return QString();
+}
+
+QString DesignerDocMgr::getDocTypeFilter(QString docName)
+{
+    DocItfRegistryItem metaObj = DocItfRegistry::find(docName);
+    if(metaObj.metaObject)
+        return QObject::tr("%1 (%2)").arg(metaObj.titleText, metaObj.filterText);
+
+    return QString();
+}
+
+QStringList DesignerDocMgr::getDocTypeList()
+{
+    QStringList docTypeList;
+    for(int i = 0; i < DocItfRegistry::count(); i++)
+    {
+        if(DocItfRegistry::item(i).metaObject)
+        {
+            docTypeList<<DocItfRegistry::item(i).metaObject->className();
+        }
+    }
+    return docTypeList;
+}

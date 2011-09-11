@@ -3,6 +3,8 @@
 
 #include "DesignerViewItf.h"
 
+#include "common/componentmgr/DesignerViewMgr.h"
+
 //! The abstract view class
 class DesignerViewComponent : public QWidget
                             , public DesignerViewItf
