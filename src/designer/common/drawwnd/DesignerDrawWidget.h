@@ -17,11 +17,11 @@ public:
     QPoint currentPos;
     QColor myPenColor;
     QPoint lastPoint;
-    QVector<QPoint> *vc;
+    QVector<QPair<double,double> > *vc;
 
     void setPenColor(const QColor &newColor);
     void setPenWidth(int newWidth);
-    void evaluate(double maxc,double maxt,double deltat);
+    void evaluate(double maxc,double maxt,double deltat);    
     explicit DesignerDrawWidget(QWidget *parent = 0);
 
 
@@ -36,12 +36,13 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    void drawLineTo(const QPoint &endPoint);
-    void resizeImage(QImage *image, const QSize &newSize);
-
     bool modified;
     bool scribbling;
     int myPenWidth;
     QImage image;
+
+    void drawLineTo(const QPoint &endPoint);
+    void resizeImage(QImage *image, const QSize &newSize);
+    QPair<double,double> transCoordinate(QPoint p);
 };
 #endif // DESIGNERDRAWWIDGET_H

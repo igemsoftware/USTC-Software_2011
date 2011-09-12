@@ -17,7 +17,7 @@ public:
     double deltat;
     QPushButton *draw;
     QPoint currentPos;
-    QVector<QPoint> *vc;
+    QVector<QPair<double,double> > *vc;
     QColor myPenColor;
     QTableWidget *tab;
     QComboBox *cb;
@@ -39,13 +39,15 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    void drawLineTo(const QPoint &endPoint);
-    void resizeImage(QImage *image, const QSize &newSize);
 
     bool modified;
     bool scribbling;
     int myPenWidth;
     QImage image;
+
+    void drawLineTo(const QPoint &endPoint);
+    void resizeImage(QImage *image, const QSize &newSize);    
+    QPair<double,double> transCoordinate(QPoint p);
 };
 
 #endif // BEHAVIORVIEWPLOTWIDGET_H

@@ -41,7 +41,7 @@ QScriptValue NetworkViewGraphicsItem::getScriptValue(){ return itemObject; }
 void NetworkViewGraphicsItem::setScriptValue( QScriptValue & newScriptValue )
 {
     itemObject = newScriptValue;
-    displayName->setPlainText( itemObject.property("name").toString() );
+    displayName->setPlainText( itemObject.property("id").toString() );
     displayName->adjustSize();
     QRectF bound = mapRectToScene(boundingRect());
     foreach( NetworkViewGraphicsItem* child , children ) bound |= mapRectToScene(child->childrenBoundingRect());
@@ -125,7 +125,6 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsPixmapItem::mouseReleaseEvent(event);
-    this->registPos();
     if(dynamic_cast<NetworkViewGraphicsScene *>(scene()))
         dynamic_cast<NetworkViewGraphicsScene *>(scene())->emitsignal();
     if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))

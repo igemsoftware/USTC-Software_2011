@@ -21,10 +21,17 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2">
+   <item row="0" column="1">
     <widget class="QLineEdit" name="ID_edit">
      <property name="text">
       <string>reaction</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Kinetic law:</string>
      </property>
     </widget>
    </item>
@@ -35,12 +42,15 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
+   <item row="1" column="1">
     <widget class="QLineEdit" name="Name_edit">
      <property name="text">
       <string>reaction</string>
      </property>
     </widget>
+   </item>
+   <item row="1" column="2" rowspan="4">
+    <widget class="QtMmlWidget" name="widget" native="true"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
@@ -49,7 +59,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
+   <item row="2" column="1">
     <widget class="QLineEdit" name="Metaid_eidt">
      <property name="text">
       <string>NA</string>
@@ -63,7 +73,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2">
+   <item row="3" column="1">
     <widget class="QLineEdit" name="SBO_term">
      <property name="text">
       <string>NA</string>
@@ -77,7 +87,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="fast">
+     <property name="text">
+      <string>Fast</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -87,15 +104,16 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="fast">
-     <property name="text">
-      <string>Fast</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtMmlWidget</class>
+   <extends>QWidget</extends>
+   <header>lib/qtmmlwidget-2.4_1-opensource/src/qtmmlwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

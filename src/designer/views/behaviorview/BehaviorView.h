@@ -21,6 +21,7 @@ public:
 
     Q_INVOKABLE explicit BehaviorView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~BehaviorView();
+    virtual void updateFeatureToolbar(QToolBar *toolBar);
     void prepareToPlot();
     void initiate();
     void addnode();
@@ -46,6 +47,7 @@ private slots:
     void on_ResetButton_clicked();
     void on_ConcentrationEdit_editingFinished();
     void on_tabWidget_currentChanged(int index);
+    void showDialog();
 };
 
 #endif // BEHAVIORVIEW_H

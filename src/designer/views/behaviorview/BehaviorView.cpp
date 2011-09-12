@@ -19,8 +19,6 @@ BehaviorView::BehaviorView(DesignerMainWnd *mainWnd, DesignerModelComponent *mod
     this->initiate();
     ui->PlotWidget->installEventFilter(this);
 
-//    DesignerDrawWnd window;
-//    window.exec();
 }
 
 BehaviorView::~BehaviorView()
@@ -194,11 +192,11 @@ void BehaviorView::on_generatevalueButton_clicked()
     {
         ui->tableWidget_value->setItem(0,i+2,new QTableWidgetItem(QString::number(i*this->maxt/(this->times-1))));
     }
-    int j=int((ui->PlotWidget->vc->value(0).x()-30)*this->maxt/((ui->PlotWidget->size().width()-40)*this->maxt/(this->times-1)));
+    int j=int(ui->PlotWidget->vc->value(0).first*this->maxt/(this->times-1));
     for(int i=0;i<ui->PlotWidget->vc->count();i++)
     {
         ui->tableWidget_value->setItem(ui->comboBox->currentIndex()+1,j+i+2,new QTableWidgetItem
-        (QString::number(this->maxc-(ui->PlotWidget->vc->value(i).y()-10)*this->maxc/(ui->PlotWidget->size().height()-20))));
+        (QString::number(ui->PlotWidget->vc->value(i).second)));
     }
     ui->PlotWidget->vc->clear();
 }
@@ -267,4 +265,20 @@ void BehaviorView::keyPressEvent(QKeyEvent *key)
         this->on_pushButton_Delete_clicked();
     else if(key->key()==Qt::Key_Insert)
         this->addnode();
+}
+
+void BehaviorView::updateFeatureToolbar(QToolBar *toolBar)
+{
+//    QAction *draw;
+//    QIcon icon;
+//    icon.addFile(QString::fromUtf8(":/designer/common/toolbar/common/toolbar/draw.png"), QSize(), QIcon::Normal, QIcon::Off);
+//    draw = toolBar->addAction(icon, "draw");
+//    connect(draw, SIGNAL(triggered()), SLOT(showDialog()));
+    toolBar->addAction(*(new QIcon(":/designer/common/toolbar/common/toolbar/draw.png")), "draw", this, SLOT(showDialog()));
+}
+
+void BehaviorView::showDialog()
+{
+    DesignerDrawWnd window;
+    window.exec();
 }

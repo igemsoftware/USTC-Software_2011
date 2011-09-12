@@ -6,9 +6,10 @@ NetworkViewSubstanceEditor::NetworkViewSubstanceEditor(QScriptValue &value, QSet
     QDialog(parent),
     ui(new Ui::NetworkViewSubstanceEditor)
 {
-    ui->setupUi(this);
     this->property=value;
     this->idSpace=idSpace;
+
+    ui->setupUi(this);
     ui->ID_edit->setText(value.property("id").toString());
     ui->Metaid_eidt->setText(value.property("metaid").toString());
     ui->Name_edit->setText(value.property("name").toString());

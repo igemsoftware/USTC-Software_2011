@@ -6,7 +6,7 @@ BehaviorViewPlotWidget::BehaviorViewPlotWidget(QWidget *parent) :
     this->drawable=false;    
     this->myPenWidth=1;
     this->myPenColor=Qt::red;
-    this->vc=new QVector<QPoint>();
+    this->vc=new QVector<QPair<double,double> >();
 }
 void BehaviorViewPlotWidget::setPenColor(const QColor &newColor)
 {
@@ -49,12 +49,19 @@ void BehaviorViewPlotWidget::mouseMoveEvent(QMouseEvent *event)
             int y1=this->currentPos.y(),y2=event->pos().y();
             int x=index*deltax+30;
             int y=int((y1*x2+y2*x-y1*x-y2*x1)/(x2-x1));
-            QPoint *temp=new QPoint(x,y);
-            vc->append(*temp);
+            QPoint temp(x,y);
+            vc->append(transCoordinate(temp));
             index++;
         }
         this->currentPos=event->pos();
     }
+}
+
+QPair<double,double>  BehaviorViewPlotWidget::transCoordinate(QPoint p)
+{
+    double x=(p.x()-30.0)/(size().width()-40.0)*maxt;
+    double y=maxc-(p.y()-10.0)*maxc/(size().height()-20.0);
+    return *(new QPair<double,double>(x,y));
 }
 
 void BehaviorViewPlotWidget::mouseReleaseEvent(QMouseEvent *event)

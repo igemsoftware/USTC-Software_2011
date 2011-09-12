@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QScriptValue>
+#include <QtMmlWidget>
 
 namespace Ui {
     class NetworkViewReactionEditor;
@@ -13,6 +14,7 @@ class NetworkViewReactionEditor : public QDialog
     Q_OBJECT
 
 public:
+    QtMmlWidget *mml;
     QScriptValue property;
     QSet<QString> *idSpace;
     explicit NetworkViewReactionEditor(QScriptValue &value,QSet<QString> *idSpace,QWidget *parent = 0);

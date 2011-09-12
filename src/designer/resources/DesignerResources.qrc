@@ -56,6 +56,7 @@
         <file>common/toolbar/help-about.png</file>
         <file>common/toolbar/help-content.png</file>
         <file>common/applications/copasi.ico</file>
+        <file>common/toolbar/draw.png</file>
     </qresource>
     <qresource prefix="/designer/fileicons">
         <file>documents/blank.png</file>

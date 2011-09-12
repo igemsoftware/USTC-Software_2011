@@ -34,6 +34,7 @@ void NetworkViewGraphicsSceneNode::updatePos()
     {
         modList[i-1]->updatePos();
     }
+    this->registPos();
 }
 
 QVariant NetworkViewGraphicsSceneNode::itemChange(GraphicsItemChange change, const QVariant& value)

@@ -20,7 +20,8 @@ void NetworkViewGraphicsSceneContainer::updatePos()
     foreach(NetworkViewGraphicsItem *child,children)
     {
         dynamic_cast<NetworkViewGraphicsSceneNode *>(child)->updatePos();
-    }     
+    }
+    this->registPos();
 }
 
 QVariant NetworkViewGraphicsSceneContainer::itemChange(GraphicsItemChange change, const QVariant& value)
