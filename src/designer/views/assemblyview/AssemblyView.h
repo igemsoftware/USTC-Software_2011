@@ -27,8 +27,10 @@ public:
 
     QString outputMoDeLText();
 
+    virtual void updateFeatureToolbar(QToolBar * toobar);
 public slots:
     void igameDBRefresh();
+    void CallIGame();
 
 private:
     QToolBar * recentModule;

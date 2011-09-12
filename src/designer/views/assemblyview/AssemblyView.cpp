@@ -117,10 +117,6 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelComponent *mod
 
     AssemblyPropertyEditor::initializeOnce();
 
-
-    AssemblyDBEditor dialog;
-    dialog.exec();
-
     igameDBRefresh();
 }
 
@@ -146,4 +142,23 @@ void AssemblyView::igameDBRefresh()
 
     mainScene->igameDBRefresh();
     searchWidget->reload();
+}
+
+void AssemblyView::updateFeatureToolbar(QToolBar *toobar)
+{
+    QIcon text_icon(":/designer/assemblyview/text_editor.png");
+    toobar->addAction(text_icon, "Text", mainScene, SLOT(launchTextEditor()));
+    QIcon param_icon(":/designer/assemblyview/param_editor.png");
+    toobar->addAction(param_icon, "Param", mainScene, SLOT(requestParameterEdit()));
+    QIcon event_icon(":/designer/assemblyview/event_editor.png");
+    toobar->addAction(event_icon, "Event", mainScene, SLOT(requestEventEdit()));
+
+    toobar->addSeparator();
+    QIcon run_icon(":/designer/assemblyview/start.png");
+    toobar->addAction(run_icon, "Run", this, SLOT(CallIGame()));
+}
+
+void AssemblyView::CallIGame()
+{
+    QMessageBox::information(0,"",QFSFileEngine::tempPath());
 }

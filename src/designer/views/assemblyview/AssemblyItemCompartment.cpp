@@ -40,6 +40,7 @@ AssemblyItemCompartment::~AssemblyItemCompartment()
 
 bool AssemblyItemCompartment::addChild( QPointF scenePos , AssemblyItemBase * child )
 {
+    if( ((dynamic_cast<AssemblyItemMolecule*>(child) )||dynamic_cast<AssemblyItemPart*>(child)) && child->getScriptValue().property("compartment").toString() != scriptValue.property("type").toString() ) return false;
     if( ( dynamic_cast<AssemblyItemPlasmid*>(child) || dynamic_cast<AssemblyItemMolecule*>(child) ) && !childrenMap.contains( child->getId() ) )
     {
         if( AssemblyItemBase::addChild( scenePos , child ) )

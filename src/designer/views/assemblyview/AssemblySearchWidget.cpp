@@ -69,6 +69,7 @@ void AssemblySearchWidget::startDrag(QModelIndex index)
     QMimeData * mimeData = new QMimeData;
 
     copy->setProperty( "agent" , query->value( query->record().indexOf("id") ).toString() );
+    copy->setProperty( "compartment", compartmentCombo->currentText() );
     if( query->value( query->record().indexOf("type") ).toString().isEmpty()|| query->value( query->record().indexOf("type") ).toString() == "mol" )
     {
         copy->setProperty( "id" , "Molecule" );
