@@ -39,6 +39,10 @@
         <file>assemblyview/icon_protein.png</file>
         <file>networkview/generate.png</file>
         <file>networkview/modify.png</file>
+        <file>assemblyview/event_editor.png</file>
+        <file>assemblyview/param_editor.png</file>
+        <file>assemblyview/text_editor.png</file>
+        <file>assemblyview/start.png</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>

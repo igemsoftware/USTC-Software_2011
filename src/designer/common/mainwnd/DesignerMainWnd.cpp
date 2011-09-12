@@ -340,6 +340,7 @@ void DesignerMainWnd::on_tabWidget_currentChanged(QWidget *arg1)
     DesignerViewItf *viewItf;
     if(arg1 && (viewItf = qobject_cast<DesignerViewItf*>(arg1)))
     {
+        ui->featureToolBar->clear();
         viewItf->updateFeatureToolbar(ui->featureToolBar);
     }
 }

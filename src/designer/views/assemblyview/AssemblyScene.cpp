@@ -288,6 +288,11 @@ bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
             refreshScriptValue();
             return true;
         }
+        if( dynamic_cast<AssemblyItemCompartment*>(candidate) )
+        {
+            delete item;
+            return false;
+        }
     }
 
     if( dynamic_cast<AssemblyItemCompartment*>(item) || dynamic_cast<AssemblyItemMolecule*>(item) || dynamic_cast<AssemblyItemPlasmid*>(item) )

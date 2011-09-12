@@ -61,6 +61,11 @@ public:
     explicit AssemblyItemSizer( QGraphicsItem * parent = 0 );
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
+    virtual bool addChild(QPointF scenePos, AssemblyItemBase *child)
+    {
+        return false;
+    }
+
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
