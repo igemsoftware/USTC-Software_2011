@@ -1,6 +1,6 @@
 #include <QtXml>
 #include <QtScript>
-
+#include "DesignerDebug.h"
 #include "models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h"
 
 #include "RSBPMLDoc.h"
@@ -67,7 +67,6 @@ bool RSBPMLDoc::loadFromFile(QFile& file)
     RSBPMLParser parser;
 
     bool retValue = parser.parse(currentModel, domdoc);
-    qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
         currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);

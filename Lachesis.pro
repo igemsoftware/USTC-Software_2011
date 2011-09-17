@@ -6,6 +6,8 @@
 
 QT       += core gui script scripttools xml xmlpatterns webkit
 
+LIBS += -lsbml
+
 CONFIG(debug, debug|release) {
     TARGET = LachesisD
     config += debug
@@ -21,5 +23,5 @@ TEMPLATE = app
 DESTDIR = $$PWD/bin
 
 include($$PWD/lib/libs.pri)
-include($$PWD/src/designer/designer.pri)
+include($$PWD/src/designer/Designer.pri)
 

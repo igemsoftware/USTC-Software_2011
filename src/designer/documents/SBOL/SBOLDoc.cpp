@@ -72,7 +72,6 @@ bool SBOLDoc::loadFromFile(QFile& file)
     SBOLParser parser;
 
     bool retValue = parser.parse(currentModel, domdoc);
-    qDebug()<<currentModel->getEngine()->globalObject();
     if(retValue)
     {
         currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);

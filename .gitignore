@@ -12,3 +12,9 @@
 *.sln
 *.suo
 *.vcx*
+*.o
+moc_*.cpp
+Makefile
+qrc_*.cpp
+*.moc
+ui_*.h

@@ -87,7 +87,9 @@ SOURCES +=\
     src/designer/common/componentmgr/DesignerModelMgr.cpp \
     src/designer/common/componentmgr/DesignerDocMgr.cpp \
     src/designer/common/componentmgr/DesignerExtensionMgr.cpp \
-    src/designer/interfaces/DesignerExtensionItf.cpp
+    src/designer/interfaces/DesignerExtensionItf.cpp \
+    src/designer/views/paramfittingview/ParamFittingView.cpp \
+    src/designer/views/paramfittingview/SbmlOdeSolver.cpp
 
 HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -178,7 +180,10 @@ HEADERS  += \
     src/designer/interfaces/DesignerExtensionItf.h \
     src/designer/interfaces/DesignerDocComponent.h \
     src/designer/interfaces/DesignerModelComponent.h \
-    src/designer/interfaces/DesignerViewComponent.h
+    src/designer/interfaces/DesignerViewComponent.h \
+    src/designer/views/paramfittingview/ParamFittingView.h \
+    src/designer/views/paramfittingview/SbmlOdeSolver.h \
+    src/designer/views/paramfittingview/ParamFittingDef.h
 
 
 FORMS    += \
@@ -193,7 +198,8 @@ FORMS    += \
     src/designer/views/networkview/NetworkView.ui \
     src/designer/views/networkview/NetworkViewContainerEditor.ui \
     src/designer/views/networkview/NetworkViewReactionEditor.ui \
-    src/designer/views/networkview/NetworkViewSubstanceEditor.ui
+    src/designer/views/networkview/NetworkViewSubstanceEditor.ui \
+    src/designer/views/paramfittingview/ParamFittingView.ui
 
 RESOURCES += \
     resources/DesignerResources.qrc

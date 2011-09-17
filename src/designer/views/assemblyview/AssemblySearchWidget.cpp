@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "AssemblySearchWidget.h"
 #include "AssemblyLib.h"
 #include "AssemblyItemPart.h"
