@@ -14,7 +14,7 @@ AssemblyItemPart::~AssemblyItemPart()
 {
 }
 
-bool AssemblyItemPart::addChild(QPointF scenePos, AssemblyItemBase *child)
+bool AssemblyItemPart::addChild(QPointF pos, AssemblyItemBase *child)
 {
     return false;
 }
@@ -25,6 +25,9 @@ void AssemblyItemPart::setScriptValue(QScriptValue &newScriptValue)
     displayName->setPlainText( scriptValue.property("agent").toString() );
     displayName->setTextWidth( pixmap().rect().width() );
     displayName->setPos( ( pixmap().width() - displayName->textWidth() )/2 , pixmap().height() );
+
+    setDisplayImages( QObject::tr(":/designer/assemblyview/icon_%1.png").arg(newScriptValue.property("category").toString()),
+                      QObject::tr(":/designer/assemblyview/icon_%1.png").arg(newScriptValue.property("category").toString()) );
 }
 
 

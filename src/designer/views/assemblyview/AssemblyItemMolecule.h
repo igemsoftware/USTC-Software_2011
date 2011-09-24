@@ -14,7 +14,7 @@ public:
     explicit AssemblyItemMolecule( QScriptValue & newScriptValue , QGraphicsItem *parent = 0 );
     virtual ~AssemblyItemMolecule();
 
-    virtual bool addChild(QPointF scenePos, AssemblyItemBase *child);
+    virtual bool addChild(QPointF pos, AssemblyItemBase *child);
 };
 
 #endif // ASSEMBLYITEMMOLECULE_H

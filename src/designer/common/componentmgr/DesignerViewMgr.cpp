@@ -12,6 +12,7 @@
 #include "views/sbmleditorview/SBMLEditorView.h"
 #include "views/welcomeview/WelcomeView.h"
 #include "views/webpageview/WebPageView.h"
+#include "views/paramfittingview/ParamFittingView.h"
 
 
 #define LACHESIS_DECLARE_VIEW(className, titleString, modelName) \
@@ -37,6 +38,7 @@ void DesignerViewMgr::initializeIfNotYet()
         LACHESIS_DECLARE_VIEW(SBMLEditorView, "SBML Editor View", "ReactionNetworkModel");
         LACHESIS_DECLARE_VIEW(WelcomeView, "Welcome", "");
         LACHESIS_DECLARE_VIEW(WebPageView, "WebPageView", "");
+        //LACHESIS_DECLARE_VIEW(ParamFittingView, "Parameter Fitting View", "");
     }
 }
 

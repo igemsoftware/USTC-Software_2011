@@ -22,7 +22,7 @@ void DesignerDocMgr::initializeIfNotYet()
     {
         initialized = true;
         LACHESIS_DECLARE_DOCUMENT(SBMLDoc,      false, "SBML File",     "*.xml *.sbml");
-        LACHESIS_DECLARE_DOCUMENT(MoDeLDoc,     false, "MoDeL File",    "*.model");
+        LACHESIS_DECLARE_DOCUMENT(MoDeLDoc,     true, "MoDeL File",    "*.model");
         LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc,    false, "RSBPML File",   "*.xml *.rsbpml");
         LACHESIS_DECLARE_DOCUMENT(SBOLDoc,      false, "SBOL File",     "*.xml");
         LACHESIS_DECLARE_DOCUMENT(FASTADoc,     true, "FASTA File",    "*.xml *.fasta");

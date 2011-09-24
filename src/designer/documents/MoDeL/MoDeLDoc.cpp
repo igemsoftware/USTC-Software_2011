@@ -6,6 +6,7 @@
 
 #include "MoDeLDoc.h"
 #include "MoDeLDocParser.h"
+#include "views/assemblyview/AssemblyScene.h"
 
 
 MoDeLDoc::MoDeLDoc() :
@@ -60,7 +61,11 @@ bool MoDeLDoc::loadFromFile(QFile& file)
 
 bool MoDeLDoc::saveToFile(QFile& file)
 {
-    return false;
+    file.open(QFile::ReadWrite);
+    QTextStream stream(&file);
+    stream << AssemblyScene::outputMoDeLText(currentModel);
+    stream.flush();
+    return true;
 }
 
 QList<QString> MoDeLDoc::getSupportedViewList() const

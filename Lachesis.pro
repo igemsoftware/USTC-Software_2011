@@ -6,7 +6,8 @@
 
 QT       += core gui script scripttools xml xmlpatterns webkit
 
-LIBS += -lsbml
+#LIBS += -lgsl -lgslcblas
+#LIBS += -lsbml
 
 CONFIG(debug, debug|release) {
     TARGET = LachesisD

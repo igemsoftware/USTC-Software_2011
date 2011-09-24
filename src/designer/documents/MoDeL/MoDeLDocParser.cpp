@@ -22,51 +22,71 @@ bool MoDeLDocParser::parse(DesignerModelComponent& modelItf, QTextStream& fin )
     engine->globalObject().setProperty("model",root);
     QRegExp rx;
 
+    QSqlDatabase db = QSqlDatabase::database("igame");
+    QSqlQuery query(db);
+
     QList<QString> strListParameters;
     QList<QString> strListEvents;
-    QString strRootCompartment;
     QList<QString> strListCompartments;
+    QList<QString> strListSeedSpecies;
 
-    QSet<QString> parameterSet;
+    QString rootCompartmentId;
 
-    QScriptValue rootCompartment;
+    QSet<QString> idSpace;
+    QSet<QString> paramSpace;
+    QMap<QString,QScriptValue> compartmentMap;
+
     QScriptValueList paramList;
     QScriptValueList eventList;
 
-
     QString tmpLine = fin.readLine();
+    rx.setPattern("#.*$");
     while (!fin.atEnd()) {
-        if( tmpLine == "<Parameters>" )
+        tmpLine.remove(rx);
+        if( tmpLine == "<parameters>" )
         {
-            while( ( tmpLine = fin.readLine() ) != "<Parameters>" ) if( !tmpLine.startsWith("#") ) strListParameters.push_back(tmpLine);
-        }else if( tmpLine == "<Events>" )
-        {
-            while( ( tmpLine = fin.readLine() ) != "<Events>" ) if( !tmpLine.startsWith("#") ) strListEvents.push_back(tmpLine);
-        }else if( tmpLine.startsWith("<RootCompartment") )
-        {
-            strRootCompartment = tmpLine + '\n';
-            while( ( tmpLine = fin.readLine() ) != "<RootCompartment>" )
+            while( ( tmpLine = fin.readLine().remove(rx) ) != "</parameters>" )
             {
                 if( fin.atEnd() )
                 {
-                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark <RootCompartment> not found!" );
+                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark </parameters> is not presented!" );
                     return false;
                 }
-                if( !tmpLine.startsWith("#") ) strRootCompartment += tmpLine + '\n';
+                if( !tmpLine.simplified().remove(" ").isEmpty() ) strListParameters.push_back(tmpLine);
             }
-        }else if( tmpLine.startsWith("<ChildCompartment") )
+        }else if( tmpLine == "<events>" )
         {
-            QString tmpString = tmpLine + '\n';
-            while( ( tmpLine = fin.readLine() ) != "<ChildCompartment>" )
+            while( ( tmpLine = fin.readLine().remove(rx) ) != "</events>" )
             {
                 if( fin.atEnd() )
                 {
-                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark <ChildCompartment> not found!" );
+                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark </events> is not presented!" );
                     return false;
                 }
-                if( !tmpLine.startsWith("#") ) tmpString += tmpLine + '\n';
+                if( !tmpLine.simplified().remove(" ").isEmpty() ) strListEvents.push_back(tmpLine);
             }
-            strListCompartments.push_back(tmpString);
+        }else if( tmpLine.startsWith("<compartments>") )
+        {
+            while( ( tmpLine = fin.readLine().remove(rx) ) != "</compartments>" )
+            {
+                if( fin.atEnd() )
+                {
+                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark </compartments> is not presented!" );
+                    return false;
+                }
+                if( !tmpLine.simplified().remove(" ").isEmpty() ) strListCompartments.push_back(tmpLine);
+            }
+        }else if( tmpLine.startsWith("<seedspecies>") )
+        {
+            while( ( tmpLine = fin.readLine().remove(rx) ) != "</seedspecies>" )
+            {
+                if( fin.atEnd() )
+                {
+                    QMessageBox::critical( 0 , "Syntex Error!" , "Ending mark </seedspecies> is not presented!" );
+                    return false;
+                }
+                if( !tmpLine.simplified().remove(" ").isEmpty() ) strListSeedSpecies.push_back(tmpLine);
+            }
         }
         tmpLine = fin.readLine();
     }
@@ -74,16 +94,192 @@ bool MoDeLDocParser::parse(DesignerModelComponent& modelItf, QTextStream& fin )
     rx.setPattern("(\\w+)\\s+(.*)");
     foreach( QString strParam , strListParameters )
     {
-        if( rx.indexIn(strParam) > -1 )
+        if( rx.indexIn(strParam.simplified()) > -1 )
         {
             QScriptValue tmpParam = engine->newObject();
             tmpParam.setProperty("id", QScriptValue( rx.cap(1) ) );
-            tmpParam.setProperty("value" , QScriptValue( rx.cap(2).toDouble() ) );
+            tmpParam.setProperty("value" , QScriptValue( rx.cap(2) ) );
             paramList.push_back(tmpParam);
-            parameterSet.insert( rx.cap(1) );
+            //add id collision detection later
+            idSpace.insert( rx.cap(1) );
+            paramSpace.insert( rx.cap(1) );
         }
     }
     root.setProperty( "parameters" , convertModelTypeToScriptValue( engine , paramList ) );
+
+    foreach( QString strCompartment , strListCompartments )
+    {
+        QList<QString> list = strCompartment.simplified().split(" ");
+        if( list.size() < 3 )
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("(%1) is not a valid compartment definition").arg(strCompartment) );
+            return false;
+        }
+        QScriptValue compartment = engine->newObject();
+
+        compartment.setProperty("id", list[0]);
+        compartment.setProperty("*temp_parent*", list[1]);
+        compartment.setProperty("type", list[2]);
+        if( list.size() >= 4 )
+        {
+            if( !paramSpace.contains(list[3]) )
+            {
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("Parameter (%1) is not defined").arg(list[3]) );
+                return false;
+            }
+            compartment.setProperty("volume", list[3]);
+        }
+        if( list.size() >= 5 )
+        {
+            if( !paramSpace.contains(list[4]) )
+            {
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("Parameter (%1) is not defined").arg(list[4]) );
+                return false;
+            }
+            compartment.setProperty("population", list[4]);
+        }
+        idSpace.insert(list[0]);
+        compartmentMap.insert(list[0], compartment);
+    }
+
+    foreach( QString key, compartmentMap.keys() )
+    {
+        QScriptValue compartment = compartmentMap[key];
+        if( compartment.property("*temp_parent*").toString() == "ROOT" )
+        {
+            rootCompartmentId = key;
+        }
+    }
+    root.setProperty("rootCompartment", convertModelTypeToScriptValue(engine, compartmentMap[rootCompartmentId]));
+
+    QScriptValueList compartmentList;
+    foreach( QScriptValue compartment, compartmentMap.values() )
+    {
+        if( compartment.property("*temp_parent*").toString() == "ROOT" )
+        {
+            compartment.setProperty("*temp_parent*", QScriptValue() );
+            continue;
+        }
+        if( compartment.property("*temp_parent*").toString() != rootCompartmentId )
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("Tree structure of compartments with depth greater than 2 is not allowed") );
+            return false;
+        }
+        compartment.setProperty("*temp_parent*", QScriptValue() );
+        compartmentList.append(compartment);
+    }
+    root.setProperty("childCompartments", convertModelTypeToScriptValue(engine, compartmentList));
+
+    foreach( QString strSpecies, strListSeedSpecies )
+    {
+        QList<QString> list = strSpecies.simplified().split(" ");
+        if( list.size() < 4 )
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("(%1) is not a valid seed species definition!").arg(strSpecies) );
+            return false;
+        }
+        if( compartmentMap.find(list[0]) == compartmentMap.end() )
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("compartment (%1) required by species (%2) is not defined").arg(list[0]).arg(list[1]) );
+            return false;
+        }
+        rx.setPattern("^\\w+$");
+        if( rx.indexIn(list[1]) == -1 )
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid species id!") + list[1] );
+            return false;
+        }
+
+        QScriptValue species = engine->newObject();
+        species.setProperty("id",list[1]);
+        idSpace.insert(list[1]);
+
+        if( list[2].startsWith("d:") )
+        {
+            species.setProperty("type","plasmid");
+            QScriptValueList structure;
+            foreach( QString strPart , list[2].mid(2).split("-") )
+            {
+                rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
+                if( rx.indexIn(strPart) > -1 )
+                {
+                    QScriptValue part = engine->newObject();
+                    part.setProperty( "type" , "dna" );
+                    query.exec( QString("SELECT type FROM agents WHERE id = \'%1\'").arg(rx.cap(1)) );
+                    if( query.numRowsAffected() < 1 || (query.next(),query.value(0).toString().isEmpty() ) )
+                    {
+                        part.setProperty( "category" , "other" );
+                    }else{
+                        part.setProperty( "category" , query.value(0).toString() );
+                    }
+                    part.setProperty( "agent", QScriptValue( rx.cap(1) ) );
+                    part.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
+                    part.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
+                    structure.push_back(part);
+                }else{
+                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!\n") + strPart );
+                    return false;
+                }
+            }
+            species.setProperty( "structure" , convertModelTypeToScriptValue(engine,structure) );
+        }else if( list[2].startsWith("p:") )
+        {
+            species.setProperty("type","protein");
+            rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
+            if( rx.indexIn(list[2].mid(2)) > -1 )
+            {
+                species.setProperty( "agent", QScriptValue( rx.cap(1) ) );
+                species.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
+                species.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
+            }else{
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!\n") + list[2].mid(2) );
+                return false;
+            }
+        }else if( list[2].startsWith("nb:") )
+        {
+            species.setProperty("type","molecule");
+            rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
+            if( rx.indexIn(list[2].mid(3)) > -1 )
+            {
+                species.setProperty( "agent", QScriptValue( rx.cap(1) ) );
+                species.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
+                species.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
+            }else{
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!") + list[2].mid(2) );
+                return false;
+            }
+        }else
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid species structure!") + list[2] );
+            return false;
+        }
+
+        if( paramSpace.contains( list[3] ) )
+        {
+            species.setProperty( "initConcentration" , QScriptValue( list[3] ) );
+        }else{
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("Undefined parameter used: ") + list[3] );
+            return false;
+        }
+
+        species.setProperty( "constConcentration", QScriptValue(false) );
+        if( list.count() == 5 )
+        {
+            if( list[4] == "const" )
+            {
+                species.setProperty( "constConcentration", QScriptValue(true) );
+            }else{
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("Unknow term: ") + list[4] );
+                return false;
+            }
+        }
+
+        QScriptValue compartment = compartmentMap.find(list[0]).value();
+        QScriptValueList tmpSpeciesList;
+        qScriptValueToSequence(compartment.property("contains"), tmpSpeciesList);
+        tmpSpeciesList.append(species);
+        compartment.setProperty("contains", convertModelTypeToScriptValue(engine, tmpSpeciesList));
+    }
 
     foreach( QString strEvent , strListEvents )
     {
@@ -93,200 +289,25 @@ bool MoDeLDocParser::parse(DesignerModelComponent& modelItf, QTextStream& fin )
             QScriptValue tmpEvent = engine->newObject();
             tmpEvent.setProperty( "id" , QScriptValue( tmpList[0] ) );
             tmpEvent.setProperty( "condition" , QScriptValue( tmpList[1] ) );
-            if( tmpList[2].split("=").count()== 2 && parameterSet.contains( tmpList[2].split("=").at(1) ) )
+            if( tmpList[2].split("=").count()== 2 && paramSpace.contains( tmpList[2].split("=").at(1) ) && idSpace.contains( tmpList[2].split("=").at(0) ) )
             {
                 tmpEvent.setProperty( "variable" , QScriptValue( tmpList[2].split("=").at(0) ) );
                 tmpEvent.setProperty( "value" , QScriptValue( tmpList[2].split("=").at(1) ) );
                 eventList.push_back(tmpEvent);
+            }else
+            {
+                QMessageBox::critical( 0 , "Syntex Error!" , QString("(%1)\n is not a valid event definition!").arg(strEvent) );
+                return false;
             }
+        }else
+        {
+            QMessageBox::critical( 0 , "Syntex Error!" , QString("(%1)\n is not a valid event definition!").arg(strEvent) );
+            return false;
         }
     }
     root.setProperty( "events" , convertModelTypeToScriptValue( engine , eventList ) );
 
-    if( !readCompartment( engine , parameterSet , rootCompartment , strRootCompartment , "RootCompartment" ) )
-    {
-        return false;
-    }
-    root.setProperty("rootCompartment",rootCompartment);
-
-    QScriptValueList compartmentList;
-    foreach( QString strCompartment , strListCompartments )
-    {
-        QScriptValue compartment;
-        if( !readCompartment( engine , parameterSet , compartment , strCompartment , "ChildCompartment" ) )
-        {
-            return false;
-        }
-        compartmentList.push_back(compartment);
-    }
-    root.setProperty("childCompartments", convertModelTypeToScriptValue( engine , compartmentList ) );
 
     return true;
 }
 
-bool MoDeLDocParser::readCompartment( QScriptEngine * engine , QSet<QString> & parameterSet , QScriptValue & compartment , QString & strCompartment, QString tag )
-{
-    QRegExp rx;
-    QSqlDatabase db = QSqlDatabase::database("igame");
-    QSqlQuery query(db);
-    QString compartmentType;
-
-
-    compartment = engine->newObject();
-    QScriptValueList speciesList;
-    if( strCompartment.isEmpty() )
-    {
-        QMessageBox::critical( 0 , "Syntex Error!" , "Compartment is not defined!" );
-        return false;
-    }
-    foreach( QString line , strCompartment.split("\n",QString::SkipEmptyParts) )
-    {
-        if( line.startsWith( QString("<") + tag ) )
-        {
-            rx.setPattern("id=\"(\\w+)\"");
-            if( rx.indexIn(line) > -1 )
-            {
-                compartment.setProperty( "id" , QScriptValue( rx.cap(1) ) );
-            }else{
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Compartment Id not specified!\n") + line );
-                return false;
-            }
-
-
-            rx.setPattern("type=\"(\\w+)\"");
-            if( rx.indexIn(line) > -1 )
-            {
-                compartment.setProperty( "type" , QScriptValue( rx.cap(1) ) );
-                query.exec( QString("SELECT COUNT(id) FROM compartment WHERE id = \'%1\'").arg(rx.cap(1)) );
-                query.next();
-                if( !query.value(0).toInt() )
-                {
-                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Compartment Type %1 does not exist!\n").arg(rx.cap(1)) + line );
-                    return false;
-                }
-                compartmentType = rx.cap(1);
-            }else{
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Compartment Type not specified!\n") + line );
-                return false;
-            }
-
-            rx.setPattern("population=\"(\\w+)\"");
-            if( rx.indexIn(line) > -1 )
-            {
-                if( parameterSet.contains( rx.cap(1) ) )
-                    compartment.setProperty( "population" , QScriptValue( rx.cap(1) ) );
-                else{
-                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Undefined parameter used!\n") + rx.cap(1) );
-                    return false;
-                }
-            }
-        }else{
-            QList<QString> tmpList = line.simplified().split(" ");
-            if( tmpList.count() != 3 && tmpList.count() != 4 )
-            {
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid Species definition!\n") + line );
-                return false;
-            }
-
-            QScriptValue species = engine->newObject();
-            rx.setPattern("^\\w+$");
-            if( rx.indexIn(tmpList[0]) == -1 )
-            {
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid species id!") + tmpList[0] );
-                return false;
-            }
-            species.setProperty("id",tmpList[0]);
-
-
-            if( tmpList[1].startsWith("d:") )
-            {
-                species.setProperty("type","plasmid");
-                QScriptValueList structure;
-                foreach( QString strPart , tmpList[1].mid(2).split("-") )
-                {
-                    rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
-                    if( rx.indexIn(strPart) > -1 )
-                    {
-                        QScriptValue part = engine->newObject();
-                        part.setProperty( "type" , "dna" );
-
-                        query.exec( QString("SELECT type FROM %1_agent WHERE id = \'%2\'").arg(compartmentType).arg(rx.cap(1)) );
-                        if( query.numRowsAffected() < 1 || (query.next(),query.value(0).toString().isEmpty() ) )
-                        {
-                            part.setProperty( "category" , "other" );
-                        }else{
-                            part.setProperty( "category" , query.value(0).toString() );
-                        }
-
-                        part.setProperty( "compartment" , strCompartment );
-                        part.setProperty( "agent", QScriptValue( rx.cap(1) ) );
-                        part.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
-                        part.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
-                        structure.push_back(part);
-                    }else{
-                        QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!") + strPart );
-                        return false;
-                    }
-                }
-                species.setProperty( "structure" , convertModelTypeToScriptValue(engine,structure) );
-            }else if( tmpList[1].startsWith("p:") )
-            {
-                species.setProperty("type","protein");
-                rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
-                if( rx.indexIn(tmpList[1].mid(2)) > -1 )
-                {
-                    species.setProperty( "agent", QScriptValue( rx.cap(1) ) );
-                    species.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
-                    species.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
-                }else{
-                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!") + tmpList[1].mid(2) );
-                    return false;
-                }
-            }else if( tmpList[1].startsWith("m:") )
-            {
-                species.setProperty("type","molecule");
-                rx.setPattern("^(\\w+)(\\'?)\\((.*)\\)$");
-                if( rx.indexIn(tmpList[1].mid(2)) > -1 )
-                {
-                    species.setProperty( "agent", QScriptValue( rx.cap(1) ) );
-                    species.setProperty( "reversed" , QScriptValue( !rx.cap(2).isEmpty() ) );
-                    species.setProperty( "sites" , QScriptValue( rx.cap(3) ) );
-                }else{
-                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid agent definition!") + tmpList[1].mid(2) );
-                    return false;
-                }
-            }else
-            {
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Invalid species structure!") + tmpList[1] );
-                return false;
-            }
-
-            if( parameterSet.contains( tmpList[2] ) )
-            {
-                species.setProperty( "initConcentration" , QScriptValue( tmpList[2] ) );
-            }else{
-                QMessageBox::critical( 0 , "Syntex Error!" , QString("Undefined parameter used!") + tmpList[2] );
-                return false;
-            }
-
-            species.setProperty( "constConcentration", QScriptValue(false) );
-
-            if( tmpList.count() == 4 )
-            {
-                if( tmpList[3] == "const" )
-                {
-                    species.setProperty( "constConcentration", QScriptValue(true) );
-                }else{
-                    QMessageBox::critical( 0 , "Syntex Error!" , QString("Unknow term!") + tmpList[3] );
-                    return false;
-                }
-            }
-
-            speciesList.push_back( species );
-        }
-    }
-
-    compartment.setProperty( "contains" , convertModelTypeToScriptValue( engine , speciesList ) );
-
-    return true;
-}

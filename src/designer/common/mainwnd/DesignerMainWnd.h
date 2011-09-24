@@ -56,6 +56,7 @@ public slots:
     void on_actionFileExit_triggered();
     void on_actionFileOpen_triggered();
     void on_actionFileSave_triggered();
+    void on_actionFileSaveAs_triggered();
     void on_actionHelpAboutApp_triggered();
 
     void instanceMessageReceived(const QString& message);
@@ -66,7 +67,6 @@ public:
     static QList<DesignerMainWnd*> mainWnd_list;
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
-    void on_actionFileSaveAs_triggered();
     void on_tabWidget_currentChanged(QWidget *arg1);
 };
 

@@ -19,7 +19,6 @@ AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget 
     vLayout->setContentsMargins(0,0,0,0);
     hLayout->setContentsMargins(0,0,0,0);
 
-    hLayout->addWidget( compartmentCombo = new QComboBox );
     hLayout->addWidget( typeCombo = new QComboBox );
     hLayout->addWidget( lineEdit = new QLineEdit );
     vLayout->addLayout( hLayout );
@@ -34,14 +33,12 @@ AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget 
     typeCombo->addItem("rbs");
     typeCombo->addItem("pcs");
     typeCombo->addItem("term");
-    typeCombo->addItem("mol");
-    typeCombo->addItem("NULL");
+    typeCombo->addItem("other");
 
     tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget->setSelectionMode( QAbstractItemView::SingleSelection );
     connect( tableWidget , SIGNAL(pressed(QModelIndex)) , this , SLOT(startDrag(QModelIndex)) );
     connect( typeCombo , SIGNAL(currentIndexChanged(QString)) , this , SLOT(inputChanges(QString)) );
-    connect( compartmentCombo , SIGNAL(currentIndexChanged(QString)) , this , SLOT(inputChanges(QString)) );
     connect( lineEdit , SIGNAL(textChanged(QString)) , this , SLOT(inputChanges(QString)) );
 
     reload();
@@ -49,11 +46,7 @@ AssemblySearchWidget::AssemblySearchWidget( QScriptEngine * newEngine , QWidget 
 
 void AssemblySearchWidget::reload()
 {
-    compartmentCombo->clear();
-    QSqlQuery query(db);
-    query.exec( "SELECT id FROM compartment" );
-    while( query.next() )
-        compartmentCombo->addItem( query.value(0).toString() );
+    inputChanges(lineEdit->text());
 }
 
 void AssemblySearchWidget::startDrag(QModelIndex index)
@@ -70,7 +63,6 @@ void AssemblySearchWidget::startDrag(QModelIndex index)
     QMimeData * mimeData = new QMimeData;
 
     copy->setProperty( "agent" , query->value( query->record().indexOf("id") ).toString() );
-    copy->setProperty( "compartment", compartmentCombo->currentText() );
     if( query->value( query->record().indexOf("type") ).toString().isEmpty()|| query->value( query->record().indexOf("type") ).toString() == "mol" )
     {
         copy->setProperty( "id" , "Molecule" );
@@ -98,15 +90,11 @@ void AssemblySearchWidget::inputChanges(QString)
     QString sql;
     if( typeCombo->currentText() == "ALL" )
     {
-        sql = tr("SELECT * FROM %1_agent WHERE id LIKE \'%%2%\' ORDER BY id").arg(compartmentCombo->currentText()).arg(lineEdit->text());
-    }else if( typeCombo->currentText() == "NULL" )
-    {
-        sql = tr("SELECT * FROM %1_agent WHERE id LIKE \'%%2%\' AND type IS NULL ORDER BY id").arg(compartmentCombo->currentText()).arg(lineEdit->text());
+        sql = tr("SELECT * FROM agent WHERE id LIKE \'%%1%\' ORDER BY id").arg(lineEdit->text());
     }else{
-        sql = tr("SELECT * FROM %1_agent WHERE id LIKE \'%%2%\' AND type = \'%3\' ORDER BY id").arg(compartmentCombo->currentText()).arg(lineEdit->text()).arg(typeCombo->currentText());
+        sql = tr("SELECT * FROM agent WHERE id LIKE \'%%1%\' AND type = \'%2\' ORDER BY id").arg(lineEdit->text()).arg(typeCombo->currentText());
     }
-    qDebug() << sql;
-    qDebug() << query->exec( sql );
+    query->exec( sql );
     int colCount = 0;
     while( !query->record().fieldName(colCount).isEmpty() ) colCount++;
     tableWidget->setColumnCount(colCount);

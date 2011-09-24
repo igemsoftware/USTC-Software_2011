@@ -25,7 +25,7 @@ public:
     virtual void setScriptValue( QScriptValue & newScriptValue );
 
     virtual QList<AssemblyItemBase*> getChildren();
-    virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
+    virtual bool addChild( QPointF pos , AssemblyItemBase * child );
     virtual void removeChild( AssemblyItemBase * child );
     virtual void refreshScriptValue();
 
@@ -33,7 +33,7 @@ public:
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
     virtual void resize( qreal newWidth , qreal newHeight );
 
-
+    void setDisplayImages(QString normal, QString selected);
 protected:
     QString type;
     QScriptValue scriptValue;
@@ -61,7 +61,7 @@ public:
     explicit AssemblyItemSizer( QGraphicsItem * parent = 0 );
     virtual void getSelection();
     virtual void loseSelection( QList<QGraphicsItem*> newSelectedItems );
-    virtual bool addChild(QPointF scenePos, AssemblyItemBase *child)
+    virtual bool addChild(QPointF pos, AssemblyItemBase *child)
     {
         return false;
     }

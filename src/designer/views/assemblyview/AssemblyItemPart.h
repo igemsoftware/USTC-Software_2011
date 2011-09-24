@@ -14,7 +14,7 @@ public:
     explicit AssemblyItemPart( QScriptValue & newScriptValue , QGraphicsItem *parent = 0 );
     virtual ~AssemblyItemPart();
 
-    virtual bool addChild(QPointF scenePos, AssemblyItemBase *child);
+    virtual bool addChild(QPointF pos, AssemblyItemBase *child);
 
     virtual void setScriptValue(QScriptValue &newScriptValue);
 

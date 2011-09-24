@@ -29,7 +29,7 @@ struct PfOdeDescriptor
     int *stack_len;
     double *params;
     double *compartments_concentration;
-    double *init_y;
+    double *y;
     double *buff;
 };
 

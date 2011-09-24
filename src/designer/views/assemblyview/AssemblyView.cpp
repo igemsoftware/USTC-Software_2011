@@ -4,7 +4,7 @@
 #include "interfaces/DesignerModelItf.h"
 #include "models/reactionnetworkmodel/ReactionNetworkDataTypes.h"
 #include "AssemblyDBEditor.h"
-
+#include "common/app/DesignerApp.h"
 
 using namespace ReactionNetworkDataTypes;
 
@@ -13,51 +13,9 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelComponent *mod
     DesignerViewComponent(mainWnd, model)
 {
 
-
+    AssemblyPropertyEditor::initializeOnce();
     engine = mainWindow->getCurrentModel()->getEngine();
-/*
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    QVBoxLayout * rvLayout = new QVBoxLayout;
 
-    vLayout->addWidget( toolBox = new QTabWidget );
-    toolBox->setFixedHeight( 50 );
-    toolBox->setTabPosition( QTabWidget::South );
-
-    QToolBar * standard = new QToolBar;
-    toolBox->addTab( standard , tr("Standard Modules"));
-    //will be fixed soon
-    Compartment sCompartment;
-    QScriptValue compartment = Compartment::toScriptValue(engine,sCompartment);
-    compartment.setProperty("id","Compartment");
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemCompartment::MimeFormat , compartment ) );
-
-    Species sSpecies;
-    QScriptValue species = Species::toScriptValue(engine,sSpecies);
-    species.setProperty("id","Plasmid");
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPlasmid::MimeFormat , species ) );
-
-    Part sPart;
-    QScriptValue part = Part::toScriptValue(engine,sPart);
-    part.setProperty("agent","prom");
-    standard->addWidget( new AssemblyCreateAndDrag( AssemblyItemPart::MimeFormat , part ) );
-
-    recentModule = new QToolBar;
-    toolBox->addTab( recentModule , tr("Recent Modules") );
-
-    vLayout->addWidget( mainView = new QGraphicsView( mainScene = new AssemblyScene( dynamic_cast<IGameModel*>( mainWindow->getCurrentModel() ) , this ) ) );
-
-    rvLayout->addWidget( searchWidget = new AssemblySearchWidget(engine) );
-    rvLayout->addWidget( propertyWidget = new AssemblyPropertyWidget );
-    searchWidget->setFixedWidth(200);
-    propertyWidget->setFixedWidth(200);
-    hLayout->addLayout(vLayout);
-    hLayout->addLayout(rvLayout);
-
-
-
-    this->setLayout( hLayout );
-*/
     QSplitter * splitter = new QSplitter;
     splitter->setContentsMargins( 0 , 0 , 0 , 0 );
     splitter->setOrientation(Qt::Vertical);
@@ -113,9 +71,11 @@ AssemblyView::AssemblyView(DesignerMainWnd *mainWnd, DesignerModelComponent *mod
     tmpSize.push_back(splitter->size().height()-100);
     splitter->setSizes( tmpSize );
 
+    mainScene->readModel();
+
     connect( mainScene , SIGNAL(setScriptValue(QScriptValue)) , mainWnd->getPanelWidget("PropertiesPanel") , SLOT(updateTarget(QScriptValue)) );
 
-    AssemblyPropertyEditor::initializeOnce();
+
 
     igameDBRefresh();
 }
@@ -127,17 +87,22 @@ AssemblyView::~AssemblyView()
 
 QString AssemblyView::outputMoDeLText()
 {
-    return mainScene->outputMoDeLText();
+    return mainScene->outputMoDeLText(mainWindow->getCurrentModel());
 }
 
 void AssemblyView::igameDBRefresh()
 {
     QSqlDatabase db = QSqlDatabase::database("igame");
     QSqlQuery query(db);
-    query.exec("SELECT id FROM compartment");
+    query.exec("SHOW TABLES");
     QList<QScriptValue> * combo = new QList<QScriptValue>;
     while( query.next() )
+    {
+        if( query.value(0).toString() == "function" ||
+            query.value(0).toString() == "inducer" ||
+            query.value(0).toString() == "agent" ) continue;
         combo->push_back( QScriptValue( query.value(0).toString() ) );
+    }
     AssemblyPropertyEditor::setCombo( "compartmentType" , combo );
 
     mainScene->igameDBRefresh();
@@ -160,5 +125,41 @@ void AssemblyView::updateFeatureToolbar(QToolBar *toobar)
 
 void AssemblyView::CallIGame()
 {
-    QMessageBox::information(0,"",QFSFileEngine::tempPath());
+    int ans = QMessageBox::question(0, tr("Save"),
+                          tr("To proceed, you have to save the current model to file \"%1\"\n"
+                             "Do you want to overwrite it?")
+                             .arg(mainWindow->getCurrentDoc()->getDocumentFileInfo().absoluteFilePath())
+                          , QMessageBox::Yes | QMessageBox::Cancel);
+    if( ans == QMessageBox::Yes )
+    {
+        mainWindow->on_actionFileSave_triggered();
+    }else return;
+
+    QList<QString> args;
+    args.append( DesignerApp::instance()->readConfigValue("external.paths","MoDeL","").toString() );
+    if( args[0].isEmpty() )
+    {
+        QString model_path = QFileDialog::getOpenFileName(0, "Select MoDeL.pl", QDir::homePath(), "MoDeL (MoDeL.pl)");
+        if( !model_path.endsWith("MoDeL.pl") )
+        {
+            QMessageBox::critical(0, tr("Error"), tr("Please select MoDeL.pl"));
+            return;
+        }
+        DesignerApp::instance()->writeConfigValue("external.paths","MoDeL",model_path);
+        args[0] = model_path;
+    }
+    args.append(mainWindow->getCurrentDoc()->getDocumentFileInfo().fileName());
+    QFSFileEngine::setCurrentPath(mainWindow->getCurrentDoc()->getDocumentFileInfo().absolutePath());
+
+    int status = QProcess::execute("perl", args);
+    if( status != 0 )
+    {
+        QMessageBox::critical(0, tr("Error"), tr("An error occured while executing MoDeL.pl.\nPlease check if perl or MoDeL is broken.\nError code:%1").arg(status));
+        return;
+    }
+    DesignerMainWnd *newWnd = DesignerMainWnd::globalCreateNewMainWnd();
+    QString sbml_file = mainWindow->getCurrentDoc()->getDocumentFileInfo().fileName();
+    sbml_file.chop(6);
+    sbml_file.append(".xml");
+    newWnd->openFile(sbml_file);
 }

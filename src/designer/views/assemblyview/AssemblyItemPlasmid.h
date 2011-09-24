@@ -19,7 +19,7 @@ public:
     virtual ~AssemblyItemPlasmid();
 
     virtual QList<AssemblyItemBase*> getChildren();
-    virtual bool addChild( QPointF scenePos , AssemblyItemBase * child );
+    virtual bool addChild( QPointF pos , AssemblyItemBase * child );
     virtual void removeChild( AssemblyItemBase * child );
     virtual void refreshScriptValue();
 

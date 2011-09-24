@@ -9,12 +9,8 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     moving = false;
     sizer = 0;
     scriptValue = newScriptValue;
-    qDebug() << normalImagePath;
-    normalImage.load( normalImagePath );
-    originalNormalImage.load(normalImagePath);
-    selectedImage.load( selectedImagePath );
-    originalSelectedImage.load( selectedImagePath );
-    setPixmap( normalImage );
+
+    setDisplayImages(normalImagePath, selectedImagePath);
 
     setFlag( QGraphicsItem::ItemIsSelectable );
     setFlag( QGraphicsItem::ItemIsMovable );
@@ -22,6 +18,15 @@ AssemblyItemBase::AssemblyItemBase( QScriptValue & newScriptValue , QString norm
     displayName = new QGraphicsTextItem( getId() , this );
 
     setScriptValue( newScriptValue );
+}
+
+void AssemblyItemBase::setDisplayImages(QString normal, QString selected)
+{
+    normalImage.load( normal );
+    originalNormalImage.load(normal);
+    selectedImage.load( selected );
+    originalSelectedImage.load( selected );
+    setPixmap( normalImage );
 }
 
 AssemblyItemBase::~AssemblyItemBase()
@@ -51,11 +56,11 @@ void AssemblyItemBase::setScriptValue( QScriptValue & newScriptValue )
 
 QList<AssemblyItemBase*> AssemblyItemBase::getChildren(){ QList<AssemblyItemBase*> nothing; return nothing; }
 
-bool AssemblyItemBase::addChild( QPointF scenePos , AssemblyItemBase * child )
+bool AssemblyItemBase::addChild( QPointF pos , AssemblyItemBase * child )
 {
     if( child->isAncestorOf(this) ) return false;
     child->setParentItem(this);
-    child->setPos( mapFromScene(scenePos) );
+    child->setPos(pos);
     return true;
 }
 

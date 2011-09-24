@@ -14,7 +14,7 @@ AssemblyItemMolecule::~AssemblyItemMolecule()
 {
 }
 
-bool AssemblyItemMolecule::addChild(QPointF scenePos, AssemblyItemBase *child)
+bool AssemblyItemMolecule::addChild(QPointF pos, AssemblyItemBase *child)
 {
     return false;
 }

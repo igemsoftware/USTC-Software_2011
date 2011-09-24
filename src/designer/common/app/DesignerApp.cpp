@@ -34,7 +34,7 @@ bool DesignerApp::initApplication()
     writeConfigValue("", "apppath", QtSingleApplication::applicationFilePath());
 
     dbIgame = QSqlDatabase::addDatabase("QMYSQL","igame");
-    dbIgame.setDatabaseName("igame");
+    dbIgame.setDatabaseName("MoDeL");
     dbIgame.setHostName("localhost");
     dbIgame.setUserName("root");
     dbIgame.setPassword("lovewin");

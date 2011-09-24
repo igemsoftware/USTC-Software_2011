@@ -13,7 +13,6 @@ AssemblyScene::AssemblyScene( IGameModel * newModel , QObject *parent) :
     QGraphicsScene(parent) , model(newModel)
 {
     connect( this , SIGNAL(selectionChanged()) , this , SLOT(propagateSelectionChange()) );
-    readModel();
 }
 
 void AssemblyScene::readModel()
@@ -21,6 +20,9 @@ void AssemblyScene::readModel()
     clear();
     childrenMap.clear();
     idSpace.clear();
+
+    int width = views().first()->width();
+    int height = views().first()->height();
 
     if( model->getEngine()->globalObject().property("model").isObject() )
     {
@@ -38,6 +40,7 @@ void AssemblyScene::readModel()
                 {
                     AssemblyItemPlasmid * plasmid = new AssemblyItemPlasmid(child);
                     QGraphicsScene::addItem( plasmid );
+                    plasmid->setPos(qrand()%width, qrand()%height);
                     if( !registerItem( plasmid ) )
                     {
                         delete plasmid;
@@ -46,6 +49,7 @@ void AssemblyScene::readModel()
                 {
                     AssemblyItemMolecule * molecule = new AssemblyItemMolecule(child);
                     QGraphicsScene::addItem( molecule );
+                    molecule->setPos(qrand()%width, qrand()%height);
                     if( !registerItem( molecule ) )
                     {
                         delete molecule;
@@ -59,6 +63,7 @@ void AssemblyScene::readModel()
         {
             AssemblyItemCompartment * compartment = new AssemblyItemCompartment( child );
             QGraphicsScene::addItem( compartment );
+            compartment->setPos(qrand()%width, qrand()%height);
             if( !registerItem( compartment ) )
             {
                 delete compartment;
@@ -275,7 +280,7 @@ bool AssemblyScene::addItem(AssemblyItemBase *item,bool flag)
     QList<QGraphicsItem*> candidates = collidingItems( item );
     foreach( QGraphicsItem * candidate , candidates )
     {
-        if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( item->scenePos() , item ) )
+        if( dynamic_cast<AssemblyItemBase*>(candidate) && dynamic_cast<AssemblyItemBase*>(candidate)->addChild( candidate->mapFromScene(item->scenePos()) , item ) )
         {
             if( flag ) registerItem( item );
             foreach( QGraphicsItem* item , selectedItems() )
@@ -374,11 +379,11 @@ void AssemblyScene::refreshScriptValue()
 }
 
 
-QString AssemblyScene::outputMoDeLText()
+QString AssemblyScene::outputMoDeLText(DesignerModelComponent *source_model)
 {
     QString strAns;
     QTextStream ans(&strAns);
-    QScriptValue root = model->getEngine()->globalObject().property("model");
+    QScriptValue root = source_model->getEngine()->globalObject().property("model");
     QScriptValueList parameters;
     QScriptValueList events;
     QScriptValueList childCompartments;
@@ -390,70 +395,89 @@ QString AssemblyScene::outputMoDeLText()
 
 
     //parameters
-    ans << "<Parameters>\n";
+    ans << "<parameters>\n";
     foreach( QScriptValue parameter , parameters )
         ans << parameter.property("id").toString() << "\t\t" << parameter.property("value").toString() << "\n";
-    ans << "<Parameters>\n\n";
+    ans << "</parameters>\n\n";
 
+    ans << "<compartments>\n";
     //rootcompartment
-    ans << outputCompartmentText( rootCompartment , tr("RootCompartment") );
-
+    ans << rootCompartment.property("id").toString() << "\t"
+        << "ROOT" << "\t"
+        << rootCompartment.property("type").toString() << "\t"
+        << rootCompartment.property("volume").toString() << "\t"
+        << rootCompartment.property("population").toString() << "\n";
     //childcompartment
     foreach( QScriptValue compartment , childCompartments )
-        ans << outputCompartmentText( compartment , tr("ChildCompartment") );
+    {
+        ans << compartment.property("id").toString() << "\t"
+            << rootCompartment.property("id").toString() << "\t"
+            << compartment.property("type").toString() << "\t"
+            << compartment.property("volume").toString() << "\t"
+            << compartment.property("population").toString() << "\n";
+    }
+    ans << "</compartments>\n\n";
 
-    ans << "<Events>\n";
+    ans << "<seedspecies>\n";
+    childCompartments.append(rootCompartment);
+    foreach( QScriptValue compartment, childCompartments )
+    {
+        QScriptValueList specieses;
+        qScriptValueToSequence(compartment.property("contains"), specieses);
+        foreach( QScriptValue species, specieses )
+            ans << outputSpeciesText(species, compartment.property("id").toString());
+    }
+    ans << "</seedspecies>\n\n";
+
+    ans << "<events>\n";
     foreach( QScriptValue event , events )
         ans << event.property("id").toString() << "\t" << event.property("condition").toString() << "\t" << event.property("variable").toString() << "=" << event.property("value").toString() << "\n";
-    ans << "<Events>\n\n";
+    ans << "</events>\n\n";
 
 
     return strAns;
 }
 
-QString AssemblyScene::outputCompartmentText( QScriptValue compartment , QString tag )
+QString AssemblyScene::outputSpeciesText(QScriptValue species, QString compartment)
 {
     QString strAns;
     QTextStream ans(&strAns);
-    ans << "<" << tag << " id=\"" << compartment.property("id").toString() << "\"" << " type=\"" << compartment.property("type").toString() << "\"";
-    if( compartment.property("population").isString() )
-        ans << " population=\"" << compartment.property("population").toString() << "\"";
-    ans << ">\n";
 
-    QScriptValueList contains;
-    qScriptValueToSequence( compartment.property("contains") , contains );
+    ans << compartment << "\t"
+        << species.property("id").toString() << "\t";
 
-    foreach( QScriptValue content , contains )
+    if( species.property("type").toString() == "plasmid" )
     {
-        ans << content.property("id").toString() << "\t";
-        if( content.property("type").toString() == "plasmid" )
+        ans << "d:";
+        QScriptValueList structure;
+        qScriptValueToSequence( species.property("structure") , structure );
+        for( int i = 0 ; i < structure.count() ; i++ )
         {
-            ans << "d:";
-            QScriptValueList structure;
-            qScriptValueToSequence( content.property("structure") , structure );
-            for( int i = 0 ; i < structure.count() ; i++ )
-            {
-                QScriptValue agent = structure[i];
-                ans << ( (i>0)?"-":"" ) << agent.property("agent").toString() << ( agent.property("reversed").toBool()?"'":"" ) << "(" << agent.property("sites").toString() << ")";
-            }
-            ans << "\t" << content.property("initConcentration").toString();
-            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
-            ans << "\n";
-        }else if( content.property("type").toString() == "protein" )
-        {
-            ans << "p:" << content.property("agent").toString() << ( content.property("reversed").toBool()?"'":"" ) << "("  << content.property("sites").toString() << ")\t" << content.property("initConcentration").toString();
-            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
-            ans << "\n";
-        }else if( content.property("type").toString() == "molecule" )
-        {
-            ans << "m:" << content.property("agent").toString() << ( content.property("reversed").toBool()?"'":"" ) << "(" << content.property("sites").toString() << ")\t" << content.property("initConcentration").toString();
-            if( content.property("constConcentration").toBool() ) ans << "\t" << "const";
-            ans << "\n";
+            QScriptValue agent = structure[i];
+            ans << ( (i>0)?"-":"" ) << agent.property("agent").toString() << ( agent.property("reversed").toBool()?"'":"" ) << "(" << agent.property("sites").toString() << ")";
         }
-
+        ans << "\t" << species.property("initConcentration").toString();
+        if( species.property("constConcentration").toBool() ) ans << "\t" << "const";
+        ans << "\n";
+    }else if( species.property("type").toString() == "protein" )
+    {
+        ans << "p:"
+            << species.property("agent").toString()
+            << ( species.property("reversed").toBool()?"'":"" )
+            << "("  << species.property("sites").toString() << ")\t"
+            << species.property("initConcentration").toString();
+        if( species.property("constConcentration").toBool() ) ans << "\t" << "const";
+        ans << "\n";
+    }else if( species.property("type").toString() == "molecule" )
+    {
+        ans << "nb:"
+            << species.property("agent").toString()
+            << ( species.property("reversed").toBool()?"'":"" )
+            << "(" << species.property("sites").toString() << ")\t"
+            << species.property("initConcentration").toString();
+        if( species.property("constConcentration").toBool() ) ans << "\t" << "const";
+        ans << "\n";
     }
-
-    ans << "<" << tag << ">\n\n";
 
     return strAns;
 }
@@ -462,7 +486,7 @@ void AssemblyScene::launchTextEditor()
 {
     QDialog widget;
     QTextEdit * editor = new QTextEdit;
-    QTextDocument document(outputMoDeLText());
+    QTextDocument document(outputMoDeLText(model));
     QVBoxLayout * vlayout = new QVBoxLayout;
     QHBoxLayout * hlayout = new QHBoxLayout;
     QPushButton * ok = new QPushButton("OK");
@@ -529,13 +553,13 @@ void AssemblyScene::requestEventEdit()
 
     AssemblyPropertyEditor dialog( "event" , mock , model->getEngine() );
 
-    if( dialog.exec() )
+    if( dialog.exec() == QDialog::Accepted  )
     {
-        foreach( QScriptValue value , mock )
-            if( idSpace.contains( value.property("id").toString() ) ) goto FAIL;
+        if( mock.count() > original.count() && idSpace.contains( mock.last().property("id").toString() ) ) goto FAIL;
         model->getEngine()->globalObject().property("model").setProperty( "events" , convertModelTypeToScriptValue( model->getEngine() , mock ) );
         return;
         FAIL:;
+        QMessageBox::critical(0, tr("Error"), tr("Invalid input!"));
     }
 
 }
@@ -551,14 +575,14 @@ void AssemblyScene::requestParameterEdit()
 
     AssemblyPropertyEditor dialog( "parameter" , mock , model->getEngine() );
 
-    if( dialog.exec() )
+    if( dialog.exec() == QDialog::Accepted )
     {
-        foreach( QScriptValue value , mock )
-            if( idSpace.contains( value.property("id").toString() ) ) goto FAIL;
+        if( mock.count() > original.count() && idSpace.contains( mock.last().property("id").toString() ) ) goto FAIL;
         model->getEngine()->globalObject().property("model").setProperty( "parameters" , convertModelTypeToScriptValue( model->getEngine() , mock ) );
         parameterSpaceChanged();
         return;
         FAIL:;
+        QMessageBox::critical(0, tr("Error"), tr("Invalid input!"));
     }
 }
 
@@ -575,4 +599,5 @@ void AssemblyScene::parameterSpaceChanged()
 
 void AssemblyScene::igameDBRefresh()
 {
+
 }

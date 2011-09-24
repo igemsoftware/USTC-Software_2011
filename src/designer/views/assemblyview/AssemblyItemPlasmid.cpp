@@ -17,7 +17,7 @@ AssemblyItemPlasmid::AssemblyItemPlasmid( QScriptValue & newScriptValue , QGraph
             if( child.property("type").toString() == "dna" )
             {
                 AssemblyItemPart * part = new AssemblyItemPart(child);
-                addChild( mapToScene(0,1000000000) , part );
+                addChild( QPointF(1000000000,0) , part );
             }
         }
     }
@@ -35,21 +35,13 @@ QList<AssemblyItemBase*> AssemblyItemPlasmid::getChildren()
 }
 
 
-bool AssemblyItemPlasmid::addChild( QPointF scenePos , AssemblyItemBase * child )
+bool AssemblyItemPlasmid::addChild( QPointF pos , AssemblyItemBase * child )
 {
     if( ! dynamic_cast<AssemblyItemPart*>(child) ) return false;
-    if( parentItem() )
-    {
-        if( dynamic_cast<AssemblyItemCompartment*>(parentItem())->getScriptValue().property("type").toString() != child->getScriptValue().property("compartment").toString() )
-            return false;
-    }else{
-        if( child->getScriptValue().property("compartment").toString() != "flask" )
-            return false;
-    }
-    if( ! AssemblyItemBase::addChild( scenePos , child ) ) return false;
 
-    scenePos = mapFromScene(scenePos);
-    qreal len = scenePos.x() + ASSEMBLY_ITEM_BRICK_WIDTH/2;
+    if( ! AssemblyItemBase::addChild( pos , child ) ) return false;
+
+    qreal len = pos.x() + ASSEMBLY_ITEM_BRICK_WIDTH/2;
     int index = len/ASSEMBLY_ITEM_BRICK_WIDTH;
     if( index < 0 ) len = 0;
     if( index > childrenList.count() ) len = childrenList.count();

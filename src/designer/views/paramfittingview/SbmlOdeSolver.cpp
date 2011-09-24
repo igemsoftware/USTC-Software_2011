@@ -1,6 +1,7 @@
 #include "SbmlOdeSolver.h"
 #include <QMap>
 #include <gsl/gsl_errno.h>
+#include <gsl/gsl_odeiv2.h>
 
 SbmlOdeSolver::SbmlOdeSolver(SBMLDocument *sbml, QObject *parent) :
     QObject(parent), sbml_(sbml), ode_(0)
@@ -8,13 +9,12 @@ SbmlOdeSolver::SbmlOdeSolver(SBMLDocument *sbml, QObject *parent) :
 }
 
 void SbmlOdeSolver::Run(double end_time, double step, int interval)
-{
+{/*
     int N = end_time/step+1;
     double **result = new double*[N/interval];
     int n = 0;
 
     gsl_odeiv2_system sys = { func, 0, ode_->dimension, (void*)ode_ };
-
 
     gsl_odeiv2_driver *driver = gsl_odeiv2_driver_alloc_y_new(&sys, gsl_odeiv2_step_rk4, 1e-3, 1e-8, 1e-8);
     double t = 0;
@@ -30,7 +30,7 @@ void SbmlOdeSolver::Run(double end_time, double step, int interval)
         }
     }
 
-    emit Finished(ode_->dimension, n, result);
+    emit Finished(ode_->dimension, n, result);*/
 }
 
 

@@ -10,7 +10,6 @@ public:
     MoDeLDocParser();
 
     bool parse( DesignerModelComponent& model, QTextStream& fin );
-    bool readCompartment( QScriptEngine * engine , QSet<QString> & parameterSet , QScriptValue & compartment , QString & strCompartment, QString tag );
 
 };
 

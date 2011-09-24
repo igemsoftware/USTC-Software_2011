@@ -128,6 +128,14 @@ void AssemblyPropertyEditor::initializeOnce()
     combo = new QList<QScriptValue>;
     comboMap.insert("parameter",combo);
 
+    combo = new QList<QScriptValue>;
+    combo->append( QScriptValue("prom") );
+    combo->append( QScriptValue("pcs") );
+    combo->append( QScriptValue("term") );
+    combo->append( QScriptValue("rbs") );
+    combo->append( QScriptValue("other") );
+    comboMap.insert("category",combo);
+
     //--------------------------------InitializeType
     ScriptTypeSpecifier compartment;
     compartment.type = "compartment";
@@ -161,6 +169,7 @@ void AssemblyPropertyEditor::initializeOnce()
     part.enableAdd = false;
     part.properties.push_back( PropertySpecifier("sites","Sites",TypeString) );
     part.properties.push_back( PropertySpecifier("reversed","Reversed",TypeBool) );
+    part.properties.push_back( PropertySpecifier("category","Category",TypeCombo,"category"));
 
     typeMap.insert("part",part);
 
@@ -168,7 +177,7 @@ void AssemblyPropertyEditor::initializeOnce()
     parameter.type = "parameter";
     parameter.enableAdd = true;
     parameter.properties.push_back( PropertySpecifier("id","Parameter Id",TypeString) );
-    parameter.properties.push_back( PropertySpecifier("value","Parameter Value",TypeNumber) );
+    parameter.properties.push_back( PropertySpecifier("value","Parameter Value",TypeString) );
 
     typeMap.insert("parameter",parameter);
 

@@ -30,7 +30,7 @@ private:
     QScriptEngine * engine;
     QTableWidget * tableWidget;
     QLineEdit * lineEdit;
-    QComboBox * typeCombo , * compartmentCombo;
+    QComboBox * typeCombo;
 };
 
 #endif // ASSEMBLYSEARCHWIDGET_H

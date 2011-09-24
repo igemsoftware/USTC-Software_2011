@@ -21,7 +21,7 @@ public:
     bool addItem( AssemblyItemBase * item , bool flag = true );
     bool registerItem( AssemblyItemBase * item );
 
-    QString outputMoDeLText();
+    static QString outputMoDeLText(DesignerModelComponent *source_model);
 
     bool reassignId( QString oldId , QString newId );
 protected:
@@ -44,14 +44,15 @@ public slots:
     void parameterSpaceChanged();
 
     void igameDBRefresh();
+    void readModel();
 private:
     QMap<QString,AssemblyItemBase*> childrenMap;
     QSet<QString> idSpace;
     IGameModel * model;
     void refreshScriptValue();
 
-    QString outputCompartmentText( QScriptValue compartment , QString tag );
-    void readModel();
+    static QString outputSpeciesText( QScriptValue species , QString compartment );
+
 };
 
 #endif // ASSEMBLYSCENE_H

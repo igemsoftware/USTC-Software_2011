@@ -36,7 +36,7 @@ private:
     {
     public:
         Worker(SbmlOdeSolver *solver, double end_time, double step, int interval) : solver_(solver), end_time_(end_time), step_(step), interval_(interval) {}
-        virtual void run() { solver_->run(end_time, step, interval); }
+        virtual void run() { solver_->Run(end_time_, step_, interval_); }
     private:
         SbmlOdeSolver *solver_;
         double end_time_;
@@ -44,7 +44,7 @@ private:
         int interval_;
     };
 
-    void run(double end_time, double step, int interval);
+    void Run(double end_time, double step, int interval);
     void PostTraversalAST(const QMap<std::string,unsigned> &local_map, QVector<double> &parameters, ASTNode *tree, QVector<unsigned> &stack);
     void ParseReaction(QVector<double> &parameters, Reaction *reaction, QVector<unsigned> &stack);
 };
