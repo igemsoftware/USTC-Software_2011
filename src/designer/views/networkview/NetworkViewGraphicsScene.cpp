@@ -11,6 +11,7 @@ NetworkViewGraphicsScene::NetworkViewGraphicsScene(QObject *parent) :
     this->loaded=false;
     this->locked=false;
     this->idSpace=new QSet<QString>();
+    this->lines=new QList<QGraphicsLineItem *>();
 }
 
 void NetworkViewGraphicsScene::clearScene()
@@ -35,24 +36,76 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
         dynamic_cast<NetworkViewGraphicsItem *>(item)->setPositon();
         dynamic_cast<NetworkViewGraphicsItem *>(item)->registPos();
     }
-    if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+    //deal with edges
+    if(dynamic_cast<QGraphicsLineItem *>(item))
     {
-        foreach(QGraphicsItem *item_,items())
+        NetworkViewGraphicsSceneNode *node1;
+        NetworkViewGraphicsSceneNode *node2;
+        if(dynamic_cast<NetworkViewGraphicsSceneEdge *>(item))
         {
-            if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item_))
+            node1=dynamic_cast<NetworkViewGraphicsSceneEdge *>(item)->edgeNode1;
+            node2=dynamic_cast<NetworkViewGraphicsSceneEdge *>(item)->edgeNode2;
+        }
+        else if(dynamic_cast<NetworkViewGraphicsSceneModification *>(item))
+        {
+            node1=dynamic_cast<NetworkViewGraphicsSceneModification *>(item)->edgeNode1;
+            node2=dynamic_cast<NetworkViewGraphicsSceneModification *>(item)->edgeNode2;
+        }
+        foreach(QGraphicsLineItem *line,*this->lines)
+        {
+            NetworkViewGraphicsSceneNode *node_1;
+            NetworkViewGraphicsSceneNode *node_2;
+            if(dynamic_cast<NetworkViewGraphicsSceneEdge *>(line))
             {
-                accept=false;
-                break;
+                node_1=dynamic_cast<NetworkViewGraphicsSceneEdge *>(line)->edgeNode1;
+                node_2=dynamic_cast<NetworkViewGraphicsSceneEdge *>(line)->edgeNode2;
+                if(node1==node_1&&node2==node_2)
+                {
+                    delete line;
+                }
+                else if(node1==node_2&&node2==node_1)
+                {
+                    if(dynamic_cast<NetworkViewGraphicsSceneEdge *>(item))
+                    {
+                        dynamic_cast<NetworkViewGraphicsSceneEdge *>(item)->edgeNode1->deleteEdge(dynamic_cast<NetworkViewGraphicsSceneEdge *>(item));
+                        dynamic_cast<NetworkViewGraphicsSceneEdge *>(item)->edgeNode2->deleteEdge(dynamic_cast<NetworkViewGraphicsSceneEdge *>(item));
+                        item=new NetworkViewGraphicsSceneEdge(this->activePanel(),node1,node2,NetworkViewGraphicsSceneEdge::BidirectedEdge);
+                    }
+                    delete line;
+                }
+            }
+            else if(dynamic_cast<NetworkViewGraphicsSceneModification *>(line))
+            {
+                node_1=dynamic_cast<NetworkViewGraphicsSceneModification *>(line)->edgeNode1;
+                node_2=dynamic_cast<NetworkViewGraphicsSceneModification *>(line)->edgeNode2;
+                if((node1==node_1&&node2==node_2)||(node1==node_2&&node2==node_1))
+                {
+                    delete line;
+                }
             }
         }
+        if(accept)
+            this->lines->append(dynamic_cast<QGraphicsLineItem *>(item));
     }
+//    if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+//    {
+//        foreach(QGraphicsItem *item_,items())
+//        {
+//            if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item_))
+//            {
+//                accept=false;
+//                break;
+//            }
+//        }
+//    }
     this->locked=true;
     if(!item->parentItem()&&accept)
         QGraphicsScene::addItem(item);    
     refreshScriptValue();
     this->clearSelection();
     this->locked=false;
-    item->setSelected(true);
+    if(dynamic_cast<NetworkViewGraphicsItem *>(item))
+        item->setSelected(true);
 }
 
 void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
@@ -66,8 +119,23 @@ void NetworkViewGraphicsScene::removeItem( NetworkViewGraphicsItem * item )
     QGraphicsScene::removeItem(item);
     refreshScriptValue();
     this->locked=false;
+    this->clearSelection();
+    this->reaction=NULL;
+    this->substance=NULL;
     if(items().count()==0)
         emit this->selectionChanged();
+}
+
+void NetworkViewGraphicsScene::removeLine(QGraphicsLineItem *line)
+{
+    foreach(QGraphicsLineItem  *eline,*this->lines)
+    {
+        if(eline==line)
+        {
+            this->lines->removeOne(line);
+            break;
+        }
+    }
 }
 
 void NetworkViewGraphicsScene::loadFromModel(DesignerModelComponent* model)
@@ -226,6 +294,11 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
         {
             if( dynamic_cast<NetworkViewGraphicsItem*>(item))
                 delete item;
+            else if(dynamic_cast<QGraphicsLineItem*>(item))
+            {
+                delete item;
+                this->refreshScriptValue();
+            }
         }
         break;
     default:
@@ -313,36 +386,6 @@ void NetworkViewGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     event->acceptProposedAction();
 }
 
-void NetworkViewGraphicsScene::refreshScriptValue()
-{
-    if(!this->loaded)
-        return;
-    QScriptValueList containers;
-    QScriptValueList reactions;
-    QScriptValueList substances;
-    foreach( QGraphicsItem * item , items() )
-    {
-
-        if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
-        {
-            containers.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
-        }else if( dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item))
-        {
-            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item)->refreshScriptValue();
-            reactions.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
-        }
-        else if(dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(item))
-        {
-            substances.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
-        }
-    }
-    if(!model->getModel().isValid())
-        model->getEngine()->globalObject().setProperty("model",model->getEngine()->newObject());
-    model->getModel().setProperty( "reactions" , convertModelTypeToScriptValue(model->getEngine(),reactions));
-    model->getModel().setProperty( "compartments" , convertModelTypeToScriptValue(model->getEngine(),containers));
-    model->getModel().setProperty("species", convertModelTypeToScriptValue(model->getEngine(),substances));
-}
-
 void NetworkViewGraphicsScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     if( event->modifiers() == Qt::ControlModifier )
@@ -371,4 +414,34 @@ void NetworkViewGraphicsScene::wheelEvent(QGraphicsSceneWheelEvent *event)
 void NetworkViewGraphicsScene::emitsignal()
 {
     emit selectionChanged();
+}
+
+void NetworkViewGraphicsScene::refreshScriptValue()
+{
+    if(!this->loaded)
+        return;
+    QScriptValueList containers;
+    QScriptValueList reactions;
+    QScriptValueList substances;
+    foreach( QGraphicsItem * item , items() )
+    {
+
+        if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
+        {
+            containers.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }else if( dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item))
+        {
+            dynamic_cast<NetworkViewGraphicsSceneNodeReaction *>(item)->refreshScriptValue();
+            reactions.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }
+        else if(dynamic_cast<NetworkViewGraphicsSceneNodeSubstance *>(item))
+        {
+            substances.push_back(dynamic_cast<NetworkViewGraphicsItem*>(item)->itemObject);
+        }
+    }
+    if(!model->getModel().isValid())
+        model->getEngine()->globalObject().setProperty("model",model->getEngine()->newObject());
+    model->getModel().setProperty( "reactions" , convertModelTypeToScriptValue(model->getEngine(),reactions));
+    model->getModel().setProperty( "compartments" , convertModelTypeToScriptValue(model->getEngine(),containers));
+    model->getModel().setProperty("species", convertModelTypeToScriptValue(model->getEngine(),substances));
 }

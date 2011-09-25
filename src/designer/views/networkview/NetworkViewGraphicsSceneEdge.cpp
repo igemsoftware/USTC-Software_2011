@@ -11,8 +11,10 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     : QGraphicsLineItem(parent),
       edgeNode1 (node1), edgeNode2 (node2), edgeType (type)
 {
-    setFlags( QGraphicsItem::ItemIsFocusable);
-
+    setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
+    QPen pen;
+    pen.setWidth(2);
+    this->setPen(pen);
     if(edgeNode1)
     {
         edgeNode1->registerEdge(this);
@@ -23,7 +25,8 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
     }
     for(size_t i = 0; i < 4; i++)
         arrowLines[i].setParentItem(this);
-    updatePos();    
+    updatePos();
+    this->setZValue(2);
 }
 
 void NetworkViewGraphicsSceneEdge::updatePos(void)
@@ -70,4 +73,5 @@ NetworkViewGraphicsSceneEdge::~NetworkViewGraphicsSceneEdge()
 {
     if(edgeNode2)edgeNode2->deleteEdge(this);
     if(edgeNode1)edgeNode1->deleteEdge(this);
+    dynamic_cast<NetworkViewGraphicsScene *>(this->scene())->removeLine(this);
 }

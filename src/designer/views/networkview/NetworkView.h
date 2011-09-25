@@ -7,6 +7,8 @@
 #include "NetworkViewGraphicsSceneNodeSubstance.h"
 #include "models/reactionnetworkmodel/ReactionNetwork.h"
 
+class NetworkViewGraphicsScene;
+
 namespace Ui {
     class NetworkView;
 }
@@ -16,16 +18,14 @@ class NetworkView : public DesignerViewComponent
 public:
     QPushButton *linebutton;
     QPushButton *modbutton;
+    QString selectState;
     Q_INVOKABLE explicit NetworkView(DesignerMainWnd *mainWnd, DesignerModelComponent* model);
     ~NetworkView();
-//protected:
-//    QGraphicsView* graphicsView;
+
 signals:
 
-private:
-    QString selectState;
-    NetworkViewGraphicsSceneNodeReaction *reaction;
-    NetworkViewGraphicsSceneNodeSubstance *substance;
+private:    
+    NetworkViewGraphicsScene *NetworkGS;
     Ui::NetworkView *ui;
     QScriptEngine * engine;
 public slots:

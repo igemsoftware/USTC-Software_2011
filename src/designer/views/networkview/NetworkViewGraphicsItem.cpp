@@ -84,7 +84,7 @@ void NetworkViewGraphicsItem::loseSelection( QList<QGraphicsItem*> newSelectedIt
 {
     selected = false;
     setPixmap(normalImage);
-    if( resizable && !newSelectedItems.contains(sizer) ) sizer->hide();
+    if( resizable && newSelectedItems.count()>0 && !newSelectedItems.contains(sizer) ) sizer->hide();
 }
 
 void NetworkViewGraphicsItem::resize( qreal newWidth , qreal newHeight )
@@ -125,6 +125,8 @@ void NetworkViewGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void NetworkViewGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsPixmapItem::mouseReleaseEvent(event);
+    if(dynamic_cast<NetworkViewGraphicsSceneContainer *>(this->parentItem()))
+        dynamic_cast<NetworkViewGraphicsSceneContainer *>(this->parentItem())->removeChild(this);
     if(dynamic_cast<NetworkViewGraphicsScene *>(scene()))
         dynamic_cast<NetworkViewGraphicsScene *>(scene())->emitsignal();
     if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
@@ -169,7 +171,7 @@ void NetworkViewGraphicsItem::registPos()
     QScriptValue scriptValue=this->itemObject.engine()->newObject();
     scriptValue.setProperty("x",this->scenePos().x());
     scriptValue.setProperty("y",this->scenePos().y());
-    this->itemObject.setProperty("scenePos",scriptValue);
+    this->itemObject.setProperty("*scenePos*",scriptValue);
 }
 
 void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -181,10 +183,10 @@ void NetworkViewGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 
 void NetworkViewGraphicsItem::setPositon()
 {
-    if(this->itemObject.property("scenePos").isValid())
+    if(this->itemObject.property("*scenePos*").isValid())
     {
-        qreal x=itemObject.property("scenePos").property("x").toNumber();
-        qreal y=itemObject.property("scenePos").property("y").toNumber();
+        qreal x=itemObject.property("*scenePos*").property("x").toNumber();
+        qreal y=itemObject.property("*scenePos*").property("y").toNumber();
         QPointF point=this->mapFromScene(x,y);
         this->setPos(point);
     }

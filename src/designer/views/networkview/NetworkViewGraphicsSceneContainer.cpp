@@ -7,6 +7,7 @@ NetworkViewGraphicsSceneContainer::NetworkViewGraphicsSceneContainer(QScriptValu
     Type = "container";    
     setResizable(true);
     setFlags( QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | ItemSendsGeometryChanges);
+    setZValue(0);
 }
 
 bool NetworkViewGraphicsSceneContainer::addChild(QPointF scenePos, NetworkViewGraphicsItem *child)

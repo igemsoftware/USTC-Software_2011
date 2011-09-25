@@ -9,8 +9,10 @@ NetworkViewGraphicsSceneModification::NetworkViewGraphicsSceneModification(QGrap
     : QGraphicsLineItem(parent),
       edgeNode1 (node1), edgeNode2 (node2)
 {
-    setFlags( QGraphicsItem::ItemIsFocusable);
-
+    setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
+    QPen pen;
+    pen.setWidth(2);
+    this->setPen(pen);
     if(edgeNode1)
     {
         edgeNode1->registerMod(this);
@@ -19,9 +21,11 @@ NetworkViewGraphicsSceneModification::NetworkViewGraphicsSceneModification(QGrap
     {
         edgeNode2->registerMod(this);
     }
+
     arrowLines.setParentItem(this);
     head.setParentItem(this);
     updatePos();
+    this->setZValue(2);
 }
 
 void NetworkViewGraphicsSceneModification::updatePos()
@@ -42,7 +46,7 @@ void NetworkViewGraphicsSceneModification::updatePos()
 
 NetworkViewGraphicsSceneModification::~NetworkViewGraphicsSceneModification()
 {
-
     if(edgeNode2)edgeNode2->deleteMod(this);
     if(edgeNode1)edgeNode1->deleteMod(this);
+    dynamic_cast<NetworkViewGraphicsScene *>(this->scene())->removeLine(this);
 }

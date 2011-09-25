@@ -24,11 +24,15 @@ void NetworkViewGraphicsSceneNodeReaction::refreshScriptValue()
         if(edge->edgeNode1==this)
         {
             newvalue.setProperty("species",edge->edgeNode2->itemObject.property("id"));
+            if(edge->edgeType==NetworkViewGraphicsSceneEdge::BidirectedEdge)
+                reactants.push_back(newvalue);
             products.push_back(newvalue);
         }
         else if(edge->edgeNode2==this)
         {
             newvalue.setProperty("species",edge->edgeNode1->itemObject.property("id"));
+            if(edge->edgeType==NetworkViewGraphicsSceneEdge::BidirectedEdge)
+                products.push_back(newvalue);
             reactants.push_back(newvalue);
         }
     }
