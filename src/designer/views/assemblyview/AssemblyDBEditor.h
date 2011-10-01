@@ -24,18 +24,15 @@ public slots:
     void refresh();
     void addSet();
     void removeSet();
-    void selectCompartment( QString compartment );
+    void selectTable( QString table );
 
-    void addRule();
-    void removeRule();
-
-    void addAgent();
-    void removeAgent();
+    void addRow();
+    void removeRow();
 private:
     Ui::AssemblyDBEditor *ui;
-
+    QStringList builtinTables;
     QSqlDatabase db;
-    QSqlTableModel *agentModel,*ruleModel;
+    QSqlTableModel *tableModel;
 
 
 };

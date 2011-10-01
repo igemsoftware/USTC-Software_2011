@@ -10,6 +10,11 @@ AssemblyDBEditor::AssemblyDBEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    builtinTables.append("agent");
+    builtinTables.append("inducer");
+    builtinTables.append("function");
+    builtinTables.append("medium");
+
     db = QSqlDatabase::database("igame");
 
     ui->addSet->setIcon( QIcon(":/designer/common/button/add.ico") );
@@ -17,23 +22,16 @@ AssemblyDBEditor::AssemblyDBEditor(QWidget *parent) :
     connect( ui->addSet , SIGNAL(clicked()) , this , SLOT(addSet()) );
     connect( ui->removeSet , SIGNAL(clicked()) , this , SLOT(removeSet()) );
 
-    ui->addAgent->setIcon( QIcon(":/designer/common/button/add.ico") );
-    ui->removeAgent->setIcon( QIcon(":/designer/common/button/remove.ico") );
-    connect( ui->addAgent , SIGNAL(clicked()) , this , SLOT(addAgent()) );
-    connect( ui->removeAgent , SIGNAL(clicked()) , this , SLOT(removeAgent()) );
+    ui->addRow->setIcon( QIcon(":/designer/common/button/add.ico") );
+    ui->removeRow->setIcon( QIcon(":/designer/common/button/remove.ico") );
+    connect( ui->addRow , SIGNAL(clicked()) , this , SLOT(addRow()) );
+    connect( ui->removeRow , SIGNAL(clicked()) , this , SLOT(removeRow()) );
 
-    ui->addRule->setIcon( QIcon(":/designer/common/button/add.ico") );
-    ui->removeRule->setIcon( QIcon(":/designer/common/button/remove.ico") );
-    connect( ui->addRule , SIGNAL(clicked()) , this , SLOT(addRule()) );
-    connect( ui->removeRule , SIGNAL(clicked()) , this , SLOT(removeRule()) );
+    ui->saveTable->setIcon( QIcon(":/designer/common/button/save.ico") );
 
-    ui->saveAgent->setIcon( QIcon(":/designer/common/button/save.ico") );
-    ui->saveRule->setIcon( QIcon(":/designer/common/button/save.ico") );
+    tableModel = new QSqlTableModel(this,db);
 
-    agentModel = new QSqlTableModel(this,db);
-    ruleModel = new QSqlTableModel(this,db);
-
-    connect( ui->listWidget , SIGNAL(currentTextChanged(QString)) , this , SLOT(selectCompartment(QString)) );
+    connect( ui->listWidget , SIGNAL(currentTextChanged(QString)) , this , SLOT(selectTable(QString)) );
 
     refresh();
 }
@@ -43,29 +41,19 @@ AssemblyDBEditor::~AssemblyDBEditor()
     delete ui;
 }
 
-void AssemblyDBEditor::selectCompartment(QString compartment)
+void AssemblyDBEditor::selectTable(QString table)
 {
-    QList<QListWidgetItem*> list = ui->listWidget->findItems(compartment,Qt::MatchExactly);
+    QList<QListWidgetItem*> list = ui->listWidget->findItems(table,Qt::MatchExactly);
     if( list.isEmpty() ) return;
     ui->listWidget->setCurrentItem( list.first() );
 
-    agentModel->deleteLater();
-    ruleModel->deleteLater();
-    agentModel = new QSqlTableModel(this,db);
-    ruleModel = new QSqlTableModel(this,db);
-    connect( ui->saveAgent , SIGNAL(clicked()) , agentModel , SLOT(submitAll()) );
-    connect( ui->saveRule , SIGNAL(clicked()) , ruleModel , SLOT(submitAll()) );
-    agentModel->setEditStrategy( QSqlTableModel::OnManualSubmit );
-    ruleModel->setEditStrategy( QSqlTableModel::OnManualSubmit );
-    //ui->ruleView->selectionModel()->deleteLater();
-    //ui->agentView->selectionModel()->deleteLater();
-    agentModel->setTable( tr("%1_agent").arg(compartment) );
-    ruleModel->setTable( tr("%1_rule").arg(compartment) );
-    agentModel->select();
-    ruleModel->select();
-    ui->ruleView->setModel(ruleModel);
-    ui->agentView->setModel(agentModel);
-    //ui->ruleView->hideColumn(0);
+    tableModel->deleteLater();
+    tableModel = new QSqlTableModel(this,db);
+    connect( ui->saveTable , SIGNAL(clicked()) , tableModel , SLOT(submitAll()) );
+    tableModel->setEditStrategy( QSqlTableModel::OnManualSubmit );
+    tableModel->setTable(table);
+    tableModel->select();
+    ui->tableView->setModel(tableModel);
 }
 
 void AssemblyDBEditor::refresh()
@@ -73,15 +61,17 @@ void AssemblyDBEditor::refresh()
     QString current = ui->listWidget->currentItem()?ui->listWidget->currentItem()->text():"";
 
     QSqlQuery query(db);
-    query.exec("SELECT id FROM compartment");
+    query.exec("SHOW TABLES");
     ui->listWidget->clear();
+    ui->listWidget->addItems(builtinTables);
     while( query.next() )
     {
+        if( builtinTables.contains(query.value(0).toString())) continue;
         ui->listWidget->addItem(query.value(0).toString());
     }
     if( !current.isEmpty() )
     {
-        selectCompartment(current);
+        selectTable(current);
     }
 }
 
@@ -110,9 +100,8 @@ void AssemblyDBEditor::addSet()
             return;
         }
         QSqlQuery query(db);
-        query.exec( tr("SELECT COUNT(id) FROM compartment WHERE id = \'%1\'").arg(text->text()) );
-        query.next();
-        if( query.value(0).toInt() )
+        query.exec( QString("SHOW TABLES LIKE \'%1\'").arg(text->text()) );
+        if( query.numRowsAffected() )
         {
             QMessageBox::information( this , "Error" , tr("RuleSet %1 already exists!").arg(text->text()) );
             return;
@@ -120,24 +109,21 @@ void AssemblyDBEditor::addSet()
         QRegExp rx("^([a-zA-Z])(\\w{0,254})$");
         if( rx.indexIn(text->text()) > -1 )
         {
-            query.exec( tr("INSERT INTO compartment (id) VALUE(\'%1\')").arg(text->text()));
-            query.exec( tr("CREATE TABLE %1_agent( "
-                           "type ENUM('prom','rbs','pcs','term','mol') NULL,"
-                           "id  CHAR(20) NOT NULL,"
-                           "rate   VARCHAR(255) NULL,"
-                           "defautl_site CHAR(255) NULL,"
-                           "note CHAR(512) NULL,"
-                           "primary key(id) )" ).arg(text->text()) );
-            query.exec( tr("CREATE TABLE %1_rule( "
-                           "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"
-                           "lhs VARCHAR(255) NULL,"
-                           "rhs VARCHAR(255) NULL,"
-                           "reversible ENUM('Y','N') NULL default 'Y',"
-                           "rate_on  VARCHAR(255) NOT NULL,"
-                           "rate_off VARCHAR(255) NOT NULL,"
-                           "note CHAR(512) NULL,"
-                           "PRIMARY KEY (id) )" ).arg(text->text()) );
+            query.exec( QString("CREATE TABLE %1"
+                        "("
+                            "name VARCHAR(255) NOT NULL,"
+                            "reactant_patterns VARCHAR(255) NULL,"
+                            "product_patterns VARCHAR(255) NULL,"
+                            "is_reversible ENUM(\'True\',\'False\') NULL default \'False\',"
+                            "forward_rate_law  VARCHAR(255) NOT NULL,"
+                            "reverse_rate_law  VARCHAR(255) NULL,"
+                            "PRIMARY KEY (name)"
+                        ");").arg(text->text())
+                        );
             refresh();
+        }else{
+            QMessageBox::information( this , "Error" , tr("\"%1\" is not a valid rule-set name!").arg(text->text()) );
+            return;
         }
     }
 
@@ -145,32 +131,22 @@ void AssemblyDBEditor::addSet()
 
 void AssemblyDBEditor::removeSet()
 {
+    if( ui->listWidget->currentItem() == 0 ) return;
     if( QMessageBox::Yes == QMessageBox::question(this,tr("Are you Sure?"),tr("All agents and rules of compartment [%1] will be deleted.\nThis operation can not be undone!\nDo not press Yes unless you know what you are doing!\n").arg(ui->listWidget->currentItem()->text()),QMessageBox::Yes|QMessageBox::No,QMessageBox::No) )
     {
         QSqlQuery query(db);
-        query.exec( tr("DELETE FROM compartment WHERE id='%1'").arg(ui->listWidget->currentItem()->text()));
-        query.exec( tr("DROP TABLE %1_agent").arg(ui->listWidget->currentItem()->text()) );
-        query.exec( tr("DROP TABLE %1_rule").arg(ui->listWidget->currentItem()->text()) );
+        query.exec( tr("DROP TABLE %1").arg(ui->listWidget->currentItem()->text()) );
         refresh();
     }
 }
 
-void AssemblyDBEditor::addRule()
+void AssemblyDBEditor::addRow()
 {
-    ruleModel->insertRows(0,1);
+    tableModel->insertRows(0,1);
 }
 
-void AssemblyDBEditor::removeRule()
+void AssemblyDBEditor::removeRow()
 {
-    ruleModel->removeRows( ui->ruleView->currentIndex().row() , 1 );
+    tableModel->removeRows( ui->tableView->currentIndex().row() , 1 );
 }
 
-void AssemblyDBEditor::addAgent()
-{
-    agentModel->insertRows(0,1);
-}
-
-void AssemblyDBEditor::removeAgent()
-{
-    agentModel->removeRows( ui->agentView->currentIndex().row() , 1 );
-}

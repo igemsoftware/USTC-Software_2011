@@ -119,6 +119,9 @@ void AssemblyView::updateFeatureToolbar(QToolBar *toobar)
     toobar->addAction(event_icon, "Event", mainScene, SLOT(requestEventEdit()));
 
     toobar->addSeparator();
+
+    QIcon db_icon(":/designer/assemblyview/db_editor.png");
+    toobar->addAction(db_icon, "Database", this, SLOT(requestDatabaseEdit()));
     QIcon run_icon(":/designer/assemblyview/start.png");
     toobar->addAction(run_icon, "Run", this, SLOT(CallIGame()));
 }
@@ -162,4 +165,10 @@ void AssemblyView::CallIGame()
     sbml_file.chop(6);
     sbml_file.append(".xml");
     newWnd->openFile(sbml_file);
+}
+
+void AssemblyView::requestDatabaseEdit()
+{
+    AssemblyDBEditor dbEditor;
+    dbEditor.exec();
 }

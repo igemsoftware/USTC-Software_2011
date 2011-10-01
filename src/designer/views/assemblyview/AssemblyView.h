@@ -31,6 +31,7 @@ public:
 public slots:
     void igameDBRefresh();
     void CallIGame();
+    void requestDatabaseEdit();
 
 private:
     QToolBar * recentModule;
