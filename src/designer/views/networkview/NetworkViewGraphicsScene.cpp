@@ -136,6 +136,7 @@ void NetworkViewGraphicsScene::removeLine(QGraphicsLineItem *line)
             break;
         }
     }
+    locked=true;
 }
 
 void NetworkViewGraphicsScene::loadFromModel(DesignerModelComponent* model)
@@ -297,7 +298,8 @@ void NetworkViewGraphicsScene::keyPressEvent(QKeyEvent *event)
             else if(dynamic_cast<QGraphicsLineItem*>(item))
             {
                 delete item;
-                this->refreshScriptValue();
+                locked=false;
+                refreshScriptValue();
             }
         }
         break;

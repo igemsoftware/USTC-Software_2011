@@ -167,9 +167,9 @@ void NetworkView::on_sceneSelectionChanged()
         NetworkViewGraphicsItem* item = dynamic_cast<NetworkViewGraphicsItem*>(selectedItem.first());
         if(item)
         {
-            emit updateSelectedItem(item->itemObject);
-            return;
+            emit updateSelectedItem(item->itemObject);            
         }
+        return;
     }
     emit updateSelectedItem(mainWindow->getCurrentModel()->getModel());
 }
@@ -204,7 +204,6 @@ void NetworkView::updateFeatureToolbar(QToolBar *toolBar)
         actionInvokeCopasi = toolBar->addAction(icon, "Copasi");
         connect(actionInvokeCopasi, SIGNAL(triggered()), SLOT(on_invokeCopasi()));
     }
-
 }
 
 void NetworkView::on_invokeCopasi()

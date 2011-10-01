@@ -1,7 +1,7 @@
 #include <cmath>
 #include "NetworkViewGraphicsSceneModification.h"
 
-const qreal NetworkViewGraphicsSceneModification::radius=4;
+const qreal NetworkViewGraphicsSceneModification::radius=2.5;
 
 NetworkViewGraphicsSceneModification::NetworkViewGraphicsSceneModification(QGraphicsItem *parent,
                                                            NetworkViewGraphicsSceneNode* node1,
@@ -11,8 +11,11 @@ NetworkViewGraphicsSceneModification::NetworkViewGraphicsSceneModification(QGrap
 {
     setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
     QPen pen;
-    pen.setWidth(2);
-    this->setPen(pen);
+    pen.setWidth(1);
+    QBrush brush;
+    brush.setStyle(Qt::SolidPattern);
+    head.setBrush(brush);
+    setPen(pen);
     if(edgeNode1)
     {
         edgeNode1->registerMod(this);
@@ -25,7 +28,7 @@ NetworkViewGraphicsSceneModification::NetworkViewGraphicsSceneModification(QGrap
     arrowLines.setParentItem(this);
     head.setParentItem(this);
     updatePos();
-    this->setZValue(2);
+    setZValue(2);
 }
 
 void NetworkViewGraphicsSceneModification::updatePos()

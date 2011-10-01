@@ -13,7 +13,7 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
 {
     setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
     QPen pen;
-    pen.setWidth(2);
+    pen.setWidth(1);
     this->setPen(pen);
     if(edgeNode1)
     {
@@ -24,9 +24,12 @@ NetworkViewGraphicsSceneEdge::NetworkViewGraphicsSceneEdge(QGraphicsItem *parent
         edgeNode2->registerEdge(this);
     }
     for(size_t i = 0; i < 4; i++)
+    {
         arrowLines[i].setParentItem(this);
+        arrowLines[i].setPen(pen);
+    }
     updatePos();
-    this->setZValue(2);
+    setZValue(2);
 }
 
 void NetworkViewGraphicsSceneEdge::updatePos(void)
