@@ -245,11 +245,39 @@ void DesignerMainWnd::on_actionFileOpen_triggered()
     QFileDialog dlg(this, tr("Open File"));
     QStringList doclist = DesignerDocMgr::getDocTypeList();
     QStringList filterlist;
-    filterlist<< "All Files (*.*)";
+
+    QString all_extensions;
     for(int i=0;i<doclist.count();i++)
     {
-        filterlist << DesignerDocMgr::getDocTypeFilter(doclist[i]);
+        QString filteritem = DesignerDocMgr::getDocTypeFilter(doclist[i]);
+        QRegExp regexp("[^(]*\\(([^)]*)\\)");
+        if(filteritem.indexOf(regexp)>=0)
+        {
+            all_extensions.append(regexp.cap(1));
+            all_extensions.append(" ");
+        }
+
+        filterlist << filteritem;
     }
+
+    filterlist<< "All Files (*.*)";
+
+    // add the all support files item
+    {
+        QStringList extensionlist = all_extensions.split(' ');
+        extensionlist.removeDuplicates();
+
+        QString supportedItemText = "";
+        supportedItemText += "All supported files(";
+        for(int i= 0; i< extensionlist.count();i++)
+        {
+            if(i) supportedItemText += " ";
+            supportedItemText += extensionlist[i];
+        }
+        supportedItemText += ")";
+        filterlist.insert(0, supportedItemText);
+    }
+
     dlg.setFileMode(QFileDialog::ExistingFile);
     dlg.setNameFilters(filterlist);
 
