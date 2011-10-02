@@ -130,7 +130,8 @@ void DesignerMainWnd::openFile(QString& fileName, bool url)
         return;
     }
 
-    if(!pDoc->loadFromDiskFile(fileName))
+    if(!((!url && pDoc->loadFromDiskFile(fileName)) ||
+         ( url && pDoc->loadFromUrl(fileName))))
     {
         QMessageBox msgBox(QMessageBox::Critical,
                            tr("Lachesis Designer"),

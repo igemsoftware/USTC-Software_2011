@@ -11,8 +11,7 @@ class DesignerApp : public QtSingleApplication
 public:
     explicit DesignerApp(int & argc, char ** argv, bool GUIenabled = true);
 
-    bool initApplication();
-    void sendCommandLineAsMessage();
+    bool initApplication(QString cmdLine);
 
     QVariant readConfigValue(QString group, QString name, QVariant defaultValue = QVariant());
     void writeConfigValue(QString group, QString name, QVariant value);

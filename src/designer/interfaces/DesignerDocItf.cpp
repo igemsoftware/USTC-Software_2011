@@ -69,12 +69,14 @@ bool DesignerDocComponent::loadFromUrl(QString url)
 void DesignerDocComponent::loadFromUrlFinished(QNetworkReply* reply)
 {
     QByteArray data = reply->readAll();
+//    qDebug()<< QString(data)<<endl;
     reply->deleteLater();
     QTemporaryFile file;
     if (file.open())
     {
         file.write(data);
         file.close();
+//        qDebug()<<file.fileName()<<endl;
         loadFromDiskFile(file.fileName());
     }
 }

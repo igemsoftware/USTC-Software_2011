@@ -20,7 +20,7 @@ DesignerApp::DesignerApp(int & argc, char ** argv, bool GUIenabled) :
 
 }
 
-bool DesignerApp::initApplication()
+bool DesignerApp::initApplication(QString cmdLine)
 {
     QLocale::setDefault(QLocale(QLocale::English));
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
@@ -55,6 +55,10 @@ bool DesignerApp::initApplication()
     splash->show();
 
     QTimer::singleShot(1500, splash, SLOT(close()));
+
+    if(cmdLine!="/new")
+        mainWnd->instanceMessageReceived(cmdLine);
+
     while(splash->isVisible())
     {
         processEvents();
@@ -95,11 +99,4 @@ void DesignerApp::writeConfigValue(QString group, QString name, QVariant value)
     settings.beginGroup(fullGroupName);
     settings.setValue(name, value);
     settings.endGroup();
-}
-
-
-void DesignerApp::sendCommandLineAsMessage()
-{
-    //! \todo add more code here.
-    sendMessage("/new");
 }
