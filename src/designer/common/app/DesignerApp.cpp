@@ -22,6 +22,7 @@ DesignerApp::DesignerApp(int & argc, char ** argv, bool GUIenabled) :
 
 bool DesignerApp::initApplication()
 {
+    QLocale::setDefault(QLocale(QLocale::English));
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
 
     QPixmap pixmap(":/designer/splash.png");

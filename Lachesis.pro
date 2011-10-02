@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui script scripttools xml xmlpatterns webkit
+QT       += core gui network script scripttools xml xmlpatterns webkit
 
 #LIBS += -lgsl -lgslcblas
 #LIBS += -lsbml

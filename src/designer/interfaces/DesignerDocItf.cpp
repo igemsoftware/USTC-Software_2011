@@ -1,4 +1,5 @@
 #include "DesignerDocItf.h"
+#include <QtNetwork>
 
 #include "documents/SBML/SBMLDoc.h"
 #include "documents/MoDeL/MoDeLDoc.h"
@@ -12,9 +13,10 @@
 
 DesignerDocComponent::DesignerDocComponent() :
     QObject(NULL) ,
-    currentModel(NULL)
+    currentModel(NULL) ,
+    netmanager(new QNetworkAccessManager(this))
 {
-
+    connect(netmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loadFromUrlFinished(QNetworkReply*)));
 }
 
 
@@ -40,6 +42,41 @@ bool DesignerDocComponent::loadFromDiskFile(QString fileName)
     }
 
     return retValue;
+}
+
+bool DesignerDocComponent::loadFromUrl(QString url)
+{
+    QEventLoop loop;
+    QTimer timer;
+
+    timer.setSingleShot(true);
+    connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+
+    netmanager->get(QNetworkRequest(QUrl(url)));
+
+    timer.start(8000);
+    loop.exec();
+
+    if(timer.isActive())
+    {
+        timer.stop();
+
+        return true;
+    }
+    return false;
+}
+
+void DesignerDocComponent::loadFromUrlFinished(QNetworkReply* reply)
+{
+    QByteArray data = reply->readAll();
+    reply->deleteLater();
+    QTemporaryFile file;
+    if (file.open())
+    {
+        file.write(data);
+        file.close();
+        loadFromDiskFile(file.fileName());
+    }
 }
 
 bool DesignerDocComponent::saveToDiskFile(QString fileName)

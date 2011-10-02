@@ -38,16 +38,16 @@ void FileDescriptionView::storageUpdated()
         ui->labelFileName->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().fileName());
         ui->labelFileSize->setText(QString::number(currentModel->getCurrentDoc()->getDocumentFileInfo().size()));
         ui->labelFilePath->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().filePath());
-    	ui->labelLastModified->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().lastModified().toString());
-    	ui->labelLastRead->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().lastRead().toString());
+        ui->labelLastModified->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().lastModified().toString(Qt::DefaultLocaleShortDate));
+        ui->labelLastRead->setText(currentModel->getCurrentDoc()->getDocumentFileInfo().lastRead().toString(Qt::DefaultLocaleShortDate));
     }
     else
     {
         ui->labelFileName->setText(tr("<Not saved>"));
         ui->labelFileSize->setText(tr("<Not saved>"));
         ui->labelFilePath->setText(tr("<Not saved>"));
-	ui->labelLastModified->setText(tr("<Not saved>"));
-	ui->labelLastRead->setText(tr("<Not saved>"));
+        ui->labelLastModified->setText(tr("<Not saved>"));
+        ui->labelLastRead->setText(tr("<Not saved>"));
     }
     ui->labelFileType->setText(DesignerDocMgr::getDocTypeTitle(currentModel->getCurrentDoc()->metaObject()->className()));
 }

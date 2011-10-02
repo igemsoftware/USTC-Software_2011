@@ -2,6 +2,7 @@
 #define DESIGNERDOCCOMPONENT_H
 
 #include "DesignerDocItf.h"
+#include <QtNetwork>
 
 #include "common/componentmgr/DesignerDocMgr.h"
 
@@ -22,6 +23,10 @@ protected:
 public:
     //! Retrieve the model object associated with this document.
     DesignerModelComponent * getCurrentModel(QString defaultModel = "");
+
+    // network manager
+    QNetworkAccessManager* netmanager;
+
 
     // readonly flag
 public:
@@ -51,6 +56,11 @@ public:
     bool saveToDiskFile(QString fileName);
     //! Dump data to the previous file.
     bool updateFile();
+
+public:
+    bool loadFromUrl(QString url);
+public slots:
+    void loadFromUrlFinished(QNetworkReply* reply);
 
 public:
     static bool fitIsBetterThan(extentValue a, extentValue b)

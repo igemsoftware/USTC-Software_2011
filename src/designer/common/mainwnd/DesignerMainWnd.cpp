@@ -99,7 +99,7 @@ void DesignerMainWnd::createModelWithView(QString viewName)
     createView(viewName);
 }
 
-void DesignerMainWnd::openFile(QString& fileName)
+void DesignerMainWnd::openFile(QString& fileName, bool url)
 {
     const QMetaObject* metaObject =
             DesignerDocMgr::getBestFitDocumentTypeForFile(fileName);
@@ -350,9 +350,20 @@ void DesignerMainWnd::on_actionHelpAboutApp_triggered()
 
 void DesignerMainWnd::instanceMessageReceived(const QString& message)
 {
-    if(message=="/new")
+    QString cmdPrefix;
+    if(message==(cmdPrefix = "/new"))
     {
         globalCreateNewMainWnd();
+    }
+    else if(message.startsWith(cmdPrefix = "/open "))
+    {
+        QString filepath = message.mid(cmdPrefix.length());
+        openFile(filepath);
+    }
+    else if(message.startsWith(cmdPrefix = "/openurl "))
+    {
+        QString filepath = message.mid(cmdPrefix.length());
+        openFile(filepath, true);
     }
 }
 

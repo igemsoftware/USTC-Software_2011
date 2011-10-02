@@ -19,7 +19,7 @@ public:
     ~DesignerMainWnd();
 
 public:
-    void openFile(QString& fileName);
+    void openFile(QString& fileName, bool url = false);
     void saveFile(QString& fileName, QString docTypeName);
 
 public slots:
