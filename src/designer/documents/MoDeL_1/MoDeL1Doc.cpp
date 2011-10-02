@@ -7,18 +7,9 @@
 #include "MoDeL1Parser.h"
 
 
-MoDeL1Doc::MoDeL1Doc() :
-    DesignerDocComponent()
+MoDeL1Doc::MoDeL1Doc()
 {
 
-}
-
-MoDeL1Doc::~MoDeL1Doc()
-{
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
 }
 
 MoDeL1Doc::extentValue MoDeL1Doc::checkIfFileFitsDocumentType(QFile& file)
@@ -39,53 +30,42 @@ MoDeL1Doc::extentValue MoDeL1Doc::checkIfFileFitsDocumentType(QFile& file)
     return NOTACCEPTABLE;
 }
 
-bool MoDeL1Doc::loadFromFile(QFile& file)
+DesignerModelComponent* MoDeL1Doc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     QDomDocument domdoc("modeldoctest");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
-            return false;
+            return NULL;
 
     if(!domdoc.setContent(&file))
     {
         file.close();
-        return NOTACCEPTABLE;
+        return NULL;
     }
     file.close();
 
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-    currentModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), this);
-    if(!currentModel)
-        return false;
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), docComp);
+    if(!newModel)
+        return NULL;
 
     QDomElement domDocElem = domdoc.documentElement();
     if(domDocElem.nodeName()!="MoDeL")
     {
-        currentModel->deleteLater();
-        currentModel=NULL;
-        return false;
+        newModel->deleteLater();
+        return NULL;
     }
 
     MoDeL1Parser parser;
 
-    bool retValue = parser.parse(currentModel, domdoc);
+    bool retValue = parser.parse(newModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        newModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
-    return retValue;
+    return retValue ? newModel : NULL;
 }
 
-bool MoDeL1Doc::saveToFile(QFile& file)
+bool MoDeL1Doc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
     return false;
 }
-
-MoDeL1Doc::extentValue MoDeL1Doc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
-{
-    return MoDeL1Doc::NOTACCEPTABLE;
-}
-

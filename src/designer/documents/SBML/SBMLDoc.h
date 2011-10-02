@@ -5,18 +5,17 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class SBMLDoc : public DesignerDocComponent
+class SBMLDoc : public QObject,
+                public DesignerDocItf
 {
     Q_OBJECT
+    Q_INTERFACES(DesignerDocItf)
 public:
-    Q_INVOKABLE explicit SBMLDoc();
-    ~SBMLDoc();
+    Q_INVOKABLE explicit SBMLDoc(){};
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
-    virtual bool loadFromFile(QFile& file);
-    virtual bool saveToFile(QFile& file);
-
-    virtual extentValue checkIfDocCanConvertToThisType(QMetaObject& metaObject);
+    virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp);
+    virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp);
 
 };
 

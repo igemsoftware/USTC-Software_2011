@@ -7,20 +7,6 @@
 #include "SBMLParser.h"
 #include "documents/common/designerxmldocwriter/DesignerXMLDocWriter.h"
 
-SBMLDoc::SBMLDoc() :
-    DesignerDocComponent()
-{
-
-}
-
-SBMLDoc::~SBMLDoc()
-{
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-}
-
 SBMLDoc::extentValue SBMLDoc::checkIfFileFitsDocumentType(QFile& file)
 {
     QDomDocument domdoc("sbmldoctest");
@@ -39,59 +25,49 @@ SBMLDoc::extentValue SBMLDoc::checkIfFileFitsDocumentType(QFile& file)
     return NOTACCEPTABLE;
 }
 
-bool SBMLDoc::loadFromFile(QFile& file)
+DesignerModelComponent* SBMLDoc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     QDomDocument domdoc("sbmldoctest");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
-            return false;
+            return NULL;
 
     if(!domdoc.setContent(&file))
     {
         file.close();
-        return NOTACCEPTABLE;
+        return NULL;
     }
     file.close();
 
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-    currentModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), this);
-    if(!currentModel)
-        return false;
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(tr("ReactionNetworkModel"), docComp);
+    if(!newModel)
+        return NULL;
 
     QDomElement domDocElem = domdoc.documentElement();
     if(domDocElem.nodeName()!="sbml")
     {
-        currentModel->deleteLater();
-        currentModel=NULL;
-        return false;
+        newModel->deleteLater();
+        return NULL;
     }
 
     SBMLParser parser;
 
-    bool retValue = parser.parse(currentModel, domdoc);
+    bool retValue = parser.parse(newModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        newModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
-    return retValue;
+    return retValue ? newModel : NULL;
 }
 
-bool SBMLDoc::saveToFile(QFile& file)
+bool SBMLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
+#pragma message "Absolute path... What's up? -CrLF0710"
     DesignerXMLDocWriter writer("D:\\iGame\\GIT\\lachesis\\src\\designer\\documents\\SBML\\SBML.writerules");
-    QDomDocument * doc = writer.WriteDoc(getCurrentModel());
+    QDomDocument * doc = writer.WriteDoc(modelComp);
     file.open(QIODevice::ReadWrite);
     QTextStream stream(&file);
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" << doc->toString();
     stream.flush();
     return true;
 }
-
-SBMLDoc::extentValue SBMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
-{
-    return SBMLDoc::NOTACCEPTABLE;
-}
-

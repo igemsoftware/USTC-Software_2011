@@ -4,17 +4,17 @@
 #include "interfaces/DesignerDocItf.h"
 #include "interfaces/DesignerModelItf.h"
 
-class EMBLDoc : public DesignerDocComponent
+class EMBLDoc : public QObject,
+                public DesignerDocItf
 {
-
     Q_OBJECT
+    Q_INTERFACES(DesignerDocItf)
 public:
     Q_INVOKABLE explicit EMBLDoc();
-    ~EMBLDoc();
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
-    virtual bool loadFromFile(QFile& file);
-    virtual bool saveToFile(QFile& file);
+    virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp);
+    virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp);
 };
 
 #endif // EMBLDOC_H

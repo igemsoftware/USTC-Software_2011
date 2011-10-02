@@ -6,14 +6,8 @@
 #include "RSBPMLDoc.h"
 #include "RSBPMLParser.h"
 
-RSBPMLDoc::RSBPMLDoc() :
-    DesignerDocComponent()
+RSBPMLDoc::RSBPMLDoc()
 {
-}
-
-RSBPMLDoc::~RSBPMLDoc()
-{
-
 }
 
 DesignerDocComponent::extentValue RSBPMLDoc::checkIfFileFitsDocumentType(QFile& file)
@@ -34,47 +28,42 @@ DesignerDocComponent::extentValue RSBPMLDoc::checkIfFileFitsDocumentType(QFile& 
     return NOTACCEPTABLE;
 }
 
-bool RSBPMLDoc::loadFromFile(QFile& file)
+DesignerModelComponent* RSBPMLDoc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     QDomDocument domdoc("rsbpmldoc");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
-            return false;
+            return NULL;
 
     if(!domdoc.setContent(&file))
     {
         file.close();
-        return NOTACCEPTABLE;
+        return NULL;
     }
     file.close();
 
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
-    if(!currentModel)
-        return false;
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), docComp);
+    if(!newModel)
+        return NULL;
 
     QDomElement domDocElem = domdoc.documentElement();
     if(domDocElem.nodeName()!="rsbpml")
     {
-        currentModel->deleteLater();
-        currentModel=NULL;
-        return false;
+        newModel->deleteLater();
+        return NULL;
     }
 
     RSBPMLParser parser;
 
-    bool retValue = parser.parse(currentModel, domdoc);
+    bool retValue = parser.parse(newModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        newModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
-    return retValue;
+    return retValue ? newModel : NULL;
 }
 
-bool RSBPMLDoc::saveToFile(QFile& file)
+bool RSBPMLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
     return false;
 }

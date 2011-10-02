@@ -11,6 +11,8 @@
 #include "documents/MoDeL_1/MoDeL1Doc.h"
 #include "documents/USML/USMLDoc.h"
 
+
+
 #define LACHESIS_DECLARE_DOCUMENT(className, supportSave, titleText, filterText) \
     DesignerDocMgr::DocItfRegistry::ItemRegistryInlineAdd docreg_##className (QString( #className ), \
     DesignerDocMgr::DocItfRegistryItem(& className ::staticMetaObject, supportSave, titleText, filterText))
@@ -21,6 +23,7 @@ void DesignerDocMgr::initializeIfNotYet()
     if(!initialized)
     {
         initialized = true;
+
         LACHESIS_DECLARE_DOCUMENT(SBMLDoc,      false, "SBML File",     "*.xml *.sbml");
         LACHESIS_DECLARE_DOCUMENT(MoDeLDoc,     true, "MoDeL File",    "*.model");
         LACHESIS_DECLARE_DOCUMENT(RSBPMLDoc,    false, "RSBPML File",   "*.xml *.rsbpml");
@@ -30,6 +33,7 @@ void DesignerDocMgr::initializeIfNotYet()
         LACHESIS_DECLARE_DOCUMENT(GENBANKDoc,   true, "GenBank File",  "*.xml *.genbank");
         LACHESIS_DECLARE_DOCUMENT(MoDeL1Doc,    false, "MoDeL-1 File",  "*.xml");
         LACHESIS_DECLARE_DOCUMENT(USMLDoc,      true , "USML File",     "*.xml *.usml");
+
     }
 }
 
@@ -45,7 +49,9 @@ const QMetaObject* DesignerDocMgr::getBestFitDocumentTypeForFile(QString pathNam
     size_t bestFit = arraySize;
     for(size_t i=0;i<arraySize;i++)
     {
-        DesignerDocComponent* newDocument = (DesignerDocComponent*)DocItfRegistry::item(i).metaObject->newInstance();
+        const QMetaObject* obj = DocItfRegistry::item(i).metaObject;
+        if(!obj) continue;
+        DesignerDocItf* newDocument = qobject_cast<DesignerDocItf*>(obj->newInstance());
         QFile file(pathName);
         retValues[i].extent = newDocument->checkIfFileFitsDocumentType(file);
 

@@ -11,10 +11,11 @@
 #include "documents/MoDeL_1/MoDeL1Doc.h"
 #include "documents/USML/USMLDoc.h"
 
-DesignerDocComponent::DesignerDocComponent() :
+DesignerDocComponent::DesignerDocComponent(DesignerDocItf* _itf) :
     QObject(NULL) ,
     currentModel(NULL) ,
-    netmanager(new QNetworkAccessManager(this))
+    netmanager(new QNetworkAccessManager(this)) ,
+    interface(_itf)
 {
     connect(netmanager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loadFromUrlFinished(QNetworkReply*)));
 }
@@ -32,16 +33,24 @@ bool DesignerDocComponent::loadFromDiskFile(QString fileName)
     }
     file.close();
 
-    bool retValue = loadFromFile(file);
-    if(retValue)
+    const QMetaObject* obj = DesignerDocMgr::getBestFitDocumentTypeForFile(fileName);
+    if(!obj) return false;
+
+    interface = qobject_cast<DesignerDocItf*>(obj->newInstance());
+
+    DesignerModelComponent* modelComp = interface->loadFromFile(file, this);
+    if(modelComp)
     {
         this->documentFileInfo = QFileInfo(file);
         this->readOnly = isReadOnly;
-        getCurrentModel()->setModified(false);
-        getCurrentModel()->requestUpdate(DesignerModelComponent::updateByStorage);
+        modelComp->setModified(false);
+        modelComp->requestUpdate(DesignerModelComponent::updateByStorage);
+
+        if(currentModel) currentModel->deleteLater();
+        currentModel = modelComp;
     }
 
-    return retValue;
+    return modelComp;
 }
 
 bool DesignerDocComponent::loadFromUrl(QString url)
@@ -85,7 +94,7 @@ bool DesignerDocComponent::saveToDiskFile(QString fileName)
 {
     QFile file(fileName);
     if(file.exists()&&!file.remove()) return false;
-    bool retValue = saveToFile(file);
+    bool retValue = interface && interface->saveToFile(file, currentModel);
 
     if(retValue)
     {

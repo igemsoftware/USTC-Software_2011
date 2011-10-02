@@ -6,15 +6,8 @@
 #include "SBOLDoc.h"
 #include "SBOLParser.h"
 
-SBOLDoc::SBOLDoc() :
-    DesignerDocComponent()
+SBOLDoc::SBOLDoc()
 {
-}
-
-
-SBOLDoc::~SBOLDoc()
-{
-
 }
 
 DesignerDocComponent::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& file)
@@ -34,52 +27,47 @@ DesignerDocComponent::extentValue SBOLDoc::checkIfFileFitsDocumentType(QFile& fi
     {
         if(domDocElem.attribute("xmlns").endsWith("/sbol.owl#"))
             return EXACTLY;
-        return DesignerDocComponent::INSUFFICIENTLY;
+        return INSUFFICIENTLY;
     }
     return NOTACCEPTABLE;
 }
 
-bool SBOLDoc::loadFromFile(QFile& file)
+DesignerModelComponent* SBOLDoc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     QDomDocument domdoc("sboldoc");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
-            return false;
+            return NULL;
 
     if(!domdoc.setContent(&file))
     {
         file.close();
-        return NOTACCEPTABLE;
+        return NULL;
     }
     file.close();
 
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-    currentModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), this);
-    if(!currentModel)
-        return false;
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(tr("SyntheticBiologicalPartModel"), docComp);
+    if(!newModel)
+        return NULL;
 
     QDomElement domDocElem = domdoc.documentElement();
     if(domDocElem.nodeName()!="rdf:RDF")
     {
-        currentModel->deleteLater();
-        currentModel=NULL;
+        newModel->deleteLater();
         return false;
     }
 
     SBOLParser parser;
 
-    bool retValue = parser.parse(currentModel, domdoc);
+    bool retValue = parser.parse(newModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        newModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
     }
-    return retValue;
+    return retValue ? newModel : NULL;
 }
 
-bool SBOLDoc::saveToFile(QFile& file)
+bool SBOLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
     return false;
 }

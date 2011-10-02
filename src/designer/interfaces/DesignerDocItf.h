@@ -10,6 +10,7 @@
 
 class DesignerMainWnd;
 class DesignerModelComponent;
+class DesignerDocComponent;
 
 class DesignerDocItf
 {
@@ -24,9 +25,8 @@ public:
     //! Check if the file is loadable by this type of document .
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
 public:
-    virtual bool loadFromFile(QFile& file) = 0;
-    //! Dump data to this file. (implemented by subclasses)
-    virtual bool saveToFile(QFile& file) = 0;
+    virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp) = 0;
+    virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp) = 0;
 };
 
 QT_BEGIN_NAMESPACE

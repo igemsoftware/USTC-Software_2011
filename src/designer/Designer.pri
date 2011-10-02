@@ -19,7 +19,6 @@ SOURCES +=\
     views/assemblyview/AssemblyItemBase.cpp \
     views/assemblyview/AssemblyItemPart.cpp \
     views/behaviorview/BehaviorViewPlotWidget.cpp \
-    documents/SBML/SBMLDoc.cpp \    
     views/assemblyview/AssemblyPropertyWidget.cpp \
     views/assemblyview/AssemblySearchWidget.cpp \
     DesignerDebug.cpp \
@@ -28,8 +27,6 @@ SOURCES +=\
     views/sbmleditorview/SBMLEditorView.cpp \
     views/sbmleditorview/SBMLEditorViewHighlighter.cpp \    
     views/behaviorview/BehaviorView.cpp \
-    documents/MoDeL/MoDeLDocParser.cpp \
-    documents/MoDeL/MoDeLDoc.cpp \
     common/widgets/MainWndTabWidget.cpp \
     views/filedescriptionview/FileDescriptionView.cpp \
     views/networkview/NetworkViewGraphicsSceneContainer.cpp \
@@ -46,23 +43,8 @@ SOURCES +=\
     src/designer/interfaces/DesignerDocItf.cpp \
     src/designer/views/webpageview/WebPageView.cpp \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.cpp \
-    src/designer/documents/RSBPML/RSBPMLDoc.cpp \
-    src/designer/documents/RSBPML/RSBPMLParser.cpp \
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.cpp \
-    src/designer/documents/SBOL/SBOLDoc.cpp \
-    src/designer/documents/SBOL/SBOLParser.cpp \
-    src/designer/documents/SBML/SBMLParser.cpp \
-    src/designer/documents/FASTA/FASTADocParser.cpp \
-    src/designer/documents/FASTA/FASTADoc.cpp \
-    src/designer/documents/EMBL/EMBLDocParser.cpp \
-    src/designer/documents/EMBL/EMBLDoc.cpp \
-    src/designer/documents/GENBANK/GENBANKDoc.cpp \
-    src/designer/documents/GENBANK/GENBANKDocParser.cpp \
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.cpp \
-    src/designer/documents/MoDeL_1/MoDeL1Parser.cpp \
-    src/designer/documents/MoDeL_1/MoDeL1Doc.cpp \
-    src/designer/documents/USML/USMLDoc.cpp \
-    src/designer/documents/USML/USMLParser.cpp \
     src/designer/common/app/DesignerApp.cpp \
     src/designer/common/mainwnd/DesignerMainWnd.cpp \
     src/designer/views/assemblyview/AssemblyItemMolecule.cpp \
@@ -89,7 +71,26 @@ SOURCES +=\
     src/designer/common/componentmgr/DesignerExtensionMgr.cpp \
     src/designer/interfaces/DesignerExtensionItf.cpp \
     #src/designer/views/paramfittingview/ParamFittingView.cpp \
-    #src/designer/views/paramfittingview/SbmlOdeSolver.cpp
+    #src/designer/views/paramfittingview/SbmlOdeSolver.cpp \
+    src/designer/documents/SBML/SBMLDoc.cpp \
+    src/designer/documents/MoDeL/MoDeLDocParser.cpp \
+    src/designer/documents/MoDeL/MoDeLDoc.cpp \
+    src/designer/documents/RSBPML/RSBPMLDoc.cpp \
+    src/designer/documents/RSBPML/RSBPMLParser.cpp \
+    src/designer/documents/SBOL/SBOLDoc.cpp \
+    src/designer/documents/SBOL/SBOLParser.cpp \
+    src/designer/documents/SBML/SBMLParser.cpp \
+    src/designer/documents/FASTA/FASTADocParser.cpp \
+    src/designer/documents/FASTA/FASTADoc.cpp \
+    src/designer/documents/EMBL/EMBLDocParser.cpp \
+    src/designer/documents/EMBL/EMBLDoc.cpp \
+    src/designer/documents/GENBANK/GENBANKDoc.cpp \
+    src/designer/documents/GENBANK/GENBANKDocParser.cpp \
+    src/designer/documents/MoDeL_1/MoDeL1Parser.cpp \
+    src/designer/documents/MoDeL_1/MoDeL1Doc.cpp \
+    src/designer/documents/USML/USMLDoc.cpp \
+    src/designer/documents/USML/USMLParser.cpp
+
 
 HEADERS  += \
     views/assemblyview/AssemblyItemPlasmid.h \
@@ -108,7 +109,6 @@ HEADERS  += \
     models/reactionnetworkmodel/ReactionNetwork.h \
     views/assemblyview/AssemblyItemPart.h \
     views/behaviorview/BehaviorViewPlotWidget.h \
-    documents/SBML/SBMLDoc.h \    
     views/assemblyview/AssemblyPropertyWidget.h \
     views/assemblyview/AssemblySearchWidget.h \
     DesignerDebug.h \
@@ -117,8 +117,6 @@ HEADERS  += \
     views/sbmleditorview/SBMLEditorView.h \
     views/sbmleditorview/SBMLEditorViewHighlighter.h \    
     views/behaviorview/BehaviorView.h \
-    documents/MoDeL/MoDeLDocParser.h \
-    documents/MoDeL/MoDeLDoc.h \
     common/widgets/MainWndTabWidget.h \
     views/filedescriptionview/FileDescriptionView.h \
     views/networkview/NetworkViewGraphicsSceneContainer.h \
@@ -137,23 +135,8 @@ HEADERS  += \
     src/designer/interfaces/DesignerInterface.h \
     src/designer/views/webpageview/WebPageView.h \
     src/designer/models/syntheticbiologicalpartmodel/SyntheticBiologicalPart.h \
-    src/designer/documents/RSBPML/RSBPMLDoc.h \
-    src/designer/documents/RSBPML/RSBPMLParser.h \
     src/designer/documents/common/designerxmldocparser/DesignerXMLDocParser.h \
-    src/designer/documents/SBOL/SBOLDoc.h \
-    src/designer/documents/SBOL/SBOLParser.h \
-    src/designer/documents/SBML/SBMLParser.h \
-    src/designer/documents/FASTA/FASTADocParser.h \
-    src/designer/documents/FASTA/FASTADoc.h \
-    src/designer/documents/EMBL/EMBLDocParser.h \
-    src/designer/documents/EMBL/EMBLDoc.h \
-    src/designer/documents/GENBANK/GENBANKDoc.h \
-    src/designer/documents/GENBANK/GENBANKDocParser.h \
     src/designer/documents/common/designerpartdocparser/DesignerPartDocParser.h \
-    src/designer/documents/MoDeL_1/MoDeL1Parser.h \
-    src/designer/documents/MoDeL_1/MoDeL1Doc.h \
-    src/designer/documents/USML/USMLParser.h \
-    src/designer/documents/USML/USMLDoc.h \
     src/designer/common/app/DesignerApp.h \
     src/designer/common/mainwnd/DesignerMainWnd.h \
     src/designer/views/assemblyview/AssemblyItemMolecule.h \
@@ -183,7 +166,25 @@ HEADERS  += \
     src/designer/interfaces/DesignerViewComponent.h \
     #src/designer/views/paramfittingview/ParamFittingView.h \
     #src/designer/views/paramfittingview/SbmlOdeSolver.h \
-    #src/designer/views/paramfittingview/ParamFittingDef.h
+    #src/designer/views/paramfittingview/ParamFittingDef.h \
+    documents/SBML/SBMLDoc.h \
+    documents/MoDeL/MoDeLDocParser.h \
+    documents/MoDeL/MoDeLDoc.h \
+    src/designer/documents/RSBPML/RSBPMLDoc.h \
+    src/designer/documents/RSBPML/RSBPMLParser.h \
+    src/designer/documents/SBOL/SBOLDoc.h \
+    src/designer/documents/SBOL/SBOLParser.h \
+    src/designer/documents/SBML/SBMLParser.h \
+    src/designer/documents/FASTA/FASTADocParser.h \
+    src/designer/documents/FASTA/FASTADoc.h \
+    src/designer/documents/EMBL/EMBLDocParser.h \
+    src/designer/documents/EMBL/EMBLDoc.h \
+    src/designer/documents/GENBANK/GENBANKDoc.h \
+    src/designer/documents/GENBANK/GENBANKDocParser.h \
+    src/designer/documents/MoDeL_1/MoDeL1Parser.h \
+    src/designer/documents/MoDeL_1/MoDeL1Doc.h \
+    src/designer/documents/USML/USMLParser.h \
+    src/designer/documents/USML/USMLDoc.h
 
 
 FORMS    += \

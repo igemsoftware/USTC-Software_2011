@@ -3,20 +3,17 @@
 
 #include "interfaces/DesignerDocItf.h"
 
-class SBOLDoc : public DesignerDocComponent
+class SBOLDoc : public QObject,
+                public DesignerDocItf
 {
     Q_OBJECT
+    Q_INTERFACES(DesignerDocItf)
 public:
     Q_INVOKABLE explicit SBOLDoc();
-    ~SBOLDoc();
 
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
-    virtual bool loadFromFile(QFile& file);
-    virtual bool saveToFile(QFile& file);
-
-signals:
-
-public slots:
+    virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp);
+    virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp);
 
 };
 

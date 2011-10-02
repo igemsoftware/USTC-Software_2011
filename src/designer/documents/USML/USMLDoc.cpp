@@ -5,18 +5,9 @@
 #include "USMLParser.h"
 
 
-USMLDoc::USMLDoc() :
-    DesignerDocComponent()
+USMLDoc::USMLDoc()
 {
 
-}
-
-USMLDoc::~USMLDoc()
-{
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
 }
 
 USMLDoc::extentValue USMLDoc::checkIfFileFitsDocumentType(QFile& file)
@@ -37,47 +28,42 @@ USMLDoc::extentValue USMLDoc::checkIfFileFitsDocumentType(QFile& file)
     return NOTACCEPTABLE;
 }
 
-bool USMLDoc::loadFromFile(QFile& file)
+DesignerModelComponent* USMLDoc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     QDomDocument domdoc("usml");
     if(!file.open(QFile::ReadWrite))
         if(!file.open(QFile::ReadOnly))
-            return false;
+            return NULL;
 
     if(!domdoc.setContent(&file))
     {
         file.close();
-        return NOTACCEPTABLE;
+        return NULL;
     }
     file.close();
-
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-        currentModel = NULL;
-    }
 
     QDomElement domDocElem = domdoc.documentElement();
     if(domDocElem.nodeName()!="usml"||domDocElem.attribute("model").isNull())
     {
-        return false;
+        return NULL;
     }
 
-    currentModel = DesignerModelMgr::createModel(domDocElem.attribute("model"), this);
-    if(!currentModel)
-        return false;
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(domDocElem.attribute("model"), docComp);
+    if(!newModel)
+        return NULL;
 
     USMLParser parser;
 
-    bool retValue = parser.parse(currentModel, domdoc);
+    bool retValue = parser.parse(newModel, domdoc);
     if(retValue)
     {
-        currentModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        newModel->requestUpdate(DesignerModelComponent::updateByData | DesignerModelComponent::updateByStorage);
+        return newModel;
     }
-    return retValue;
+    return NULL;
 }
 
-bool USMLDoc::saveToFile(QFile& file)
+bool USMLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
     struct mangler
     {
@@ -108,11 +94,11 @@ bool USMLDoc::saveToFile(QFile& file)
     usmlDoc.createDocumentFragment();
 
     QDomElement rootElem = usmlDoc.createElement("usml");
-    rootElem.setAttribute("model", getCurrentModel()->metaObject()->className());
+    rootElem.setAttribute("model", modelComp->metaObject()->className());
     usmlDoc.appendChild(rootElem);
 
     QDomElement modelElem = usmlDoc.createElement("model");
-    if(getCurrentModel()->getModel().isArray())
+    if(modelComp->getModel().isArray())
     {
         modelElem.setAttribute("_", "_");
     }
@@ -120,7 +106,8 @@ bool USMLDoc::saveToFile(QFile& file)
 
     typedef QPair<QDomElement, QScriptValue> workQueueRecord;
     QList<workQueueRecord> workQueue;
-    workQueue.append(workQueueRecord(modelElem, getCurrentModel()->getModel()));
+    workQueue.append(workQueueRecord(modelElem, modelComp->getModel()));
+
     int workQueuePos = 0;
     while(workQueuePos < workQueue.size())
     {
@@ -158,9 +145,3 @@ bool USMLDoc::saveToFile(QFile& file)
 
     return true;
 }
-
-USMLDoc::extentValue USMLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
-{
-    return USMLDoc::NOTACCEPTABLE;
-}
-

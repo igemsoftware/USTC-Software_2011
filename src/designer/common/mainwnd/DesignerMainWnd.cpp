@@ -101,53 +101,25 @@ void DesignerMainWnd::createModelWithView(QString viewName)
 
 void DesignerMainWnd::openFile(QString& fileName, bool url)
 {
-    const QMetaObject* metaObject =
-            DesignerDocMgr::getBestFitDocumentTypeForFile(fileName);
-    if(!metaObject)
+    DesignerDocComponent* pDoc = new DesignerDocComponent();
+
+    if (!(!url ? pDoc->loadFromDiskFile(fileName) : pDoc->loadFromUrl(fileName)))
     {
         QMessageBox msgBox(QMessageBox::Critical,
                            tr("Lachesis Designer"),
-                           tr("Cannot recognize the file yet."),
+                           tr("Cannot open the file."),
                            QMessageBox::Ok,
                            this);
         msgBox.exec();
+        pDoc->deleteLater();
         return;
     }
 
     DesignerMainWnd* pFrame = (currentModel ? globalCreateNewMainWnd() : this);
-    DesignerDocComponent*  pDoc   = (DesignerDocComponent*)metaObject->newInstance();
-    if(!pDoc)
-    {
-        QMessageBox msgBox(QMessageBox::Critical,
-                           tr("Lachesis Designer"),
-                           tr("We encountered an error."),
-                           QMessageBox::Ok,
-                           pFrame);
-
-        msgBox.exec();
-        pFrame->deleteLater();
-        pDoc->deleteLater();
-        return;
-    }
-
-    if(!((!url && pDoc->loadFromDiskFile(fileName)) ||
-         ( url && pDoc->loadFromUrl(fileName))))
-    {
-        QMessageBox msgBox(QMessageBox::Critical,
-                           tr("Lachesis Designer"),
-                           tr("We encountered an error."),
-                           QMessageBox::Ok,
-                           pFrame);
-        msgBox.exec();
-        pFrame->deleteLater();
-        pDoc->deleteLater();
-        return;
-    }
 
     pFrame->currentModel = pDoc->getCurrentModel();
     pFrame->createView("FileDescriptionView", true);
-/*
-*/
+
     updateTabInfo();
 }
 

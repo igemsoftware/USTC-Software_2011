@@ -9,18 +9,9 @@
 #include "views/assemblyview/AssemblyScene.h"
 
 
-MoDeLDoc::MoDeLDoc() :
-    DesignerDocComponent()
+MoDeLDoc::MoDeLDoc()
 {
 
-}
-
-MoDeLDoc::~MoDeLDoc()
-{
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
 }
 
 MoDeLDoc::extentValue MoDeLDoc::checkIfFileFitsDocumentType( QFile& file )
@@ -38,45 +29,29 @@ MoDeLDoc::extentValue MoDeLDoc::checkIfFileFitsDocumentType( QFile& file )
     return EXACTLY;
 }
 
-bool MoDeLDoc::loadFromFile(QFile& file)
+DesignerModelComponent* MoDeLDoc::loadFromFile(QFile& file, DesignerDocComponent* docComp)
 {
     if(!file.open(QFile::ReadWrite|QIODevice::Text))
         if(!file.open(QFile::ReadOnly|QIODevice::Text))
-            return false;
+            return NULL;
 
     QTextStream fin(&file);
-    if(currentModel)
-    {
-        currentModel->deleteLater();
-    }
-    currentModel = DesignerModelMgr::createModel(tr("IGameModel"),this);
-    if(!currentModel)
-        return false;
+
+    DesignerModelComponent* newModel = DesignerModelMgr::createModel(tr("IGameModel"), docComp);
+    if(!newModel)
+        return NULL;
 
     MoDeLDocParser parser;
-    bool status = parser.parse(*currentModel, fin );
+    bool status = parser.parse(*newModel, fin );
     file.close();
-    return status;
+    return status ? newModel : NULL;
 }
 
-bool MoDeLDoc::saveToFile(QFile& file)
+bool MoDeLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
     file.open(QFile::ReadWrite);
     QTextStream stream(&file);
-    stream << AssemblyScene::outputMoDeLText(currentModel);
+    stream << AssemblyScene::outputMoDeLText(modelComp);
     stream.flush();
     return true;
 }
-
-QList<QString> MoDeLDoc::getSupportedViewList() const
-{
-    QList<QString> supportedViewList;
-    supportedViewList.append("AssemblyView");
-    return supportedViewList;
-}
-
-MoDeLDoc::extentValue MoDeLDoc::checkIfDocCanConvertToThisType(QMetaObject& metaObject)
-{
-    return MoDeLDoc::NOTACCEPTABLE;
-}
-
