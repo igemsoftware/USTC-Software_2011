@@ -62,8 +62,7 @@ DesignerModelComponent* SBMLDoc::loadFromFile(QFile& file, DesignerDocComponent*
 
 bool SBMLDoc::saveToFile(QFile& file, DesignerModelComponent* modelComp)
 {
-#pragma message "Absolute path... What's up? -CrLF0710"
-    DesignerXMLDocWriter writer("D:\\iGame\\GIT\\lachesis\\src\\designer\\documents\\SBML\\SBML.writerules");
+    DesignerXMLDocWriter writer(":/designer/documents/writerules/SBML.writerules");
     QDomDocument * doc = writer.WriteDoc(modelComp);
     file.open(QIODevice::ReadWrite);
     QTextStream stream(&file);

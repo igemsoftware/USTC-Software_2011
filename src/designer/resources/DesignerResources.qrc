@@ -44,6 +44,7 @@
         <file>assemblyview/text_editor.png</file>
         <file>assemblyview/start.png</file>
         <file>assemblyview/db_editor.png</file>
+        <file>documents/writerules/SBML.writerules</file>
     </qresource>
     <qresource prefix="/designer/common/toolbar">
         <file>common/toolbar/file-new.png</file>
