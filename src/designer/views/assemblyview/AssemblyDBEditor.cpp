@@ -61,6 +61,17 @@ void AssemblyDBEditor::refresh()
     QString current = ui->listWidget->currentItem()?ui->listWidget->currentItem()->text():"";
 
     QSqlQuery query(db);
+    query.exec("SHOW TABLES LIKE \'agent\'");
+    if( query.numRowsAffected() == 0 )
+    {
+        query.exec("CREATE TABLE agent("
+                   "id               char(255),"
+                   "type             enum('prom','pcs','rbs','term','other'),"
+                   "default_site     char(255),"
+                   "note             text"
+                   ")"
+                   );
+    }
     query.exec("SHOW TABLES");
     ui->listWidget->clear();
     ui->listWidget->addItems(builtinTables);
