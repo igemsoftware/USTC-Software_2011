@@ -24,6 +24,8 @@ public:
     };
     //! Check if the file is loadable by this type of document .
     virtual extentValue checkIfFileFitsDocumentType(QFile& file) = 0;
+    virtual const QMetaObject* getMetaObject() = 0;
+
 public:
     virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp) = 0;
     virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp) = 0;

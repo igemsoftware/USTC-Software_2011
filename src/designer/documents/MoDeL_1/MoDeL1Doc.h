@@ -13,6 +13,7 @@ class MoDeL1Doc : public QObject,
 public:
     Q_INVOKABLE explicit MoDeL1Doc();
 
+    virtual const QMetaObject* getMetaObject() { return metaObject(); }
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
     virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp);
     virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp);

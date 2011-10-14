@@ -29,7 +29,7 @@ FileDescriptionView::~FileDescriptionView()
 
 void FileDescriptionView::storageUpdated()
 {
-    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->metaObject()->className()).toLower().remove("doc")+".png");
+    QPixmap pic(":/designer/fileicons/documents/"+QString(currentModel->getCurrentDoc()->interface->getMetaObject()->className()).toLower().remove("doc")+".png");
     if(!pic.isNull()){
         ui->labelImage->setPixmap(pic);
     }

@@ -13,6 +13,7 @@ class SBMLDoc : public QObject,
 public:
     Q_INVOKABLE explicit SBMLDoc(){};
 
+    virtual const QMetaObject* getMetaObject() { return metaObject(); }
     virtual extentValue checkIfFileFitsDocumentType(QFile& file);
     virtual DesignerModelComponent* loadFromFile(QFile& file, DesignerDocComponent* docComp);
     virtual bool saveToFile(QFile& file, DesignerModelComponent* modelComp);
