@@ -12,8 +12,12 @@ public:
     virtual ~NetworkViewGraphicsItem();
     QString getId();
     QString Type;
-    void setId( QString newId );
     QString getName();
+    QPixmap normalImage , originalNormalImage;
+    QPixmap selectedImage , originalSelectedImage;
+    int itemwidth;
+    int itemheight;
+    void setId( QString newId );    
     void setName( QString newName );
     QScriptValue itemObject;
     QScriptValue getScriptValue();
@@ -42,9 +46,7 @@ protected:
     void setImage( QPixmap newNormalImage , QPixmap newSelectedImage);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);    
 
-private:
-    QPixmap normalImage , originalNormalImage;
-    QPixmap selectedImage , originalSelectedImage;    
+private:    
     bool moving;
     bool selected;
 };

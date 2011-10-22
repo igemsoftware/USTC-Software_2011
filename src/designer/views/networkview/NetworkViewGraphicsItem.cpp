@@ -2,6 +2,7 @@
 #include "NetworkViewGraphicsScene.h"
 #include "NetworkViewGraphicsSceneContainer.h"
 #include "NetworkViewGraphicsSceneNode.h"
+#include <QtGui>
 
 NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue , QString normalImagePath , QString selectedImagePath , QGraphicsItem * parent ) :
     QGraphicsPixmapItem( parent )
@@ -16,7 +17,8 @@ NetworkViewGraphicsItem::NetworkViewGraphicsItem( QScriptValue & newScriptValue 
     selectedImage.load( selectedImagePath );
     originalSelectedImage.load( selectedImagePath );
     setPixmap( normalImage );
-
+    this->itemwidth=this->originalNormalImage.size().width();
+    this->itemheight=this->originalNormalImage.size().height();
     setFlags( QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable );
 
     displayName = new QGraphicsTextItem( getId() , this );    
@@ -78,6 +80,26 @@ void NetworkViewGraphicsItem::getSelection()
     {
         sizer->show();
     }
+    if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
+    {
+        foreach(NetworkViewGraphicsSceneEdge *edge,dynamic_cast<NetworkViewGraphicsSceneNode *>(this)->edgeList)
+        {
+            QPen pen;
+            pen.setColor(Qt::red);
+            pen.setWidth(1);
+            edge->setPen(pen);
+            for(int i = 0; i < 4; i++)
+                edge->arrowLines[i].setPen(pen);
+        }
+        foreach(NetworkViewGraphicsSceneModification *modi,dynamic_cast<NetworkViewGraphicsSceneNode *>(this)->modList)
+        {
+            QPen pen;
+            pen.setColor(Qt::red);
+            pen.setWidth(1);
+            modi->setPen(pen);
+            modi->head.setPen(pen);
+        }
+    }
 }
 
 void NetworkViewGraphicsItem::loseSelection( QList<QGraphicsItem*> newSelectedItems )
@@ -85,6 +107,26 @@ void NetworkViewGraphicsItem::loseSelection( QList<QGraphicsItem*> newSelectedIt
     selected = false;
     setPixmap(normalImage);
     if( resizable && newSelectedItems.count()>0 && !newSelectedItems.contains(sizer) ) sizer->hide();
+    if(dynamic_cast<NetworkViewGraphicsSceneNode *>(this))
+    {
+        foreach(NetworkViewGraphicsSceneEdge *edge,dynamic_cast<NetworkViewGraphicsSceneNode *>(this)->edgeList)
+        {
+            QPen pen;
+            pen.setColor(Qt::black);
+            pen.setWidth(1);
+            edge->setPen(pen);
+            for(int i = 0; i < 4; i++)
+                edge->arrowLines[i].setPen(pen);
+        }
+        foreach(NetworkViewGraphicsSceneModification *modi,dynamic_cast<NetworkViewGraphicsSceneNode *>(this)->modList)
+        {
+            QPen pen;
+            pen.setColor(Qt::black);
+            pen.setWidth(1);
+            modi->setPen(pen);
+            modi->head.setPen(pen);
+        }
+    }
 }
 
 void NetworkViewGraphicsItem::resize( qreal newWidth , qreal newHeight )
@@ -105,6 +147,8 @@ void NetworkViewGraphicsItem::resize( qreal newWidth , qreal newHeight )
     QRectF bound = mapRectToScene(boundingRect());
     foreach( NetworkViewGraphicsItem* child , children ) bound |= mapRectToScene(child->boundingRect());
     displayName->setPos( ( bound.width() - displayName->textWidth() )/2 , bound.height() );
+    this->itemheight=newHeight;
+    this->itemwidth=newWidth;
 }
 
 void NetworkViewGraphicsItem::setImage(QPixmap newNormalImage, QPixmap newSelectedImage)

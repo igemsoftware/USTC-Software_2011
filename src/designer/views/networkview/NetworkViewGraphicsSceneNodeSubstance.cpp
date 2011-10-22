@@ -2,7 +2,7 @@
 #include "NetworkViewSubstanceEditor.h"
 
 NetworkViewGraphicsSceneNodeSubstance::NetworkViewGraphicsSceneNodeSubstance(QScriptValue value, QGraphicsItem *parent, bool isParentContainer)
-    :NetworkViewGraphicsSceneNode( parent,value, QObject::tr(":/designer/assemblyview/icon_protein.png") , QObject::tr(":/designer/assemblyview/icon_protein.png") ,isParentContainer )
+    :NetworkViewGraphicsSceneNode( parent,value, QObject::tr(":/designer/assemblyview/icon_protein.png") , QObject::tr(":/designer/assemblyview/icon_protein_selected.png") ,isParentContainer )
 {
     Type="substance";
 }

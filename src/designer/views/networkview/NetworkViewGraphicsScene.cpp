@@ -87,17 +87,6 @@ void NetworkViewGraphicsScene::addItem(QGraphicsItem *item)
         if(accept)
             this->lines->append(dynamic_cast<QGraphicsLineItem *>(item));
     }
-//    if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item))
-//    {
-//        foreach(QGraphicsItem *item_,items())
-//        {
-//            if( dynamic_cast<NetworkViewGraphicsSceneContainer *>(item_))
-//            {
-//                accept=false;
-//                break;
-//            }
-//        }
-//    }
     this->locked=true;
     if(!item->parentItem()&&accept)
         QGraphicsScene::addItem(item);    
@@ -394,18 +383,28 @@ void NetworkViewGraphicsScene::wheelEvent(QGraphicsSceneWheelEvent *event)
     {
         if( event->delta() > 0 )
         {
-            foreach( QGraphicsView * view , views() )
+            foreach(QGraphicsView * view , views() )
             {
                 view->scale( 1.1 , 1.1 );
             }
+//            foreach(QGraphicsItem * item,this->items())
+//            {
+//                if(dynamic_cast<NetworkViewGraphicsSceneNode *>(item))
+//                    dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->resize(dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->itemwidth/1.1,dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->itemheight/1.1);
+//            }
             event->accept();
             return;
         }else
         {
-            foreach( QGraphicsView * view , views() )
+            foreach(QGraphicsView * view , views() )
             {
                 view->scale( 1/1.1 , 1/1.1 );
             }
+//            foreach(QGraphicsItem * item,this->items())
+//            {
+//                if(dynamic_cast<NetworkViewGraphicsSceneNode *>(item))
+//                    dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->resize(dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->itemwidth*1.1,dynamic_cast<NetworkViewGraphicsSceneNode *>(item)->itemheight*1.1);
+//            }
             event->accept();
             return;
         }

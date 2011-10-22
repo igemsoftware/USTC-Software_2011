@@ -3,7 +3,7 @@
 #include "NetworkViewReactionEditor.h"
 
 NetworkViewGraphicsSceneNodeReaction::NetworkViewGraphicsSceneNodeReaction(QScriptValue value, QGraphicsItem *parent, bool isParentContainer)
-    :NetworkViewGraphicsSceneNode( parent,value, QObject::tr(":/designer/assemblyview/icon_mol.png") , QObject::tr(":/designer/assemblyview/icon_mol.png") ,isParentContainer )
+    :NetworkViewGraphicsSceneNode( parent,value, QObject::tr(":/designer/assemblyview/icon_mol.png") , QObject::tr(":/designer/assemblyview/icon_mol_selected.png") ,isParentContainer )
 {
     Type="reaction";
 }
